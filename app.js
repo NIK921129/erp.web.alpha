@@ -123,7 +123,7 @@ function promptAdminAccess() {
       _id: 'secret_admin_123',
       name: 'System Admin',
       username: 'admin',
-      email: 'admin@abcinstitute.com',
+      email: 'projects.nikunj.singh@gmail.com',
       role: 'admin'
     };
     STATE.token = 'secret_admin_token';
@@ -1442,6 +1442,12 @@ async function saveCourse() {
     thumbnail:   document.getElementById('course-thumbnail-input').value.trim(),
     teacher:     document.getElementById('course-teacher-input').value || null,
   };
+
+  if (!data.teacher) {
+    delete data.teacher;
+    if (id) data.$unset = { teacher: 1 };
+  }
+
   if (!data.name) { toast('Course name is required', 'error'); return; }
   if (isNaN(data.fee) || data.fee < 0) { toast('Please enter a valid fee', 'error'); return; }
 
