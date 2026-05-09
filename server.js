@@ -310,5 +310,8 @@ api.get('/admin/stats', auth, async (req, res) => {
   res.json({ stats: { students, courses } });
 });
 
+// Mount the API router
+app.use('/api', api);
+
 // START SERVER
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
