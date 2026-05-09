@@ -385,12 +385,15 @@ api.post('/payments/:id/approve', auth, async (req, res) => {
           `,
           "Attachments": [{
             "ContentType": "application/pdf",
-            "Filename": `Invoice_${p.course.name.replace(/\s+/g, '_')}.pdf`,
+            "Filename": `Invoice_${(p.course?.name || 'Course').replace(/\s+/g, '_')}.pdf`,
             "Base64Content": pdfBuffer.toString('base64')
           }]
         }]
       });
-    } catch (emailErr) { console.error("Mailjet Email Error:", emailErr); }
+    } catch (emailErr) { 
+      console.error("❌ Mailjet Email Error:");
+      console.error(emailErr.response ? JSON.stringify(emailErr.response.data, null, 2) : emailErr.message || emailErr);
+    }
 
     res.json({ message: 'Approved' });
   } catch (e) { res.status(500).json({ message: e.message }); }

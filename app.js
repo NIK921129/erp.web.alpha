@@ -11,7 +11,7 @@
 ────────────────────────────────────────── */
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 const CONFIG = {
-  BASE_URL:   isLocal ? 'http://localhost:5000/api' : '/api',
+  BASE_URL:   isLocal ? 'http://localhost:5000/api' : 'https://erp-web-87s3.onrender.com/api',
   UPI_ID:     '9211293576@ptaxis',
   UPI_NAME:   'ABCInstitute',
   WA_NUMBER:  '919211293576',
