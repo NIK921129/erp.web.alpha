@@ -47,6 +47,11 @@ async function api(method, path, body = null, isFormData = false) {
   try {
     const res = await fetch(CONFIG.BASE_URL + path, opts);
     const data = await res.json().catch(() => ({}));
+    
+    if (res.status === 401 && STATE.user) {
+      handleLogout();
+      throw new Error('Session expired. Please log in again.');
+    }
     if (!res.ok) throw new Error(data.message || `HTTP ${res.status}`);
     return data;
   } catch (err) {
