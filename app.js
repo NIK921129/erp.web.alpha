@@ -1393,6 +1393,8 @@ function renderAdminCourses() {
 }
 
 async function openCourseModal(courseId = null) {
+  if (typeof courseId !== 'string') courseId = null; // Guard against MouseEvent objects
+  
   document.getElementById('course-edit-id').value = courseId || '';
   document.getElementById('course-modal-title').textContent = courseId ? 'Edit Course' : 'Add Course';
 
@@ -1449,7 +1451,10 @@ async function saveCourse() {
     toast(id ? 'Course updated!' : 'Course created!', 'success');
     closeAllModals();
     initAdminCourses();
-  } catch (e) { toast('Error saving course', 'error'); }
+  } catch (e) { 
+    console.error(e);
+    toast(e.message || 'Error saving course', 'error'); 
+  }
 }
 
 async function deleteCourseAdmin(id) {

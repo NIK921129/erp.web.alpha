@@ -146,36 +146,56 @@ api.get('/auth/me', auth, (req, res) => res.json({ user: req.user }));
 
 // --- COURSES ---
 api.get('/courses', async (req, res) => {
-  const courses = await Course.find().populate('teacher', 'name');
-  res.json({ courses });
+  try {
+    const courses = await Course.find().populate('teacher', 'name');
+    res.json({ courses });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
 });
 
 api.get('/courses/:id', async (req, res) => {
-  const course = await Course.findById(req.params.id).populate('teacher', 'name');
-  res.json({ course });
+  try {
+    const course = await Course.findById(req.params.id).populate('teacher', 'name');
+    res.json({ course });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
 });
 
 api.post('/courses', auth, async (req, res) => {
-  const course = await Course.create(req.body);
-  res.json({ course });
+  try {
+    const course = await Course.create(req.body);
+    res.json({ course });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
 });
 
 api.put('/courses/:id', auth, async (req, res) => {
-  const course = await Course.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json({ course });
+  try {
+    const course = await Course.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json({ course });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
 });
 
 api.delete('/courses/:id', auth, async (req, res) => {
-  const cid = req.params.id;
-  await Course.findByIdAndDelete(cid);
-  await Enrolment.deleteMany({ course: cid });
-  await Payment.deleteMany({ course: cid });
-  await Attendance.deleteMany({ course: cid });
-  const assigns = await Assignment.find({ course: cid });
-  await Submission.deleteMany({ assignment: { $in: assigns.map(a => a._id) } });
-  await Assignment.deleteMany({ course: cid });
-  await Content.deleteMany({ course: cid });
-  res.json({ message: 'Deleted' });
+  try {
+    const cid = req.params.id;
+    await Course.findByIdAndDelete(cid);
+    await Enrolment.deleteMany({ course: cid });
+    await Payment.deleteMany({ course: cid });
+    await Attendance.deleteMany({ course: cid });
+    const assigns = await Assignment.find({ course: cid });
+    await Submission.deleteMany({ assignment: { $in: assigns.map(a => a._id) } });
+    await Assignment.deleteMany({ course: cid });
+    await Content.deleteMany({ course: cid });
+    res.json({ message: 'Deleted' });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
 });
 
 // --- ENROLMENTS ---
