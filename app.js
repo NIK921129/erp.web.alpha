@@ -1555,27 +1555,65 @@ async function openStudentReport(id) {
 /* ══════════════════════════════════════════
    CUSTOM EMAIL FEATURE
 ══════════════════════════════════════════ */
-function openCustomEmailModal(id) {
-  const user = STATE.adminUsers.find(u => u._id === id) || STATE.adminStudents.find(u => u._id === id);
-  if (!user) return;
-  document.getElementById('custom-email-user-id').value = user._id;
-  document.getElementById('custom-email-target').textContent = `${user.name} (${user.email})`;
+async function openCustomEmailModal(userId = null, preSelectCourseId = null) {
   document.getElementById('custom-email-subject').value = '';
   document.getElementById('custom-email-body').value = '';
+  
+  const toggle = document.getElementById('custom-email-batch-toggle');
+  toggle.checked = !!preSelectCourseId || !userId;
+  
+  if (userId) {
+    const user = STATE.adminUsers.find(u => u._id === userId) || STATE.adminStudents.find(u => u._id === userId);
+    if (user) {
+      document.getElementById('custom-email-user-id').value = user._id;
+      document.getElementById('custom-email-target').textContent = `${user.name} (${user.email})`;
+    }
+  } else {
+    document.getElementById('custom-email-target').textContent = 'No single user selected';
+    document.getElementById('custom-email-user-id').value = '';
+  }
+  
+  const sel = document.getElementById('custom-email-course-select');
+  sel.innerHTML = '<option value="">Loading courses...</option>';
   openModal('modal-custom-email');
+  toggleEmailMode();
+
+  try {
+    const { courses } = await API.courses();
+    sel.innerHTML = '<option value="">-- Select Course --</option>' + 
+      (courses||[]).map(c => `<option value="${c._id}">${esc(c.name)}</option>`).join('');
+    if (preSelectCourseId) sel.value = preSelectCourseId;
+  } catch(e) { sel.innerHTML = '<option value="">Error loading courses</option>'; }
+}
+
+function toggleEmailMode() {
+  const isBatch = document.getElementById('custom-email-batch-toggle').checked;
+  document.getElementById('custom-email-single-view').classList.toggle('hidden', isBatch);
+  document.getElementById('custom-email-batch-view').classList.toggle('hidden', !isBatch);
 }
 
 async function submitCustomEmail() {
-  const userId = document.getElementById('custom-email-user-id').value;
+  const isBatch = document.getElementById('custom-email-batch-toggle').checked;
   const subject = document.getElementById('custom-email-subject').value.trim();
   const message = document.getElementById('custom-email-body').value.trim();
   if (!subject || !message) { toast('Subject and message are required', 'error'); return; }
   
+  let payload = { subject, message };
+  if (isBatch) {
+    const courseId = document.getElementById('custom-email-course-select').value;
+    if (!courseId) { toast('Please select a course', 'error'); return; }
+    payload.courseId = courseId;
+  } else {
+    const userId = document.getElementById('custom-email-user-id').value;
+    if (!userId) { toast('No single user selected', 'error'); return; }
+    payload.userId = userId;
+  }
+
   const btn = document.querySelector('#modal-custom-email .btn-primary');
   const origText = btn.textContent; btn.textContent = 'Sending...'; btn.disabled = true;
   try {
-    await API.sendCustomEmail({ userId, subject, message });
-    toast('Email sent successfully!', 'success');
+    const res = await API.sendCustomEmail(payload);
+    toast(res.message || 'Email sent successfully!', 'success');
     closeAllModals();
   } catch (e) { toast(e.message || 'Error sending email', 'error'); }
   finally { btn.textContent = origText; btn.disabled = false; }
@@ -1612,6 +1650,7 @@ function renderAdminCourses() {
             <td style="font-weight:600;color:var(--teal)">₹${Number(c.fee).toLocaleString('en-IN')}</td>
             <td>${c.studentCount||0}</td>
             <td style="display:flex;gap:6px;flex-wrap:wrap">
+              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openCustomEmailModal(null, '${c._id}')">Email Class</button>
               <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openCourseModal('${c._id}')">Edit</button>
               <button class="btn-danger"  style="font-size:14px;padding:7px 14px" onclick="deleteCourseAdmin('${c._id}')">Delete</button>
             </td>

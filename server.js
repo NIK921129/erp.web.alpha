@@ -681,24 +681,39 @@ api.post('/admin/enrol', auth, async (req, res) => {
 api.post('/admin/send-email', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
-    const { userId, subject, message } = req.body;
+    const { userId, courseId, subject, message } = req.body;
     
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: 'User not found' });
-    
-    await mailjet.post("send", {'version': 'v3.1'}).request({
-      "Messages": [{
-        "From": {
-          "Email": process.env.MAILJET_SENDER_EMAIL || "nikunjsingh79827@gmail.com",
-          "Name": "ABC Institute"
-        },
-        "To": [{ "Email": user.email, "Name": user.name }],
+    let users = [];
+    if (courseId) {
+      const enrols = await Enrolment.find({ course: courseId, status: 'active' }).populate('student');
+      const uniqueIds = new Set();
+      enrols.forEach(e => {
+        if (e.student && !uniqueIds.has(e.student._id.toString())) {
+          uniqueIds.add(e.student._id.toString());
+          users.push(e.student);
+        }
+      });
+    } else if (userId) {
+      const user = await User.findById(userId);
+      if (user) users.push(user);
+    }
+
+    if (!users.length) return res.status(404).json({ message: 'No recipients found for this action.' });
+
+    // Mailjet allows max 50 messages per API call, split into batches if sending to hundreds of students
+    const BATCH_SIZE = 50; 
+    for (let i = 0; i < users.length; i += BATCH_SIZE) {
+      const batch = users.slice(i, i + BATCH_SIZE);
+      const messages = batch.map(u => ({
+        "From": { "Email": process.env.MAILJET_SENDER_EMAIL || "nikunjsingh79827@gmail.com", "Name": "ABC Institute" },
+        "To": [{ "Email": u.email, "Name": u.name }],
         "Subject": subject || "Message from ABC Institute",
-        "HTMLPart": `<p>Dear ${user.name},</p><p>${message.replace(/\n/g, '<br/>')}</p>`
-      }]
-    });
-    
-    res.json({ message: 'Email sent successfully' });
+        "HTMLPart": `<p>Dear ${u.name},</p><p>${message.replace(/\n/g, '<br/>')}</p>`
+      }));
+      await mailjet.post("send", {'version': 'v3.1'}).request({ "Messages": messages });
+    }
+
+    res.json({ message: `Email sent successfully to ${users.length} recipient(s)` });
   } catch (e) { 
     console.error("Mailjet Error:", e);
     res.status(500).json({ message: 'Failed to send email. Check Mailjet configuration.' }); 
