@@ -283,6 +283,11 @@
   <div class="container">
     <h1>Assignments</h1>
     <p class="text-muted mb-2">Submit and track your assignments</p>
+    <div class="filter-bar" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:1.5rem;">
+      <button class="filter-btn active" onclick="filterStudentAssignments('all', this)">All</button>
+      <button class="filter-btn" onclick="filterStudentAssignments('pending', this)">Pending</button>
+      <button class="filter-btn" onclick="filterStudentAssignments('submitted', this)">Submitted</button>
+    </div>
     <div id="student-assignments-list"></div>
   </div>
 </section>
@@ -371,7 +376,6 @@
         <button class="filter-btn" onclick="filterPayments('rejected', this)">Rejected</button>
         <button class="filter-btn" onclick="filterPayments('all', this)">All</button>
       </div>
-      <button class="btn-ghost" style="padding:7px 14px; font-size:13px" onclick="exportAdminPayments()">📥 Export CSV</button>
       <button class="btn-ghost" style="padding:9px 18px; font-size:15px" onclick="exportAdminPayments()">📥 Export CSV</button>
     </div>
     <div id="admin-payments-list"></div>
@@ -402,6 +406,10 @@
       <div><h1>Course Management</h1><p class="text-muted">Add, edit and manage courses</p></div>
       <button class="btn-primary" onclick="openCourseModal()">+ Add Course</button>
     </div>
+    <div class="search-bar" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:1rem;">
+      <input type="text" id="admin-course-search" placeholder="Search courses by name or teacher..." oninput="renderAdminCourses()" style="flex:1;" />
+      <button class="btn-ghost" onclick="exportAdminCourses()">📥 Export CSV</button>
+    </div>
     <div id="admin-courses-table"></div>
   </div>
 </section>
@@ -413,6 +421,10 @@
   <div class="container">
     <h1>User Management</h1>
     <p class="text-muted mb-2">Manage all teachers and students</p>
+    <div class="search-bar" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:1rem;">
+      <input type="text" id="admin-user-search" placeholder="Search users by name, username, or role..." oninput="renderAdminUsers()" style="flex:1;" />
+      <button class="btn-ghost" onclick="exportAdminUsers()">📥 Export CSV</button>
+    </div>
     <div id="admin-users-table"></div>
   </div>
 </section>
@@ -512,9 +524,17 @@
         <label>Title</label>
         <input type="text" id="content-title-input" placeholder="e.g. Chapter 1: Introduction" />
       </div>
+      <div class="form-group">
+        <label>Sequence / Lecture No. (optional)</label>
+        <input type="number" id="content-order-input" placeholder="e.g. 1" />
+      </div>
       <div id="content-url-group" class="form-group hidden">
         <label>Google Drive Link</label>
         <input type="text" id="content-url-input" placeholder="https://drive.google.com/file/d/..." />
+      </div>
+      <div id="content-thumbnail-group" class="form-group hidden">
+        <label>Thumbnail Image URL (optional)</label>
+        <input type="text" id="content-thumbnail-input" placeholder="https://image-url.jpg" />
       </div>
       <div id="content-parent-group" class="form-group hidden">
         <label>Add to Chapter (optional)</label>

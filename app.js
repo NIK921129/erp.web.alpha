@@ -30,6 +30,9 @@ let STATE = {
   paymentFilter: 'pending',
   courses:       [],
   adminStudents: [], // Store for local search filtering
+  adminCourses:  [],
+  adminUsers:    [],
+  studentAssignments: [],
   enrolCtx:      null,   // { course, step }
 };
 
@@ -505,7 +508,7 @@ async function initStudentDashboard() {
     const pendingEl = document.getElementById('student-pending-payments');
     pendingEl.innerHTML = pending.length
       ? pending.map(p => `
-        <div class="list-card">
+        <div class="list-card" onclick="navigate('student-fees')" style="cursor:pointer">
           <div class="lc-icon">⏳</div>
           <div class="lc-body">
             <div class="lc-name">${esc(p.course?.name || 'Course')}</div>
@@ -609,7 +612,7 @@ async function initStudentCourse() {
 }
 
 function renderContentTree(items, isTeacher = false) {
-  const chapters = items.filter(i => i.type === 'chapter');
+  const chapters = items.filter(i => i.type === 'chapter').sort((a,b) => (a.order||0) - (b.order||0));
   const nonChapters = items.filter(i => i.type !== 'chapter');
 
   if (!items.length) return '<div class="empty-state"><div class="es-icon">📂</div>No content uploaded yet</div>';
@@ -617,7 +620,7 @@ function renderContentTree(items, isTeacher = false) {
   let html = '<div class="content-tree">';
 
   chapters.forEach(ch => {
-    const children = items.filter(i => i.parentId === ch._id);
+    const children = items.filter(i => i.parentId === ch._id).sort((a,b) => (a.order||0) - (b.order||0));
     html += `
       <div class="chapter-folder" id="ch-${ch._id}">
         <div class="chapter-header" onclick="toggleChapter('ch-${ch._id}')">
@@ -632,7 +635,7 @@ function renderContentTree(items, isTeacher = false) {
       </div>`;
   });
 
-  nonChapters.filter(i => !i.parentId).forEach(item => {
+  nonChapters.filter(i => !i.parentId).sort((a,b) => (a.order||0) - (b.order||0)).forEach(item => {
     html += renderContentItem(item, isTeacher);
   });
 
@@ -642,16 +645,26 @@ function renderContentTree(items, isTeacher = false) {
 
 function renderContentItem(item, isTeacher) {
   const icon = item.type === 'video' ? '🎬' : '📄';
+  const lecBadge = item.order ? `<span class="badge badge-enrolled" style="margin-right:6px">Lec ${item.order}</span>` : '';
   let html = `
     <div class="content-item">
       <span class="content-item-icon">${icon}</span>
-      <span class="content-item-name">${esc(item.title)}</span>
+      <span class="content-item-name">${lecBadge}${esc(item.title)}</span>
       ${isTeacher ? `<button onclick="deleteContent('${item._id}')" style="background:none;border:none;color:var(--text-3);cursor:pointer;font-size:15px">✕</button>` : ''}
     </div>`;
 
   if (item.type === 'video' && item.url) {
-    const embedUrl = driveEmbed(item.url);
-    html += `<div class="video-embed"><iframe src="${embedUrl}" allowfullscreen></iframe></div>`;
+    if (item.thumbnail) {
+      html += `<div class="video-embed" id="vid-${item._id}" onclick="playVideo('vid-${item._id}', '${item.url}')" style="cursor:pointer;position:relative;background-image:url('${item.thumbnail}');background-size:cover;background-position:center;">
+      html += `<div class="video-embed" id="vid-${item._id}" onclick="playVideo('vid-${item._id}', '${item.url}', '${item._id}')" style="cursor:pointer;position:relative;background-image:url('${item.thumbnail}');background-size:cover;background-position:center;">
+        <div class="video-thumbnail-overlay">
+          <div class="video-play-btn">▶</div>
+        </div>
+      </div>`;
+    } else {
+      const embedUrl = driveEmbed(item.url);
+      html += `<div class="video-embed"><iframe src="${embedUrl}" allowfullscreen></iframe></div>`;
+    }
   }
 
   return html;
@@ -661,6 +674,35 @@ function driveEmbed(url) {
   const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
   if (match) return `https://drive.google.com/file/d/${match[1]}/preview`;
   return url;
+}
+
+function playVideo(containerId, url) {
+function playVideo(containerId, url, itemId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const embedUrl = driveEmbed(url);
+  el.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>`;
+  
+  /* Fallback to iframe for Google Drive. (Cannot track progress via iframe) */
+  if (url.includes('drive.google.com')) {
+    const embedUrl = driveEmbed(url);
+    el.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>`;
+  } else {
+    /* Native HTML5 Video supports resume playback! */
+    el.innerHTML = `<video id="player-${itemId}" src="${url}" controls autoplay style="width:100%; height:100%; background:#000; outline:none; border:none;"></video>`;
+    const video = document.getElementById(`player-${itemId}`);
+    
+    const savedTime = localStorage.getItem(`vid_progress_${itemId}`);
+    if (savedTime) video.currentTime = parseFloat(savedTime);
+    
+    video.addEventListener('timeupdate', () => {
+      localStorage.setItem(`vid_progress_${itemId}`, video.currentTime);
+    });
+  }
+  
+  el.onclick = null;
+  el.style.backgroundImage = 'none';
+  el.style.cursor = 'default';
 }
 
 function toggleChapter(id) {
@@ -756,14 +798,26 @@ async function initStudentAssignments() {
   const el = document.getElementById('student-assignments-list');
   try {
     const { assignments } = await API.myAssignments();
-    if (!assignments || !assignments.length) {
-      el.innerHTML = '<div class="empty-state"><div class="es-icon">📝</div>No assignments yet</div>';
-      return;
-    }
-    el.innerHTML = assignments.map(a => renderAssignmentCard(a, true)).join('');
+    STATE.studentAssignments = assignments || [];
+    renderStudentAssignments('all');
   } catch (e) {
     el.innerHTML = '<div class="empty-state">Error loading assignments</div>';
   }
+}
+
+function filterStudentAssignments(filter, btn) {
+  if (btn) {
+    document.querySelectorAll('#page-student-assignments .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  renderStudentAssignments(filter);
+}
+
+function renderStudentAssignments(filter = 'all') {
+  const el = document.getElementById('student-assignments-list');
+  const list = STATE.studentAssignments.filter(a => filter === 'all' ? true : filter === 'submitted' ? a.submitted : !a.submitted);
+  if (!list.length) { el.innerHTML = '<div class="empty-state"><div class="es-icon">📝</div>No assignments found</div>'; return; }
+  el.innerHTML = list.map(a => renderAssignmentCard(a, true)).join('');
 }
 
 function renderAssignmentCard(a, canSubmit = false) {
@@ -779,6 +833,13 @@ function renderAssignmentCard(a, canSubmit = false) {
       </div>
       <div class="assignment-desc">${esc(a.description || '')}</div>
       ${canSubmit && !a.submitted ? `<button class="btn-primary" style="font-size:15px;padding:9px 20px" onclick="openSubmitModal('${a._id}')">Submit Work</button>` : ''}
+      ${a.submitted && canSubmit ? `
+        <div style="background:var(--bg3); padding:1rem; border-radius:var(--r-md); margin-top:.75rem; font-size:15px; color:var(--text-2);">
+          <strong style="color:var(--text);">My Submission:</strong><br/>
+          ${esc(a.subText || 'No text provided')}
+          ${a.subFile ? `<br/><br/><a href="${a.subFile}" target="_blank" class="btn-ghost" style="padding:6px 12px; font-size:14px; display:inline-block;">📄 View Attachment</a>` : ''}
+        </div>
+      ` : ''}
       ${a.grade ? `<div style="margin-top:.5rem;font-size:15px;color:var(--teal)">Grade: <strong>${esc(a.grade)}</strong> ${a.feedback ? '· ' + esc(a.feedback) : ''}</div>` : ''}
       ${isTeacher ? `<button class="btn-ghost" style="font-size:14px;padding:7px 14px;margin-top:.75rem" onclick="openSubmissionsModal('${a._id}')">View Submissions</button>` : ''}
     </div>`;
@@ -1129,14 +1190,10 @@ async function initAdminDashboard() {
 
     document.getElementById('admin-stats').innerHTML = `
       ${statCard('Total Students', stats.students || 0, 'teal')}
-      ${statCard('Total Courses',  stats.courses  || 0, 'blue')}
-      ${statCard('Pending Payments', pending.length, 'amber')}
-      ${statCard('Approved Payments', payments.filter(p=>p.status==='approved').length, 'teal')}
+      ${statCard('Total g Payments', pending.length, 'amber')}
     `;
-
-    const pendingEl = document.getElementById('admin-pending-list');
-    pendingEl.innerHTML = pending.length
-      ? pending.slice(0,5).map(p => renderPaymentCard(p)).join('')
+const pendingEl = document.getElementById('admin-pending-list');
+  pe  ? pending.slice(0,5).map(p => renderPaymentCard(p)).join('')
       : '<div class="empty-state">No pending payments 🎉</div>';
 
     document.getElementById('admin-activity').innerHTML = payments.slice(0,8).map(p => `
@@ -1277,11 +1334,10 @@ async function toggleUserActive(id, active) {
   try {
     await API.updateUser(id, { active });
     toast(active ? 'User activated' : 'User suspended');
-    renderAdminStudents();
-  } catch (e) { toast('Error updating user', 'error'); }
+    if (STATE.currentPage === 'admin-students') initAdminStudents();
+    if (STATE.currentPage === 'admin-users') initAdminrror updating user', 'error'); }
 }
-
-function exportAdminStudents() {
+ents() {
   const list = STATE.adminStudents;
   if (!list.length) { toast('No students to export', 'error'); return; }
   const q = document.getElementById('student-search')?.value?.toLowerCase() || '';
@@ -1301,68 +1357,78 @@ function exportAdminStudents() {
 ══════════════════════════════════════════ */
 async function initAdminCourses() {
   const el = document.getElementById('admin-courses-table');
+  el.innerHTML = '<div class="empty-state">Loading courses...</div>';
   try {
     const { courses } = await API.courses();
-    if (!courses || !courses.length) { el.innerHTML = '<div class="empty-state">No courses yet. Add one above.</div>'; return; }
+    STATE.adminCourses = courses || [];
+    renderAdminCourses();
+  } catch (e) {t
+  }
+}
+
+  const el = document.getElementById('admin-courses-table');
+  const q = document.getElementById('admin-course-search')?.value?.toLowerCase() || '';
+  const list = STATE.adminCourses.filter(c => (c.name||'').toLowerCase().includes(q) || (c.teacher?.name||'').toLowerCase().includes(q));
+  if (!list.length) { el.innerHTML = '<div class="empty-state">No courses found.</div>'; return; }
+
     el.innerHTML = `
       <table class="data-table">
         <thead><tr><th>Course</th><th>Teacher</th><th>Fee</th><th>Students</th><th>Actions</th></tr></thead>
-        <tbody>${courses.map(c => `
+        <tbody>${list.map(c => `
           <tr>
             <td><strong>${esc(c.name)}</strong><br/><span style="font-size:14px;color:var(--text-2)">${esc(c.duration||'')}</span></td>
             <td style="font-size:15px">${esc(c.teacher?.name||'Unassigned')}</td>
-            <td style="font-weight:600;color:var(--teal)">₹${Number(c.fee).toLocaleString('en-IN')}</td>
-            <td>${c.studentCount||0}</td>
+            <td s{c.studentCount||0}</td>
             <td style="display:flex;gap:6px;flex-wrap:wrap">
               <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openCourseModal('${c._id}')">Edit</button>
               <button class="btn-danger"  style="font-size:14px;padding:7px 14px" onclick="deleteCourseAdmin('${c._id}')">Delete</button>
-            </td>
-          </tr>`).join('')}
+            </td>.join('')}
         </tbody>
       </table>`;
-  } catch (e) {
-    el.innerHTML = '<div class="empty-state">Error loading courses</div>';
-  }
 }
 
 async function openCourseModal(courseId = null) {
   document.getElementById('course-edit-id').value = courseId || '';
   document.getElementById('course-modal-title').textContent = courseId ? 'Edit Course' : 'Add Course';
 
-  /* Load teachers for dropdown */
+el.innerHTML = '<option value="">-- Select Teacher --</option>';
   try {
     const { users } = await API.allTeachers();
-    const sel = document.getElementById('course-teacher-input');
-    sel.innerHTML = '<option value="">-- Select Teacher --</option>' +
-      (users||[]).map(t => `<option value="${t._id}">${esc(t.name)}</option>`).join('');
-
-    if (courseId) {
+    sel.innerHTML += (users||[]).map(t => `<option value="${t._id}">${esc(t.name)}</option>`).join('');
+} console.error('Could not load teachers:', e); }
+* Load or clear course data */
       const { course } = await API.courseById(courseId);
       document.getElementById('course-name-input').value     = course.name || '';
       document.getElementById('course-desc-input').value     = course.description || '';
-      document.getElementById('course-fee-input').value      = course.fee || '';
+      document.getElementById('course-fee-input').value      = course.fee !== undefined ? course.fee : '';
       document.getElementById('course-duration-input').value = course.duration || '';
       sel.value = course.teacher?._id || course.teacher || '';
-    } else {
-      ['course-name-input','course-desc-input','course-fee-input','course-duration-input'].forEach(id => {
-        document.getElementById(id).value = '';
-      });
+    } catch (e) {
+      toast('Error loading course data', 'error');
+      return;
     }
-  } catch (e) { /* no teachers yet */ }
+  } else {
+    ['course-name-input','course-desc-input','course-fee-input','course-duration-input'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    sel.value = '';
+  }
 
   openModal('modal-course');
 }
 
 async function saveCourse() {
   const id   = document.getElementById('course-edit-id').value;
+  const feeInput = document.getElementById('course-fee-input').value.trim();
   const data = {
     name:        document.getElementById('course-name-input').value.trim(),
     description: document.getElementById('course-desc-input').value.trim(),
-    fee:         Number(document.getElementById('course-fee-input').value),
+    fee:         feeInput === '' ? 0 : Number(feeInput),
     duration:    document.getElementById('course-duration-input').value.trim(),
     teacher:     document.getElementById('course-teacher-input').value || null,
   };
-  if (!data.name || !data.fee) { toast('Name and fee are required', 'error'); return; }
+  if (!data.name) { toast('Course name is required', 'error'); return; }
+  if (isNaN(data.fee) || data.fee < 0) { toast('Please enter a valid fee', 'error'); return; }
 
   try {
     if (id) await API.updateCourse(id, data);
@@ -1382,41 +1448,76 @@ async function deleteCourseAdmin(id) {
   } catch (e) { toast('Error deleting course', 'error'); }
 }
 
+function exportAdminCourses() {
+  const list = STATE.adminCourses;
+  if (!list.length) { toast('No courses to export', 'error'); return; }
+  const q = document.getElementById('admin-course-search')?.value?.toLowerCase() || '';
+  const filtered = list.filter(c => (c.name||'').toLowerCase().includes(q) || (c.teacher?.name||'').toLowerCase().includes(q));
+  
+  const headers = ['Course Name', 'Duration', 'Teacher Name', 'Fee (INR)', 'Enrolled Students'];
+  const rows = filtered.map(c => [
+    `"${c.name||''}"`, `"${c.duration||''}"`, `"${c.teacher?.name||'Unassigned'}"`, c.fee||0, c.studentCount||0
+  ]);
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  downloadCSV(csv, 'courses_export.csv');
+}
+
 /* ══════════════════════════════════════════
    ADMIN USERS
 ══════════════════════════════════════════ */
 async function initAdminUsers() {
   const el = document.getElementById('admin-users-table');
+  el.innerHTML = '<div class="empty-state">Loading users...</div>';
   try {
     const { users } = await API.allUsers();
+    STATE.adminUsers = users || [];
+    renderAdminUsers();
+  } catch (e) {
+    el.innerHTML = '<div class="empty-state">Error loading users</div>';
+  }
+}
+
+function renderAdminUsers() {
+  const el = document.getElementById('admin-users-table');
+  const q = document.getElementById('admin-user-search')?.value?.toLowerCase() || '';
+  const list = STATE.adminUsers.filter(u => 
+    (u.name||'').toLowerCase().includes(q) || 
+    (u.username||'').toLowerCase().includes(q) || 
+    (u.role||'').toLowerCase().includes(q)
+  );
+  if (!list.length) { el.innerHTML = '<div class="empty-state">No users found.</div>'; return; }
+
     el.innerHTML = `
       <table class="data-table">
         <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
-        <tbody>${(users||[]).map(u => `
+        <tbody>${list.map(u => `
           <tr>
             <td>${esc(u.name)}</td>
             <td style="font-family:monospace;font-size:15px">@${esc(u.username)}</td>
             <td><span class="badge badge-enrolled">${esc(u.role)}</span></td>
             <td><span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span></td>
             <td style="display:flex;gap:6px;flex-wrap:wrap">
-              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="toggleUserActive('${u._id}',${!u.active})">${u.active?'Suspend':'Activate'}</button>
-            </td>
+              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="toggleUserActive
           </tr>`).join('')}
         </tbody>
       </table>`;
-  } catch (e) {
-    el.innerHTML = '<div class="empty-state">Error loading users</div>';
-  }
+}
+
+function exportAdminUsers() {
+  const list = STATE.adminUsers;
+  if (!list.length) { toast('No users to export', 'error'); return; }'min-user-search')?.value?.toLowerCase() || '';
+  const filtered = list.filter(u => (u.name||'').toLowerCase().includes(q) || (u.username||'').toLowerCase().includes(q) || (u.role||'').toLowerCase().includes(q));
+  
+  const headers.);
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  downloadCSV(csv, 'all_users_export.csv');
 }
 
 async function exportAdminPayments() {
   try {
     const { payments } = await API.allPayments();
     const filter = STATE.paymentFilter;
-    const list = filter === 'all' ? payments : payments.filter(p => p.status === filter);
-    if (!list || !list.length) { toast('No payments to export', 'error'); return; }
-    
-    const headers = ['Student Name', 'Course', 'Amount (INR)', 'Status', 'Date Submitted'];
+    const list  const headers = ['Student Name', 'Course', 'Amount (INR)', 'Status', 'Date Submitted'];
     const rows = list.map(p => [
       `"${p.student?.name||'Unknown'}"`, `"${p.course?.name||'Unknown'}"`, p.amount||0, p.status||'', fmtDate(p.createdAt)
     ]);
@@ -1431,9 +1532,12 @@ async function exportAdminPayments() {
 async function openContentModal(courseId) {
   document.getElementById('content-course-id').value = courseId;
   document.getElementById('content-title-input').value = '';
+  document.getElementById('content-order-input').value = '';
   document.getElementById('content-url-input').value   = '';
+  document.getElementById('content-thumbnail-input').value = '';
   document.getElementById('content-desc-input').value  = '';
   document.getElementById('content-url-group').classList.add('hidden');
+  document.getElementById('content-thumbnail-group').classList.add('hidden');
   document.getElementById('content-parent-group').classList.add('hidden');
   document.querySelectorAll('.role-btn[data-ctype]').forEach(b => b.classList.remove('active'));
   document.querySelector('.role-btn[data-ctype="chapter"]').classList.add('active');
@@ -1454,6 +1558,7 @@ function selectCtype(btn) {
   btn.classList.add('active');
   const type = btn.dataset.ctype;
   document.getElementById('content-url-group').classList.toggle('hidden', type !== 'video');
+  document.getElementById('content-thumbnail-group').classList.toggle('hidden', type !== 'video');
   document.getElementById('content-parent-group').classList.toggle('hidden', type === 'chapter');
 }
 
@@ -1461,7 +1566,9 @@ async function saveContent() {
   const courseId = document.getElementById('content-course-id').value;
   const type     = document.querySelector('.role-btn[data-ctype].active')?.dataset.ctype || 'chapter';
   const title    = document.getElementById('content-title-input').value.trim();
+  const order    = Number(document.getElementById('content-order-input').value) || 0;
   const url      = document.getElementById('content-url-input').value.trim();
+  const thumbnail= document.getElementById('content-thumbnail-input').value.trim();
   const desc     = document.getElementById('content-desc-input').value.trim();
   const parentId = document.getElementById('content-parent-input').value || null;
 
@@ -1469,7 +1576,7 @@ async function saveContent() {
   if (type === 'video' && !url) { toast('Please paste the Google Drive link', 'error'); return; }
 
   try {
-    await API.addContent({ course: courseId, type, title, url, description: desc, parentId: type === 'chapter' ? null : parentId });
+    await API.addContent({ course: courseId, type, title, url, thumbnail, order, description: desc, parentId: type === 'chapter' ? null : parentId });
     toast('Content added!', 'success');
     closeAllModals();
     initTeacherCourse();

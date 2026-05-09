@@ -661,6 +661,20 @@ textarea { resize: vertical; }
   aspect-ratio: 16/9;
 }
 .video-embed iframe { width: 100%; height: 100%; border: none; }
+.video-thumbnail-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--trans);
+}
+.video-embed:hover .video-thumbnail-overlay { background: rgba(0,0,0,0.5); }
+.video-play-btn {
+  width: 64px; height: 64px; background: var(--teal);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  padding-left: 6px; /* optical center for play icon */
+  transition: var(--trans);
+}
+.video-embed:hover .video-play-btn { transform: scale(1.1); background: var(--teal-d); }
 
 /* ══════════════════════════════════════════
    ADMIN TABLES

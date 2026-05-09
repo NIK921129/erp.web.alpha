@@ -87,7 +87,7 @@ const Submission = mongoose.model('Submission', new mongoose.Schema({
 const Content = mongoose.model('Content', new mongoose.Schema({
   course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
   type: { type: String, enum: ['chapter', 'video', 'file'] },
-  title: String, url: String, description: String, parentId: String
+  title: String, url: String, description: String, parentId: String, thumbnail: String, order: Number
 }));
 
 /* ══════════════════════════════════════════
@@ -260,7 +260,7 @@ api.get('/assignments/me', auth, async (req, res) => {
   
   const mapped = assignments.map(a => {
     const sub = subs.find(s => s.assignment.toString() === a._id.toString());
-    return { ...a, submitted: !!sub, grade: sub?.grade, feedback: sub?.feedback };
+    return { ...a, submitted: !!sub, grade: sub?.grade, feedback: sub?.feedback, subText: sub?.text, subFile: sub?.fileUrl };
   });
   res.json({ assignments: mapped });
 });
@@ -326,8 +326,9 @@ api.put('/users/:id', auth, async (req, res) => {
 
 api.get('/admin/stats', auth, async (req, res) => {
   const students = await User.countDocuments({ role: 'student' });
+  const teachers = await User.countDocuments({ role: 'teacher' });
   const courses = await Course.countDocuments();
-  res.json({ stats: { students, courses } });
+  res.json({ stats: { students, teachers, courses } });
 });
 
 // Mount the API router
