@@ -54,6 +54,13 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
+
+.announcement-banner {
+  background: var(--teal); color: #fff; text-align: center;
+  padding: 10px 20px; font-size: 15px; font-weight: 500;
+  z-index: 1000; position: relative;
+}
+
 a { color: var(--teal); cursor: pointer; text-decoration: none; }
 a:hover { text-decoration: underline; }
 input, textarea, select, button { font-family: var(--font-body); }

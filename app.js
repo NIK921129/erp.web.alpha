@@ -15,6 +15,8 @@ const CONFIG = {
   UPI_ID:     '9211293576@ptaxis',
   UPI_NAME:   'ABCInstitute',
   WA_NUMBER:  '919211293576',
+  ANNOUNCEMENT_TEXT: '',
+  ANNOUNCEMENT_ACTIVE: false,
   ICONS: ['📘','📗','📙','📕','🎯','💡','⚡','🔬','🎨','🖥️','🧮','📐'],
 };
 
@@ -108,11 +110,24 @@ const API = {
   deleteContent:   (id)     => api('DELETE', `/content/${id}`),
 
   /* Admin */
+  getCoupons:      ()       => api('GET', '/coupons'),
+  createCoupon:    (d)      => api('POST', '/coupons', d),
+  verifyCoupon:    (d)      => api('POST', '/coupons/verify', d),
+
+  /* Admin Users */
   allUsers:        ()       => api('GET', '/users'),
+  createUser:      (d)      => api('POST', '/users', d),
+  bulkCreateUsers: (d)      => api('POST', '/users/bulk', d),
   updateUser:      (id, d)  => api('PUT', `/users/${id}`, d),
+  deleteUser:      (id)     => api('DELETE', `/users/${id}`),
   allStudents:     ()       => api('GET', '/users?role=student'),
   allTeachers:     ()       => api('GET', '/users?role=teacher'),
   adminStats:      ()       => api('GET', '/admin/stats'),
+  manualEnrol:     (d)      => api('POST', '/admin/enrol', d),
+
+  /* Settings */
+  getSettings:     ()       => api('GET', '/settings'),
+  updateSettings:  (d)      => api('PUT', '/settings', d),
 
   /* Chat */
   courseChat:      (id)     => api('GET', '/chat/course/' + id),
@@ -187,6 +202,22 @@ window.addEventListener('DOMContentLoaded', async () => {
   const savedToken = localStorage.getItem('abc_token');
   const savedUser  = localStorage.getItem('abc_user');
 
+  try {
+    const { settings } = await API.getSettings();
+    if (settings) {
+      CONFIG.UPI_ID = settings.upiId || CONFIG.UPI_ID;
+      CONFIG.UPI_NAME = settings.upiName || CONFIG.UPI_NAME;
+      CONFIG.WA_NUMBER = settings.waNumber || CONFIG.WA_NUMBER;
+      CONFIG.ANNOUNCEMENT_TEXT = settings.announcementText || '';
+      CONFIG.ANNOUNCEMENT_ACTIVE = settings.announcementActive || false;
+    }
+  } catch (e) { /* silently ignore if first setup */ }
+  
+  if (CONFIG.ANNOUNCEMENT_ACTIVE && CONFIG.ANNOUNCEMENT_TEXT) {
+    const banner = document.getElementById('announcement-banner');
+    if (banner) { banner.innerHTML = esc(CONFIG.ANNOUNCEMENT_TEXT); banner.classList.remove('hidden'); }
+  }
+
   if (savedToken && savedUser) {
     STATE.token = savedToken;
     STATE.user  = JSON.parse(savedUser);
@@ -210,7 +241,7 @@ function navigate(page, params = {}) {
     'student-dashboard','student-course','student-fees',
     'student-attendance','student-assignments',
     'teacher-dashboard','teacher-course',
-    'admin-dashboard','admin-payments','admin-students','admin-courses','admin-users',
+    'admin-dashboard','admin-payments','admin-students','admin-courses','admin-users','admin-settings',
     'enrol'
   ];
   if (protectedPages.includes(page) && !STATE.user) {
@@ -254,6 +285,7 @@ const pageInits = {
   'admin-students':      initAdminStudents,
   'admin-courses':       initAdminCourses,
   'admin-users':         initAdminUsers,
+  'admin-settings':      initAdminSettings,
   'enrol':               initEnrolPage,
 };
 
@@ -289,6 +321,7 @@ function buildNavLinks() {
       { icon: '👥', label: 'Students',    page: 'admin-students' },
       { icon: '📚', label: 'Courses',     page: 'admin-courses' },
       { icon: '👤', label: 'Users',       page: 'admin-users' },
+      { icon: '⚙️', label: 'Settings',    page: 'admin-settings' },
     ],
   };
 
@@ -975,10 +1008,30 @@ function renderEnrolStep1(course, resubmit = false) {
         <div class="upi-amount">₹${Number(course.fee).toLocaleString('en-IN')}</div>
         <div style="font-size:15px;color:var(--text-2)">Duration: ${esc(course.duration || 'Self-paced')}</div>
       </div>
-      <button class="btn-primary btn-lg" onclick="goToStep2('${course._id}', ${course.fee})">
+      <div style="margin-bottom:1.5rem;text-align:left;">
+        <label style="font-size:14px;color:var(--text-2);margin-bottom:4px;display:block;">Have a coupon code?</label>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="enrol-coupon-input" placeholder="Enter code" style="flex:1;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:10px 14px;border-radius:var(--r-md);text-transform:uppercase;" />
+          <button class="btn-ghost" onclick="applyCoupon('${course.fee}')">Apply</button>
+        </div>
+        <div id="coupon-message" style="font-size:14px;margin-top:6px;font-weight:500;"></div>
+      </div>
+      <button id="enrol-proceed-btn" class="btn-primary btn-lg" onclick="goToStep2('${course._id}', ${course.fee})">
         Proceed to Pay →
       </button>
     </div>`;
+}
+
+async function applyCoupon(originalFee) {
+  const code = document.getElementById('enrol-coupon-input').value.trim();
+  const msgEl = document.getElementById('coupon-message');
+  if (!code) return;
+  try {
+    const { discountPct } = await API.verifyCoupon({ code });
+    const newFee = Math.max(0, originalFee - (originalFee * (discountPct / 100)));
+    msgEl.innerHTML = `<span style="color:var(--green)">✓ ${discountPct}% discount applied! New fee: ₹${newFee}</span>`;
+    document.getElementById('enrol-proceed-btn').setAttribute('onclick', `goToStep2('${STATE.activeCourseId}', ${newFee})`);
+  } catch (e) { msgEl.innerHTML = `<span style="color:var(--red)">✕ ${e.message || 'Invalid code'}</span>`; }
 }
 
 function goToStep2(courseId, fee) {
@@ -1400,12 +1453,40 @@ function renderAdminStudents() {
             <td style="font-family:monospace;font-size:15px">@${esc(u.username)}</td>
             <td style="font-size:15px">${esc(u.email)}</td>
             <td><span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span></td>
-            <td>
+            <td style="display:flex;gap:6px;flex-wrap:wrap;">
               <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="toggleUserActive('${u._id}',${!u.active})">${u.active?'Suspend':'Activate'}</button>
+              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openManualEnrolModal('${u._id}', '${esc(u.name)}')">+ Enrol</button>
             </td>
           </tr>`).join('')}
         </tbody>
       </table>`;
+}
+
+async function openManualEnrolModal(studentId, studentName) {
+  document.getElementById('manual-enrol-student-id').value = studentId;
+  document.getElementById('manual-enrol-student-name').textContent = studentName;
+  const sel = document.getElementById('manual-enrol-course-select');
+  sel.innerHTML = '<option value="">Loading courses...</option>';
+  openModal('modal-manual-enrol');
+  try {
+    const { courses } = await API.courses();
+    sel.innerHTML = '<option value="">-- Select Course --</option>' + 
+      (courses||[]).map(c => `<option value="${c._id}">${esc(c.name)}</option>`).join('');
+  } catch(e) { sel.innerHTML = '<option value="">Error loading courses</option>'; }
+}
+
+async function submitManualEnrol() {
+  const studentId = document.getElementById('manual-enrol-student-id').value;
+  const courseId = document.getElementById('manual-enrol-course-select').value;
+  if (!courseId) { toast('Please select a course', 'error'); return; }
+  const btn = document.querySelector('#modal-manual-enrol .btn-primary');
+  btn.textContent = 'Enrolling...'; btn.disabled = true;
+  try {
+    await API.manualEnrol({ studentId, courseId });
+    toast('Student enrolled manually!', 'success');
+    closeAllModals();
+  } catch(e) { toast(e.message || 'Error enrolling student', 'error'); }
+  finally { btn.textContent = 'Enrol Student'; btn.disabled = false; }
 }
 
 async function toggleUserActive(id, active) {
@@ -1606,11 +1687,126 @@ function renderAdminUsers() {
             <td><span class="badge badge-enrolled">${esc(u.role)}</span></td>
             <td><span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span></td>
             <td style="display:flex;gap:6px;flex-wrap:wrap">
+              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openEditUserModal('${u._id}')">Edit</button>
               <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="toggleUserActive('${u._id}', ${!u.active})">${u.active ? 'Suspend' : 'Activate'}</button>
+              <button class="btn-danger" style="font-size:14px;padding:7px 14px" onclick="deleteUserAdmin('${u._id}')">Delete</button>
             </td>
           </tr>`).join('')}
         </tbody>
       </table>`;
+}
+
+function openAddUserModal() {
+  document.getElementById('add-user-name').value = '';
+  document.getElementById('add-user-username').value = '';
+  document.getElementById('add-user-email').value = '';
+  document.getElementById('add-user-password').value = '';
+  document.getElementById('add-user-role').value = 'student';
+  openModal('modal-add-user');
+}
+
+async function submitAddUser() {
+  const name = document.getElementById('add-user-name').value.trim();
+  const username = document.getElementById('add-user-username').value.trim();
+  const email = document.getElementById('add-user-email').value.trim();
+  const password = document.getElementById('add-user-password').value;
+  const role = document.getElementById('add-user-role').value;
+  
+  if(!name || !username || !email || !password) { toast('All fields are required', 'error'); return; }
+  if(password.length < 6) { toast('Password must be at least 6 characters', 'error'); return; }
+  
+  const btn = document.querySelector('#modal-add-user .btn-primary');
+  btn.textContent = 'Creating...'; btn.disabled = true;
+  
+  try {
+    await API.createUser({ name, username, email, password, role });
+    toast('User created successfully!', 'success');
+    closeAllModals();
+    initAdminUsers();
+  } catch(e) { toast(e.message || 'Error creating user', 'error'); }
+  finally { btn.textContent = 'Create User'; btn.disabled = false; }
+}
+
+function triggerBulkUserUpload() {
+  document.getElementById('bulk-user-upload').click();
+}
+
+async function handleBulkUserUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const rows = e.target.result.split('\n').map(r => r.trim()).filter(r => r);
+    if (rows.length < 2) { toast('CSV is empty or missing headers', 'error'); return; }
+    
+    const headers = rows[0].toLowerCase().split(',');
+    const users = [];
+    
+    for (let i = 1; i < rows.length; i++) {
+      const cols = rows[i].split(',');
+      const user = {};
+      headers.forEach((h, idx) => {
+        const val = (cols[idx] || '').replace(/^"|"$/g, '').trim();
+        if (h.includes('name') && !h.includes('user')) user.name = val;
+        else if (h.includes('user')) user.username = val;
+        else if (h.includes('email')) user.email = val;
+        else if (h.includes('role')) user.role = val.toLowerCase();
+        else if (h.includes('pass')) user.password = val;
+      });
+      if (user.name && user.username && user.email) users.push(user);
+    }
+    
+    if (!users.length) { toast('No valid users found in CSV', 'error'); return; }
+    try {
+      const res = await API.bulkCreateUsers({ users });
+      toast(res.message, 'success');
+      initAdminUsers();
+    } catch (err) { toast(err.message || 'Error uploading users', 'error'); }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function openEditUserModal(id) {
+  const user = STATE.adminUsers.find(u => u._id === id);
+  if (!user) return;
+  document.getElementById('edit-user-id').value = user._id;
+  document.getElementById('edit-user-name').value = user.name || '';
+  document.getElementById('edit-user-username').value = user.username || '';
+  document.getElementById('edit-user-email').value = user.email || '';
+  document.getElementById('edit-user-role').value = user.role || 'student';
+  document.getElementById('edit-user-password').value = '';
+  openModal('modal-edit-user');
+}
+
+async function submitEditUser() {
+  const id = document.getElementById('edit-user-id').value;
+  const payload = {
+    name: document.getElementById('edit-user-name').value.trim(),
+    username: document.getElementById('edit-user-username').value.trim(),
+    email: document.getElementById('edit-user-email').value.trim(),
+    role: document.getElementById('edit-user-role').value
+  };
+  const pwd = document.getElementById('edit-user-password').value;
+  if (pwd) payload.password = pwd;
+  
+  try {
+    await API.updateUser(id, payload);
+    toast('User updated successfully!', 'success');
+    closeAllModals();
+    initAdminUsers();
+  } catch (e) { toast(e.message || 'Error updating user', 'error'); }
+}
+
+async function deleteUserAdmin(id) {
+  if (!confirm('Are you sure you want to permanently delete this user? This will remove all their data and cannot be undone.')) return;
+  try {
+    await API.deleteUser(id);
+    toast('User deleted successfully', 'success');
+    if (STATE.currentPage === 'admin-users') initAdminUsers();
+    if (STATE.currentPage === 'admin-students') initAdminStudents();
+  } catch (e) { toast(e.message || 'Error deleting user', 'error'); }
 }
 
 function exportAdminUsers() {
@@ -2013,4 +2209,75 @@ function toast(msg, type = '') {
   el.classList.remove('hidden');
   clearTimeout(el._t);
   el._t = setTimeout(() => el.classList.add('hidden'), 3000);
+}
+
+/* ══════════════════════════════════════════
+   ADMIN SETTINGS
+══════════════════════════════════════════ */
+async function initAdminSettings() {
+  document.getElementById('admin-set-upi-id').value = CONFIG.UPI_ID;
+  document.getElementById('admin-set-upi-name').value = CONFIG.UPI_NAME;
+  document.getElementById('admin-set-wa').value = CONFIG.WA_NUMBER;
+  document.getElementById('admin-set-announcement').value = CONFIG.ANNOUNCEMENT_TEXT;
+  document.getElementById('admin-set-announcement-active').checked = CONFIG.ANNOUNCEMENT_ACTIVE;
+  
+  loadAdminSettingsData();
+}
+
+async function saveAdminSettings() {
+  const upiId = document.getElementById('admin-set-upi-id').value.trim();
+  const upiName = document.getElementById('admin-set-upi-name').value.trim();
+  const waNumber = document.getElementById('admin-set-wa').value.trim();
+  const announcementText = document.getElementById('admin-set-announcement').value.trim();
+  const announcementActive = document.getElementById('admin-set-announcement-active').checked;
+  
+  const bannedIpsText = document.getElementById('admin-set-banned-ips').value;
+  const bannedIPs = bannedIpsText.split(',').map(ip => ip.trim()).filter(ip => ip);
+  
+  try {
+    await API.updateSettings({ upiId, upiName, waNumber, announcementText, announcementActive, bannedIPs });
+    CONFIG.UPI_ID = upiId; CONFIG.UPI_NAME = upiName; CONFIG.WA_NUMBER = waNumber;
+    CONFIG.ANNOUNCEMENT_TEXT = announcementText; CONFIG.ANNOUNCEMENT_ACTIVE = announcementActive;
+    
+    const banner = document.getElementById('announcement-banner');
+    if (announcementActive && announcementText) {
+      if (banner) { banner.innerHTML = esc(announcementText); banner.classList.remove('hidden'); }
+    } else if (banner) banner.classList.add('hidden');
+    
+    toast('System settings updated!', 'success');
+  } catch(e) { toast('Failed to update settings', 'error'); }
+}
+
+async function loadAdminSettingsData() {
+  try {
+    const { settings } = await API.getSettings();
+    if (settings && settings.bannedIPs) {
+      document.getElementById('admin-set-banned-ips').value = settings.bannedIPs.join(', ');
+    }
+    
+    const { coupons } = await API.getCoupons();
+    const listEl = document.getElementById('admin-coupons-list');
+    listEl.innerHTML = coupons.length ? coupons.map(c => `
+      <div style="display:flex;justify-content:space-between;background:var(--bg3);padding:10px 14px;border-radius:var(--r-md);margin-bottom:8px;align-items:center;">
+        <div>
+          <strong style="font-family:monospace;font-size:16px;">${esc(c.code)}</strong>
+          <span style="color:var(--text-2);font-size:14px;margin-left:10px;">${c.discountPct}% OFF</span>
+        </div>
+        <span class="badge badge-${c.active?'approved':'rejected'}">${c.active?'Active':'Inactive'}</span>
+      </div>
+    `).join('') : '<div style="color:var(--text-3);font-size:14px;">No coupons generated yet.</div>';
+  } catch (e) { console.error('Error loading extra settings data', e); }
+}
+
+async function generateCoupon() {
+  const code = document.getElementById('new-coupon-code').value.trim();
+  const discountPct = Number(document.getElementById('new-coupon-pct').value);
+  if (!code || !discountPct) { toast('Provide code and percentage', 'error'); return; }
+  try {
+    await API.createCoupon({ code, discountPct });
+    toast('Coupon created!', 'success');
+    document.getElementById('new-coupon-code').value = '';
+    document.getElementById('new-coupon-pct').value = '';
+    loadAdminSettingsData();
+  } catch (e) { toast(e.message || 'Error creating coupon', 'error'); }
 }

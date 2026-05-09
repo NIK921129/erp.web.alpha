@@ -101,6 +101,21 @@ const Content = mongoose.model('Content', new mongoose.Schema({
   title: String, url: String, description: String, parentId: String, thumbnail: String, order: Number
 }));
 
+const Setting = mongoose.model('Setting', new mongoose.Schema({
+  upiId: { type: String, default: '9211293576@ptaxis' },
+  upiName: { type: String, default: 'ABCInstitute' },
+  waNumber: { type: String, default: '919211293576' },
+  announcementText: { type: String, default: '' },
+  announcementActive: { type: Boolean, default: false },
+  bannedIPs: [{ type: String }]
+}));
+
+const Coupon = mongoose.model('Coupon', new mongoose.Schema({
+  code: { type: String, required: true, unique: true },
+  discountPct: { type: Number, required: true, min: 1, max: 100 },
+  active: { type: Boolean, default: true }
+}));
+
 const ChatMessage = mongoose.model('ChatMessage', new mongoose.Schema({
   course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
   sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -125,6 +140,20 @@ const auth = async (req, res, next) => {
   } catch (err) { res.status(401).json({ message: 'Unauthorized: Invalid token' }); }
 };
 
+const ipFilter = async (req, res, next) => {
+  try {
+    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    // Cache settings in production to avoid DB hits on every request
+    const settings = await Setting.findOne(); 
+    if (settings && settings.bannedIPs && settings.bannedIPs.includes(clientIp)) {
+      return res.status(403).json({ message: 'Access Denied: Your IP has been banned.' });
+    }
+    next();
+  } catch (e) {
+    next();
+  }
+};
+
 /* ══════════════════════════════════════════
    API ROUTES
 ══════════════════════════════════════════ */
@@ -132,6 +161,9 @@ const api = express.Router();
 
 // --- AUTH ---
 api.post('/auth/signup', async (req, res) => {
+  // Apply IP filter manually to unauthenticated routes if desired, 
+  // or apply globally: app.use('/api', ipFilter);
+  
   try {
     const { name, username, email, password, role } = req.body;
     if (role === 'admin') return res.status(403).json({ message: 'Forbidden: Cannot sign up as admin' });
@@ -435,15 +467,73 @@ api.get('/users', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
+api.post('/users', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const { name, username, email, password, role } = req.body;
+    
+    const existing = await User.findOne({ $or: [{ username }, { email }] });
+    if (existing) return res.status(400).json({ message: 'Username or Email already exists' });
+    
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await User.create({ name, username, email, password: hashedPassword, role });
+    res.json({ user });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+api.post('/users/bulk', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const users = req.body.users;
+    if (!Array.isArray(users)) return res.status(400).json({ message: 'Invalid data format' });
+
+    let added = 0, skipped = 0;
+    for (const u of users) {
+      const existing = await User.findOne({ $or: [{ username: u.username }, { email: u.email }] });
+      if (existing) { skipped++; continue; }
+      
+      const hashedPassword = await bcrypt.hash(u.password || 'password123', 10);
+      await User.create({
+        name: u.name,
+        username: u.username,
+        email: u.email,
+        password: hashedPassword,
+        role: u.role || 'student'
+      });
+      added++;
+    }
+    res.json({ message: `Bulk import complete. Added: ${added}, Skipped (duplicates): ${skipped}` });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
 api.put('/users/:id', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin' && req.user._id.toString() !== req.params.id) return res.status(403).json({ message: 'Forbidden' });
-    const { name, email, password, active } = req.body;
+    const { name, email, password, active, username, role } = req.body;
     const updateData = { name, email };
     if (active !== undefined && req.user.role === 'admin') updateData.active = active;
+    if (username && req.user.role === 'admin') updateData.username = username;
+    if (role && req.user.role === 'admin') updateData.role = role;
     if (password) updateData.password = await bcrypt.hash(password, 10);
     await User.findByIdAndUpdate(req.params.id, updateData);
     res.json({ message: 'Updated' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+api.delete('/users/:id', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const uid = req.params.id;
+    if (req.user._id.toString() === uid) return res.status(400).json({ message: 'Cannot delete yourself' });
+    
+    await User.findByIdAndDelete(uid);
+    await Enrolment.deleteMany({ student: uid });
+    await Payment.deleteMany({ student: uid });
+    await Submission.deleteMany({ student: uid });
+    await Attendance.updateMany({}, { $pull: { records: { student: uid } } });
+    await Course.updateMany({ teacher: uid }, { $unset: { teacher: 1 } });
+    
+    res.json({ message: 'User deleted successfully' });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
@@ -453,6 +543,67 @@ api.get('/admin/stats', auth, async (req, res) => {
     const teachers = await User.countDocuments({ role: 'teacher' });
     const courses = await Course.countDocuments();
     res.json({ stats: { students, teachers, courses } });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+api.post('/admin/enrol', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const { studentId, courseId } = req.body;
+    
+    await Enrolment.findOneAndUpdate(
+      { student: studentId, course: courseId },
+      { status: 'active' },
+      { upsert: true }
+    );
+    const count = await Enrolment.countDocuments({ course: courseId, status: 'active' });
+    await Course.findByIdAndUpdate(courseId, { studentCount: count });
+    
+    res.json({ message: 'Enrolled successfully' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+// --- SETTINGS ---
+api.get('/settings', async (req, res) => {
+  try {
+    let settings = await Setting.findOne();
+    if (!settings) settings = await Setting.create({});
+    res.json({ settings });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+api.put('/settings', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const settings = await Setting.findOneAndUpdate({}, req.body, { new: true, upsert: true });
+    res.json({ settings });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+// --- COUPONS ---
+api.get('/coupons', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const coupons = await Coupon.find().sort('-createdAt');
+    res.json({ coupons });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+api.post('/coupons', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const { code, discountPct } = req.body;
+    const coupon = await Coupon.create({ code: code.toUpperCase(), discountPct });
+    res.json({ coupon });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+api.post('/coupons/verify', auth, async (req, res) => {
+  try {
+    const { code } = req.body;
+    const coupon = await Coupon.findOne({ code: code.toUpperCase(), active: true });
+    if (!coupon) return res.status(404).json({ message: 'Invalid or expired coupon code' });
+    res.json({ discountPct: coupon.discountPct });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
@@ -481,6 +632,8 @@ api.post('/chat/course/:id', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
+// Apply IP Filter globally to the API
+app.use('/api', ipFilter);
 // Mount the API router
 app.use('/api', api);
 
