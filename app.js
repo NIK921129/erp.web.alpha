@@ -9,8 +9,9 @@
 /* ──────────────────────────────────────────
    CONFIG — swap BASE_URL when deploying
 ────────────────────────────────────────── */
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 const CONFIG = {
-  BASE_URL:   window.ENV_API_URL || 'http://localhost:5000/api',
+  BASE_URL:   isLocal ? 'http://localhost:5000/api' : '/api',
   UPI_ID:     '9211293576@ptaxis',
   UPI_NAME:   'ABCInstitute',
   WA_NUMBER:  '919211293576',
