@@ -411,6 +411,8 @@ function renderCourseGrid(containerId, courses = [], limit = 0) {
       <div class="course-card-meta">
         <span class="meta-tag">⏱ ${esc(c.duration || 'Self-paced')}</span>
         ${c.teacher ? `<span class="meta-tag">👤 ${esc(c.teacher.name || 'TBA')}</span>` : ''}
+
+        <span class="meta-tag">👥 ${c.studentCount || 0} Enrolled</span>
       </div>
       <div class="course-card-footer">
         <span class="course-fee">₹${Number(c.fee).toLocaleString('en-IN')}</span>
@@ -610,11 +612,11 @@ function renderContentTree(items, isTeacher = false) {
         <div class="chapter-header" onclick="toggleChapter('ch-${ch._id}')">
           <span class="chapter-icon">📁</span>
           <span class="chapter-name">${esc(ch.title)}</span>
-          ${isTeacher ? `<button class="btn-ghost" style="padding:4px 10px;font-size:12px" onclick="event.stopPropagation();deleteContent('${ch._id}')">✕</button>` : ''}
+          ${isTeacher ? `<button class="btn-ghost" style="padding:6px 12px;font-size:14px" onclick="event.stopPropagation();deleteContent('${ch._id}')">✕</button>` : ''}
           <span class="chapter-toggle">▼</span>
         </div>
         <div class="chapter-children">
-          ${children.length ? children.map(c => renderContentItem(c, isTeacher)).join('') : '<div style="color:var(--text-3);font-size:13px">Empty folder</div>'}
+          ${children.length ? children.map(c => renderContentItem(c, isTeacher)).join('') : '<div style="color:var(--text-3);font-size:15px">Empty folder</div>'}
         </div>
       </div>`;
   });
@@ -633,7 +635,7 @@ function renderContentItem(item, isTeacher) {
     <div class="content-item">
       <span class="content-item-icon">${icon}</span>
       <span class="content-item-name">${esc(item.title)}</span>
-      ${isTeacher ? `<button onclick="deleteContent('${item._id}')" style="background:none;border:none;color:var(--text-3);cursor:pointer;font-size:13px">✕</button>` : ''}
+      ${isTeacher ? `<button onclick="deleteContent('${item._id}')" style="background:none;border:none;color:var(--text-3);cursor:pointer;font-size:15px">✕</button>` : ''}
     </div>`;
 
   if (item.type === 'video' && item.url) {
@@ -676,7 +678,7 @@ async function initStudentFees() {
         </div>
         <div>
           <span class="badge badge-${p.status}">${p.status}</span>
-          ${p.status === 'rejected' ? `<div style="margin-top:.5rem"><button class="btn-primary" style="font-size:12px;padding:6px 14px" onclick="navigate('enrol',{activeCourseId:'${p.course?._id}'})">Re-upload</button></div>` : ''}
+          ${p.status === 'rejected' ? `<div style="margin-top:.5rem"><button class="btn-primary" style="font-size:14px;padding:8px 16px" onclick="navigate('enrol',{activeCourseId:'${p.course?._id}'})">Re-upload</button></div>` : ''}
         </div>
       </div>`).join('');
   } catch (e) {
@@ -764,8 +766,8 @@ function renderAssignmentCard(a, canSubmit = false) {
         <span class="badge badge-${a.submitted ? 'approved' : 'pending'}">${a.submitted ? 'Submitted' : 'Pending'}</span>
       </div>
       <div class="assignment-desc">${esc(a.description || '')}</div>
-      ${canSubmit && !a.submitted ? `<button class="btn-primary" style="font-size:13px;padding:7px 18px" onclick="openSubmitModal('${a._id}')">Submit Work</button>` : ''}
-      ${a.grade ? `<div style="margin-top:.5rem;font-size:13px;color:var(--teal)">Grade: <strong>${esc(a.grade)}</strong> ${a.feedback ? '· ' + esc(a.feedback) : ''}</div>` : ''}
+      ${canSubmit && !a.submitted ? `<button class="btn-primary" style="font-size:15px;padding:9px 20px" onclick="openSubmitModal('${a._id}')">Submit Work</button>` : ''}
+      ${a.grade ? `<div style="margin-top:.5rem;font-size:15px;color:var(--teal)">Grade: <strong>${esc(a.grade)}</strong> ${a.feedback ? '· ' + esc(a.feedback) : ''}</div>` : ''}
     </div>`;
 }
 
@@ -791,7 +793,7 @@ async function initEnrolPage() {
             <div class="status-icon">⏳</div>
             <h3>Payment Under Review</h3>
             <p>Your payment screenshot for <strong>${esc(course.name)}</strong> has been submitted and is being reviewed by our admin.</p>
-            <p style="color:var(--text-3);font-size:13px;margin-top:1rem">You'll get access once approved.</p>
+            <p style="color:var(--text-3);font-size:15px;margin-top:1rem">You'll get access once approved.</p>
             <div style="margin-top:1.5rem">
               <button class="wa-btn" onclick="openWhatsApp()">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -821,11 +823,11 @@ function renderEnrolStep1(course, resubmit = false) {
     <div class="payment-card">
       <h3>${esc(course.name)}</h3>
       <p>${esc(course.description || '')}</p>
-      ${resubmit ? '<div style="background:rgba(229,69,69,.12);border:1px solid rgba(229,69,69,.3);color:#ff7070;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:1rem">Your previous payment was rejected. Please submit a valid screenshot.</div>' : ''}
+      ${resubmit ? '<div style="background:rgba(229,69,69,.12);border:1px solid rgba(229,69,69,.3);color:#ff7070;padding:12px 16px;border-radius:8px;font-size:15px;margin-bottom:1rem">Your previous payment was rejected. Please submit a valid screenshot.</div>' : ''}
       <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-lg);padding:1.5rem;margin:1rem 0;">
-        <div style="font-size:13px;color:var(--text-2);margin-bottom:.25rem">Course Fee</div>
+        <div style="font-size:15px;color:var(--text-2);margin-bottom:.25rem">Course Fee</div>
         <div class="upi-amount">₹${Number(course.fee).toLocaleString('en-IN')}</div>
-        <div style="font-size:13px;color:var(--text-2)">Duration: ${esc(course.duration || 'Self-paced')}</div>
+        <div style="font-size:15px;color:var(--text-2)">Duration: ${esc(course.duration || 'Self-paced')}</div>
       </div>
       <button class="btn-primary btn-lg" onclick="goToStep2('${course._id}', ${course.fee})">
         Proceed to Pay →
@@ -847,7 +849,7 @@ function goToStep2(courseId, fee) {
       <a href="${upiLink}" style="display:block;margin-bottom:1rem">
         <button class="btn-primary">Open UPI App Directly</button>
       </a>
-      <p style="font-size:13px;color:var(--text-2);margin-bottom:1.5rem">After payment, take a screenshot and upload below</p>
+      <p style="font-size:15px;color:var(--text-2);margin-bottom:1.5rem">After payment, take a screenshot and upload below</p>
       <button class="btn-ghost" onclick="navigate('courses-public')">Cancel</button>
       <div style="margin-top:1.5rem">
         <button class="btn-primary" onclick="goToStep3('${courseId}', ${fee})">I've Paid → Upload Screenshot</button>
@@ -867,7 +869,7 @@ function goToStep3(courseId, fee) {
       <div class="screenshot-upload" onclick="document.getElementById('ss-file').click()">
         <div id="ss-upload-icon">📸</div>
         <p id="ss-upload-text">Click to upload payment screenshot</p>
-        <p style="font-size:12px;color:var(--text-3)">JPG, PNG, WEBP accepted</p>
+        <p style="font-size:14px;color:var(--text-3)">JPG, PNG, WEBP accepted</p>
         <input type="file" id="ss-file" accept="image/*" onchange="previewSS(this)" />
       </div>
       <img id="ss-preview" class="screenshot-preview" style="display:none" />
@@ -1049,7 +1051,7 @@ function renderMarkAttendance(students, courseId) {
   const today = new Date().toISOString().split('T')[0];
   return `
     <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap">
-      <input type="date" id="att-date" value="${today}" style="background:var(--card);border:1px solid var(--border2);color:var(--text);padding:8px 12px;border-radius:var(--r-md);font-size:14px" />
+      <input type="date" id="att-date" value="${today}" style="background:var(--card);border:1px solid var(--border2);color:var(--text);padding:10px 16px;border-radius:var(--r-md);font-size:16px" />
       <button class="btn-ghost" onclick="markAllPresent()">Mark All Present</button>
       <button class="btn-primary" onclick="submitAttendance('${courseId}')">Save Attendance</button>
     </div>
@@ -1186,7 +1188,7 @@ function renderPaymentCard(p) {
         ${isPending ? `
           <button class="btn-approve" onclick="approvePayment('${p._id}')">✓ Approve</button>
           <button class="btn-danger"  onclick="rejectPayment('${p._id}')">✕ Reject</button>` : ''}
-        <button class="btn-ghost" style="padding:6px 12px;font-size:12px" onclick="previewScreenshot('${p.screenshotUrl}','${p._id}','${p.status}')">View</button>
+        <button class="btn-ghost" style="padding:8px 14px;font-size:14px" onclick="previewScreenshot('${p.screenshotUrl}','${p._id}','${p.status}')">View</button>
       </div>
     </div>`;
 }
@@ -1246,12 +1248,12 @@ function renderAdminStudents() {
         <thead><tr><th>Name</th><th>Username</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead>
         <tbody>${list.map(u => `
           <tr>
-            <td><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="width:30px;height:30px;font-size:13px">${initials(u.name)}</div>${esc(u.name)}</div></td>
-            <td style="font-family:monospace;font-size:13px">@${esc(u.username)}</td>
-            <td style="font-size:13px">${esc(u.email)}</td>
+            <td><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="width:36px;height:36px;font-size:15px">${initials(u.name)}</div>${esc(u.name)}</div></td>
+            <td style="font-family:monospace;font-size:15px">@${esc(u.username)}</td>
+            <td style="font-size:15px">${esc(u.email)}</td>
             <td><span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span></td>
             <td>
-              <button class="btn-ghost" style="font-size:12px;padding:5px 12px" onclick="toggleUserActive('${u._id}',${!u.active})">${u.active?'Suspend':'Activate'}</button>
+              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="toggleUserActive('${u._id}',${!u.active})">${u.active?'Suspend':'Activate'}</button>
             </td>
           </tr>`).join('')}
         </tbody>
@@ -1294,13 +1296,13 @@ async function initAdminCourses() {
         <thead><tr><th>Course</th><th>Teacher</th><th>Fee</th><th>Students</th><th>Actions</th></tr></thead>
         <tbody>${courses.map(c => `
           <tr>
-            <td><strong>${esc(c.name)}</strong><br/><span style="font-size:12px;color:var(--text-2)">${esc(c.duration||'')}</span></td>
-            <td style="font-size:13px">${esc(c.teacher?.name||'Unassigned')}</td>
+            <td><strong>${esc(c.name)}</strong><br/><span style="font-size:14px;color:var(--text-2)">${esc(c.duration||'')}</span></td>
+            <td style="font-size:15px">${esc(c.teacher?.name||'Unassigned')}</td>
             <td style="font-weight:600;color:var(--teal)">₹${Number(c.fee).toLocaleString('en-IN')}</td>
             <td>${c.studentCount||0}</td>
             <td style="display:flex;gap:6px;flex-wrap:wrap">
-              <button class="btn-ghost" style="font-size:12px;padding:5px 12px" onclick="openCourseModal('${c._id}')">Edit</button>
-              <button class="btn-danger"  style="font-size:12px;padding:5px 12px" onclick="deleteCourseAdmin('${c._id}')">Delete</button>
+              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openCourseModal('${c._id}')">Edit</button>
+              <button class="btn-danger"  style="font-size:14px;padding:7px 14px" onclick="deleteCourseAdmin('${c._id}')">Delete</button>
             </td>
           </tr>`).join('')}
         </tbody>
@@ -1380,11 +1382,11 @@ async function initAdminUsers() {
         <tbody>${(users||[]).map(u => `
           <tr>
             <td>${esc(u.name)}</td>
-            <td style="font-family:monospace;font-size:13px">@${esc(u.username)}</td>
+            <td style="font-family:monospace;font-size:15px">@${esc(u.username)}</td>
             <td><span class="badge badge-enrolled">${esc(u.role)}</span></td>
             <td><span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span></td>
             <td style="display:flex;gap:6px;flex-wrap:wrap">
-              <button class="btn-ghost" style="font-size:12px;padding:5px 12px" onclick="toggleUserActive('${u._id}',${!u.active})">${u.active?'Suspend':'Activate'}</button>
+              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="toggleUserActive('${u._id}',${!u.active})">${u.active?'Suspend':'Activate'}</button>
             </td>
           </tr>`).join('')}
         </tbody>
@@ -1413,22 +1415,33 @@ async function exportAdminPayments() {
 /* ══════════════════════════════════════════
    CONTENT MANAGEMENT (Teacher)
 ══════════════════════════════════════════ */
-function openContentModal(courseId) {
+async function openContentModal(courseId) {
   document.getElementById('content-course-id').value = courseId;
   document.getElementById('content-title-input').value = '';
   document.getElementById('content-url-input').value   = '';
   document.getElementById('content-desc-input').value  = '';
   document.getElementById('content-url-group').classList.add('hidden');
+  document.getElementById('content-parent-group').classList.add('hidden');
   document.querySelectorAll('.role-btn[data-ctype]').forEach(b => b.classList.remove('active'));
   document.querySelector('.role-btn[data-ctype="chapter"]').classList.add('active');
+
+  try {
+    const { content } = await API.courseContent(courseId);
+    const chapters = (content || []).filter(c => c.type === 'chapter');
+    const sel = document.getElementById('content-parent-input');
+    sel.innerHTML = '<option value="">-- Root (No Chapter) --</option>' +
+      chapters.map(c => `<option value="${c._id}">${esc(c.title)}</option>`).join('');
+  } catch (e) {}
+
   openModal('modal-content');
 }
 
 function selectCtype(btn) {
   document.querySelectorAll('.role-btn[data-ctype]').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  const isVideo = btn.dataset.ctype === 'video';
-  document.getElementById('content-url-group').classList.toggle('hidden', !isVideo);
+  const type = btn.dataset.ctype;
+  document.getElementById('content-url-group').classList.toggle('hidden', type !== 'video');
+  document.getElementById('content-parent-group').classList.toggle('hidden', type === 'chapter');
 }
 
 async function saveContent() {
@@ -1437,12 +1450,13 @@ async function saveContent() {
   const title    = document.getElementById('content-title-input').value.trim();
   const url      = document.getElementById('content-url-input').value.trim();
   const desc     = document.getElementById('content-desc-input').value.trim();
+  const parentId = document.getElementById('content-parent-input').value || null;
 
   if (!title) { toast('Title is required', 'error'); return; }
   if (type === 'video' && !url) { toast('Please paste the Google Drive link', 'error'); return; }
 
   try {
-    await API.addContent({ course: courseId, type, title, url, description: desc });
+    await API.addContent({ course: courseId, type, title, url, description: desc, parentId: type === 'chapter' ? null : parentId });
     toast('Content added!', 'success');
     closeAllModals();
     initTeacherCourse();

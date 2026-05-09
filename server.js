@@ -165,7 +165,15 @@ api.put('/courses/:id', auth, async (req, res) => {
 });
 
 api.delete('/courses/:id', auth, async (req, res) => {
-  await Course.findByIdAndDelete(req.params.id);
+  const cid = req.params.id;
+  await Course.findByIdAndDelete(cid);
+  await Enrolment.deleteMany({ course: cid });
+  await Payment.deleteMany({ course: cid });
+  await Attendance.deleteMany({ course: cid });
+  const assigns = await Assignment.find({ course: cid });
+  await Submission.deleteMany({ assignment: { $in: assigns.map(a => a._id) } });
+  await Assignment.deleteMany({ course: cid });
+  await Content.deleteMany({ course: cid });
   res.json({ message: 'Deleted' });
 });
 
@@ -289,6 +297,10 @@ api.post('/content', auth, async (req, res) => {
 });
 
 api.delete('/content/:id', auth, async (req, res) => {
+  const item = await Content.findById(req.params.id);
+  if (item && item.type === 'chapter') {
+    await Content.deleteMany({ parentId: item._id });
+  }
   await Content.findByIdAndDelete(req.params.id);
   res.json({ message: 'Deleted' });
 });

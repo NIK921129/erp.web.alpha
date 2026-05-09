@@ -369,6 +369,7 @@
         <button class="filter-btn" onclick="filterPayments('all', this)">All</button>
       </div>
       <button class="btn-ghost" style="padding:7px 14px; font-size:13px" onclick="exportAdminPayments()">📥 Export CSV</button>
+      <button class="btn-ghost" style="padding:9px 18px; font-size:15px" onclick="exportAdminPayments()">📥 Export CSV</button>
     </div>
     <div id="admin-payments-list"></div>
   </div>
@@ -511,6 +512,12 @@
       <div id="content-url-group" class="form-group hidden">
         <label>Google Drive Link</label>
         <input type="text" id="content-url-input" placeholder="https://drive.google.com/file/d/..." />
+      </div>
+      <div id="content-parent-group" class="form-group hidden">
+        <label>Add to Chapter (optional)</label>
+        <select id="content-parent-input">
+          <option value="">-- Root (No Chapter) --</option>
+        </select>
       </div>
       <div id="content-desc-group" class="form-group">
         <label>Description (optional)</label>
