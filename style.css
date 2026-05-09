@@ -42,7 +42,8 @@
 
 /* ── RESET ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-a, button { -webkit-tap-highlight-color: transparent; }
+a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+button, .nav-brand, .tab, .enrol-step { user-select: none; -webkit-user-select: none; }
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-body);
@@ -788,6 +789,7 @@ textarea { resize: vertical; }
   border-radius: var(--r-xl); width: 100%; max-width: 500px;
   max-height: 90vh; overflow-y: auto;
   box-shadow: var(--shadow-lg);
+  -webkit-overflow-scrolling: touch;
   animation: fadeUp .3s ease;
 }
 .modal.active { display: block; }
@@ -960,6 +962,7 @@ textarea { resize: vertical; }
   body.has-bottom-nav .nav-links button .nav-icn { font-size: 20px; }
   body.has-bottom-nav .nav-links button.active { color: var(--teal); transform: scale(1.05); }
   body.has-bottom-nav .page { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
+  body.has-bottom-nav { overscroll-behavior-y: none; }
   body.has-bottom-nav .wa-sticky { bottom: calc(90px + env(safe-area-inset-bottom)); right: 1rem; }
   body.has-bottom-nav .toast { bottom: calc(90px + env(safe-area-inset-bottom)); }
 }
