@@ -171,6 +171,9 @@
     <p>Enrol in any course and start learning today</p>
   </div>
   <div class="container">
+    <div class="search-bar mb-2">
+      <input type="text" id="public-course-search" placeholder="Search courses by name or topic..." oninput="filterPublicCourses()" style="max-width:100%;" />
+    </div>
     <div class="course-cards lg" id="public-course-grid"></div>
   </div>
 </section>
@@ -555,6 +558,15 @@
         <button class="btn-primary" onclick="postAssignment()">Post Assignment</button>
       </div>
     </div>
+  </div>
+
+  <!-- Teacher Submissions Modal -->
+  <div id="modal-submissions" class="modal hidden">
+    <div class="modal-header">
+      <h3>Assignment Submissions</h3>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body" id="submissions-list" style="background:var(--bg2);"></div>
   </div>
 
   <!-- User Profile Modal -->

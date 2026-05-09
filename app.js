@@ -95,6 +95,7 @@ const API = {
   postAssignment:  (d)      => api('POST', '/assignments', d),
   submitWork:      (id, d)  => api('POST', `/assignments/${id}/submit`, d),
   submissions:     (id)     => api('GET', `/assignments/${id}/submissions`),
+  gradeSubmission: (id, d)  => api('PUT', `/submissions/${id}/grade`, d),
 
   /* Content */
   courseContent:   (id)     => api('GET', `/content/course/${id}`),
@@ -395,6 +396,15 @@ async function loadPublicCourseGrid() {
   }
 }
 
+function filterPublicCourses() {
+  const q = document.getElementById('public-course-search')?.value.toLowerCase() || '';
+  const filtered = STATE.courses.filter(c => 
+    (c.name || '').toLowerCase().includes(q) || 
+    (c.description || '').toLowerCase().includes(q)
+  );
+  renderCourseGrid('public-course-grid', filtered);
+}
+
 function renderCourseGrid(containerId, courses = [], limit = 0) {
   const el = document.getElementById(containerId);
   if (!el) return;
@@ -411,6 +421,7 @@ function renderCourseGrid(containerId, courses = [], limit = 0) {
       <div class="course-card-meta">
         <span class="meta-tag">⏱ ${esc(c.duration || 'Self-paced')}</span>
         ${c.teacher ? `<span class="meta-tag">👤 ${esc(c.teacher.name || 'TBA')}</span>` : ''}
+
 
         <span class="meta-tag">👥 ${c.studentCount || 0} Enrolled</span>
       </div>
@@ -756,6 +767,7 @@ async function initStudentAssignments() {
 }
 
 function renderAssignmentCard(a, canSubmit = false) {
+  const isTeacher = STATE.user?.role === 'teacher';
   return `
     <div class="assignment-card">
       <div class="assignment-card-header">
@@ -768,6 +780,7 @@ function renderAssignmentCard(a, canSubmit = false) {
       <div class="assignment-desc">${esc(a.description || '')}</div>
       ${canSubmit && !a.submitted ? `<button class="btn-primary" style="font-size:15px;padding:9px 20px" onclick="openSubmitModal('${a._id}')">Submit Work</button>` : ''}
       ${a.grade ? `<div style="margin-top:.5rem;font-size:15px;color:var(--teal)">Grade: <strong>${esc(a.grade)}</strong> ${a.feedback ? '· ' + esc(a.feedback) : ''}</div>` : ''}
+      ${isTeacher ? `<button class="btn-ghost" style="font-size:14px;padding:7px 14px;margin-top:.75rem" onclick="openSubmissionsModal('${a._id}')">View Submissions</button>` : ''}
     </div>`;
 }
 
@@ -1526,6 +1539,45 @@ async function submitAssignment() {
     closeAllModals();
     initStudentAssignments();
   } catch (e) { toast('Error submitting assignment', 'error'); }
+}
+
+async function openSubmissionsModal(assignId) {
+  openModal('modal-submissions');
+  const el = document.getElementById('submissions-list');
+  el.innerHTML = '<div class="empty-state">Loading submissions...</div>';
+  try {
+    const { submissions } = await API.submissions(assignId);
+    if (!submissions || !submissions.length) {
+      el.innerHTML = '<div class="empty-state">No submissions received yet</div>';
+      return;
+    }
+    el.innerHTML = submissions.map(s => `
+      <div class="list-card" style="align-items:flex-start;flex-direction:column;gap:.5rem;margin-bottom:1rem;background:var(--card);">
+        <div style="font-weight:600;font-size:16px;">${esc(s.student?.name)} <span style="font-weight:400;color:var(--text-2);font-size:14px">(@${esc(s.student?.username)})</span></div>
+        <div style="background:var(--bg3);padding:1rem;border-radius:var(--r-md);width:100%;font-size:15px;">
+          ${esc(s.text || 'No text provided')}
+          ${s.fileUrl ? `<br/><br/><a href="${s.fileUrl}" target="_blank" class="btn-ghost" style="padding:6px 12px;font-size:14px;display:inline-block">📄 View Attachment</a>` : ''}
+        </div>
+        <div style="display:flex;gap:8px;width:100%;margin-top:.5rem;flex-wrap:wrap">
+          <input type="text" id="grade-${s._id}" placeholder="Grade (e.g. A, 9/10)" value="${esc(s.grade||'')}" style="flex:1;min-width:120px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:10px 14px;border-radius:var(--r-md);" />
+          <input type="text" id="feedback-${s._id}" placeholder="Feedback (optional)" value="${esc(s.feedback||'')}" style="flex:2;min-width:200px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:10px 14px;border-radius:var(--r-md);" />
+          <button class="btn-primary" onclick="saveGrade('${s._id}')">Save</button>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    el.innerHTML = '<div class="empty-state">Error loading submissions</div>';
+  }
+}
+
+async function saveGrade(subId) {
+  const grade = document.getElementById(`grade-${subId}`).value.trim();
+  const feedback = document.getElementById(`feedback-${subId}`).value.trim();
+  if (!grade) { toast('Grade is required', 'error'); return; }
+  try {
+    await API.gradeSubmission(subId, { grade, feedback });
+    toast('Grade saved successfully!', 'success');
+  } catch (e) { toast('Error saving grade', 'error'); }
 }
 
 /* ══════════════════════════════════════════

@@ -285,6 +285,12 @@ api.get('/assignments/:id/submissions', auth, async (req, res) => {
   res.json({ submissions });
 });
 
+api.put('/submissions/:id/grade', auth, async (req, res) => {
+  const { grade, feedback } = req.body;
+  await Submission.findByIdAndUpdate(req.params.id, { grade, feedback });
+  res.json({ message: 'Graded successfully' });
+});
+
 // --- CONTENT ---
 api.get('/content/course/:id', auth, async (req, res) => {
   const content = await Content.find({ course: req.params.id });
