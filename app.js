@@ -270,32 +270,33 @@ function showNav() {
 
 function buildNavLinks() {
   const nav = document.getElementById('nav-links');
-  if (!STATE.user) { nav.innerHTML = ''; return; }
+  if (!STATE.user) { nav.innerHTML = ''; document.body.classList.remove('has-bottom-nav'); return; }
 
   const links = {
     student: [
-      { label: '🏠 Dashboard',   page: 'student-dashboard' },
-      { label: '📚 Courses',     page: 'courses-public' },
-      { label: '📅 Attendance',  page: 'student-attendance' },
-      { label: '📝 Assignments', page: 'student-assignments' },
-      { label: '💰 Fees',        page: 'student-fees' },
+      { icon: '🏠', label: 'Dashboard',   page: 'student-dashboard' },
+      { icon: '📚', label: 'Courses',     page: 'courses-public' },
+      { icon: '📅', label: 'Attendance',  page: 'student-attendance' },
+      { icon: '📝', label: 'Assignments', page: 'student-assignments' },
+      { icon: '💰', label: 'Fees',        page: 'student-fees' },
     ],
     teacher: [
-      { label: '🏠 Dashboard',   page: 'teacher-dashboard' },
+      { icon: '🏠', label: 'Dashboard',   page: 'teacher-dashboard' },
     ],
     admin: [
-      { label: '🏠 Dashboard',   page: 'admin-dashboard' },
-      { label: '💳 Payments',    page: 'admin-payments' },
-      { label: '👥 Students',    page: 'admin-students' },
-      { label: '📚 Courses',     page: 'admin-courses' },
-      { label: '👤 Users',       page: 'admin-users' },
+      { icon: '🏠', label: 'Dashboard',   page: 'admin-dashboard' },
+      { icon: '💳', label: 'Payments',    page: 'admin-payments' },
+      { icon: '👥', label: 'Students',    page: 'admin-students' },
+      { icon: '📚', label: 'Courses',     page: 'admin-courses' },
+      { icon: '👤', label: 'Users',       page: 'admin-users' },
     ],
   };
 
   const role = STATE.user.role;
   nav.innerHTML = (links[role] || []).map(l =>
-    `<button onclick="navigate('${l.page}')">${l.label}</button>`
+    `<button onclick="navigate('${l.page}')"><span class="nav-icn">${l.icon}</span><span class="nav-lbl">${l.label}</span></button>`
   ).join('');
+  document.body.classList.add('has-bottom-nav');
 }
 
 function updateNavLinks(page) {
@@ -386,6 +387,7 @@ function handleLogout() {
   }
   document.getElementById('global-nav').classList.remove('active');
   document.getElementById('global-nav').classList.add('hidden');
+  document.body.classList.remove('has-bottom-nav');
   navigate('landing');
   toast('Logged out successfully');
 }
