@@ -684,6 +684,11 @@ textarea { resize: vertical; }
   overflow: hidden; margin: .5rem 0;
   aspect-ratio: 16/9; position: relative;
 }
+.video-embed iframe,
+.video-embed video {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  border: none; outline: none; background: #000;
+}
 .video-thumbnail-overlay {
   position: absolute; inset: 0; background: rgba(0,0,0,0.4);
   display: flex; align-items: center; justify-content: center;

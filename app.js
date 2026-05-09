@@ -723,8 +723,12 @@ function renderContentItem(item, isTeacher) {
         </div>
       </div>`;
     } else {
-      const embedUrl = driveEmbed(item.url);
-      html += `<div class="video-embed"><iframe src="${embedUrl}" allowfullscreen></iframe></div>`;
+      if (item.url.includes('drive.google.com')) {
+        const embedUrl = driveEmbed(item.url);
+        html += `<div class="video-embed"><iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe></div>`;
+      } else {
+        html += `<div class="video-embed"><video controls src="${item.url}"></video></div>`;
+      }
     }
   }
 
@@ -748,12 +752,14 @@ function playVideo(containerId, url, itemId) {
     el.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>`;
   } else {
     /* Native HTML5 Video supports resume playback! */
-    el.innerHTML = `<video id="player-${itemId}" src="${url}" controls autoplay style="width:100%; height:100%; background:#000; outline:none; border:none;"></video>`;
+    el.innerHTML = `<video id="player-${itemId}" src="${url}" controls autoplay></video>`;
     const video = document.getElementById(`player-${itemId}`);
     
-    const savedTime = localStorage.getItem(`vid_progress_${itemId}`);
-    if (savedTime) video.currentTime = parseFloat(savedTime);
-    
+    video.addEventListener('loadedmetadata', () => {
+      const savedTime = localStorage.getItem(`vid_progress_${itemId}`);
+      if (savedTime) video.currentTime = parseFloat(savedTime);
+    });
+
     video.addEventListener('timeupdate', () => {
       localStorage.setItem(`vid_progress_${itemId}`, video.currentTime);
     });
