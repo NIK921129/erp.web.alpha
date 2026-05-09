@@ -505,7 +505,7 @@ function isEnrolled(courseId) {
    STUDENT DASHBOARD
 ══════════════════════════════════════════ */
 async function initStudentDashboard() {
-  document.getElementById('student-welcome').textContent = 'Hey, ' + STATE.user.name + ' 👋';
+  document.getElementById('student-welcome').textContent = `${getGreeting()}, ${STATE.user.name} 👋`;
 
   try {
     const [enrData, payData, attData, assData] = await Promise.all([
@@ -1095,7 +1095,7 @@ function stepsBar(active) {
    TEACHER DASHBOARD
 ══════════════════════════════════════════ */
 async function initTeacherDashboard() {
-  document.getElementById('teacher-welcome').textContent = 'Hello, ' + STATE.user.name + ' 👋';
+  document.getElementById('teacher-welcome').textContent = `${getGreeting()}, ${STATE.user.name} 👋`;
   try {
     const [coursesData] = await Promise.all([API.courses()]);
     const myCourses = (coursesData.courses||[]).filter(c =>
@@ -1522,6 +1522,10 @@ async function saveCourse() {
   if (!data.name) { toast('Course name is required', 'error'); return; }
   if (isNaN(data.fee) || data.fee < 0) { toast('Please enter a valid fee', 'error'); return; }
 
+  const btn = document.querySelector('#modal-course .btn-primary');
+  const origText = btn.textContent;
+  btn.textContent = 'Saving...'; btn.disabled = true;
+
   try {
     if (id) await API.updateCourse(id, data);
     else    await API.createCourse(data);
@@ -1531,6 +1535,8 @@ async function saveCourse() {
   } catch (e) { 
     console.error(e);
     toast(e.message || 'Error saving course', 'error'); 
+  } finally {
+    btn.textContent = origText; btn.disabled = false;
   }
 }
 
@@ -1678,12 +1684,17 @@ async function saveContent() {
   if (!title) { toast('Title is required', 'error'); return; }
   if (type === 'video' && !url) { toast('Please paste the Google Drive link', 'error'); return; }
 
+  const btn = document.querySelector('#modal-content .btn-primary');
+  const origText = btn.textContent;
+  btn.textContent = 'Adding...'; btn.disabled = true;
+
   try {
     await API.addContent({ course: courseId, type, title, url, thumbnail, order, description: desc, parentId: type === 'chapter' ? null : parentId });
     toast('Content added!', 'success');
     closeAllModals();
     initTeacherCourse();
   } catch (e) { toast('Error adding content', 'error'); }
+  finally { btn.textContent = origText; btn.disabled = false; }
 }
 
 async function deleteContent(id) {
@@ -1716,12 +1727,17 @@ async function postAssignment() {
 
   if (!title || !due) { toast('Title and due date are required', 'error'); return; }
 
+  const btn = document.querySelector('#modal-post-assign .btn-primary');
+  const origText = btn.textContent;
+  btn.textContent = 'Posting...'; btn.disabled = true;
+
   try {
     await API.postAssignment({ course: courseId, title, description: desc, url, dueDate: due });
     toast('Assignment posted!', 'success');
     closeAllModals();
     initTeacherCourse();
   } catch (e) { toast('Error posting assignment', 'error'); }
+  finally { btn.textContent = origText; btn.disabled = false; }
 }
 
 function openSubmitModal(assignId) {
@@ -1966,6 +1982,13 @@ function esc(s)  { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;
 function initials(name) { return (name||'?').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase(); }
 function fmtDate(d) { if (!d) return '—'; return new Date(d).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }); }
 function showErr(el, msg) { if (el) { el.textContent = msg; el.classList.remove('hidden'); } else { toast(msg, 'error'); } }
+
+function getGreeting() {
+  const hr = new Date().getHours();
+  if (hr < 12) return 'Good morning';
+  if (hr < 18) return 'Good afternoon';
+  return 'Good evening';
+}
 
 function statCard(label, value, color = 'teal') {
   return `<div class="stat-card"><div class="stat-label">${label}</div><div class="stat-val ${color}">${value}</div></div>`;

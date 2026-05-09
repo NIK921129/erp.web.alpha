@@ -134,6 +134,8 @@ const api = express.Router();
 api.post('/auth/signup', async (req, res) => {
   try {
     const { name, username, email, password, role } = req.body;
+    if (role === 'admin') return res.status(403).json({ message: 'Forbidden: Cannot sign up as admin' });
+    
     const existing = await User.findOne({ $or: [{ username }, { email }] });
     if (existing) return res.status(400).json({ message: 'Username or Email already exists' });
     
@@ -181,6 +183,7 @@ api.get('/courses/:id', async (req, res) => {
 
 api.post('/courses', auth, async (req, res) => {
   try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
     const course = await Course.create(req.body);
     res.json({ course });
   } catch (e) {
@@ -190,6 +193,7 @@ api.post('/courses', auth, async (req, res) => {
 
 api.put('/courses/:id', auth, async (req, res) => {
   try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
     const course = await Course.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json({ course });
   } catch (e) {
@@ -199,6 +203,7 @@ api.put('/courses/:id', auth, async (req, res) => {
 
 api.delete('/courses/:id', auth, async (req, res) => {
   try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
     const cid = req.params.id;
     await Course.findByIdAndDelete(cid);
     await Enrolment.deleteMany({ course: cid });
@@ -216,13 +221,17 @@ api.delete('/courses/:id', auth, async (req, res) => {
 
 // --- ENROLMENTS ---
 api.get('/enrolments/me', auth, async (req, res) => {
-  const enrolments = await Enrolment.find({ student: req.user._id }).populate('course');
-  res.json({ enrolments });
+  try {
+    const enrolments = await Enrolment.find({ student: req.user._id }).populate('course');
+    res.json({ enrolments });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.get('/enrolments/course/:id', auth, async (req, res) => {
-  const enrolments = await Enrolment.find({ course: req.params.id, status: 'active' }).populate('student', 'name username email');
-  res.json({ students: enrolments.map(e => e.student) });
+  try {
+    const enrolments = await Enrolment.find({ course: req.params.id, status: 'active' }).populate('student', 'name username email');
+    res.json({ students: enrolments.map(e => e.student) });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 // --- PAYMENTS ---
@@ -247,161 +256,215 @@ api.get('/payments', auth, async (req, res) => {
 });
 
 api.post('/payments/:id/approve', auth, async (req, res) => {
-  const p = await Payment.findByIdAndUpdate(req.params.id, { status: 'approved' });
-  await Enrolment.findOneAndUpdate({ student: p.student, course: p.course }, { status: 'active' }, { upsert: true });
-  const count = await Enrolment.countDocuments({ course: p.course, status: 'active' });
-  await Course.findByIdAndUpdate(p.course, { studentCount: count });
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const p = await Payment.findByIdAndUpdate(req.params.id, { status: 'approved' });
+    if (!p) return res.status(404).json({ message: 'Payment not found' });
 
-  io.to(p.student.toString()).emit('notification', { message: 'Your payment was approved! You are now enrolled.', type: 'success' });
-  io.to(p.student.toString()).emit('refresh_data');
+    await Enrolment.findOneAndUpdate({ student: p.student, course: p.course }, { status: 'active' }, { upsert: true });
+    const count = await Enrolment.countDocuments({ course: p.course, status: 'active' });
+    await Course.findByIdAndUpdate(p.course, { studentCount: count });
 
-  res.json({ message: 'Approved' });
+    io.to(p.student.toString()).emit('notification', { message: 'Your payment was approved! You are now enrolled.', type: 'success' });
+    io.to(p.student.toString()).emit('refresh_data');
+
+    res.json({ message: 'Approved' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.post('/payments/:id/reject', auth, async (req, res) => {
-  const p = await Payment.findByIdAndUpdate(req.params.id, { status: 'rejected' });
-  
-  io.to(p.student.toString()).emit('notification', { message: 'Your payment was rejected. Please re-upload.', type: 'error' });
-  io.to(p.student.toString()).emit('refresh_data');
-  
-  res.json({ message: 'Rejected' });
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const p = await Payment.findByIdAndUpdate(req.params.id, { status: 'rejected' });
+    if (!p) return res.status(404).json({ message: 'Payment not found' });
+    
+    io.to(p.student.toString()).emit('notification', { message: 'Your payment was rejected. Please re-upload.', type: 'error' });
+    io.to(p.student.toString()).emit('refresh_data');
+    
+    res.json({ message: 'Rejected' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 // --- ATTENDANCE ---
 api.get('/attendance/me', auth, async (req, res) => {
-  const atts = await Attendance.find({ 'records.student': req.user._id }).populate('course', 'name');
-  const flat = [];
-  atts.forEach(a => {
-    const rec = a.records.find(r => r.student.toString() === req.user._id.toString());
-    if (rec) flat.push({ course: a.course, date: a.date, status: rec.status });
-  });
-  res.json({ records: flat });
+  try {
+    const atts = await Attendance.find({ 'records.student': req.user._id }).populate('course', 'name');
+    const flat = [];
+    atts.forEach(a => {
+      const rec = a.records.find(r => r.student.toString() === req.user._id.toString());
+      if (rec) flat.push({ course: a.course, date: a.date, status: rec.status });
+    });
+    res.json({ records: flat });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.get('/attendance/course/:id', auth, async (req, res) => {
-  const atts = await Attendance.find({ course: req.params.id });
-  const flat = [];
-  atts.forEach(a => a.records.forEach(r => flat.push({ date: a.date, student: r.student, status: r.status })));
-  res.json({ records: flat });
+  try {
+    const atts = await Attendance.find({ course: req.params.id });
+    const flat = [];
+    atts.forEach(a => a.records.forEach(r => flat.push({ date: a.date, student: r.student, status: r.status })));
+    res.json({ records: flat });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.post('/attendance/mark', auth, async (req, res) => {
-  const { course, date, records } = req.body;
-  await Attendance.findOneAndUpdate({ course, date }, { records }, { upsert: true });
-  res.json({ message: 'Attendance marked' });
+  try {
+    if (req.user.role !== 'admin' && req.user.role !== 'teacher') return res.status(403).json({ message: 'Forbidden' });
+    const { course, date, records } = req.body;
+    await Attendance.findOneAndUpdate({ course, date }, { records }, { upsert: true });
+    res.json({ message: 'Attendance marked' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 // --- ASSIGNMENTS & SUBMISSIONS ---
 api.get('/assignments/course/:id', auth, async (req, res) => {
-  const assignments = await Assignment.find({ course: req.params.id });
-  res.json({ assignments });
+  try {
+    const assignments = await Assignment.find({ course: req.params.id });
+    res.json({ assignments });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.get('/assignments/me', auth, async (req, res) => {
-  const enrols = await Enrolment.find({ student: req.user._id, status: 'active' });
-  const courseIds = enrols.map(e => e.course);
-  const assignments = await Assignment.find({ course: { $in: courseIds } }).populate('course', 'name').lean();
-  const subs = await Submission.find({ student: req.user._id });
-  
-  const mapped = assignments.map(a => {
-    const sub = subs.find(s => s.assignment.toString() === a._id.toString());
-    return { ...a, submitted: !!sub, grade: sub?.grade, feedback: sub?.feedback, subText: sub?.text, subFile: sub?.fileUrl, subUrl: sub?.url };
-  });
-  res.json({ assignments: mapped });
+  try {
+    const enrols = await Enrolment.find({ student: req.user._id, status: 'active' });
+    const courseIds = enrols.map(e => e.course);
+    const assignments = await Assignment.find({ course: { $in: courseIds } }).populate('course', 'name').lean();
+    const subs = await Submission.find({ student: req.user._id });
+    
+    const mapped = assignments.map(a => {
+      const sub = subs.find(s => s.assignment.toString() === a._id.toString());
+      return { ...a, submitted: !!sub, grade: sub?.grade, feedback: sub?.feedback, subText: sub?.text, subFile: sub?.fileUrl, subUrl: sub?.url };
+    });
+    res.json({ assignments: mapped });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.post('/assignments', auth, async (req, res) => {
-  const assignment = await Assignment.create(req.body);
-  
-  const enrols = await Enrolment.find({ course: req.body.course, status: 'active' });
-  enrols.forEach(e => {
-    io.to(e.student.toString()).emit('notification', { message: `New assignment posted: ${assignment.title}`, type: 'success' });
-    io.to(e.student.toString()).emit('refresh_data');
-  });
-  
-  res.json({ assignment });
+  try {
+    if (req.user.role !== 'admin' && req.user.role !== 'teacher') return res.status(403).json({ message: 'Forbidden' });
+    const assignment = await Assignment.create(req.body);
+    
+    const enrols = await Enrolment.find({ course: req.body.course, status: 'active' });
+    enrols.forEach(e => {
+      io.to(e.student.toString()).emit('notification', { message: `New assignment posted: ${assignment.title}`, type: 'success' });
+      io.to(e.student.toString()).emit('refresh_data');
+    });
+    
+    res.json({ assignment });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.post('/assignments/:id/submit', auth, upload.single('file'), async (req, res) => {
-  const fileUrl = req.file ? `${BASE_URL}/uploads/${req.file.filename}` : undefined;
-  const updateData = { text: req.body.text };
-  if (fileUrl !== undefined) updateData.fileUrl = fileUrl;
-  if (req.body.url !== undefined) updateData.url = req.body.url;
-
-  await Submission.findOneAndUpdate(
-    { assignment: req.params.id, student: req.user._id },
-    { $set: updateData },
-    { upsert: true }
-  );
-  res.json({ message: 'Submitted' });
+  try {
+    const fileUrl = req.file ? `${BASE_URL}/uploads/${req.file.filename}` : undefined;
+    const updateData = { text: req.body.text };
+    if (fileUrl !== undefined) updateData.fileUrl = fileUrl;
+    if (req.body.url !== undefined) updateData.url = req.body.url;
+  
+    await Submission.findOneAndUpdate(
+      { assignment: req.params.id, student: req.user._id },
+      { $set: updateData },
+      { upsert: true }
+    );
+    res.json({ message: 'Submitted' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.get('/assignments/:id/submissions', auth, async (req, res) => {
-  const submissions = await Submission.find({ assignment: req.params.id }).populate('student', 'name');
-  res.json({ submissions });
+  try {
+    const submissions = await Submission.find({ assignment: req.params.id }).populate('student', 'name');
+    res.json({ submissions });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.put('/submissions/:id/grade', auth, async (req, res) => {
-  const { grade, feedback } = req.body;
-  const sub = await Submission.findByIdAndUpdate(req.params.id, { grade, feedback });
-  
-  io.to(sub.student.toString()).emit('notification', { message: `Your assignment has been graded: ${grade}`, type: 'success' });
-  io.to(sub.student.toString()).emit('refresh_data');
-  
-  res.json({ message: 'Graded successfully' });
+  try {
+    if (req.user.role !== 'admin' && req.user.role !== 'teacher') return res.status(403).json({ message: 'Forbidden' });
+    const { grade, feedback } = req.body;
+    const sub = await Submission.findByIdAndUpdate(req.params.id, { grade, feedback });
+    if (!sub) return res.status(404).json({ message: 'Submission not found' });
+    
+    io.to(sub.student.toString()).emit('notification', { message: `Your assignment has been graded: ${grade}`, type: 'success' });
+    io.to(sub.student.toString()).emit('refresh_data');
+    
+    res.json({ message: 'Graded successfully' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 // --- CONTENT ---
 api.get('/content/course/:id', auth, async (req, res) => {
-  const content = await Content.find({ course: req.params.id });
-  res.json({ content });
+  try {
+    const content = await Content.find({ course: req.params.id });
+    res.json({ content });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.post('/content', auth, async (req, res) => {
-  const content = await Content.create(req.body);
-  res.json({ content });
+  try {
+    if (req.user.role !== 'admin' && req.user.role !== 'teacher') return res.status(403).json({ message: 'Forbidden' });
+    const content = await Content.create(req.body);
+    res.json({ content });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.delete('/content/:id', auth, async (req, res) => {
-  const item = await Content.findById(req.params.id);
-  if (item && item.type === 'chapter') {
-    await Content.deleteMany({ parentId: item._id });
-  }
-  await Content.findByIdAndDelete(req.params.id);
-  res.json({ message: 'Deleted' });
+  try {
+    if (req.user.role !== 'teacher' && req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    
+    const item = await Content.findById(req.params.id);
+    if (item && item.type === 'chapter') {
+      // Schema stores parentId as a String, must explicitly cast ObjectId to string
+      await Content.deleteMany({ parentId: item._id.toString() });
+    }
+    await Content.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Deleted' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 // --- USERS / ADMIN ---
 api.get('/users', auth, async (req, res) => {
-  const query = req.query.role ? { role: req.query.role } : {};
-  const users = await User.find(query).select('-password');
-  res.json({ users });
+  try {
+    const query = req.query.role ? { role: req.query.role } : {};
+    const users = await User.find(query).select('-password');
+    res.json({ users });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.put('/users/:id', auth, async (req, res) => {
-  if (req.body.password) req.body.password = await bcrypt.hash(req.body.password, 10);
-  await User.findByIdAndUpdate(req.params.id, req.body);
-  res.json({ message: 'Updated' });
+  try {
+    const { name, email, password, active } = req.body;
+    const updateData = { name, email };
+    if (active !== undefined && req.user.role === 'admin') updateData.active = active;
+    if (password) updateData.password = await bcrypt.hash(password, 10);
+    await User.findByIdAndUpdate(req.params.id, updateData);
+    res.json({ message: 'Updated' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.get('/admin/stats', auth, async (req, res) => {
-  const students = await User.countDocuments({ role: 'student' });
-  const teachers = await User.countDocuments({ role: 'teacher' });
-  const courses = await Course.countDocuments();
-  res.json({ stats: { students, teachers, courses } });
+  try {
+    const students = await User.countDocuments({ role: 'student' });
+    const teachers = await User.countDocuments({ role: 'teacher' });
+    const courses = await Course.countDocuments();
+    res.json({ stats: { students, teachers, courses } });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 // --- CHAT / DISCUSSIONS ---
 api.get('/chat/course/:id', auth, async (req, res) => {
-  const messages = await ChatMessage.find({ course: req.params.id }).populate('sender', 'name role').sort('createdAt');
-  res.json({ messages });
+  try {
+    const messages = await ChatMessage.find({ course: req.params.id }).populate('sender', 'name role').sort('createdAt');
+    res.json({ messages });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.post('/chat/course/:id', auth, async (req, res) => {
-  const msg = await ChatMessage.create({ course: req.params.id, sender: req.user._id, text: req.body.text });
-  const populated = await msg.populate('sender', 'name role');
-  io.to(`course_${req.params.id}`).emit('chat_message', populated);
-  res.json({ message: populated });
+  try {
+    const msg = await ChatMessage.create({ course: req.params.id, sender: req.user._id, text: req.body.text });
+    const populated = await msg.populate('sender', 'name role');
+    io.to(`course_${req.params.id}`).emit('chat_message', populated);
+    res.json({ message: populated });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 // Mount the API router
