@@ -28,8 +28,8 @@ const BASE_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
 
 /* Initialize Mailjet */
 const mailjet = Mailjet.apiConnect(
-  process.env.MJ_APIKEY_PUBLIC || '20a8c83eca0a0c6f328f4f6aebc19da3',
-  process.env.MJ_APIKEY_PRIVATE || '20386d4130402e830381249b6b1101fa'
+  process.env.MJ_APIKEY_PUBLIC,
+  process.env.MJ_APIKEY_PRIVATE
 );
 
 /* ══════════════════════════════════════════
@@ -715,8 +715,9 @@ api.post('/admin/send-email', auth, async (req, res) => {
 
     res.json({ message: `Email sent successfully to ${users.length} recipient(s)` });
   } catch (e) { 
-    console.error("Mailjet Error:", e);
-    res.status(500).json({ message: 'Failed to send email. Check Mailjet configuration.' }); 
+    console.error("❌ Mailjet Error:", e.response ? JSON.stringify(e.response.data, null, 2) : e.message || e);
+    const errorDetail = e.response?.data?.ErrorMessage || e.response?.data?.Messages?.[0]?.Errors?.[0]?.ErrorMessage || 'Check configuration.';
+    res.status(500).json({ message: `Mailjet Error: ${errorDetail}` }); 
   }
 });
 
