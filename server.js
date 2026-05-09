@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const http = require('http');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
@@ -10,6 +11,14 @@ const fs = require('fs');
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  }
+});
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -77,13 +86,13 @@ const Attendance = mongoose.model('Attendance', new mongoose.Schema({
 
 const Assignment = mongoose.model('Assignment', new mongoose.Schema({
   course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
-  title: String, description: String, dueDate: Date
+  title: String, description: String, dueDate: Date, url: String
 }));
 
 const Submission = mongoose.model('Submission', new mongoose.Schema({
   assignment: { type: mongoose.Schema.Types.ObjectId, ref: 'Assignment' },
   student: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  text: String, fileUrl: String, grade: String, feedback: String
+  text: String, fileUrl: String, url: String, grade: String, feedback: String
 }, { timestamps: true }));
 
 const Content = mongoose.model('Content', new mongoose.Schema({
@@ -91,6 +100,12 @@ const Content = mongoose.model('Content', new mongoose.Schema({
   type: { type: String, enum: ['chapter', 'video', 'file'] },
   title: String, url: String, description: String, parentId: String, thumbnail: String, order: Number
 }));
+
+const ChatMessage = mongoose.model('ChatMessage', new mongoose.Schema({
+  course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
+  sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  text: String
+}, { timestamps: true }));
 
 /* ══════════════════════════════════════════
    MIDDLEWARE
@@ -236,11 +251,19 @@ api.post('/payments/:id/approve', auth, async (req, res) => {
   await Enrolment.findOneAndUpdate({ student: p.student, course: p.course }, { status: 'active' }, { upsert: true });
   const count = await Enrolment.countDocuments({ course: p.course, status: 'active' });
   await Course.findByIdAndUpdate(p.course, { studentCount: count });
+
+  io.to(p.student.toString()).emit('notification', { message: 'Your payment was approved! You are now enrolled.', type: 'success' });
+  io.to(p.student.toString()).emit('refresh_data');
+
   res.json({ message: 'Approved' });
 });
 
 api.post('/payments/:id/reject', auth, async (req, res) => {
-  await Payment.findByIdAndUpdate(req.params.id, { status: 'rejected' });
+  const p = await Payment.findByIdAndUpdate(req.params.id, { status: 'rejected' });
+  
+  io.to(p.student.toString()).emit('notification', { message: 'Your payment was rejected. Please re-upload.', type: 'error' });
+  io.to(p.student.toString()).emit('refresh_data');
+  
   res.json({ message: 'Rejected' });
 });
 
@@ -282,21 +305,32 @@ api.get('/assignments/me', auth, async (req, res) => {
   
   const mapped = assignments.map(a => {
     const sub = subs.find(s => s.assignment.toString() === a._id.toString());
-    return { ...a, submitted: !!sub, grade: sub?.grade, feedback: sub?.feedback, subText: sub?.text, subFile: sub?.fileUrl };
+    return { ...a, submitted: !!sub, grade: sub?.grade, feedback: sub?.feedback, subText: sub?.text, subFile: sub?.fileUrl, subUrl: sub?.url };
   });
   res.json({ assignments: mapped });
 });
 
 api.post('/assignments', auth, async (req, res) => {
   const assignment = await Assignment.create(req.body);
+  
+  const enrols = await Enrolment.find({ course: req.body.course, status: 'active' });
+  enrols.forEach(e => {
+    io.to(e.student.toString()).emit('notification', { message: `New assignment posted: ${assignment.title}`, type: 'success' });
+    io.to(e.student.toString()).emit('refresh_data');
+  });
+  
   res.json({ assignment });
 });
 
 api.post('/assignments/:id/submit', auth, upload.single('file'), async (req, res) => {
-  const fileUrl = req.file ? `${BASE_URL}/uploads/${req.file.filename}` : null;
+  const fileUrl = req.file ? `${BASE_URL}/uploads/${req.file.filename}` : undefined;
+  const updateData = { text: req.body.text };
+  if (fileUrl !== undefined) updateData.fileUrl = fileUrl;
+  if (req.body.url !== undefined) updateData.url = req.body.url;
+
   await Submission.findOneAndUpdate(
     { assignment: req.params.id, student: req.user._id },
-    { text: req.body.text, fileUrl },
+    { $set: updateData },
     { upsert: true }
   );
   res.json({ message: 'Submitted' });
@@ -309,7 +343,11 @@ api.get('/assignments/:id/submissions', auth, async (req, res) => {
 
 api.put('/submissions/:id/grade', auth, async (req, res) => {
   const { grade, feedback } = req.body;
-  await Submission.findByIdAndUpdate(req.params.id, { grade, feedback });
+  const sub = await Submission.findByIdAndUpdate(req.params.id, { grade, feedback });
+  
+  io.to(sub.student.toString()).emit('notification', { message: `Your assignment has been graded: ${grade}`, type: 'success' });
+  io.to(sub.student.toString()).emit('refresh_data');
+  
   res.json({ message: 'Graded successfully' });
 });
 
@@ -353,8 +391,37 @@ api.get('/admin/stats', auth, async (req, res) => {
   res.json({ stats: { students, teachers, courses } });
 });
 
+// --- CHAT / DISCUSSIONS ---
+api.get('/chat/course/:id', auth, async (req, res) => {
+  const messages = await ChatMessage.find({ course: req.params.id }).populate('sender', 'name role').sort('createdAt');
+  res.json({ messages });
+});
+
+api.post('/chat/course/:id', auth, async (req, res) => {
+  const msg = await ChatMessage.create({ course: req.params.id, sender: req.user._id, text: req.body.text });
+  const populated = await msg.populate('sender', 'name role');
+  io.to(`course_${req.params.id}`).emit('chat_message', populated);
+  res.json({ message: populated });
+});
+
 // Mount the API router
 app.use('/api', api);
 
+/* ══════════════════════════════════════════
+   SOCKET.IO SETUP
+══════════════════════════════════════════ */
+io.on('connection', (socket) => {
+  console.log('⚡ A user connected:', socket.id);
+  socket.on('register', (userId) => {
+    socket.join(userId);
+    console.log(`👤 User ${userId} registered to socket ${socket.id}`);
+  });
+  socket.on('join_course', (courseId) => {
+    socket.join(`course_${courseId}`);
+    console.log(`👥 User joined course chat: ${courseId}`);
+  });
+  socket.on('disconnect', () => console.log('🔌 User disconnected:', socket.id));
+});
+
 // START SERVER
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

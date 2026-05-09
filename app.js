@@ -34,7 +34,9 @@ let STATE = {
   adminUsers:    [],
   studentAssignments: [],
   enrolCtx:      null,   // { course, step }
+  currentChatCourse: null,
 };
+let socket = null;
 
 /* ══════════════════════════════════════════
    API HELPER
@@ -111,6 +113,10 @@ const API = {
   allStudents:     ()       => api('GET', '/users?role=student'),
   allTeachers:     ()       => api('GET', '/users?role=teacher'),
   adminStats:      ()       => api('GET', '/admin/stats'),
+
+  /* Chat */
+  courseChat:      (id)     => api('GET', '/chat/course/' + id),
+  sendChatMessage: (id, d)  => api('POST', '/chat/course/' + id, d),
 };
 
 /* ══════════════════════════════════════════
@@ -129,12 +135,49 @@ function promptAdminAccess() {
     STATE.token = 'secret_admin_token';
     localStorage.setItem('abc_token', STATE.token);
     localStorage.setItem('abc_user', JSON.stringify(STATE.user));
+    initSocket();
     showNav();
     navigate('admin-dashboard');
     toast('Secret admin access granted! 🕵️‍♂️', 'success');
   } else if (code !== null) {
     toast('Incorrect passcode', 'error');
   }
+}
+
+/* ══════════════════════════════════════════
+   SOCKET SETUP
+══════════════════════════════════════════ */
+function initSocket() {
+  if (typeof io === 'undefined' || socket) return;
+  const socketUrl = CONFIG.BASE_URL.replace('/api', '');
+  socket = io(socketUrl);
+  
+  socket.on('connect', () => {
+    console.log('🟢 Connected to live socket');
+    if (STATE.user) socket.emit('register', STATE.user._id);
+  });
+
+  socket.on('notification', (data) => {
+    toast(data.message, data.type || 'success');
+  });
+
+  socket.on('refresh_data', () => {
+    if (STATE.currentPage === 'student-dashboard') initStudentDashboard();
+    if (STATE.currentPage === 'student-fees') initStudentFees();
+    if (STATE.currentPage === 'student-assignments') initStudentAssignments();
+    if (STATE.currentPage === 'student-course') initStudentCourse();
+  });
+
+  socket.on('chat_message', (msg) => {
+    if (msg.course === STATE.currentChatCourse) {
+      const container = document.getElementById(`chat-msgs-${msg.course}`);
+      if (container) {
+        if (container.querySelector('.text-muted')) container.innerHTML = '';
+        container.insertAdjacentHTML('beforeend', createChatBubble(msg));
+        container.scrollTop = container.scrollHeight;
+      }
+    }
+  });
 }
 
 /* ══════════════════════════════════════════
@@ -147,6 +190,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   if (savedToken && savedUser) {
     STATE.token = savedToken;
     STATE.user  = JSON.parse(savedUser);
+    initSocket();
     showNav();
     redirectByRole();
   } else {
@@ -285,6 +329,7 @@ async function handleLogin() {
     STATE.user  = data.user;
     localStorage.setItem('abc_token', data.token);
     localStorage.setItem('abc_user', JSON.stringify(data.user));
+    initSocket();
     showNav();
     redirectByRole();
     toast('Welcome back, ' + data.user.name + '!', 'success');
@@ -314,6 +359,7 @@ async function handleSignup() {
     STATE.user  = data.user;
     localStorage.setItem('abc_token', data.token);
     localStorage.setItem('abc_user', JSON.stringify(data.user));
+    initSocket();
     showNav();
     redirectByRole();
     toast('Account created! Welcome to ABC Institute 🎉', 'success');
@@ -334,6 +380,10 @@ function handleLogout() {
   STATE.user = null; STATE.token = null;
   localStorage.removeItem('abc_token');
   localStorage.removeItem('abc_user');
+  if (socket) {
+    socket.disconnect();
+    socket = null;
+  }
   document.getElementById('global-nav').classList.remove('active');
   document.getElementById('global-nav').classList.add('hidden');
   navigate('landing');
@@ -606,6 +656,9 @@ async function initStudentCourse() {
         </tbody>
       </table>`;
 
+    /* Discussions tab */
+    initCourseChatView('tab-chat', courseId);
+
   } catch (e) {
     toast('Error loading course', 'error');
   }
@@ -624,10 +677,12 @@ function renderContentTree(items, isTeacher = false) {
     html += `
       <div class="chapter-folder" id="ch-${ch._id}">
         <div class="chapter-header" onclick="toggleChapter('ch-${ch._id}')">
-          <span class="chapter-icon">📁</span>
-          <span class="chapter-name">${esc(ch.title)}</span>
-          ${isTeacher ? `<button class="btn-ghost" style="padding:6px 12px;font-size:14px" onclick="event.stopPropagation();deleteContent('${ch._id}')">✕</button>` : ''}
-          <span class="chapter-toggle">▼</span>
+              <div style="display:flex;align-items:center;gap:10px;flex:1">
+                <span class="chapter-icon">📁</span>
+                <span class="chapter-name">${esc(ch.title)}</span>
+              </div>
+              ${isTeacher ? `<button class="btn-danger" style="padding:5px 10px;font-size:13px" onclick="event.stopPropagation();deleteContent('${ch._id}')">Delete</button>` : ''}
+              <span class="chapter-toggle" style="margin-left:10px">▼</span>
         </div>
         <div class="chapter-children">
           ${children.length ? children.map(c => renderContentItem(c, isTeacher)).join('') : '<div style="color:var(--text-3);font-size:15px">Empty folder</div>'}
@@ -644,16 +699,23 @@ function renderContentTree(items, isTeacher = false) {
 }
 
 function renderContentItem(item, isTeacher) {
-  const icon = item.type === 'video' ? '🎬' : '📄';
+  const isVideo = item.type === 'video';
+  const icon = isVideo ? '🎬' : '📄';
   const lecBadge = item.order ? `<span class="badge badge-enrolled" style="margin-right:6px">Lec ${item.order}</span>` : '';
+  
+  const fileBtn = (!isVideo && item.url) ? `<a href="${item.url}" target="_blank" class="btn-ghost" style="padding:5px 12px;font-size:13px;margin-left:auto;text-decoration:none">View File</a>` : '';
+
   let html = `
     <div class="content-item">
-      <span class="content-item-icon">${icon}</span>
-      <span class="content-item-name">${lecBadge}${esc(item.title)}</span>
-      ${isTeacher ? `<button onclick="deleteContent('${item._id}')" style="background:none;border:none;color:var(--text-3);cursor:pointer;font-size:15px">✕</button>` : ''}
-    </div>`;
+      <div style="display:flex;align-items:center;width:100%;gap:10px;flex-wrap:wrap">
+        <span class="content-item-icon">${icon}</span>
+        <span class="content-item-name" style="font-weight:500">${lecBadge}${esc(item.title)}</span>
+        ${fileBtn}
+        ${isTeacher ? `<button class="btn-danger" onclick="deleteContent('${item._id}')" style="padding:5px 10px;font-size:13px;margin-left:${fileBtn?'8px':'auto'}">Delete</button>` : ''}
+      </div>
+      ${item.description ? `<div style="font-size:14px;color:var(--text-2);margin-top:8px;padding-left:34px">${esc(item.description)}</div>` : ''}`;
 
-  if (item.type === 'video' && item.url) {
+  if (isVideo && item.url) {
     if (item.thumbnail) {
       html += `<div class="video-embed" id="vid-${item._id}" onclick="playVideo('vid-${item._id}', '${item.url}', '${item._id}')" style="cursor:pointer;position:relative;background-image:url('${item.thumbnail}');background-size:cover;background-position:center;">
         <div class="video-thumbnail-overlay">
@@ -666,6 +728,7 @@ function renderContentItem(item, isTeacher) {
     }
   }
 
+  html += `</div>`;
   return html;
 }
 
@@ -828,12 +891,17 @@ function renderAssignmentCard(a, canSubmit = false) {
         <span class="badge badge-${a.submitted ? 'approved' : 'pending'}">${a.submitted ? 'Submitted' : 'Pending'}</span>
       </div>
       <div class="assignment-desc">${esc(a.description || '')}</div>
+      ${a.url ? `<a href="${a.url}" target="_blank" class="btn-ghost" style="padding:5px 12px;font-size:13px;display:inline-block;margin-bottom:1rem;text-decoration:none">🔗 View Attachment</a><br/>` : ''}
       ${canSubmit && !a.submitted ? `<button class="btn-primary" style="font-size:15px;padding:9px 20px" onclick="openSubmitModal('${a._id}')">Submit Work</button>` : ''}
       ${a.submitted && canSubmit ? `
         <div style="background:var(--bg3); padding:1rem; border-radius:var(--r-md); margin-top:.75rem; font-size:15px; color:var(--text-2);">
           <strong style="color:var(--text);">My Submission:</strong><br/>
           ${esc(a.subText || 'No text provided')}
-          ${a.subFile ? `<br/><br/><a href="${a.subFile}" target="_blank" class="btn-ghost" style="padding:6px 12px; font-size:14px; display:inline-block;">📄 View Attachment</a>` : ''}
+          ${(a.subUrl || a.subFile) ? `
+          <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap">
+            ${a.subUrl ? `<a href="${a.subUrl}" target="_blank" class="btn-ghost" style="padding:6px 12px; font-size:14px; text-decoration:none">🔗 View Link</a>` : ''}
+            ${a.subFile ? `<a href="${a.subFile}" target="_blank" class="btn-ghost" style="padding:6px 12px; font-size:14px; text-decoration:none">📄 View File</a>` : ''}
+          </div>` : ''}
         </div>
       ` : ''}
       ${a.grade ? `<div style="margin-top:.5rem;font-size:15px;color:var(--teal)">Grade: <strong>${esc(a.grade)}</strong> ${a.feedback ? '· ' + esc(a.feedback) : ''}</div>` : ''}
@@ -1110,6 +1178,9 @@ async function initTeacherCourse() {
             <div class="batchmate-meta">${esc(s.email)}</div>
           </div>`).join('')}
       </div>`;
+
+    /* Discussions tab */
+    initCourseChatView('teacher-tab-chat', courseId);
 
   } catch (e) {
     toast('Error loading course', 'error');
@@ -1631,6 +1702,7 @@ function openPostAssignModal(courseId) {
   document.getElementById('assign-course-id').value = courseId;
   document.getElementById('assign-title-input').value = '';
   document.getElementById('assign-desc-input').value  = '';
+  document.getElementById('assign-url-input').value   = '';
   document.getElementById('assign-due-input').value   = '';
   openModal('modal-post-assign');
 }
@@ -1639,12 +1711,13 @@ async function postAssignment() {
   const courseId = document.getElementById('assign-course-id').value;
   const title    = document.getElementById('assign-title-input').value.trim();
   const desc     = document.getElementById('assign-desc-input').value.trim();
+  const url      = document.getElementById('assign-url-input').value.trim();
   const due      = document.getElementById('assign-due-input').value;
 
   if (!title || !due) { toast('Title and due date are required', 'error'); return; }
 
   try {
-    await API.postAssignment({ course: courseId, title, description: desc, dueDate: due });
+    await API.postAssignment({ course: courseId, title, description: desc, url, dueDate: due });
     toast('Assignment posted!', 'success');
     closeAllModals();
     initTeacherCourse();
@@ -1654,6 +1727,7 @@ async function postAssignment() {
 function openSubmitModal(assignId) {
   document.getElementById('submit-assign-id').value = assignId;
   document.getElementById('submit-text').value = '';
+  document.getElementById('submit-url').value = '';
   document.getElementById('submit-file').value = '';
   openModal('modal-submit');
 }
@@ -1661,23 +1735,35 @@ function openSubmitModal(assignId) {
 async function submitAssignment() {
   const assignId = document.getElementById('submit-assign-id').value;
   const text     = document.getElementById('submit-text').value.trim();
+  const url      = document.getElementById('submit-url').value.trim();
   const fileInput= document.getElementById('submit-file');
 
-  if (!text && !fileInput.files[0]) { toast('Please provide an answer or attach a file', 'error'); return; }
+  if (!text && !url && !fileInput.files[0]) { toast('Please provide an answer, a link, or attach a file', 'error'); return; }
+
+  const btn = document.querySelector('#modal-submit .btn-primary');
+  const originalText = btn.textContent;
+  btn.textContent = 'Uploading...';
+  btn.disabled = true;
 
   try {
     if (fileInput.files[0]) {
       const fd = new FormData();
       fd.append('text', text);
+      fd.append('url', url);
       fd.append('file', fileInput.files[0]);
       await api('POST', `/assignments/${assignId}/submit`, fd, true);
     } else {
-      await API.submitWork(assignId, { text });
+      await API.submitWork(assignId, { text, url });
     }
     toast('Assignment submitted!', 'success');
     closeAllModals();
-    initStudentAssignments();
+    if (STATE.currentPage === 'student-course') initStudentCourse();
+    else initStudentAssignments();
   } catch (e) { toast('Error submitting assignment', 'error'); }
+  finally {
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
 }
 
 async function openSubmissionsModal(assignId) {
@@ -1695,7 +1781,10 @@ async function openSubmissionsModal(assignId) {
         <div style="font-weight:600;font-size:16px;">${esc(s.student?.name)} <span style="font-weight:400;color:var(--text-2);font-size:14px">(@${esc(s.student?.username)})</span></div>
         <div style="background:var(--bg3);padding:1rem;border-radius:var(--r-md);width:100%;font-size:15px;">
           ${esc(s.text || 'No text provided')}
-          ${s.fileUrl ? `<br/><br/><a href="${s.fileUrl}" target="_blank" class="btn-ghost" style="padding:6px 12px;font-size:14px;display:inline-block">📄 View Attachment</a>` : ''}
+          ${(s.url || s.fileUrl) ? `<div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap">
+            ${s.url ? `<a href="${s.url}" target="_blank" class="btn-ghost" style="padding:6px 12px; font-size:14px; text-decoration:none">🔗 View Link</a>` : ''}
+            ${s.fileUrl ? `<a href="${s.fileUrl}" target="_blank" class="btn-ghost" style="padding:6px 12px; font-size:14px; text-decoration:none">📄 View File</a>` : ''}
+          </div>` : ''}
         </div>
         <div style="display:flex;gap:8px;width:100%;margin-top:.5rem;flex-wrap:wrap">
           <input type="text" id="grade-${s._id}" placeholder="Grade (e.g. A, 9/10)" value="${esc(s.grade||'')}" style="flex:1;min-width:120px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:10px 14px;border-radius:var(--r-md);" />
@@ -1723,7 +1812,7 @@ async function saveGrade(subId) {
    TABS
 ══════════════════════════════════════════ */
 function switchTab(name, btn) {
-  ['content','assignments','batchmates','attendance'].forEach(t => {
+  ['content','assignments','batchmates','attendance','chat'].forEach(t => {
     const el = document.getElementById('tab-' + t);
     if (el) el.classList.toggle('hidden', t !== name);
   });
@@ -1732,12 +1821,72 @@ function switchTab(name, btn) {
 }
 
 function switchTeacherTab(name, btn) {
-  ['content','assignments','attendance','students'].forEach(t => {
+  ['content','assignments','attendance','students','chat'].forEach(t => {
     const el = document.getElementById('teacher-tab-' + t);
     if (el) el.classList.toggle('hidden', t !== name);
   });
   document.querySelectorAll('#page-teacher-course .tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+}
+
+/* ══════════════════════════════════════════
+   CHAT HELPER
+══════════════════════════════════════════ */
+async function initCourseChatView(containerId, courseId) {
+  STATE.currentChatCourse = courseId;
+  const el = document.getElementById(containerId);
+  el.innerHTML = `
+    <div class="chat-container">
+      <div class="chat-messages" id="chat-msgs-${courseId}">
+        <div class="text-muted" style="text-align:center;font-size:14px;margin-top:auto">Loading discussions...</div>
+      </div>
+      <form class="chat-input-area" onsubmit="sendCourseChatMessage(event, '${courseId}')">
+        <input type="text" id="chat-input-${courseId}" placeholder="Type a message..." autocomplete="off" required />
+        <button type="submit">➤</button>
+      </form>
+    </div>
+  `;
+  
+  try {
+    const { messages } = await API.courseChat(courseId);
+    renderChatMessages(courseId, messages);
+    if (socket) socket.emit('join_course', courseId);
+  } catch(e) {
+    document.getElementById(`chat-msgs-${courseId}`).innerHTML = '<div class="empty-state">Error loading chat</div>';
+  }
+}
+
+function renderChatMessages(courseId, msgs) {
+  const container = document.getElementById(`chat-msgs-${courseId}`);
+  if (!container) return;
+  if (!msgs.length) {
+    container.innerHTML = '<div class="text-muted" style="text-align:center;font-size:14px;margin-top:auto">No messages yet. Start the discussion!</div>';
+    return;
+  }
+  container.innerHTML = msgs.map(m => createChatBubble(m)).join('');
+  container.scrollTop = container.scrollHeight;
+}
+
+function createChatBubble(m) {
+  const isSelf = m.sender?._id === STATE.user._id || m.sender === STATE.user._id;
+  const senderName = isSelf ? 'You' : (m.sender?.name || 'User');
+  const roleBadge = m.sender?.role === 'teacher' ? '<span class="badge" style="padding:2px 6px;font-size:10px;background:var(--teal-glow);color:var(--teal);border:none;">Teacher</span>' : '';
+  return `
+    <div class="chat-msg ${isSelf ? 'self' : ''}">
+      <div class="chat-msg-sender">${senderName} ${roleBadge}</div>
+      <div class="chat-msg-bubble">${esc(m.text)}</div>
+    </div>
+  `;
+}
+
+async function sendCourseChatMessage(e, courseId) {
+  e.preventDefault();
+  const input = document.getElementById(`chat-input-${courseId}`);
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  try { await API.sendChatMessage(courseId, { text }); } 
+  catch(err) { toast('Failed to send message', 'error'); }
 }
 
 /* ══════════════════════════════════════════

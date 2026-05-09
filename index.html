@@ -224,11 +224,13 @@
       <button class="tab" onclick="switchTab('assignments', this)">Assignments</button>
       <button class="tab" onclick="switchTab('batchmates', this)">Batchmates</button>
       <button class="tab" onclick="switchTab('attendance', this)">Attendance</button>
+      <button class="tab" onclick="switchTab('chat', this)">Discussions</button>
     </div>
     <div id="tab-content" class="tab-panel"></div>
     <div id="tab-assignments" class="tab-panel hidden"></div>
     <div id="tab-batchmates" class="tab-panel hidden"></div>
     <div id="tab-attendance" class="tab-panel hidden"></div>
+    <div id="tab-chat" class="tab-panel hidden"></div>
   </div>
 </section>
 
@@ -329,11 +331,13 @@
       <button class="tab" onclick="switchTeacherTab('assignments', this)">Assignments</button>
       <button class="tab" onclick="switchTeacherTab('attendance', this)">Mark Attendance</button>
       <button class="tab" onclick="switchTeacherTab('students', this)">Students</button>
+      <button class="tab" onclick="switchTeacherTab('chat', this)">Discussions</button>
     </div>
     <div id="teacher-tab-content" class="tab-panel"></div>
     <div id="teacher-tab-assignments" class="tab-panel hidden"></div>
     <div id="teacher-tab-attendance" class="tab-panel hidden"></div>
     <div id="teacher-tab-students" class="tab-panel hidden"></div>
+    <div id="teacher-tab-chat" class="tab-panel hidden"></div>
   </div>
 </section>
 
@@ -502,6 +506,10 @@
         <textarea id="submit-text" placeholder="Write your answer here..." rows="5"></textarea>
       </div>
       <div class="form-group">
+        <label>Google Drive Link (optional)</label>
+        <input type="text" id="submit-url" placeholder="https://drive.google.com/..." />
+      </div>
+      <div class="form-group">
         <label>Or attach a file (optional)</label>
         <input type="file" id="submit-file" />
       </div>
@@ -578,6 +586,10 @@
         <textarea id="assign-desc-input" rows="4" placeholder="Instructions for students..."></textarea>
       </div>
       <div class="form-group">
+        <label>Google Drive Link (optional)</label>
+        <input type="text" id="assign-url-input" placeholder="https://drive.google.com/..." />
+      </div>
+      <div class="form-group">
         <label>Due Date</label>
         <input type="date" id="assign-due-input" />
       </div>
@@ -637,6 +649,7 @@
 <!-- Toast notification -->
 <div id="toast" class="toast hidden"></div>
 
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
