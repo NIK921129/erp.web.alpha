@@ -127,8 +127,6 @@ function promptAdminAccess() {
       role: 'admin'
     };
     STATE.token = 'secret_admin_token';
-    sessionStorage.setItem('abc_token', STATE.token);
-    sessionStorage.setItem('abc_user', JSON.stringify(STATE.user));
     localStorage.setItem('abc_token', STATE.token);
     localStorage.setItem('abc_user', JSON.stringify(STATE.user));
     showNav();
@@ -143,8 +141,6 @@ function promptAdminAccess() {
    INIT
 ══════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', async () => {
-  const savedToken = sessionStorage.getItem('abc_token');
-  const savedUser  = sessionStorage.getItem('abc_user');
   const savedToken = localStorage.getItem('abc_token');
   const savedUser  = localStorage.getItem('abc_user');
 
@@ -287,8 +283,6 @@ async function handleLogin() {
     const data = await API.login({ username, password });
     STATE.token = data.token;
     STATE.user  = data.user;
-    sessionStorage.setItem('abc_token', data.token);
-    sessionStorage.setItem('abc_user', JSON.stringify(data.user));
     localStorage.setItem('abc_token', data.token);
     localStorage.setItem('abc_user', JSON.stringify(data.user));
     showNav();
@@ -318,8 +312,6 @@ async function handleSignup() {
     const data = await API.signup({ name, username, email, password, role });
     STATE.token = data.token;
     STATE.user  = data.user;
-    sessionStorage.setItem('abc_token', data.token);
-    sessionStorage.setItem('abc_user', JSON.stringify(data.user));
     localStorage.setItem('abc_token', data.token);
     localStorage.setItem('abc_user', JSON.stringify(data.user));
     showNav();
@@ -340,7 +332,6 @@ function redirectByRole() {
 
 function handleLogout() {
   STATE.user = null; STATE.token = null;
-  sessionStorage.clear();
   localStorage.removeItem('abc_token');
   localStorage.removeItem('abc_user');
   document.getElementById('global-nav').classList.remove('active');
@@ -381,7 +372,6 @@ async function saveProfile() {
     await API.updateUser(STATE.user._id, payload);
     STATE.user.name = name;
     STATE.user.email = email;
-    sessionStorage.setItem('abc_user', JSON.stringify(STATE.user));
     localStorage.setItem('abc_user', JSON.stringify(STATE.user));
     document.getElementById('nav-user-info').textContent = STATE.user.name + ' · ' + STATE.user.role;
     toast('Profile updated successfully!', 'success');
