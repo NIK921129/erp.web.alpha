@@ -678,6 +678,33 @@ api.post('/admin/enrol', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
+api.post('/admin/send-email', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const { userId, subject, message } = req.body;
+    
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    
+    await mailjet.post("send", {'version': 'v3.1'}).request({
+      "Messages": [{
+        "From": {
+          "Email": process.env.MAILJET_SENDER_EMAIL || "nikunjsingh79827@gmail.com",
+          "Name": "ABC Institute"
+        },
+        "To": [{ "Email": user.email, "Name": user.name }],
+        "Subject": subject || "Message from ABC Institute",
+        "HTMLPart": `<p>Dear ${user.name},</p><p>${message.replace(/\n/g, '<br/>')}</p>`
+      }]
+    });
+    
+    res.json({ message: 'Email sent successfully' });
+  } catch (e) { 
+    console.error("Mailjet Error:", e);
+    res.status(500).json({ message: 'Failed to send email. Check Mailjet configuration.' }); 
+  }
+});
+
 // --- SETTINGS ---
 api.get('/settings', async (req, res) => {
   try {

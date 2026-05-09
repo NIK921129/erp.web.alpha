@@ -125,6 +125,7 @@ const API = {
   adminStats:      ()       => api('GET', '/admin/stats'),
   manualEnrol:     (d)      => api('POST', '/admin/enrol', d),
   studentReport:   (id)     => api('GET', `/admin/users/${id}/report`),
+  sendCustomEmail: (d)      => api('POST', '/admin/send-email', d),
 
   /* Settings */
   getSettings:     ()       => api('GET', '/settings'),
@@ -1456,6 +1457,7 @@ function renderAdminStudents() {
             <td style="font-size:15px">${esc(u.email)}</td>
             <td><span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span></td>
             <td style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openCustomEmailModal('${u._id}')">Email</button>
               <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openStudentReport('${u._id}')">Report</button>
               <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="toggleUserActive('${u._id}',${!u.active})">${u.active?'Suspend':'Activate'}</button>
               <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openManualEnrolModal('${u._id}', '${esc(u.name)}')">+ Enrol</button>
@@ -1548,6 +1550,35 @@ async function openStudentReport(id) {
       </div>
     `;
   } catch (e) { el.innerHTML = '<div class="empty-state">Error loading report</div>'; }
+}
+
+/* ══════════════════════════════════════════
+   CUSTOM EMAIL FEATURE
+══════════════════════════════════════════ */
+function openCustomEmailModal(id) {
+  const user = STATE.adminUsers.find(u => u._id === id) || STATE.adminStudents.find(u => u._id === id);
+  if (!user) return;
+  document.getElementById('custom-email-user-id').value = user._id;
+  document.getElementById('custom-email-target').textContent = `${user.name} (${user.email})`;
+  document.getElementById('custom-email-subject').value = '';
+  document.getElementById('custom-email-body').value = '';
+  openModal('modal-custom-email');
+}
+
+async function submitCustomEmail() {
+  const userId = document.getElementById('custom-email-user-id').value;
+  const subject = document.getElementById('custom-email-subject').value.trim();
+  const message = document.getElementById('custom-email-body').value.trim();
+  if (!subject || !message) { toast('Subject and message are required', 'error'); return; }
+  
+  const btn = document.querySelector('#modal-custom-email .btn-primary');
+  const origText = btn.textContent; btn.textContent = 'Sending...'; btn.disabled = true;
+  try {
+    await API.sendCustomEmail({ userId, subject, message });
+    toast('Email sent successfully!', 'success');
+    closeAllModals();
+  } catch (e) { toast(e.message || 'Error sending email', 'error'); }
+  finally { btn.textContent = origText; btn.disabled = false; }
 }
 
 /* ══════════════════════════════════════════
@@ -1724,6 +1755,7 @@ function renderAdminUsers() {
             <td><span class="badge badge-enrolled">${esc(u.role)}</span></td>
             <td><span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span></td>
             <td style="display:flex;gap:6px;flex-wrap:wrap">
+              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openCustomEmailModal('${u._id}')">Email</button>
               <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openEditUserModal('${u._id}')">Edit</button>
               <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="toggleUserActive('${u._id}', ${!u.active})">${u.active ? 'Suspend' : 'Activate'}</button>
               <button class="btn-danger" style="font-size:14px;padding:7px 14px" onclick="deleteUserAdmin('${u._id}')">Delete</button>

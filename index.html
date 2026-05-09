@@ -821,6 +821,31 @@
     <div class="modal-body" id="student-report-content"></div>
   </div>
 
+
+  <!-- Custom Email Modal -->
+  <div id="modal-custom-email" class="modal hidden">
+    <div class="modal-header">
+      <h3>Send Custom Email</h3>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="margin-bottom:1rem; color:var(--text-2); font-size:14px;">Sending to: <strong id="custom-email-target" style="color:var(--text);"></strong></p>
+      <input type="hidden" id="custom-email-user-id" />
+      <div class="form-group">
+        <label>Subject</label>
+        <input type="text" id="custom-email-subject" placeholder="Enter email subject" />
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea id="custom-email-body" rows="6" placeholder="Type your message here..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeAllModals()">Cancel</button>
+        <button class="btn-primary" onclick="submitCustomEmail()">Send Email</button>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- Toast notification -->
