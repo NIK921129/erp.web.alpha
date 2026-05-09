@@ -993,6 +993,7 @@ textarea { resize: vertical; }
   .modal-header { padding-top: 1rem; }
   .modal-body { padding: 1.25rem; }
   .chat-container { height: calc(100vh - 200px); border-radius: var(--r-md); }
+  .video-play-btn { width: 48px; height: 48px; font-size: 18px; padding-left: 4px; }
   .course-cards, .course-cards.lg { grid-template-columns: 1fr; }
   .btn-primary, .btn-ghost, .btn-danger, .btn-approve, .wa-btn { min-height: 48px; justify-content: center; }
   .form-group input, .form-group textarea, .form-group select { padding: 14px 16px; }

@@ -251,8 +251,11 @@ api.get('/payments/me', auth, async (req, res) => {
 });
 
 api.get('/payments', auth, async (req, res) => {
-  const payments = await Payment.find().populate('student', 'name').populate('course', 'name').sort('-createdAt');
-  res.json({ payments });
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const payments = await Payment.find().populate('student', 'name').populate('course', 'name').sort('-createdAt');
+    res.json({ payments });
+  } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
 api.post('/payments/:id/approve', auth, async (req, res) => {
@@ -372,6 +375,7 @@ api.post('/assignments/:id/submit', auth, upload.single('file'), async (req, res
 
 api.get('/assignments/:id/submissions', auth, async (req, res) => {
   try {
+    if (req.user.role !== 'admin' && req.user.role !== 'teacher') return res.status(403).json({ message: 'Forbidden' });
     const submissions = await Submission.find({ assignment: req.params.id }).populate('student', 'name');
     res.json({ submissions });
   } catch (e) { res.status(500).json({ message: e.message }); }
@@ -424,6 +428,7 @@ api.delete('/content/:id', auth, async (req, res) => {
 // --- USERS / ADMIN ---
 api.get('/users', auth, async (req, res) => {
   try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
     const query = req.query.role ? { role: req.query.role } : {};
     const users = await User.find(query).select('-password');
     res.json({ users });
@@ -432,6 +437,7 @@ api.get('/users', auth, async (req, res) => {
 
 api.put('/users/:id', auth, async (req, res) => {
   try {
+    if (req.user.role !== 'admin' && req.user._id.toString() !== req.params.id) return res.status(403).json({ message: 'Forbidden' });
     const { name, email, password, active } = req.body;
     const updateData = { name, email };
     if (active !== undefined && req.user.role === 'admin') updateData.active = active;
@@ -453,6 +459,10 @@ api.get('/admin/stats', auth, async (req, res) => {
 // --- CHAT / DISCUSSIONS ---
 api.get('/chat/course/:id', auth, async (req, res) => {
   try {
+    if (req.user.role === 'student') {
+      const enrol = await Enrolment.findOne({ student: req.user._id, course: req.params.id, status: 'active' });
+      if (!enrol) return res.status(403).json({ message: 'Forbidden: You must be enrolled to view discussions' });
+    }
     const messages = await ChatMessage.find({ course: req.params.id }).populate('sender', 'name role').sort('createdAt');
     res.json({ messages });
   } catch (e) { res.status(500).json({ message: e.message }); }
@@ -460,6 +470,10 @@ api.get('/chat/course/:id', auth, async (req, res) => {
 
 api.post('/chat/course/:id', auth, async (req, res) => {
   try {
+    if (req.user.role === 'student') {
+      const enrol = await Enrolment.findOne({ student: req.user._id, course: req.params.id, status: 'active' });
+      if (!enrol) return res.status(403).json({ message: 'Forbidden: You must be enrolled to post' });
+    }
     const msg = await ChatMessage.create({ course: req.params.id, sender: req.user._id, text: req.body.text });
     const populated = await msg.populate('sender', 'name role');
     io.to(`course_${req.params.id}`).emit('chat_message', populated);
@@ -469,6 +483,13 @@ api.post('/chat/course/:id', auth, async (req, res) => {
 
 // Mount the API router
 app.use('/api', api);
+
+// Global Error Handler (Catches Multer limits & unexpected Express errors)
+app.use((err, req, res, next) => {
+  console.error('⚠️ Server Error:', err.message);
+  if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') return res.status(413).json({ message: 'File is too large. Maximum size is 10MB.' });
+  res.status(500).json({ message: err.message || 'Internal Server Error' });
+});
 
 /* ══════════════════════════════════════════
    SOCKET.IO SETUP

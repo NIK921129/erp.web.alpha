@@ -510,17 +510,17 @@ async function initStudentDashboard() {
   document.getElementById('student-welcome').textContent = `${getGreeting()}, ${STATE.user.name} 👋`;
 
   try {
-    const [enrData, payData, attData, assData] = await Promise.all([
+    const [enrRes, payRes, attRes, assRes] = await Promise.allSettled([
       API.myEnrolments(),
       API.myPayments(),
       API.myAttendance(),
       API.myAssignments(),
     ]);
 
-    const enrolments  = enrData.enrolments || [];
-    const payments    = payData.payments   || [];
-    const attendance  = attData.records    || [];
-    const assignments = assData.assignments|| [];
+    const enrolments  = enrRes.status === 'fulfilled' ? enrRes.value.enrolments || [] : [];
+    const payments    = payRes.status === 'fulfilled' ? payRes.value.payments || [] : [];
+    const attendance  = attRes.status === 'fulfilled' ? attRes.value.records || [] : [];
+    const assignments = assRes.status === 'fulfilled' ? assRes.value.assignments || [] : [];
 
     /* Update user enrolments in STATE for isEnrolled() */
     STATE.user.enrolments = enrolments;
@@ -729,7 +729,7 @@ function renderContentItem(item, isTeacher) {
         const embedUrl = driveEmbed(item.url);
         html += `<div class="video-embed"><iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe></div>`;
       } else {
-        html += `<div class="video-embed"><video controls src="${item.url}"></video></div>`;
+        html += `<div class="video-embed"><video controls playsinline webkit-playsinline src="${item.url}"></video></div>`;
       }
     }
   }
@@ -754,7 +754,7 @@ function playVideo(containerId, url, itemId) {
     el.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>`;
   } else {
     /* Native HTML5 Video supports resume playback! */
-    el.innerHTML = `<video id="player-${itemId}" src="${url}" controls autoplay></video>`;
+    el.innerHTML = `<video id="player-${itemId}" src="${url}" controls autoplay playsinline webkit-playsinline></video>`;
     const video = document.getElementById(`player-${itemId}`);
     
     video.addEventListener('loadedmetadata', () => {
@@ -1254,13 +1254,13 @@ async function submitAttendance(courseId) {
 ══════════════════════════════════════════ */
 async function initAdminDashboard() {
   try {
-    const [statsData, paymentsData] = await Promise.all([
+    const [statsRes, paymentsRes] = await Promise.allSettled([
       API.adminStats().catch(() => ({})),
       API.allPayments(),
     ]);
 
-    const stats    = statsData.stats || {};
-    const payments = paymentsData.payments || [];
+    const stats    = statsRes.status === 'fulfilled' ? statsRes.value.stats || {} : {};
+    const payments = paymentsRes.status === 'fulfilled' ? paymentsRes.value.payments || [] : [];
     const pending  = payments.filter(p => p.status === 'pending');
 
     document.getElementById('admin-stats').innerHTML = `
