@@ -655,7 +655,6 @@ function renderContentItem(item, isTeacher) {
 
   if (item.type === 'video' && item.url) {
     if (item.thumbnail) {
-      html += `<div class="video-embed" id="vid-${item._id}" onclick="playVideo('vid-${item._id}', '${item.url}')" style="cursor:pointer;position:relative;background-image:url('${item.thumbnail}');background-size:cover;background-position:center;">
       html += `<div class="video-embed" id="vid-${item._id}" onclick="playVideo('vid-${item._id}', '${item.url}', '${item._id}')" style="cursor:pointer;position:relative;background-image:url('${item.thumbnail}');background-size:cover;background-position:center;">
         <div class="video-thumbnail-overlay">
           <div class="video-play-btn">▶</div>
@@ -676,7 +675,6 @@ function driveEmbed(url) {
   return url;
 }
 
-function playVideo(containerId, url) {
 function playVideo(containerId, url, itemId) {
   const el = document.getElementById(containerId);
   if (!el) return;
@@ -1190,10 +1188,13 @@ async function initAdminDashboard() {
 
     document.getElementById('admin-stats').innerHTML = `
       ${statCard('Total Students', stats.students || 0, 'teal')}
-      ${statCard('Total g Payments', pending.length, 'amber')}
+      ${statCard('Total Teachers', stats.teachers || 0, 'blue')}
+      ${statCard('Total Courses',  stats.courses  || 0, 'amber')}
+      ${statCard('Pending Payments', pending.length, 'amber')}
     `;
-const pendingEl = document.getElementById('admin-pending-list');
-  pe  ? pending.slice(0,5).map(p => renderPaymentCard(p)).join('')
+    const pendingEl = document.getElementById('admin-pending-list');
+    pendingEl.innerHTML = pending.length
+      ? pending.slice(0,5).map(p => renderPaymentCard(p)).join('')
       : '<div class="empty-state">No pending payments 🎉</div>';
 
     document.getElementById('admin-activity').innerHTML = payments.slice(0,8).map(p => `
@@ -1335,9 +1336,11 @@ async function toggleUserActive(id, active) {
     await API.updateUser(id, { active });
     toast(active ? 'User activated' : 'User suspended');
     if (STATE.currentPage === 'admin-students') initAdminStudents();
-    if (STATE.currentPage === 'admin-users') initAdminrror updating user', 'error'); }
+    if (STATE.currentPage === 'admin-users') initAdminUsers();
+  } catch (e) { toast('Error updating user', 'error'); }
 }
-ents() {
+
+function exportAdminStudents() {
   const list = STATE.adminStudents;
   if (!list.length) { toast('No students to export', 'error'); return; }
   const q = document.getElementById('student-search')?.value?.toLowerCase() || '';
@@ -1362,10 +1365,12 @@ async function initAdminCourses() {
     const { courses } = await API.courses();
     STATE.adminCourses = courses || [];
     renderAdminCourses();
-  } catch (e) {t
+  } catch (e) {
+    el.innerHTML = '<div class="empty-state">Error loading courses</div>';
   }
 }
 
+function renderAdminCourses() {
   const el = document.getElementById('admin-courses-table');
   const q = document.getElementById('admin-course-search')?.value?.toLowerCase() || '';
   const list = STATE.adminCourses.filter(c => (c.name||'').toLowerCase().includes(q) || (c.teacher?.name||'').toLowerCase().includes(q));
@@ -1378,11 +1383,13 @@ async function initAdminCourses() {
           <tr>
             <td><strong>${esc(c.name)}</strong><br/><span style="font-size:14px;color:var(--text-2)">${esc(c.duration||'')}</span></td>
             <td style="font-size:15px">${esc(c.teacher?.name||'Unassigned')}</td>
-            <td s{c.studentCount||0}</td>
+            <td style="font-weight:600;color:var(--teal)">₹${Number(c.fee).toLocaleString('en-IN')}</td>
+            <td>${c.studentCount||0}</td>
             <td style="display:flex;gap:6px;flex-wrap:wrap">
               <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openCourseModal('${c._id}')">Edit</button>
               <button class="btn-danger"  style="font-size:14px;padding:7px 14px" onclick="deleteCourseAdmin('${c._id}')">Delete</button>
-            </td>.join('')}
+            </td>
+          </tr>`).join('')}
         </tbody>
       </table>`;
 }
@@ -1391,12 +1398,16 @@ async function openCourseModal(courseId = null) {
   document.getElementById('course-edit-id').value = courseId || '';
   document.getElementById('course-modal-title').textContent = courseId ? 'Edit Course' : 'Add Course';
 
-el.innerHTML = '<option value="">-- Select Teacher --</option>';
+  const sel = document.getElementById('course-teacher-input');
+  sel.innerHTML = '<option value="">-- Select Teacher --</option>';
   try {
     const { users } = await API.allTeachers();
     sel.innerHTML += (users||[]).map(t => `<option value="${t._id}">${esc(t.name)}</option>`).join('');
-} console.error('Could not load teachers:', e); }
-* Load or clear course data */
+  } catch (e) { console.error('Could not load teachers:', e); }
+
+  /* Load or clear course data */
+  if (courseId) {
+    try {
       const { course } = await API.courseById(courseId);
       document.getElementById('course-name-input').value     = course.name || '';
       document.getElementById('course-desc-input').value     = course.description || '';
@@ -1497,7 +1508,8 @@ function renderAdminUsers() {
             <td><span class="badge badge-enrolled">${esc(u.role)}</span></td>
             <td><span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span></td>
             <td style="display:flex;gap:6px;flex-wrap:wrap">
-              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="toggleUserActive
+              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="toggleUserActive('${u._id}', ${!u.active})">${u.active ? 'Suspend' : 'Activate'}</button>
+            </td>
           </tr>`).join('')}
         </tbody>
       </table>`;
@@ -1505,10 +1517,14 @@ function renderAdminUsers() {
 
 function exportAdminUsers() {
   const list = STATE.adminUsers;
-  if (!list.length) { toast('No users to export', 'error'); return; }'min-user-search')?.value?.toLowerCase() || '';
+  if (!list.length) { toast('No users to export', 'error'); return; }
+  const q = document.getElementById('admin-user-search')?.value?.toLowerCase() || '';
   const filtered = list.filter(u => (u.name||'').toLowerCase().includes(q) || (u.username||'').toLowerCase().includes(q) || (u.role||'').toLowerCase().includes(q));
   
-  const headers.);
+  const headers = ['Name', 'Username', 'Email', 'Role', 'Status'];
+  const rows = filtered.map(u => [
+    `"${u.name||''}"`, `"${u.username||''}"`, `"${u.email||''}"`, `"${u.role||''}"`, u.active ? 'Active' : 'Suspended'
+  ]);
   const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
   downloadCSV(csv, 'all_users_export.csv');
 }
@@ -1517,7 +1533,10 @@ async function exportAdminPayments() {
   try {
     const { payments } = await API.allPayments();
     const filter = STATE.paymentFilter;
-    const list  const headers = ['Student Name', 'Course', 'Amount (INR)', 'Status', 'Date Submitted'];
+    const list = filter === 'all' ? payments : payments.filter(p => p.status === filter);
+    if (!list || !list.length) { toast('No payments to export', 'error'); return; }
+    
+    const headers = ['Student Name', 'Course', 'Amount (INR)', 'Status', 'Date Submitted'];
     const rows = list.map(p => [
       `"${p.student?.name||'Unknown'}"`, `"${p.course?.name||'Unknown'}"`, p.amount||0, p.status||'', fmtDate(p.createdAt)
     ]);
