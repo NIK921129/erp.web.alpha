@@ -1747,8 +1747,16 @@ function openModal(id) {
   const overlay = document.getElementById('modal-overlay');
   overlay.classList.remove('hidden');
   overlay.classList.add('active');
-  document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
-  document.getElementById(id)?.classList.add('active');
+  document.querySelectorAll('.modal').forEach(m => {
+    m.classList.remove('active');
+    m.classList.add('hidden');
+  });
+  
+  const target = document.getElementById(id);
+  if (target) {
+    target.classList.remove('hidden');
+    target.classList.add('active');
+  }
 }
 
 function closeModal(e) {
@@ -1759,7 +1767,10 @@ function closeAllModals() {
   const overlay = document.getElementById('modal-overlay');
   overlay.classList.add('hidden');
   overlay.classList.remove('active');
-  document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+  document.querySelectorAll('.modal').forEach(m => {
+    m.classList.remove('active');
+    m.classList.add('hidden');
+  });
 }
 
 /* ══════════════════════════════════════════
