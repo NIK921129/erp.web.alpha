@@ -1,0 +1,15 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+
+# Environment variables (Contains sensitive DB credentials and JWT secrets)
+.env
+
+# User uploaded files (Screenshots and assignment submissions)
+uploads/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db

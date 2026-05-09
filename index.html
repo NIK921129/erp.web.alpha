@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ABC Institute — ERP Portal</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     GLOBAL NAV
+═══════════════════════════════════════════════ -->
+<nav id="global-nav" class="hidden">
+  <div class="nav-brand">
+    <div class="nav-logo">ABC</div>
+    <span class="nav-name">Institute</span>
+  </div>
+  <div class="nav-links" id="nav-links"></div>
+  <div class="nav-right">
+    <button class="wa-btn" onclick="openWhatsApp()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Support
+    </button>
+    <div class="nav-user" id="nav-user-info"></div>
+    <button class="logout-btn" onclick="openProfileModal()">Profile</button>
+    <button class="logout-btn" id="logout-btn" onclick="handleLogout()">Logout</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: LANDING
+═══════════════════════════════════════════════ -->
+<section id="page-landing" class="page">
+  <!-- Secret Admin Button -->
+  <button onclick="promptAdminAccess()" style="position:absolute; top:0; left:0; width:40px; height:40px; opacity:0; z-index:9999; border:none; background:transparent; cursor:default;"></button>
+
+  <div class="landing-bg">
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+  </div>
+  <nav class="land-nav">
+    <div class="nav-brand">
+      <div class="nav-logo">ABC</div>
+      <span class="nav-name">Institute</span>
+    </div>
+    <div class="land-nav-actions">
+      <button class="wa-btn" onclick="openWhatsApp()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Support
+      </button>
+      <button class="btn-ghost" onclick="navigate('login')">Login</button>
+      <button class="btn-primary" onclick="navigate('signup')">Get Started</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-badge">🎓 India's Smart Institute Portal</div>
+    <h1 class="hero-title">Learn.<br/>Track.<br/><span class="accent">Grow.</span></h1>
+    <p class="hero-sub">ABC Institute's complete digital platform — enrol in courses, attend live lectures, submit assignments, and track your progress, all in one place.</p>
+    <div class="hero-actions">
+      <button class="btn-primary btn-lg" onclick="navigate('signup')">Join Now — It's Free</button>
+      <button class="btn-ghost btn-lg" onclick="navigate('courses-public')">Browse Courses</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-pill"><span class="stat-n">500+</span> Students</div>
+      <div class="stat-pill"><span class="stat-n">20+</span> Courses</div>
+      <div class="stat-pill"><span class="stat-n">15+</span> Teachers</div>
+    </div>
+  </div>
+
+  <div class="courses-preview" id="landing-courses">
+    <div class="section-header">
+      <h2 class="section-title">Our Courses</h2>
+      <p class="section-sub">Expert-led programs designed for real-world skills</p>
+    </div>
+    <div class="course-cards" id="landing-course-grid"></div>
+  </div>
+
+  <div class="land-footer">
+    <div class="nav-brand">
+      <div class="nav-logo sm">ABC</div>
+      <span class="nav-name">ABC Institute</span>
+    </div>
+    <p>© 2025 ABC Institute. All rights reserved.</p>
+    <button class="wa-btn" onclick="openWhatsApp()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp: 9211293576
+    </button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: LOGIN
+═══════════════════════════════════════════════ -->
+<section id="page-login" class="page auth-page">
+  <div class="auth-bg"><div class="bg-grid"></div></div>
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="nav-logo lg">ABC</div>
+      <h2>Welcome back</h2>
+      <p>Sign in to your ABC Institute account</p>
+    </div>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="login-username" placeholder="Enter your username" autocomplete="username" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-password" placeholder="Enter your password" autocomplete="current-password" />
+    </div>
+    <div id="login-error" class="form-error hidden"></div>
+    <button class="btn-primary full" id="login-btn" onclick="handleLogin()">Sign In</button>
+    <p class="auth-switch">Don't have an account? <a onclick="navigate('signup')">Sign up</a></p>
+    <button class="wa-btn center" onclick="openWhatsApp()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Need help? Contact Support
+    </button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: SIGNUP
+═══════════════════════════════════════════════ -->
+<section id="page-signup" class="page auth-page">
+  <div class="auth-bg"><div class="bg-grid"></div></div>
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="nav-logo lg">ABC</div>
+      <h2>Create account</h2>
+      <p>Join ABC Institute today</p>
+    </div>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="signup-name" placeholder="Your full name" />
+    </div>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="signup-username" placeholder="Choose a username" autocomplete="username" />
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="signup-email" placeholder="your@email.com" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="signup-password" placeholder="Min 6 characters" autocomplete="new-password" />
+    </div>
+    <div class="form-group">
+      <label>I am a</label>
+      <div class="role-toggle">
+        <button class="role-btn active" data-role="student" onclick="selectRole(this)">Student</button>
+        <button class="role-btn" data-role="teacher" onclick="selectRole(this)">Teacher</button>
+      </div>
+    </div>
+    <div id="signup-error" class="form-error hidden"></div>
+    <button class="btn-primary full" onclick="handleSignup()">Create Account</button>
+    <p class="auth-switch">Already have an account? <a onclick="navigate('login')">Sign in</a></p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: PUBLIC COURSES
+═══════════════════════════════════════════════ -->
+<section id="page-courses-public" class="page inner-page">
+  <div class="inner-hero">
+    <button class="back-btn" onclick="navigate('landing')">← Back</button>
+    <h1>All Courses</h1>
+    <p>Enrol in any course and start learning today</p>
+  </div>
+  <div class="container">
+    <div class="course-cards lg" id="public-course-grid"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: STUDENT DASHBOARD
+═══════════════════════════════════════════════ -->
+<section id="page-student-dashboard" class="page inner-page">
+  <div class="container">
+    <div class="dash-header">
+      <div>
+        <h1 id="student-welcome">Welcome back!</h1>
+        <p class="text-muted">Here's your learning overview</p>
+      </div>
+      <button class="btn-primary" onclick="navigate('courses-public')">Browse Courses</button>
+    </div>
+    <div class="stats-row" id="student-stats"></div>
+    <div class="dash-grid">
+      <div class="dash-col">
+        <h3 class="card-title">My Courses</h3>
+        <div id="student-my-courses" class="list-cards"></div>
+      </div>
+      <div class="dash-col">
+        <h3 class="card-title">Pending Payments</h3>
+        <div id="student-pending-payments" class="list-cards"></div>
+        <h3 class="card-title mt-2">Due Assignments</h3>
+        <div id="student-due-assignments" class="list-cards"></div>
+      </div>
+    </div>
+    <div class="wa-sticky">
+      <button class="wa-btn" onclick="openWhatsApp()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Need help?
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: STUDENT COURSE VIEW
+═══════════════════════════════════════════════ -->
+<section id="page-student-course" class="page inner-page">
+  <div class="container">
+    <button class="back-btn" onclick="navigate('student-dashboard')">← Dashboard</button>
+    <div id="student-course-header"></div>
+    <div class="tab-bar">
+      <button class="tab active" onclick="switchTab('content', this)">Content</button>
+      <button class="tab" onclick="switchTab('assignments', this)">Assignments</button>
+      <button class="tab" onclick="switchTab('batchmates', this)">Batchmates</button>
+      <button class="tab" onclick="switchTab('attendance', this)">Attendance</button>
+    </div>
+    <div id="tab-content" class="tab-panel"></div>
+    <div id="tab-assignments" class="tab-panel hidden"></div>
+    <div id="tab-batchmates" class="tab-panel hidden"></div>
+    <div id="tab-attendance" class="tab-panel hidden"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: ENROLMENT / PAYMENT
+═══════════════════════════════════════════════ -->
+<section id="page-enrol" class="page inner-page">
+  <div class="container narrow">
+    <button class="back-btn" onclick="navigate('courses-public')">← Back to Courses</button>
+    <div id="enrol-content"></div>
+    <div class="wa-sticky">
+      <button class="wa-btn" onclick="openWhatsApp()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Need help? WhatsApp us
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: STUDENT FEES
+═══════════════════════════════════════════════ -->
+<section id="page-student-fees" class="page inner-page">
+  <div class="container">
+    <h1>Fee Status</h1>
+    <p class="text-muted mb-2">Track all your payment records</p>
+    <div id="student-fees-list"></div>
+    <div class="wa-sticky">
+      <button class="wa-btn" onclick="openWhatsApp()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Payment issue? Contact us
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: STUDENT ATTENDANCE
+═══════════════════════════════════════════════ -->
+<section id="page-student-attendance" class="page inner-page">
+  <div class="container">
+    <h1>My Attendance</h1>
+    <p class="text-muted mb-2">Track your attendance across all courses</p>
+    <div id="student-attendance-content"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: STUDENT ASSIGNMENTS
+═══════════════════════════════════════════════ -->
+<section id="page-student-assignments" class="page inner-page">
+  <div class="container">
+    <h1>Assignments</h1>
+    <p class="text-muted mb-2">Submit and track your assignments</p>
+    <div id="student-assignments-list"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: TEACHER DASHBOARD
+═══════════════════════════════════════════════ -->
+<section id="page-teacher-dashboard" class="page inner-page">
+  <div class="container">
+    <div class="dash-header">
+      <div>
+        <h1 id="teacher-welcome">Teacher Dashboard</h1>
+        <p class="text-muted">Manage your courses and students</p>
+      </div>
+    </div>
+    <div class="stats-row" id="teacher-stats"></div>
+    <div class="dash-grid">
+      <div class="dash-col">
+        <h3 class="card-title">My Courses</h3>
+        <div id="teacher-courses-list" class="list-cards"></div>
+      </div>
+      <div class="dash-col">
+        <h3 class="card-title">Recent Submissions</h3>
+        <div id="teacher-submissions" class="list-cards"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: TEACHER COURSE MANAGER
+═══════════════════════════════════════════════ -->
+<section id="page-teacher-course" class="page inner-page">
+  <div class="container">
+    <button class="back-btn" onclick="navigate('teacher-dashboard')">← Dashboard</button>
+    <div id="teacher-course-header"></div>
+    <div class="tab-bar">
+      <button class="tab active" onclick="switchTeacherTab('content', this)">Content Manager</button>
+      <button class="tab" onclick="switchTeacherTab('assignments', this)">Assignments</button>
+      <button class="tab" onclick="switchTeacherTab('attendance', this)">Mark Attendance</button>
+      <button class="tab" onclick="switchTeacherTab('students', this)">Students</button>
+    </div>
+    <div id="teacher-tab-content" class="tab-panel"></div>
+    <div id="teacher-tab-assignments" class="tab-panel hidden"></div>
+    <div id="teacher-tab-attendance" class="tab-panel hidden"></div>
+    <div id="teacher-tab-students" class="tab-panel hidden"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: ADMIN DASHBOARD
+═══════════════════════════════════════════════ -->
+<section id="page-admin-dashboard" class="page inner-page">
+  <div class="container">
+    <div class="dash-header">
+      <div>
+        <h1>Admin Dashboard</h1>
+        <p class="text-muted">ABC Institute — Control Center</p>
+      </div>
+    </div>
+    <div class="stats-row" id="admin-stats"></div>
+    <div class="dash-grid">
+      <div class="dash-col">
+        <h3 class="card-title">⏳ Pending Payments</h3>
+        <div id="admin-pending-list" class="list-cards"></div>
+      </div>
+      <div class="dash-col">
+        <h3 class="card-title">Recent Activity</h3>
+        <div id="admin-activity" class="list-cards"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: ADMIN PAYMENTS
+═══════════════════════════════════════════════ -->
+<section id="page-admin-payments" class="page inner-page">
+  <div class="container">
+    <h1>Payment Approvals</h1>
+    <p class="text-muted mb-2">Review and approve student payment screenshots</p>
+    <div class="filter-bar" style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <button class="filter-btn active" onclick="filterPayments('pending', this)">Pending</button>
+        <button class="filter-btn" onclick="filterPayments('approved', this)">Approved</button>
+        <button class="filter-btn" onclick="filterPayments('rejected', this)">Rejected</button>
+        <button class="filter-btn" onclick="filterPayments('all', this)">All</button>
+      </div>
+      <button class="btn-ghost" style="padding:7px 14px; font-size:13px" onclick="exportAdminPayments()">📥 Export CSV</button>
+    </div>
+    <div id="admin-payments-list"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: ADMIN STUDENTS
+═══════════════════════════════════════════════ -->
+<section id="page-admin-students" class="page inner-page">
+  <div class="container">
+    <h1>Student List</h1>
+    <p class="text-muted mb-2">Manage all registered students</p>
+    <div class="search-bar" style="display:flex; gap:10px; flex-wrap:wrap;">
+      <input type="text" id="student-search" placeholder="Search students..." oninput="renderAdminStudents()" style="flex:1;" />
+      <button class="btn-ghost" onclick="exportAdminStudents()">📥 Export CSV</button>
+    </div>
+    <div id="admin-students-table"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: ADMIN COURSES
+═══════════════════════════════════════════════ -->
+<section id="page-admin-courses" class="page inner-page">
+  <div class="container">
+    <div class="dash-header">
+      <div><h1>Course Management</h1><p class="text-muted">Add, edit and manage courses</p></div>
+      <button class="btn-primary" onclick="openCourseModal()">+ Add Course</button>
+    </div>
+    <div id="admin-courses-table"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: ADMIN USERS
+═══════════════════════════════════════════════ -->
+<section id="page-admin-users" class="page inner-page">
+  <div class="container">
+    <h1>User Management</h1>
+    <p class="text-muted mb-2">Manage all teachers and students</p>
+    <div id="admin-users-table"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     MODALS
+═══════════════════════════════════════════════ -->
+<div id="modal-overlay" class="modal-overlay hidden" onclick="closeModal(event)">
+
+  <!-- Screenshot Preview Modal -->
+  <div id="modal-screenshot" class="modal hidden">
+    <div class="modal-header">
+      <h3>Payment Screenshot</h3>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <img id="screenshot-img" src="" alt="Payment screenshot" style="max-width:100%;border-radius:8px;" />
+      <div id="screenshot-actions" class="modal-actions"></div>
+    </div>
+  </div>
+
+  <!-- Course Add/Edit Modal -->
+  <div id="modal-course" class="modal hidden">
+    <div class="modal-header">
+      <h3 id="course-modal-title">Add Course</h3>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="course-edit-id" />
+      <div class="form-group">
+        <label>Course Name</label>
+        <input type="text" id="course-name-input" placeholder="e.g. Python Programming" />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="course-desc-input" placeholder="Course description..." rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Fee (₹)</label>
+        <input type="number" id="course-fee-input" placeholder="e.g. 4999" />
+      </div>
+      <div class="form-group">
+        <label>Duration</label>
+        <input type="text" id="course-duration-input" placeholder="e.g. 3 months" />
+      </div>
+      <div class="form-group">
+        <label>Assign Teacher</label>
+        <select id="course-teacher-input"></select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeAllModals()">Cancel</button>
+        <button class="btn-primary" onclick="saveCourse()">Save Course</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assignment Submit Modal -->
+  <div id="modal-submit" class="modal hidden">
+    <div class="modal-header">
+      <h3>Submit Assignment</h3>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="submit-assign-id" />
+      <div class="form-group">
+        <label>Your Answer / Work</label>
+        <textarea id="submit-text" placeholder="Write your answer here..." rows="5"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Or attach a file (optional)</label>
+        <input type="file" id="submit-file" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeAllModals()">Cancel</button>
+        <button class="btn-primary" onclick="submitAssignment()">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Chapter/Content Modal -->
+  <div id="modal-content" class="modal hidden">
+    <div class="modal-header">
+      <h3 id="content-modal-title">Add Content</h3>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="content-course-id" />
+      <div class="form-group">
+        <label>Type</label>
+        <div class="role-toggle">
+          <button class="role-btn active" data-ctype="chapter" onclick="selectCtype(this)">Chapter Folder</button>
+          <button class="role-btn" data-ctype="video" onclick="selectCtype(this)">Video Lecture</button>
+          <button class="role-btn" data-ctype="file" onclick="selectCtype(this)">File / Note</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="content-title-input" placeholder="e.g. Chapter 1: Introduction" />
+      </div>
+      <div id="content-url-group" class="form-group hidden">
+        <label>Google Drive Link</label>
+        <input type="text" id="content-url-input" placeholder="https://drive.google.com/file/d/..." />
+      </div>
+      <div id="content-desc-group" class="form-group">
+        <label>Description (optional)</label>
+        <textarea id="content-desc-input" placeholder="Brief description..." rows="2"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeAllModals()">Cancel</button>
+        <button class="btn-primary" onclick="saveContent()">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post Assignment Modal -->
+  <div id="modal-post-assign" class="modal hidden">
+    <div class="modal-header">
+      <h3>Post Assignment</h3>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="assign-course-id" />
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="assign-title-input" placeholder="Assignment title" />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="assign-desc-input" rows="4" placeholder="Instructions for students..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Due Date</label>
+        <input type="date" id="assign-due-input" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeAllModals()">Cancel</button>
+        <button class="btn-primary" onclick="postAssignment()">Post Assignment</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Profile Modal -->
+  <div id="modal-profile" class="modal hidden">
+    <div class="modal-header">
+      <h3>My Profile</h3>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="profile-name-input" placeholder="Your Full Name" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="profile-email-input" placeholder="your@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="profile-username-input" disabled style="opacity:0.6; cursor:not-allowed;" />
+      </div>
+      <hr style="border:0; border-top:1px solid var(--border); margin:1rem 0;" />
+      <div class="form-group">
+        <label>New Password (leave blank to keep current)</label>
+        <input type="password" id="profile-password-input" placeholder="Min 6 characters" autocomplete="new-password" />
+      </div>
+      <div class="form-group">
+        <label>Confirm New Password</label>
+        <input type="password" id="profile-password-confirm" placeholder="Confirm new password" autocomplete="new-password" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeAllModals()">Cancel</button>
+        <button class="btn-primary" onclick="saveProfile()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast notification -->
+<div id="toast" class="toast hidden"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
