@@ -59,7 +59,7 @@
   <div class="hero">
     <div class="hero-badge">🎓 India's Smart Institute Portal</div>
     <h1 class="hero-title">Learn.<br/>Track.<br/><span class="accent">Grow.</span></h1>
-    <p class="hero-sub">ABC Institute's complete digital platform — enrol in courses, attend live lectures, submit assignments, and track your progress, all in one place.</p>
+    <p class="hero-sub">ABC Institute's complete digital platform — enrol in courses, submit assignments, and track your progress, all in one place.</p>
     <div class="hero-actions">
       <button class="btn-primary btn-lg" onclick="navigate('signup')">Join Now — It's Free</button>
       <button class="btn-ghost btn-lg" onclick="navigate('courses-public')">Browse Courses</button>
@@ -461,6 +461,14 @@
       <div class="form-group">
         <label>Description</label>
         <textarea id="course-desc-input" placeholder="Course description..." rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Category / Topic (optional)</label>
+        <input type="text" id="course-category-input" placeholder="e.g. Web Development" />
+      </div>
+      <div class="form-group">
+        <label>Thumbnail Image URL (optional)</label>
+        <input type="text" id="course-thumbnail-input" placeholder="https://image-url.jpg" />
       </div>
       <div class="form-group">
         <label>Fee (₹)</label>

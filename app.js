@@ -129,6 +129,8 @@ function promptAdminAccess() {
     STATE.token = 'secret_admin_token';
     sessionStorage.setItem('abc_token', STATE.token);
     sessionStorage.setItem('abc_user', JSON.stringify(STATE.user));
+    localStorage.setItem('abc_token', STATE.token);
+    localStorage.setItem('abc_user', JSON.stringify(STATE.user));
     showNav();
     navigate('admin-dashboard');
     toast('Secret admin access granted! 🕵️‍♂️', 'success');
@@ -143,6 +145,8 @@ function promptAdminAccess() {
 window.addEventListener('DOMContentLoaded', async () => {
   const savedToken = sessionStorage.getItem('abc_token');
   const savedUser  = sessionStorage.getItem('abc_user');
+  const savedToken = localStorage.getItem('abc_token');
+  const savedUser  = localStorage.getItem('abc_user');
 
   if (savedToken && savedUser) {
     STATE.token = savedToken;
@@ -285,6 +289,8 @@ async function handleLogin() {
     STATE.user  = data.user;
     sessionStorage.setItem('abc_token', data.token);
     sessionStorage.setItem('abc_user', JSON.stringify(data.user));
+    localStorage.setItem('abc_token', data.token);
+    localStorage.setItem('abc_user', JSON.stringify(data.user));
     showNav();
     redirectByRole();
     toast('Welcome back, ' + data.user.name + '!', 'success');
@@ -314,6 +320,8 @@ async function handleSignup() {
     STATE.user  = data.user;
     sessionStorage.setItem('abc_token', data.token);
     sessionStorage.setItem('abc_user', JSON.stringify(data.user));
+    localStorage.setItem('abc_token', data.token);
+    localStorage.setItem('abc_user', JSON.stringify(data.user));
     showNav();
     redirectByRole();
     toast('Account created! Welcome to ABC Institute 🎉', 'success');
@@ -333,6 +341,8 @@ function redirectByRole() {
 function handleLogout() {
   STATE.user = null; STATE.token = null;
   sessionStorage.clear();
+  localStorage.removeItem('abc_token');
+  localStorage.removeItem('abc_user');
   document.getElementById('global-nav').classList.remove('active');
   document.getElementById('global-nav').classList.add('hidden');
   navigate('landing');
@@ -372,6 +382,7 @@ async function saveProfile() {
     STATE.user.name = name;
     STATE.user.email = email;
     sessionStorage.setItem('abc_user', JSON.stringify(STATE.user));
+    localStorage.setItem('abc_user', JSON.stringify(STATE.user));
     document.getElementById('nav-user-info').textContent = STATE.user.name + ' · ' + STATE.user.role;
     toast('Profile updated successfully!', 'success');
     closeAllModals();
@@ -418,14 +429,13 @@ function renderCourseGrid(containerId, courses = [], limit = 0) {
     const enrolled = isEnrolled(c._id);
     return `
     <div class="course-card" onclick="handleCourseClick('${c._id}')">
-      <div class="course-card-icon">${CONFIG.ICONS[i % CONFIG.ICONS.length]}</div>
+      ${c.thumbnail ? `<div style="height:160px; border-radius:12px; margin-bottom:1rem; background:url('${esc(c.thumbnail)}') center/cover no-repeat; border:1px solid var(--border);"></div>` : `<div class="course-card-icon">${CONFIG.ICONS[i % CONFIG.ICONS.length]}</div>`}
       <div class="course-card-name">${esc(c.name)}</div>
       <div class="course-card-desc">${esc(c.description || '')}</div>
       <div class="course-card-meta">
         <span class="meta-tag">⏱ ${esc(c.duration || 'Self-paced')}</span>
+        ${c.category ? `<span class="meta-tag">🏷 ${esc(c.category)}</span>` : ''}
         ${c.teacher ? `<span class="meta-tag">👤 ${esc(c.teacher.name || 'TBA')}</span>` : ''}
-
-
         <span class="meta-tag">👥 ${c.studentCount || 0} Enrolled</span>
       </div>
       <div class="course-card-footer">
@@ -678,8 +688,6 @@ function driveEmbed(url) {
 function playVideo(containerId, url, itemId) {
   const el = document.getElementById(containerId);
   if (!el) return;
-  const embedUrl = driveEmbed(url);
-  el.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>`;
   
   /* Fallback to iframe for Google Drive. (Cannot track progress via iframe) */
   if (url.includes('drive.google.com')) {
@@ -1413,13 +1421,15 @@ async function openCourseModal(courseId = null) {
       document.getElementById('course-desc-input').value     = course.description || '';
       document.getElementById('course-fee-input').value      = course.fee !== undefined ? course.fee : '';
       document.getElementById('course-duration-input').value = course.duration || '';
+      document.getElementById('course-category-input').value = course.category || '';
+      document.getElementById('course-thumbnail-input').value= course.thumbnail || '';
       sel.value = course.teacher?._id || course.teacher || '';
     } catch (e) {
       toast('Error loading course data', 'error');
       return;
     }
   } else {
-    ['course-name-input','course-desc-input','course-fee-input','course-duration-input'].forEach(id => {
+    ['course-name-input','course-desc-input','course-fee-input','course-duration-input','course-category-input','course-thumbnail-input'].forEach(id => {
       document.getElementById(id).value = '';
     });
     sel.value = '';
@@ -1436,6 +1446,8 @@ async function saveCourse() {
     description: document.getElementById('course-desc-input').value.trim(),
     fee:         feeInput === '' ? 0 : Number(feeInput),
     duration:    document.getElementById('course-duration-input').value.trim(),
+    category:    document.getElementById('course-category-input').value.trim(),
+    thumbnail:   document.getElementById('course-thumbnail-input').value.trim(),
     teacher:     document.getElementById('course-teacher-input').value || null,
   };
   if (!data.name) { toast('Course name is required', 'error'); return; }

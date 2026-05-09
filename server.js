@@ -46,6 +46,7 @@ const User = mongoose.model('User', new mongoose.Schema({
 
 const Course = mongoose.model('Course', new mongoose.Schema({
   name: String, description: String, fee: Number, duration: String,
+  thumbnail: String, category: String,
   teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   studentCount: { type: Number, default: 0 }
 }));
