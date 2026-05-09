@@ -124,6 +124,7 @@ const API = {
   allTeachers:     ()       => api('GET', '/users?role=teacher'),
   adminStats:      ()       => api('GET', '/admin/stats'),
   manualEnrol:     (d)      => api('POST', '/admin/enrol', d),
+  studentReport:   (id)     => api('GET', `/admin/users/${id}/report`),
 
   /* Settings */
   getSettings:     ()       => api('GET', '/settings'),
@@ -1317,6 +1318,7 @@ async function initAdminDashboard() {
     const pending  = payments.filter(p => p.status === 'pending');
 
     document.getElementById('admin-stats').innerHTML = `
+      ${statCard('Total Revenue', '₹' + Number(stats.totalRevenue || 0).toLocaleString('en-IN'), 'green')}
       ${statCard('Total Students', stats.students || 0, 'teal')}
       ${statCard('Total Teachers', stats.teachers || 0, 'blue')}
       ${statCard('Total Courses',  stats.courses  || 0, 'amber')}
@@ -1454,6 +1456,7 @@ function renderAdminStudents() {
             <td style="font-size:15px">${esc(u.email)}</td>
             <td><span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span></td>
             <td style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openStudentReport('${u._id}')">Report</button>
               <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="toggleUserActive('${u._id}',${!u.active})">${u.active?'Suspend':'Activate'}</button>
               <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openManualEnrolModal('${u._id}', '${esc(u.name)}')">+ Enrol</button>
             </td>
@@ -1511,6 +1514,40 @@ function exportAdminStudents() {
   
   const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
   downloadCSV(csv, 'students_export.csv');
+}
+
+async function openStudentReport(id) {
+  openModal('modal-student-report');
+  const el = document.getElementById('student-report-content');
+  el.innerHTML = '<div class="empty-state">Loading report...</div>';
+  try {
+    const { report } = await API.studentReport(id);
+    const { user, enrolments, payments, submissions, attendance } = report;
+    const attPct = attendance.total ? Math.round((attendance.present / attendance.total) * 100) : 0;
+    
+    el.innerHTML = `
+      <div style="display:flex;gap:15px;align-items:center;margin-bottom:1.5rem">
+        <div class="avatar" style="width:64px;height:64px;font-size:24px;margin:0">${initials(user.name)}</div>
+        <div>
+          <h2 style="font-family:var(--font-head);font-size:20px;margin-bottom:4px">${esc(user.name)}</h2>
+          <div style="color:var(--text-2);font-size:14px">@${esc(user.username)} · ${esc(user.email)}</div>
+        </div>
+      </div>
+      <div class="stats-row" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:1.5rem">
+        ${statCard('Enrolled', enrolments.length, 'teal')}
+        ${statCard('Attendance', attPct + '%', attPct >= 75 ? 'teal' : 'red')}
+        ${statCard('Submissions', submissions.length, 'blue')}
+      </div>
+      <h4 style="margin-bottom:10px;font-family:var(--font-head);color:var(--text-2)">Enrolled Courses</h4>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-md);padding:10px;margin-bottom:1rem">
+        ${enrolments.length ? enrolments.map(e => `<div style="font-size:14px;padding:6px 4px;border-bottom:1px solid var(--border)">• ${esc(e.course?.name || 'Unknown')} <span class="badge badge-${e.status==='active'?'approved':'pending'}" style="font-size:11px;padding:2px 6px;margin-left:6px">${e.status}</span></div>`).join('') : '<div class="text-muted" style="font-size:14px;padding:6px;">No active enrolments.</div>'}
+      </div>
+      <h4 style="margin-bottom:10px;font-family:var(--font-head);color:var(--text-2)">Recent Payments</h4>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-md);padding:10px;">
+        ${payments.length ? payments.slice(0, 5).map(p => `<div style="font-size:14px;display:flex;justify-content:space-between;padding:6px 4px;border-bottom:1px solid var(--border)"><span>${esc(p.course?.name || 'Course')}</span><span class="badge badge-${p.status}" style="font-size:11px;padding:2px 6px">₹${p.amount} · ${p.status}</span></div>`).join('') : '<div class="text-muted" style="font-size:14px;padding:6px;">No payments found.</div>'}
+      </div>
+    `;
+  } catch (e) { el.innerHTML = '<div class="empty-state">Error loading report</div>'; }
 }
 
 /* ══════════════════════════════════════════

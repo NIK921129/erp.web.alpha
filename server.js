@@ -7,6 +7,8 @@ const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const PDFDocument = require('pdfkit');
+const Mailjet = require('node-mailjet');
 
 const app = express();
 app.use(cors());
@@ -23,6 +25,12 @@ const io = new Server(server, {
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 const BASE_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
+
+/* Initialize Mailjet */
+const mailjet = Mailjet.apiConnect(
+  process.env.MJ_APIKEY_PUBLIC || '20a8c83eca0a0c6f328f4f6aebc19da3',
+  process.env.MJ_APIKEY_PRIVATE || '20386d4130402e830381249b6b1101fa'
+);
 
 /* ══════════════════════════════════════════
    FILE UPLOAD CONFIG (Multer)
@@ -121,6 +129,49 @@ const ChatMessage = mongoose.model('ChatMessage', new mongoose.Schema({
   sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   text: String
 }, { timestamps: true }));
+
+/* ══════════════════════════════════════════
+   HELPER: INVOICE GENERATOR
+══════════════════════════════════════════ */
+function generateInvoicePDF(payment, student, course, teacher) {
+  return new Promise((resolve, reject) => {
+    const doc = new PDFDocument({ margin: 50 });
+    const buffers = [];
+    doc.on('data', buffers.push.bind(buffers));
+    doc.on('end', () => resolve(Buffer.concat(buffers)));
+    doc.on('error', reject);
+
+    doc.fontSize(20).text('ABC Institute', { align: 'center' });
+    doc.fontSize(12).text('Payment Invoice & Enrolment Details', { align: 'center' });
+    doc.moveDown(2);
+    
+    doc.fontSize(14).text(`Hello ${student.name},`);
+    doc.fontSize(12).text('Thank you for your purchase! Your payment has been successfully verified and you are now enrolled in the course.');
+    doc.moveDown(2);
+
+    doc.fontSize(14).text('Course Details', { underline: true });
+    doc.fontSize(12).text(`Course Name: ${course.name}`);
+    doc.text(`Duration: ${course.duration || 'Self-paced'}`);
+    doc.text(`Amount Paid: INR ${payment.amount}`);
+    doc.moveDown();
+
+    doc.fontSize(14).text('Instructor Details', { underline: true });
+    doc.fontSize(12).text(`Teacher: ${teacher ? teacher.name : 'TBA'}`);
+    if (teacher && teacher.email) doc.text(`Contact: ${teacher.email}`);
+    doc.moveDown(2);
+
+    doc.fontSize(14).text('Your Account Details', { underline: true });
+    doc.fontSize(12).text(`Name: ${student.name}`);
+    doc.text(`Username: ${student.username}`);
+    doc.text(`Email: ${student.email}`);
+    doc.text(`Password: ********* (Encrypted for your security)`);
+    
+    doc.moveDown(3);
+    doc.fontSize(10).fillColor('gray').text('This is an automatically generated invoice. For support, please contact us.', { align: 'center' });
+
+    doc.end();
+  });
+}
 
 /* ══════════════════════════════════════════
    MIDDLEWARE
@@ -293,15 +344,53 @@ api.get('/payments', auth, async (req, res) => {
 api.post('/payments/:id/approve', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
-    const p = await Payment.findByIdAndUpdate(req.params.id, { status: 'approved' });
+    
+    const p = await Payment.findById(req.params.id)
+      .populate('student')
+      .populate({ path: 'course', populate: { path: 'teacher' } });
+      
     if (!p) return res.status(404).json({ message: 'Payment not found' });
+    
+    p.status = 'approved';
+    await p.save();
 
-    await Enrolment.findOneAndUpdate({ student: p.student, course: p.course }, { status: 'active' }, { upsert: true });
-    const count = await Enrolment.countDocuments({ course: p.course, status: 'active' });
-    await Course.findByIdAndUpdate(p.course, { studentCount: count });
+    await Enrolment.findOneAndUpdate({ student: p.student._id, course: p.course._id }, { status: 'active' }, { upsert: true });
+    const count = await Enrolment.countDocuments({ course: p.course._id, status: 'active' });
+    await Course.findByIdAndUpdate(p.course._id, { studentCount: count });
 
-    io.to(p.student.toString()).emit('notification', { message: 'Your payment was approved! You are now enrolled.', type: 'success' });
-    io.to(p.student.toString()).emit('refresh_data');
+    io.to(p.student._id.toString()).emit('notification', { message: 'Your payment was approved! You are now enrolled.', type: 'success' });
+    io.to(p.student._id.toString()).emit('refresh_data');
+    
+    /* === INVOICE EMAIL LOGIC === */
+    try {
+      const pdfBuffer = await generateInvoicePDF(p, p.student, p.course, p.course.teacher);
+      
+      await mailjet.post("send", {'version': 'v3.1'}).request({
+        "Messages": [{
+          "From": {
+            "Email": process.env.MAILJET_SENDER_EMAIL || "nikunjsingh79827@gmail.com",
+            "Name": "ABC Institute"
+          },
+          "To": [{ "Email": p.student.email, "Name": p.student.name }],
+          "Subject": `Your Invoice & Enrolment: ${p.course.name}`,
+          "HTMLPart": `
+            <h3>Welcome to ${p.course.name}!</h3>
+            <p>Dear ${p.student.name},</p>
+            <p>Thank you! Your payment of INR ${p.amount} has been approved.</p>
+            <p><strong>Your Account Login details:</strong><br/>
+            Username: <b>${p.student.username}</b><br/>
+            Email: <b>${p.student.email}</b><br/>
+            <em>Note: Your password is encrypted and hidden for security.</em></p>
+            <p>Please find your PDF invoice attached.</p>
+          `,
+          "Attachments": [{
+            "ContentType": "application/pdf",
+            "Filename": `Invoice_${p.course.name.replace(/\s+/g, '_')}.pdf`,
+            "Base64Content": pdfBuffer.toString('base64')
+          }]
+        }]
+      });
+    } catch (emailErr) { console.error("Mailjet Email Error:", emailErr); }
 
     res.json({ message: 'Approved' });
   } catch (e) { res.status(500).json({ message: e.message }); }
@@ -542,7 +631,30 @@ api.get('/admin/stats', auth, async (req, res) => {
     const students = await User.countDocuments({ role: 'student' });
     const teachers = await User.countDocuments({ role: 'teacher' });
     const courses = await Course.countDocuments();
-    res.json({ stats: { students, teachers, courses } });
+    
+    const approvedPayments = await Payment.find({ status: 'approved' });
+    const totalRevenue = approvedPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
+
+    res.json({ stats: { students, teachers, courses, totalRevenue } });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+api.get('/admin/users/:id/report', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const uid = req.params.id;
+    const user = await User.findById(uid).select('-password');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    
+    const enrolments = await Enrolment.find({ student: uid }).populate('course', 'name');
+    const payments = await Payment.find({ student: uid }).populate('course', 'name').sort('-createdAt');
+    const submissions = await Submission.find({ student: uid }).populate('assignment', 'title');
+    
+    const atts = await Attendance.find({ 'records.student': uid });
+    let present = 0, totalAtt = 0;
+    atts.forEach(a => { const rec = a.records.find(r => r.student.toString() === uid); if (rec) { totalAtt++; if (rec.status === 'present') present++; } });
+    
+    res.json({ report: { user, enrolments, payments, submissions, attendance: { present, total: totalAtt } } });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
