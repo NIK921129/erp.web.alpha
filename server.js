@@ -421,6 +421,11 @@ io.on('connection', (socket) => {
     console.log(`👥 User joined course chat: ${courseId}`);
   });
   socket.on('disconnect', () => console.log('🔌 User disconnected:', socket.id));
+  
+  // Handle unexpected socket errors to prevent server crashes
+  socket.on('error', (err) => {
+    console.error(`⚠️ Socket error on ${socket.id}:`, err.message);
+  });
 });
 
 // START SERVER
