@@ -360,6 +360,7 @@ function buildNavLinks() {
           { icon: '👥', label: 'Users',       page: 'admin-users' },
       { icon: '📚', label: 'Courses',     page: 'admin-courses' },
       { icon: '⚙️', label: 'Settings',    page: 'admin-settings' },
+      { icon: '👤', label: 'Profile',     action: 'openProfileModal()', mobileOnly: true }
     ],
   };
 
