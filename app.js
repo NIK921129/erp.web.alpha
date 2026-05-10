@@ -762,6 +762,7 @@ async function initStudentCourse() {
         <div class="att-bar-bg"><div class="att-bar-fill" style="width:${pct}%;background:${pct>=75?'var(--teal)':'var(--red)'}"></div></div>
         <div class="att-pct">${present}/${total} classes · ${pct}%</div>
       </div>
+    <div class="data-table-wrapper">
       <table class="att-table" style="margin-top:1rem">
         <thead><tr><th>Date</th><th>Status</th></tr></thead>
         <tbody>${myAtt.map(r=>`
@@ -770,7 +771,8 @@ async function initStudentCourse() {
             <td class="${r.status==='present'?'att-present':'att-absent'}">${r.status}</td>
           </tr>`).join('')}
         </tbody>
-      </table>`;
+      </table>
+    </div>`;
 
     /* Discussions tab */
     initCourseChatView('tab-chat', courseId);
@@ -965,16 +967,18 @@ async function initStudentAttendance() {
     });
     html += '</div>';
 
-    html += `<table class="att-table">
-      <thead><tr><th>Course</th><th>Date</th><th>Status</th></tr></thead>
-      <tbody>${records.map(r=>`
-        <tr>
-          <td>${esc(r.course?.name||'')}</td>
-          <td>${fmtDate(r.date)}</td>
-          <td class="${r.status==='present'?'att-present':'att-absent'}">${r.status}</td>
-        </tr>`).join('')}
-      </tbody>
-    </table>`;
+    html += `<div class="data-table-wrapper">
+      <table class="att-table">
+        <thead><tr><th>Course</th><th>Date</th><th>Status</th></tr></thead>
+        <tbody>${records.map(r=>`
+          <tr>
+            <td>${esc(r.course?.name||'')}</td>
+            <td>${fmtDate(r.date)}</td>
+            <td class="${r.status==='present'?'att-present':'att-absent'}">${r.status}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`;
 
     el.innerHTML = html;
   } catch (e) {
