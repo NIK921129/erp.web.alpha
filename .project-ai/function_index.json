@@ -390,7 +390,7 @@
     "type": "JS_Function",
     "file": "app.js",
     "start": 704,
-    "end": 736,
+    "end": 743,
     "params": [
       "items",
       "isTeacher = false"
@@ -416,48 +416,48 @@
     "name": "ch",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 712,
-    "end": 728,
+    "start": 719,
+    "end": 735,
     "params": []
   },
   {
     "name": "i",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 713,
-    "end": 713,
+    "start": 720,
+    "end": 720,
     "params": []
   },
   {
     "name": "c",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 725,
-    "end": 725,
+    "start": 732,
+    "end": 732,
     "params": []
   },
   {
     "name": "i",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 730,
-    "end": 730,
+    "start": 737,
+    "end": 737,
     "params": []
   },
   {
     "name": "item",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 730,
-    "end": 732,
+    "start": 737,
+    "end": 739,
     "params": []
   },
   {
     "name": "renderContentItem",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 738,
-    "end": 782,
+    "start": 745,
+    "end": 777,
     "params": [
       "item",
       "isTeacher"
@@ -467,30 +467,26 @@
     "name": "driveEmbed",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 784,
-    "end": 788,
+    "start": 779,
+    "end": 783,
     "params": [
       "url"
     ]
   },
   {
-    "name": "playVideo",
+    "name": "el",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 790,
-    "end": 816,
-    "params": [
-      "containerId",
-      "url",
-      "itemId"
-    ]
+    "start": 795,
+    "end": 795,
+    "params": []
   },
   {
     "name": "toggleChapter",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 818,
-    "end": 820,
+    "start": 817,
+    "end": 819,
     "params": [
       "id"
     ]
@@ -499,8 +495,8 @@
     "name": "initStudentFees",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 825,
-    "end": 850,
+    "start": 824,
+    "end": 849,
     "params": [
       ""
     ]
@@ -509,16 +505,16 @@
     "name": "p",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 833,
-    "end": 846,
+    "start": 832,
+    "end": 845,
     "params": []
   },
   {
     "name": "initStudentAttendance",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 855,
-    "end": 902,
+    "start": 854,
+    "end": 901,
     "params": [
       ""
     ]
@@ -527,32 +523,32 @@
     "name": "r",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 866,
-    "end": 870,
+    "start": 865,
+    "end": 869,
     "params": []
   },
   {
     "name": "r",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 874,
-    "end": 874,
+    "start": 873,
+    "end": 873,
     "params": []
   },
   {
     "name": "r",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 889,
-    "end": 894,
+    "start": 888,
+    "end": 893,
     "params": []
   },
   {
     "name": "initStudentAssignments",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 907,
-    "end": 916,
+    "start": 906,
+    "end": 915,
     "params": [
       ""
     ]
@@ -561,8 +557,8 @@
     "name": "filterStudentAssignments",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 918,
-    "end": 924,
+    "start": 917,
+    "end": 923,
     "params": [
       "filter",
       "btn"
@@ -572,16 +568,16 @@
     "name": "b",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 920,
-    "end": 920,
+    "start": 919,
+    "end": 919,
     "params": []
   },
   {
     "name": "renderStudentAssignments",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 926,
-    "end": 931,
+    "start": 925,
+    "end": 930,
     "params": [
       "filter = 'all'"
     ]
@@ -590,24 +586,24 @@
     "name": "a",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 928,
-    "end": 928,
+    "start": 927,
+    "end": 927,
     "params": []
   },
   {
     "name": "a",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 930,
-    "end": 930,
+    "start": 929,
+    "end": 929,
     "params": []
   },
   {
     "name": "renderAssignmentCard",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 933,
-    "end": 973,
+    "start": 932,
+    "end": 972,
     "params": [
       "a",
       "canSubmit = false"
@@ -617,8 +613,8 @@
     "name": "initEnrolPage",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 978,
-    "end": 1019,
+    "start": 977,
+    "end": 1018,
     "params": [
       ""
     ]
@@ -627,16 +623,16 @@
     "name": "p",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 988,
-    "end": 988,
+    "start": 987,
+    "end": 987,
     "params": []
   },
   {
     "name": "renderEnrolStep1",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1021,
-    "end": 1045,
+    "start": 1020,
+    "end": 1044,
     "params": [
       "course",
       "resubmit = false"
@@ -646,8 +642,8 @@
     "name": "applyCoupon",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1047,
-    "end": 1057,
+    "start": 1046,
+    "end": 1056,
     "params": [
       "originalFee"
     ]
@@ -656,8 +652,8 @@
     "name": "goToStep2",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1059,
-    "end": 1082,
+    "start": 1058,
+    "end": 1081,
     "params": [
       "courseId",
       "fee"
@@ -667,8 +663,8 @@
     "name": "goToStep3",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1084,
-    "end": 1109,
+    "start": 1083,
+    "end": 1108,
     "params": [
       "courseId",
       "fee"
@@ -678,8 +674,8 @@
     "name": "previewSS",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1111,
-    "end": 1122,
+    "start": 1110,
+    "end": 1121,
     "params": [
       "input"
     ]
@@ -688,16 +684,16 @@
     "name": "e",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1115,
-    "end": 1120,
+    "start": 1114,
+    "end": 1119,
     "params": []
   },
   {
     "name": "submitPaymentScreenshot",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1124,
-    "end": 1161,
+    "start": 1123,
+    "end": 1160,
     "params": [
       "courseId",
       "fee"
@@ -707,8 +703,8 @@
     "name": "stepsBar",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1163,
-    "end": 1175,
+    "start": 1162,
+    "end": 1174,
     "params": [
       "active"
     ]
@@ -717,8 +713,8 @@
     "name": "initTeacherDashboard",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1180,
-    "end": 1210,
+    "start": 1179,
+    "end": 1209,
     "params": [
       ""
     ]
@@ -727,16 +723,16 @@
     "name": "c",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1184,
-    "end": 1185,
+    "start": 1183,
+    "end": 1184,
     "params": []
   },
   {
     "name": "initTeacherCourse",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1215,
-    "end": 1271,
+    "start": 1214,
+    "end": 1270,
     "params": [
       ""
     ]
@@ -745,24 +741,24 @@
     "name": "a",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1249,
-    "end": 1249,
+    "start": 1248,
+    "end": 1248,
     "params": []
   },
   {
     "name": "s",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1257,
-    "end": 1262,
+    "start": 1256,
+    "end": 1261,
     "params": []
   },
   {
     "name": "renderMarkAttendance",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1273,
-    "end": 1292,
+    "start": 1272,
+    "end": 1291,
     "params": [
       "students",
       "courseId"
@@ -772,16 +768,16 @@
     "name": "s",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1283,
-    "end": 1290,
+    "start": 1282,
+    "end": 1289,
     "params": []
   },
   {
     "name": "setAtt",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1294,
-    "end": 1298,
+    "start": 1293,
+    "end": 1297,
     "params": [
       "btn",
       "status"
@@ -791,16 +787,16 @@
     "name": "b",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1296,
-    "end": 1296,
+    "start": 1295,
+    "end": 1295,
     "params": []
   },
   {
     "name": "markAllPresent",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1300,
-    "end": 1306,
+    "start": 1299,
+    "end": 1305,
     "params": [
       ""
     ]
@@ -809,24 +805,24 @@
     "name": "row",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1301,
-    "end": 1305,
+    "start": 1300,
+    "end": 1304,
     "params": []
   },
   {
     "name": "b",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1302,
-    "end": 1302,
+    "start": 1301,
+    "end": 1301,
     "params": []
   },
   {
     "name": "submitAttendance",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1308,
-    "end": 1325,
+    "start": 1307,
+    "end": 1324,
     "params": [
       "courseId"
     ]
@@ -835,16 +831,16 @@
     "name": "row",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1313,
-    "end": 1317,
+    "start": 1312,
+    "end": 1316,
     "params": []
   },
   {
     "name": "initAdminDashboard",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1330,
-    "end": 1366,
+    "start": 1329,
+    "end": 1365,
     "params": [
       ""
     ]
@@ -853,32 +849,32 @@
     "name": "p",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1339,
-    "end": 1339,
+    "start": 1338,
+    "end": 1338,
     "params": []
   },
   {
     "name": "p",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1350,
-    "end": 1350,
+    "start": 1349,
+    "end": 1349,
     "params": []
   },
   {
     "name": "p",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1353,
-    "end": 1361,
+    "start": 1352,
+    "end": 1360,
     "params": []
   },
   {
     "name": "initAdminPayments",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1371,
-    "end": 1374,
+    "start": 1370,
+    "end": 1373,
     "params": [
       "filter = 'pending'"
     ]
@@ -887,8 +883,8 @@
     "name": "renderAdminPayments",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1376,
-    "end": 1389,
+    "start": 1375,
+    "end": 1388,
     "params": [
       ""
     ]
@@ -897,24 +893,24 @@
     "name": "p",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1382,
-    "end": 1382,
+    "start": 1381,
+    "end": 1381,
     "params": []
   },
   {
     "name": "p",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1385,
-    "end": 1385,
+    "start": 1384,
+    "end": 1384,
     "params": []
   },
   {
     "name": "filterPayments",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1391,
-    "end": 1396,
+    "start": 1390,
+    "end": 1395,
     "params": [
       "filter",
       "btn"
@@ -924,16 +920,16 @@
     "name": "b",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1392,
-    "end": 1392,
+    "start": 1391,
+    "end": 1391,
     "params": []
   },
   {
     "name": "renderPaymentCard",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1398,
-    "end": 1418,
+    "start": 1397,
+    "end": 1417,
     "params": [
       "p"
     ]
@@ -942,8 +938,8 @@
     "name": "approvePayment",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1420,
-    "end": 1426,
+    "start": 1419,
+    "end": 1425,
     "params": [
       "payId"
     ]
@@ -952,8 +948,8 @@
     "name": "rejectPayment",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1428,
-    "end": 1435,
+    "start": 1427,
+    "end": 1434,
     "params": [
       "payId"
     ]
@@ -962,8 +958,8 @@
     "name": "previewScreenshot",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1437,
-    "end": 1446,
+    "start": 1436,
+    "end": 1445,
     "params": [
       "url",
       "payId",
@@ -974,8 +970,8 @@
     "name": "initAdminStudents",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1451,
-    "end": 1461,
+    "start": 1450,
+    "end": 1460,
     "params": [
       ""
     ]
@@ -984,8 +980,8 @@
     "name": "renderAdminStudents",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1463,
-    "end": 1488,
+    "start": 1462,
+    "end": 1487,
     "params": [
       ""
     ]
@@ -994,24 +990,24 @@
     "name": "u",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1466,
-    "end": 1467,
+    "start": 1465,
+    "end": 1466,
     "params": []
   },
   {
     "name": "u",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1473,
-    "end": 1485,
+    "start": 1472,
+    "end": 1484,
     "params": []
   },
   {
     "name": "openManualEnrolModal",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1490,
-    "end": 1501,
+    "start": 1489,
+    "end": 1500,
     "params": [
       "studentId",
       "studentName"
@@ -1021,16 +1017,16 @@
     "name": "c",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1499,
-    "end": 1499,
+    "start": 1498,
+    "end": 1498,
     "params": []
   },
   {
     "name": "submitManualEnrol",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1503,
-    "end": 1515,
+    "start": 1502,
+    "end": 1514,
     "params": [
       ""
     ]
@@ -1039,8 +1035,8 @@
     "name": "toggleUserActive",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1517,
-    "end": 1524,
+    "start": 1516,
+    "end": 1523,
     "params": [
       "id",
       "active"
@@ -1050,8 +1046,8 @@
     "name": "exportAdminStudents",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1526,
-    "end": 1539,
+    "start": 1525,
+    "end": 1538,
     "params": [
       ""
     ]
@@ -1060,32 +1056,32 @@
     "name": "u",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1530,
-    "end": 1530,
+    "start": 1529,
+    "end": 1529,
     "params": []
   },
   {
     "name": "u",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1533,
-    "end": 1535,
+    "start": 1532,
+    "end": 1534,
     "params": []
   },
   {
     "name": "r",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1537,
-    "end": 1537,
+    "start": 1536,
+    "end": 1536,
     "params": []
   },
   {
     "name": "openStudentReport",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1541,
-    "end": 1573,
+    "start": 1540,
+    "end": 1572,
     "params": [
       "id"
     ]
@@ -1094,24 +1090,24 @@
     "name": "e",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1565,
-    "end": 1565,
+    "start": 1564,
+    "end": 1564,
     "params": []
   },
   {
     "name": "p",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1569,
-    "end": 1569,
+    "start": 1568,
+    "end": 1568,
     "params": []
   },
   {
     "name": "openCustomEmailModal",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1578,
-    "end": 1607,
+    "start": 1577,
+    "end": 1606,
     "params": [
       "userId = null",
       "preSelectCourseId = null"
@@ -1121,32 +1117,32 @@
     "name": "u",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1586,
-    "end": 1586,
+    "start": 1585,
+    "end": 1585,
     "params": []
   },
   {
     "name": "u",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1586,
-    "end": 1586,
+    "start": 1585,
+    "end": 1585,
     "params": []
   },
   {
     "name": "c",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1604,
-    "end": 1604,
+    "start": 1603,
+    "end": 1603,
     "params": []
   },
   {
     "name": "toggleEmailMode",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1609,
-    "end": 1613,
+    "start": 1608,
+    "end": 1612,
     "params": [
       ""
     ]
@@ -1155,8 +1151,8 @@
     "name": "submitCustomEmail",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1615,
-    "end": 1640,
+    "start": 1614,
+    "end": 1639,
     "params": [
       ""
     ]
@@ -1165,8 +1161,8 @@
     "name": "initAdminCourses",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1645,
-    "end": 1655,
+    "start": 1644,
+    "end": 1654,
     "params": [
       ""
     ]
@@ -1175,8 +1171,8 @@
     "name": "renderAdminCourses",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1657,
-    "end": 1680,
+    "start": 1656,
+    "end": 1679,
     "params": [
       ""
     ]
@@ -1185,24 +1181,24 @@
     "name": "c",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1660,
-    "end": 1660,
+    "start": 1659,
+    "end": 1659,
     "params": []
   },
   {
     "name": "c",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1666,
-    "end": 1677,
+    "start": 1665,
+    "end": 1676,
     "params": []
   },
   {
     "name": "openCourseModal",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1682,
-    "end": 1718,
+    "start": 1681,
+    "end": 1717,
     "params": [
       "courseId = null"
     ]
@@ -1211,24 +1207,24 @@
     "name": "t",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1692,
-    "end": 1692,
+    "start": 1691,
+    "end": 1691,
     "params": []
   },
   {
     "name": "id",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1711,
-    "end": 1713,
+    "start": 1710,
+    "end": 1712,
     "params": []
   },
   {
     "name": "saveCourse",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1720,
-    "end": 1757,
+    "start": 1719,
+    "end": 1756,
     "params": [
       ""
     ]
@@ -1237,8 +1233,8 @@
     "name": "deleteCourseAdmin",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1759,
-    "end": 1766,
+    "start": 1758,
+    "end": 1765,
     "params": [
       "id"
     ]
@@ -1247,8 +1243,8 @@
     "name": "exportAdminCourses",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1768,
-    "end": 1780,
+    "start": 1767,
+    "end": 1779,
     "params": [
       ""
     ]
@@ -1257,32 +1253,32 @@
     "name": "c",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1772,
-    "end": 1772,
+    "start": 1771,
+    "end": 1771,
     "params": []
   },
   {
     "name": "c",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1775,
-    "end": 1777,
+    "start": 1774,
+    "end": 1776,
     "params": []
   },
   {
     "name": "r",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1778,
-    "end": 1778,
+    "start": 1777,
+    "end": 1777,
     "params": []
   },
   {
     "name": "initAdminUsers",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1785,
-    "end": 1795,
+    "start": 1784,
+    "end": 1794,
     "params": [
       ""
     ]
@@ -1291,8 +1287,8 @@
     "name": "renderAdminUsers",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1797,
-    "end": 1825,
+    "start": 1796,
+    "end": 1824,
     "params": [
       ""
     ]
@@ -1301,24 +1297,24 @@
     "name": "u",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1800,
-    "end": 1803,
+    "start": 1799,
+    "end": 1802,
     "params": []
   },
   {
     "name": "u",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1810,
-    "end": 1822,
+    "start": 1809,
+    "end": 1821,
     "params": []
   },
   {
     "name": "openAddUserModal",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1827,
-    "end": 1834,
+    "start": 1826,
+    "end": 1833,
     "params": [
       ""
     ]
@@ -1327,8 +1323,8 @@
     "name": "submitAddUser",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1836,
-    "end": 1856,
+    "start": 1835,
+    "end": 1855,
     "params": [
       ""
     ]
@@ -1337,8 +1333,8 @@
     "name": "triggerBulkUserUpload",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1858,
-    "end": 1860,
+    "start": 1857,
+    "end": 1859,
     "params": [
       ""
     ]
@@ -1347,8 +1343,8 @@
     "name": "handleBulkUserUpload",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1862,
-    "end": 1897,
+    "start": 1861,
+    "end": 1896,
     "params": [
       "event"
     ]
@@ -1357,24 +1353,24 @@
     "name": "r",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1868,
-    "end": 1868,
+    "start": 1867,
+    "end": 1867,
     "params": []
   },
   {
     "name": "r",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1868,
-    "end": 1868,
+    "start": 1867,
+    "end": 1867,
     "params": []
   },
   {
     "name": "openEditUserModal",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1899,
-    "end": 1909,
+    "start": 1898,
+    "end": 1908,
     "params": [
       "id"
     ]
@@ -1383,16 +1379,16 @@
     "name": "u",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1900,
-    "end": 1900,
+    "start": 1899,
+    "end": 1899,
     "params": []
   },
   {
     "name": "submitEditUser",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1911,
-    "end": 1928,
+    "start": 1910,
+    "end": 1927,
     "params": [
       ""
     ]
@@ -1401,8 +1397,8 @@
     "name": "deleteUserAdmin",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1930,
-    "end": 1938,
+    "start": 1929,
+    "end": 1937,
     "params": [
       "id"
     ]
@@ -1411,8 +1407,8 @@
     "name": "exportAdminUsers",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1940,
-    "end": 1952,
+    "start": 1939,
+    "end": 1951,
     "params": [
       ""
     ]
@@ -1421,32 +1417,32 @@
     "name": "u",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1944,
-    "end": 1944,
+    "start": 1943,
+    "end": 1943,
     "params": []
   },
   {
     "name": "u",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1947,
-    "end": 1949,
+    "start": 1946,
+    "end": 1948,
     "params": []
   },
   {
     "name": "r",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1950,
-    "end": 1950,
+    "start": 1949,
+    "end": 1949,
     "params": []
   },
   {
     "name": "exportAdminPayments",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1954,
-    "end": 1968,
+    "start": 1953,
+    "end": 1967,
     "params": [
       ""
     ]
@@ -1455,32 +1451,32 @@
     "name": "p",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1958,
-    "end": 1958,
+    "start": 1957,
+    "end": 1957,
     "params": []
   },
   {
     "name": "p",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1962,
-    "end": 1964,
+    "start": 1961,
+    "end": 1963,
     "params": []
   },
   {
     "name": "r",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1965,
-    "end": 1965,
+    "start": 1964,
+    "end": 1964,
     "params": []
   },
   {
     "name": "openContentModal",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1973,
-    "end": 1995,
+    "start": 1972,
+    "end": 1994,
     "params": [
       "courseId"
     ]
@@ -1489,32 +1485,32 @@
     "name": "b",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1983,
-    "end": 1983,
+    "start": 1982,
+    "end": 1982,
     "params": []
   },
   {
     "name": "c",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1988,
-    "end": 1988,
+    "start": 1987,
+    "end": 1987,
     "params": []
   },
   {
     "name": "c",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1991,
-    "end": 1991,
+    "start": 1990,
+    "end": 1990,
     "params": []
   },
   {
     "name": "selectCtype",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1997,
-    "end": 2004,
+    "start": 1996,
+    "end": 2003,
     "params": [
       "btn"
     ]
@@ -1523,16 +1519,16 @@
     "name": "b",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 1998,
-    "end": 1998,
+    "start": 1997,
+    "end": 1997,
     "params": []
   },
   {
     "name": "saveContent",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2006,
-    "end": 2030,
+    "start": 2005,
+    "end": 2029,
     "params": [
       ""
     ]
@@ -1541,8 +1537,8 @@
     "name": "deleteContent",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2032,
-    "end": 2039,
+    "start": 2031,
+    "end": 2038,
     "params": [
       "id"
     ]
@@ -1551,8 +1547,8 @@
     "name": "openPostAssignModal",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2044,
-    "end": 2051,
+    "start": 2043,
+    "end": 2050,
     "params": [
       "courseId"
     ]
@@ -1561,8 +1557,8 @@
     "name": "postAssignment",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2053,
-    "end": 2073,
+    "start": 2052,
+    "end": 2072,
     "params": [
       ""
     ]
@@ -1571,8 +1567,8 @@
     "name": "openSubmitModal",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2075,
-    "end": 2081,
+    "start": 2074,
+    "end": 2080,
     "params": [
       "assignId"
     ]
@@ -1581,8 +1577,8 @@
     "name": "submitAssignment",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2083,
-    "end": 2115,
+    "start": 2082,
+    "end": 2114,
     "params": [
       ""
     ]
@@ -1591,8 +1587,8 @@
     "name": "openSubmissionsModal",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2117,
-    "end": 2147,
+    "start": 2116,
+    "end": 2146,
     "params": [
       "assignId"
     ]
@@ -1601,16 +1597,16 @@
     "name": "s",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2127,
-    "end": 2143,
+    "start": 2126,
+    "end": 2142,
     "params": []
   },
   {
     "name": "saveGrade",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2149,
-    "end": 2157,
+    "start": 2148,
+    "end": 2156,
     "params": [
       "subId"
     ]
@@ -1619,8 +1615,8 @@
     "name": "switchTab",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2162,
-    "end": 2169,
+    "start": 2161,
+    "end": 2168,
     "params": [
       "name",
       "btn"
@@ -1630,24 +1626,24 @@
     "name": "t",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2163,
-    "end": 2166,
+    "start": 2162,
+    "end": 2165,
     "params": []
   },
   {
     "name": "b",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2167,
-    "end": 2167,
+    "start": 2166,
+    "end": 2166,
     "params": []
   },
   {
     "name": "switchTeacherTab",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2171,
-    "end": 2178,
+    "start": 2170,
+    "end": 2177,
     "params": [
       "name",
       "btn"
@@ -1657,24 +1653,24 @@
     "name": "t",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2172,
-    "end": 2175,
+    "start": 2171,
+    "end": 2174,
     "params": []
   },
   {
     "name": "b",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2176,
-    "end": 2176,
+    "start": 2175,
+    "end": 2175,
     "params": []
   },
   {
     "name": "initCourseChatView",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2183,
-    "end": 2205,
+    "start": 2182,
+    "end": 2204,
     "params": [
       "containerId",
       "courseId"
@@ -1684,8 +1680,8 @@
     "name": "renderChatMessages",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2207,
-    "end": 2216,
+    "start": 2206,
+    "end": 2215,
     "params": [
       "courseId",
       "msgs"
@@ -1695,16 +1691,16 @@
     "name": "m",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2214,
-    "end": 2214,
+    "start": 2213,
+    "end": 2213,
     "params": []
   },
   {
     "name": "createChatBubble",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2218,
-    "end": 2228,
+    "start": 2217,
+    "end": 2227,
     "params": [
       "m"
     ]
@@ -1713,8 +1709,8 @@
     "name": "sendCourseChatMessage",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2230,
-    "end": 2238,
+    "start": 2229,
+    "end": 2237,
     "params": [
       "e",
       "courseId"
@@ -1724,8 +1720,8 @@
     "name": "openModal",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2243,
-    "end": 2257,
+    "start": 2242,
+    "end": 2256,
     "params": [
       "id"
     ]
@@ -1734,16 +1730,16 @@
     "name": "m",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2247,
-    "end": 2250,
+    "start": 2246,
+    "end": 2249,
     "params": []
   },
   {
     "name": "closeModal",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2259,
-    "end": 2261,
+    "start": 2258,
+    "end": 2260,
     "params": [
       "e"
     ]
@@ -1752,8 +1748,8 @@
     "name": "closeAllModals",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2263,
-    "end": 2271,
+    "start": 2262,
+    "end": 2270,
     "params": [
       ""
     ]
@@ -1762,16 +1758,16 @@
     "name": "m",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2267,
-    "end": 2270,
+    "start": 2266,
+    "end": 2269,
     "params": []
   },
   {
     "name": "generateQR",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2276,
-    "end": 2297,
+    "start": 2275,
+    "end": 2296,
     "params": [
       "containerId",
       "text"
@@ -1781,8 +1777,8 @@
     "name": "downloadCSV",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2299,
-    "end": 2307,
+    "start": 2298,
+    "end": 2306,
     "params": [
       "csvContent",
       "filename"
@@ -1792,8 +1788,8 @@
     "name": "val",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2312,
-    "end": 2312,
+    "start": 2311,
+    "end": 2311,
     "params": [
       "id"
     ]
@@ -1802,8 +1798,8 @@
     "name": "esc",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2313,
-    "end": 2313,
+    "start": 2312,
+    "end": 2312,
     "params": [
       "s"
     ]
@@ -1812,8 +1808,8 @@
     "name": "initials",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2314,
-    "end": 2314,
+    "start": 2313,
+    "end": 2313,
     "params": [
       "name"
     ]
@@ -1822,16 +1818,16 @@
     "name": "w",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2314,
-    "end": 2314,
+    "start": 2313,
+    "end": 2313,
     "params": []
   },
   {
     "name": "fmtDate",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2315,
-    "end": 2315,
+    "start": 2314,
+    "end": 2314,
     "params": [
       "d"
     ]
@@ -1840,8 +1836,8 @@
     "name": "showErr",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2316,
-    "end": 2316,
+    "start": 2315,
+    "end": 2315,
     "params": [
       "el",
       "msg"
@@ -1851,8 +1847,8 @@
     "name": "getGreeting",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2318,
-    "end": 2323,
+    "start": 2317,
+    "end": 2322,
     "params": [
       ""
     ]
@@ -1861,8 +1857,8 @@
     "name": "statCard",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2325,
-    "end": 2327,
+    "start": 2324,
+    "end": 2326,
     "params": [
       "label",
       "value",
@@ -1873,8 +1869,8 @@
     "name": "openWhatsApp",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2329,
-    "end": 2331,
+    "start": 2328,
+    "end": 2330,
     "params": [
       ""
     ]
@@ -1883,8 +1879,8 @@
     "name": "toast",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2333,
-    "end": 2340,
+    "start": 2332,
+    "end": 2339,
     "params": [
       "msg",
       "type = ''"
@@ -1894,8 +1890,8 @@
     "name": "initAdminSettings",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2345,
-    "end": 2353,
+    "start": 2344,
+    "end": 2352,
     "params": [
       ""
     ]
@@ -1904,8 +1900,8 @@
     "name": "saveAdminSettings",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2355,
-    "end": 2377,
+    "start": 2354,
+    "end": 2376,
     "params": [
       ""
     ]
@@ -1914,24 +1910,24 @@
     "name": "ip",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2363,
-    "end": 2363,
+    "start": 2362,
+    "end": 2362,
     "params": []
   },
   {
     "name": "ip",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2363,
-    "end": 2363,
+    "start": 2362,
+    "end": 2362,
     "params": []
   },
   {
     "name": "loadAdminSettingsData",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2379,
-    "end": 2398,
+    "start": 2378,
+    "end": 2397,
     "params": [
       ""
     ]
@@ -1940,16 +1936,16 @@
     "name": "c",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2388,
-    "end": 2396,
+    "start": 2387,
+    "end": 2395,
     "params": []
   },
   {
     "name": "generateCoupon",
     "type": "JS_Function",
     "file": "app.js",
-    "start": 2400,
-    "end": 2411,
+    "start": 2399,
+    "end": 2410,
     "params": [
       ""
     ]
@@ -6928,15 +6924,15 @@
     "params": []
   },
   {
-    "name": ".content-item",
+    "name": ".playlist-item",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 685,
+    "start": 686,
     "end": 691,
     "params": []
   },
   {
-    "name": ".content-item:hover",
+    "name": ".playlist-item:hover",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 692,
@@ -6944,735 +6940,679 @@
     "params": []
   },
   {
-    "name": ".video-item",
+    "name": ".playlist-item.active-playing",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 693,
-    "end": 693,
-    "params": []
-  },
-  {
-    "name": ".file-item",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 694,
-    "end": 694,
-    "params": []
-  },
-  {
-    "name": ".ci-header",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 696,
     "end": 696,
     "params": []
   },
   {
-    "name": ".ci-title-wrapper",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 697,
-    "end": 697,
-    "params": []
-  },
-  {
-    "name": ".ci-icon",
+    "name": ".pl-thumb",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 698,
-    "end": 698,
+    "end": 704,
     "params": []
   },
   {
-    "name": ".ci-icon svg",
+    "name": ".pl-thumb.fallback",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 699,
-    "end": 699,
+    "start": 705,
+    "end": 705,
     "params": []
   },
   {
-    "name": ".file-item .ci-icon svg",
+    "name": ".pl-thumb.file-fallback",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 700,
-    "end": 700,
+    "start": 706,
+    "end": 709,
     "params": []
   },
   {
-    "name": ".ci-title-text",
+    "name": ".pl-play",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 701,
-    "end": 701,
+    "start": 710,
+    "end": 714,
     "params": []
   },
   {
-    "name": ".ci-actions",
+    "name": ".pl-play svg",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 702,
-    "end": 702,
+    "start": 715,
+    "end": 715,
     "params": []
   },
   {
-    "name": ".ci-desc",
+    "name": ".playlist-item:hover .pl-play",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 703,
-    "end": 703,
+    "start": 716,
+    "end": 716,
+    "params": []
+  },
+  {
+    "name": ".pl-info",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 718,
+    "end": 718,
+    "params": []
+  },
+  {
+    "name": ".pl-title",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 719,
+    "end": 719,
+    "params": []
+  },
+  {
+    "name": ".pl-desc",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 720,
+    "end": 720,
+    "params": []
+  },
+  {
+    "name": ".pl-actions",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 722,
+    "end": 722,
     "params": []
   },
   {
     "name": ".video-embed",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 705,
-    "end": 710,
+    "start": 724,
+    "end": 729,
     "params": []
   },
   {
     "name": ".video-embed iframe,\r .video-embed video",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 711,
-    "end": 715,
-    "params": []
-  },
-  {
-    "name": ".video-thumbnail-overlay",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 716,
-    "end": 720,
-    "params": []
-  },
-  {
-    "name": ".video-embed:hover .video-thumbnail-overlay",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 721,
-    "end": 721,
-    "params": []
-  },
-  {
-    "name": ".video-play-btn",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 722,
-    "end": 729,
-    "params": []
-  },
-  {
-    "name": ".video-embed:hover .video-play-btn",
-    "type": "CSS_Rule",
-    "file": "style.css",
     "start": 730,
-    "end": 730,
+    "end": 734,
     "params": []
   },
   {
     "name": ".data-table",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 735,
-    "end": 739,
+    "start": 739,
+    "end": 743,
     "params": []
   },
   {
     "name": ".data-table th",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 740,
-    "end": 745,
+    "start": 744,
+    "end": 749,
     "params": []
   },
   {
     "name": ".data-table td",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 746,
-    "end": 750,
+    "start": 750,
+    "end": 754,
     "params": []
   },
   {
     "name": ".data-table tr:last-child td",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 751,
-    "end": 751,
+    "start": 755,
+    "end": 755,
     "params": []
   },
   {
     "name": ".data-table tr:hover td",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 752,
-    "end": 752,
+    "start": 756,
+    "end": 756,
     "params": []
   },
   {
     "name": ".search-bar",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 754,
-    "end": 754,
+    "start": 758,
+    "end": 758,
     "params": []
   },
   {
     "name": ".search-bar input",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 755,
-    "end": 759,
+    "start": 759,
+    "end": 763,
     "params": []
   },
   {
     "name": ".search-bar input:focus",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 760,
-    "end": 760,
+    "start": 764,
+    "end": 764,
     "params": []
   },
   {
     "name": ".filter-bar",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 762,
-    "end": 764,
+    "start": 766,
+    "end": 768,
     "params": []
   },
   {
     "name": ".filter-btn",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 765,
-    "end": 769,
+    "start": 769,
+    "end": 773,
     "params": []
   },
   {
     "name": ".filter-btn:hover",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 770,
-    "end": 770,
+    "start": 774,
+    "end": 774,
     "params": []
   },
   {
     "name": ".filter-btn.active",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 771,
-    "end": 771,
+    "start": 775,
+    "end": 775,
     "params": []
   },
   {
     "name": ".payment-review-card",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 776,
-    "end": 782,
+    "start": 780,
+    "end": 786,
     "params": []
   },
   {
     "name": ".payment-review-card:hover",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 783,
-    "end": 783,
+    "start": 787,
+    "end": 787,
     "params": []
   },
   {
     "name": ".pay-thumb",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 784,
-    "end": 789,
+    "start": 788,
+    "end": 793,
     "params": []
   },
   {
     "name": ".pay-info",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 790,
-    "end": 790,
+    "start": 794,
+    "end": 794,
     "params": []
   },
   {
     "name": ".pay-name",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 791,
-    "end": 791,
+    "start": 795,
+    "end": 795,
     "params": []
   },
   {
     "name": ".pay-meta",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 792,
-    "end": 792,
+    "start": 796,
+    "end": 796,
     "params": []
   },
   {
     "name": ".pay-actions",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 793,
-    "end": 793,
+    "start": 797,
+    "end": 797,
     "params": []
   },
   {
     "name": ".modal-overlay",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 798,
-    "end": 804,
+    "start": 802,
+    "end": 808,
     "params": []
   },
   {
     "name": ".modal-overlay.active",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 805,
-    "end": 805,
+    "start": 809,
+    "end": 809,
     "params": []
   },
   {
     "name": ".modal",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 806,
-    "end": 813,
+    "start": 810,
+    "end": 817,
     "params": []
   },
   {
     "name": ".modal.active",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 814,
-    "end": 814,
+    "start": 818,
+    "end": 818,
     "params": []
   },
   {
     "name": ".modal-header",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 815,
-    "end": 818,
+    "start": 819,
+    "end": 822,
     "params": []
   },
   {
     "name": ".modal-header h3",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 819,
-    "end": 821,
+    "start": 823,
+    "end": 825,
     "params": []
   },
   {
     "name": ".modal-header button",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 822,
-    "end": 826,
+    "start": 826,
+    "end": 830,
     "params": []
   },
   {
     "name": ".modal-header button:hover",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 827,
-    "end": 827,
+    "start": 831,
+    "end": 831,
     "params": []
   },
   {
     "name": ".modal-body",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 828,
-    "end": 828,
+    "start": 832,
+    "end": 832,
     "params": []
   },
   {
     "name": ".modal-actions",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 829,
-    "end": 829,
+    "start": 833,
+    "end": 833,
     "params": []
   },
   {
     "name": ".toast",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 834,
-    "end": 843,
+    "start": 838,
+    "end": 847,
     "params": []
   },
   {
     "name": ".toast.success",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 844,
-    "end": 844,
+    "start": 848,
+    "end": 848,
     "params": []
   },
   {
     "name": ".toast.error",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 845,
-    "end": 845,
+    "start": 849,
+    "end": 849,
     "params": []
   },
   {
     "name": ".wa-sticky",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 850,
-    "end": 852,
+    "start": 854,
+    "end": 856,
     "params": []
   },
   {
     "name": ".wa-sticky .wa-btn",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 853,
-    "end": 855,
+    "start": 857,
+    "end": 859,
     "params": []
   },
   {
     "name": ".batchmates-grid",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 860,
-    "end": 864,
+    "start": 864,
+    "end": 868,
     "params": []
   },
   {
     "name": ".batchmate-card",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 865,
-    "end": 868,
+    "start": 869,
+    "end": 872,
     "params": []
   },
   {
     "name": ".avatar",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 869,
-    "end": 875,
+    "start": 873,
+    "end": 879,
     "params": []
   },
   {
     "name": ".batchmate-name",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 876,
-    "end": 876,
+    "start": 880,
+    "end": 880,
     "params": []
   },
   {
     "name": ".batchmate-meta",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 877,
-    "end": 877,
+    "start": 881,
+    "end": 881,
     "params": []
   },
   {
     "name": ".mark-att-row",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 882,
-    "end": 887,
+    "start": 886,
+    "end": 891,
     "params": []
   },
   {
     "name": ".mark-att-name",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 888,
-    "end": 888,
+    "start": 892,
+    "end": 892,
     "params": []
   },
   {
     "name": ".att-toggle",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 889,
-    "end": 889,
+    "start": 893,
+    "end": 893,
     "params": []
   },
   {
     "name": ".att-toggle button",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 890,
-    "end": 895,
+    "start": 894,
+    "end": 899,
     "params": []
   },
   {
     "name": ".att-toggle button.p",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 896,
-    "end": 896,
+    "start": 900,
+    "end": 900,
     "params": []
   },
   {
     "name": ".att-toggle button.a",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 897,
-    "end": 897,
+    "start": 901,
+    "end": 901,
     "params": []
   },
   {
     "name": ".assignment-card",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 902,
-    "end": 907,
+    "start": 906,
+    "end": 911,
     "params": []
   },
   {
     "name": ".assignment-card::before",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 908,
-    "end": 910,
+    "start": 912,
+    "end": 914,
     "params": []
   },
   {
     "name": ".assignment-card.status-pending::before",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 911,
-    "end": 911,
+    "start": 915,
+    "end": 915,
     "params": []
   },
   {
     "name": ".assignment-card.status-approved::before",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 912,
-    "end": 912,
+    "start": 916,
+    "end": 916,
     "params": []
   },
   {
     "name": ".assignment-card-header",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 914,
-    "end": 918,
+    "start": 918,
+    "end": 922,
     "params": []
   },
   {
     "name": ".assignment-title",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 919,
-    "end": 919,
+    "start": 923,
+    "end": 923,
     "params": []
   },
   {
     "name": ".assignment-due",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 920,
-    "end": 920,
+    "start": 924,
+    "end": 924,
     "params": []
   },
   {
     "name": ".assignment-desc",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 921,
-    "end": 921,
+    "start": 925,
+    "end": 925,
     "params": []
   },
   {
     "name": ".resource-link",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 923,
-    "end": 929,
+    "start": 927,
+    "end": 933,
     "params": []
   },
   {
     "name": ".resource-link:hover",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 930,
-    "end": 930,
+    "start": 934,
+    "end": 934,
     "params": []
   },
   {
     "name": ".assignment-footer",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 932,
-    "end": 932,
+    "start": 936,
+    "end": 936,
     "params": []
   },
   {
     "name": ".submission-receipt",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 934,
-    "end": 938,
+    "start": 938,
+    "end": 942,
     "params": []
   },
   {
     "name": ".receipt-title",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 939,
-    "end": 939,
+    "start": 943,
+    "end": 943,
     "params": []
   },
   {
     "name": ".receipt-text",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 940,
-    "end": 940,
+    "start": 944,
+    "end": 944,
     "params": []
   },
   {
     "name": ".receipt-links",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 941,
-    "end": 941,
+    "start": 945,
+    "end": 945,
     "params": []
   },
   {
     "name": ".receipt-links .btn-ghost",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 942,
-    "end": 942,
+    "start": 946,
+    "end": 946,
     "params": []
   },
   {
     "name": ".assignment-grade",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 944,
-    "end": 948,
+    "start": 948,
+    "end": 952,
     "params": []
   },
   {
     "name": ".grade-score",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 949,
-    "end": 949,
+    "start": 953,
+    "end": 953,
     "params": []
   },
   {
     "name": ".grade-feedback",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 950,
-    "end": 950,
+    "start": 954,
+    "end": 954,
     "params": []
   },
   {
     "name": ".chat-container",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 955,
-    "end": 960,
+    "start": 959,
+    "end": 964,
     "params": []
   },
   {
     "name": ".chat-messages",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 961,
-    "end": 964,
+    "start": 965,
+    "end": 968,
     "params": []
   },
   {
     "name": ".chat-msg",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 965,
-    "end": 965,
+    "start": 969,
+    "end": 969,
     "params": []
   },
   {
     "name": ".chat-msg.self",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 966,
-    "end": 966,
+    "start": 970,
+    "end": 970,
     "params": []
   },
   {
     "name": ".chat-msg-sender",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 967,
-    "end": 967,
+    "start": 971,
+    "end": 971,
     "params": []
   },
   {
     "name": ".chat-msg-bubble",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 968,
-    "end": 972,
+    "start": 972,
+    "end": 976,
     "params": []
   },
   {
     "name": ".chat-msg.self .chat-msg-bubble",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 973,
-    "end": 976,
-    "params": []
-  },
-  {
-    "name": ".chat-input-area",
-    "type": "CSS_Rule",
-    "file": "style.css",
     "start": 977,
-    "end": 977,
-    "params": []
-  },
-  {
-    "name": ".chat-input-area input",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 978,
-    "end": 978,
-    "params": []
-  },
-  {
-    "name": ".chat-input-area input:focus",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 979,
-    "end": 979,
-    "params": []
-  },
-  {
-    "name": ".chat-input-area button",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 980,
     "end": 980,
     "params": []
   },
   {
-    "name": ".chat-input-area button:hover",
+    "name": ".chat-input-area",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 981,
@@ -7680,31 +7620,39 @@
     "params": []
   },
   {
+    "name": ".chat-input-area input",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 982,
+    "end": 982,
+    "params": []
+  },
+  {
+    "name": ".chat-input-area input:focus",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 983,
+    "end": 983,
+    "params": []
+  },
+  {
+    "name": ".chat-input-area button",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 984,
+    "end": 984,
+    "params": []
+  },
+  {
+    "name": ".chat-input-area button:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 985,
+    "end": 985,
+    "params": []
+  },
+  {
     "name": ".mobile-icon",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 998,
-    "end": 998,
-    "params": []
-  },
-  {
-    "name": ".nav-user",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 1000,
-    "end": 1000,
-    "params": []
-  },
-  {
-    "name": "#global-nav .wa-btn",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 1001,
-    "end": 1001,
-    "params": []
-  },
-  {
-    "name": "#global-nav",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1002,
@@ -7712,55 +7660,47 @@
     "params": []
   },
   {
-    "name": "body.has-bottom-nav #nav-links",
+    "name": ".nav-user",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1004,
+    "end": 1004,
+    "params": []
+  },
+  {
+    "name": "#global-nav .wa-btn",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1005,
-    "end": 1012,
+    "end": 1005,
+    "params": []
+  },
+  {
+    "name": "#global-nav",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1006,
+    "end": 1006,
+    "params": []
+  },
+  {
+    "name": "body.has-bottom-nav #nav-links",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1009,
+    "end": 1016,
     "params": []
   },
   {
     "name": "body.has-bottom-nav .nav-links button",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 1013,
-    "end": 1017,
-    "params": []
-  },
-  {
-    "name": "body.has-bottom-nav .nav-links button .nav-icn",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 1018,
-    "end": 1018,
-    "params": []
-  },
-  {
-    "name": "body.has-bottom-nav .nav-links button.active",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 1019,
-    "end": 1019,
-    "params": []
-  },
-  {
-    "name": "body.has-bottom-nav .page",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 1020,
-    "end": 1020,
-    "params": []
-  },
-  {
-    "name": "body.has-bottom-nav",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 1021,
+    "start": 1017,
     "end": 1021,
     "params": []
   },
   {
-    "name": "body.has-bottom-nav .wa-sticky",
+    "name": "body.has-bottom-nav .nav-links button .nav-icn",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1022,
@@ -7768,7 +7708,7 @@
     "params": []
   },
   {
-    "name": "body.has-bottom-nav .toast",
+    "name": "body.has-bottom-nav .nav-links button.active",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1023,
@@ -7776,7 +7716,31 @@
     "params": []
   },
   {
-    "name": ".btn-text",
+    "name": "body.has-bottom-nav .page",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1024,
+    "end": 1024,
+    "params": []
+  },
+  {
+    "name": "body.has-bottom-nav",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1025,
+    "end": 1025,
+    "params": []
+  },
+  {
+    "name": "body.has-bottom-nav .wa-sticky",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1026,
+    "end": 1026,
+    "params": []
+  },
+  {
+    "name": "body.has-bottom-nav .toast",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1027,
@@ -7784,31 +7748,7 @@
     "params": []
   },
   {
-    "name": ".mobile-icon",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 1028,
-    "end": 1028,
-    "params": []
-  },
-  {
-    "name": "#global-nav .nav-right .logout-btn",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 1029,
-    "end": 1029,
-    "params": []
-  },
-  {
-    "name": ".land-nav-actions .wa-btn",
-    "type": "CSS_Rule",
-    "file": "style.css",
-    "start": 1030,
-    "end": 1030,
-    "params": []
-  },
-  {
-    "name": ".land-nav-actions .btn-ghost, .land-nav-actions .btn-primary",
+    "name": ".btn-text",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1031,
@@ -7816,7 +7756,7 @@
     "params": []
   },
   {
-    "name": ".dash-header",
+    "name": ".mobile-icon",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1032,
@@ -7824,7 +7764,7 @@
     "params": []
   },
   {
-    "name": ".dash-header button",
+    "name": "#global-nav .nav-right .logout-btn",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1033,
@@ -7832,7 +7772,7 @@
     "params": []
   },
   {
-    "name": ".container",
+    "name": ".land-nav-actions .wa-btn",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1034,
@@ -7840,7 +7780,7 @@
     "params": []
   },
   {
-    "name": ".inner-hero",
+    "name": ".land-nav-actions .btn-ghost, .land-nav-actions .btn-primary",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1035,
@@ -7848,7 +7788,7 @@
     "params": []
   },
   {
-    "name": ".land-nav",
+    "name": ".dash-header",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1036,
@@ -7856,7 +7796,7 @@
     "params": []
   },
   {
-    "name": ".hero",
+    "name": ".dash-header button",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1037,
@@ -7864,7 +7804,7 @@
     "params": []
   },
   {
-    "name": ".hero-title",
+    "name": ".container",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1038,
@@ -7872,7 +7812,7 @@
     "params": []
   },
   {
-    "name": ".hero-actions",
+    "name": ".inner-hero",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1039,
@@ -7880,7 +7820,7 @@
     "params": []
   },
   {
-    "name": ".hero-actions button",
+    "name": ".land-nav",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1040,
@@ -7888,7 +7828,7 @@
     "params": []
   },
   {
-    "name": ".dash-header",
+    "name": ".hero",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1041,
@@ -7896,7 +7836,7 @@
     "params": []
   },
   {
-    "name": ".dash-header button",
+    "name": ".hero-title",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1042,
@@ -7904,7 +7844,7 @@
     "params": []
   },
   {
-    "name": ".stats-row",
+    "name": ".hero-actions",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1043,
@@ -7912,7 +7852,7 @@
     "params": []
   },
   {
-    "name": ".stat-card",
+    "name": ".hero-actions button",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1044,
@@ -7920,7 +7860,7 @@
     "params": []
   },
   {
-    "name": ".stat-card .stat-val",
+    "name": ".dash-header",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1045,
@@ -7928,7 +7868,7 @@
     "params": []
   },
   {
-    "name": ".auth-card",
+    "name": ".dash-header button",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1046,
@@ -7936,7 +7876,7 @@
     "params": []
   },
   {
-    "name": ".data-table",
+    "name": ".stats-row",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1047,
@@ -7944,7 +7884,7 @@
     "params": []
   },
   {
-    "name": ".data-table th, .data-table td",
+    "name": ".stat-card",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1048,
@@ -7952,7 +7892,7 @@
     "params": []
   },
   {
-    "name": ".modal-overlay",
+    "name": ".stat-card .stat-val",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1049,
@@ -7960,7 +7900,7 @@
     "params": []
   },
   {
-    "name": ".modal",
+    "name": ".auth-card",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1050,
@@ -7968,47 +7908,47 @@
     "params": []
   },
   {
-    "name": ".modal::before",
+    "name": ".data-table",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1051,
-    "end": 1055,
+    "end": 1051,
     "params": []
   },
   {
-    "name": ".modal-header",
+    "name": ".data-table th, .data-table td",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 1056,
-    "end": 1056,
+    "start": 1052,
+    "end": 1052,
     "params": []
   },
   {
-    "name": ".modal-body",
+    "name": ".modal-overlay",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 1057,
-    "end": 1057,
+    "start": 1053,
+    "end": 1053,
     "params": []
   },
   {
-    "name": ".chat-container",
+    "name": ".modal",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 1058,
-    "end": 1058,
+    "start": 1054,
+    "end": 1054,
     "params": []
   },
   {
-    "name": ".video-play-btn",
+    "name": ".modal::before",
     "type": "CSS_Rule",
     "file": "style.css",
-    "start": 1059,
+    "start": 1055,
     "end": 1059,
     "params": []
   },
   {
-    "name": ".course-cards, .course-cards.lg",
+    "name": ".modal-header",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1060,
@@ -8016,7 +7956,7 @@
     "params": []
   },
   {
-    "name": ".btn-primary, .btn-ghost, .btn-danger, .btn-approve, .wa-btn",
+    "name": ".modal-body",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1061,
@@ -8024,7 +7964,7 @@
     "params": []
   },
   {
-    "name": ".form-group input, .form-group textarea, .form-group select",
+    "name": ".chat-container",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1062,
@@ -8032,11 +7972,59 @@
     "params": []
   },
   {
-    "name": ".back-btn",
+    "name": ".course-cards, .course-cards.lg",
     "type": "CSS_Rule",
     "file": "style.css",
     "start": 1063,
     "end": 1063,
+    "params": []
+  },
+  {
+    "name": ".btn-primary, .btn-ghost, .btn-danger, .btn-approve, .wa-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1064,
+    "end": 1064,
+    "params": []
+  },
+  {
+    "name": ".form-group input, .form-group textarea, .form-group select",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1065,
+    "end": 1065,
+    "params": []
+  },
+  {
+    "name": ".back-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1066,
+    "end": 1066,
+    "params": []
+  },
+  {
+    "name": ".playlist-item",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1067,
+    "end": 1067,
+    "params": []
+  },
+  {
+    "name": ".pl-thumb",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1068,
+    "end": 1068,
+    "params": []
+  },
+  {
+    "name": ".pl-actions",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1069,
+    "end": 1069,
     "params": []
   }
 ]

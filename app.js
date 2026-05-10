@@ -707,7 +707,14 @@ function renderContentTree(items, isTeacher = false) {
 
   if (!items.length) return '<div class="empty-state"><div class="es-icon">📂</div>No content uploaded yet</div>';
 
-  let html = '<div class="content-tree">';
+  let html = `
+    <!-- Main Player Area -->
+    <div id="active-player-wrapper" class="hidden" style="margin-bottom: 2rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 1.5rem; box-shadow: var(--shadow-lg);">
+      <div id="active-player-container" class="video-embed" style="margin-top:0;"></div>
+      <h3 id="active-player-title" style="margin-top:1rem; font-family:var(--font-head); font-weight:700; font-size:20px; color:var(--text);"></h3>
+      <p id="active-player-desc" style="color:var(--text-2); font-size:15px; margin-top:4px; line-height:1.6;"></p>
+    </div>
+    <div class="content-tree">`;
 
   chapters.forEach(ch => {
     const children = items.filter(i => i.parentId === ch._id).sort((a,b) => (a.order||0) - (b.order||0));
@@ -737,48 +744,36 @@ function renderContentTree(items, isTeacher = false) {
 
 function renderContentItem(item, isTeacher) {
   const isVideo = item.type === 'video';
-  const icon = isVideo 
-    ? `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>` 
-    : `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`;
-  const lecBadge = item.order ? `<span class="badge badge-enrolled" style="margin-right:10px">Lec ${item.order}</span>` : '';
   
-  let actionBtn = '';
-  if (!isVideo && item.url) {
-    actionBtn = `<a href="${item.url}" target="_blank" class="btn-ghost" style="padding:6px 14px;font-size:13px;text-decoration:none;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> View / Download</a>`;
-  }
-
-  let html = `<div class="content-item ${isVideo ? 'video-item' : 'file-item'}">
-      <div class="ci-header">
-        <div class="ci-title-wrapper">
-          <div class="ci-icon">${icon}</div>
-          <div class="ci-title-text">${lecBadge}${esc(item.title)}</div>
-        </div>
-        <div class="ci-actions">
-          ${actionBtn}
-          ${isTeacher ? `<button class="btn-danger" onclick="deleteContent('${item._id}')" style="padding:6px 12px;font-size:13px;" title="Delete">🗑️</button>` : ''}
-        </div>
-      </div>
-      ${item.description ? `<div class="ci-desc">${esc(item.description)}</div>` : ''}`;
-
-  if (isVideo && item.url) {
+  let thumb = '';
+  if (isVideo) {
     if (item.thumbnail) {
-      html += `<div class="video-embed" id="vid-${item._id}" onclick="playVideo('vid-${item._id}', '${item.url}', '${item._id}')" style="cursor:pointer;background-image:url('${item.thumbnail}');background-size:cover;background-position:center;">
-        <div class="video-thumbnail-overlay">
-          <div class="video-play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
-        </div>
-      </div>`;
+      thumb = `<div class="pl-thumb" style="background-image:url('${esc(item.thumbnail)}')"><div class="pl-play"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div></div>`;
     } else {
-      if (item.url.includes('drive.google.com')) {
-        const embedUrl = driveEmbed(item.url);
-        html += `<div class="video-embed"><iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe></div>`;
-      } else {
-        html += `<div class="video-embed"><video controls playsinline webkit-playsinline src="${item.url}"></video></div>`;
-      }
+      thumb = `<div class="pl-thumb fallback"><div class="pl-play"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div></div>`;
     }
+  } else {
+    thumb = `<div class="pl-thumb file-fallback"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></div>`;
   }
 
-  html += `</div>`;
-  return html;
+  const onClickAttr = isVideo && item.url 
+    ? `onclick="playCourseVideo('${item._id}', '${item.url}', '${esc(item.title).replace(/'/g, "\\'")}', '${esc(item.description||'').replace(/'/g, "\\'")}')"` 
+    : '';
+  
+  const lecBadge = item.order ? `<span class="badge badge-enrolled" style="margin-right:8px">Lec ${item.order}</span>` : '';
+ 
+  return `
+    <div class="playlist-item" id="pl-item-${item._id}" ${onClickAttr}>
+      ${thumb}
+      <div class="pl-info">
+        <div class="pl-title">${lecBadge}${esc(item.title)}</div>
+        ${item.description ? `<div class="pl-desc">${esc(item.description)}</div>` : ''}
+      </div>
+      <div class="pl-actions" onclick="event.stopPropagation()">
+        ${!isVideo && item.url ? `<a href="${item.url}" target="_blank" class="btn-ghost" style="padding:6px 14px;font-size:13px;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> View</a>` : ''}
+        ${isTeacher ? `<button class="btn-danger" onclick="deleteContent('${item._id}')" style="padding:6px 12px;font-size:13px;" title="Delete">🗑️</button>` : ''}
+      </div>
+    </div>`;
 }
 
 function driveEmbed(url) {
@@ -787,32 +782,36 @@ function driveEmbed(url) {
   return url;
 }
 
-function playVideo(containerId, url, itemId) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
+window.playCourseVideo = function(id, url, title, desc) {
+  const wrapper = document.getElementById('active-player-wrapper');
+  const container = document.getElementById('active-player-container');
+  const titleEl = document.getElementById('active-player-title');
+  const descEl = document.getElementById('active-player-desc');
   
-  /* Fallback to iframe for Google Drive. (Cannot track progress via iframe) */
+  wrapper.classList.remove('hidden');
+  titleEl.textContent = title;
+  descEl.textContent = desc;
+  
+  document.querySelectorAll('.playlist-item').forEach(el => el.classList.remove('active-playing'));
+  const activeItem = document.getElementById('pl-item-' + id);
+  if (activeItem) activeItem.classList.add('active-playing');
+
   if (url.includes('drive.google.com')) {
     const embedUrl = driveEmbed(url);
-    el.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>`;
+    container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>`;
   } else {
-    /* Native HTML5 Video supports resume playback! */
-    el.innerHTML = `<video id="player-${itemId}" src="${url}" controls autoplay playsinline webkit-playsinline></video>`;
-    const video = document.getElementById(`player-${itemId}`);
-    
+    container.innerHTML = `<video id="player-${id}" src="${url}" controls autoplay playsinline webkit-playsinline></video>`;
+    const video = document.getElementById(`player-${id}`);
     video.addEventListener('loadedmetadata', () => {
-      const savedTime = localStorage.getItem(`vid_progress_${itemId}`);
+      const savedTime = localStorage.getItem(`vid_progress_${id}`);
       if (savedTime) video.currentTime = parseFloat(savedTime);
     });
-
     video.addEventListener('timeupdate', () => {
-      localStorage.setItem(`vid_progress_${itemId}`, video.currentTime);
+      localStorage.setItem(`vid_progress_${id}`, video.currentTime);
     });
   }
   
-  el.onclick = null;
-  el.style.backgroundImage = 'none';
-  el.style.cursor = 'default';
+  wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function toggleChapter(id) {
