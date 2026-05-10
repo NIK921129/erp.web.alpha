@@ -1,0 +1,65 @@
+[
+  {
+    "id": ".env",
+    "path": ".env",
+    "extension": "",
+    "size": 274,
+    "language": "unknown"
+  },
+  {
+    "id": ".gitignore",
+    "path": ".gitignore",
+    "extension": "",
+    "size": 277,
+    "language": "unknown"
+  },
+  {
+    "id": "app.js",
+    "path": "app.js",
+    "extension": ".js",
+    "size": 117504,
+    "language": "javascript"
+  },
+  {
+    "id": "index.html",
+    "path": "index.html",
+    "extension": ".html",
+    "size": 50194,
+    "language": "html"
+  },
+  {
+    "id": "package-lock.json",
+    "path": "package-lock.json",
+    "extension": ".json",
+    "size": 91609,
+    "language": "unknown"
+  },
+  {
+    "id": "package.json",
+    "path": "package.json",
+    "extension": ".json",
+    "size": 482,
+    "language": "unknown"
+  },
+  {
+    "id": "server.js",
+    "path": "server.js",
+    "extension": ".js",
+    "size": 36428,
+    "language": "javascript"
+  },
+  {
+    "id": "style.css",
+    "path": "style.css",
+    "extension": ".css",
+    "size": 45428,
+    "language": "css"
+  },
+  {
+    "id": "vercel.json",
+    "path": "vercel.json",
+    "extension": ".json",
+    "size": 141,
+    "language": "unknown"
+  }
+]

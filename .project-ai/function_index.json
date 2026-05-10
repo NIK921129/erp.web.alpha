@@ -1,0 +1,8042 @@
+[
+  {
+    "name": "api",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 46,
+    "end": 68,
+    "params": [
+      "method",
+      "path",
+      "body = null",
+      "isFormData = false"
+    ]
+  },
+  {
+    "name": "promptAdminAccess",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 142,
+    "end": 162,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "initSocket",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 167,
+    "end": 198,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "navigate",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 240,
+    "end": 273,
+    "params": [
+      "page",
+      "params = {}"
+    ]
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 258,
+    "end": 258,
+    "params": []
+  },
+  {
+    "name": "showNav",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 297,
+    "end": 303,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "buildNavLinks",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 305,
+    "end": 335,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "l",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 331,
+    "end": 332,
+    "params": []
+  },
+  {
+    "name": "updateNavLinks",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 337,
+    "end": 341,
+    "params": [
+      "page"
+    ]
+  },
+  {
+    "name": "btn",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 338,
+    "end": 340,
+    "params": []
+  },
+  {
+    "name": "selectRole",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 346,
+    "end": 349,
+    "params": [
+      "btn"
+    ]
+  },
+  {
+    "name": "b",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 347,
+    "end": 347,
+    "params": []
+  },
+  {
+    "name": "handleLogin",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 351,
+    "end": 377,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "handleSignup",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 379,
+    "end": 405,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "redirectByRole",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 407,
+    "end": 413,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "handleLogout",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 415,
+    "end": 428,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "openProfileModal",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 433,
+    "end": 441,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "saveProfile",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 443,
+    "end": 467,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "loadPublicCourses",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 472,
+    "end": 478,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "loadPublicCourseGrid",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 480,
+    "end": 488,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "filterPublicCourses",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 490,
+    "end": 497,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "c",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 492,
+    "end": 494,
+    "params": []
+  },
+  {
+    "name": "renderCourseGrid",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 499,
+    "end": 524,
+    "params": [
+      "containerId",
+      "courses = []",
+      "limit = 0"
+    ]
+  },
+  {
+    "name": "handleCourseClick",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 526,
+    "end": 535,
+    "params": [
+      "courseId"
+    ]
+  },
+  {
+    "name": "isEnrolled",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 537,
+    "end": 539,
+    "params": [
+      "courseId"
+    ]
+  },
+  {
+    "name": "e",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 538,
+    "end": 538,
+    "params": []
+  },
+  {
+    "name": "initStudentDashboard",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 544,
+    "end": 626,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 564,
+    "end": 564,
+    "params": []
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 565,
+    "end": 565,
+    "params": []
+  },
+  {
+    "name": "a",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 567,
+    "end": 567,
+    "params": []
+  },
+  {
+    "name": "e",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 571,
+    "end": 571,
+    "params": []
+  },
+  {
+    "name": "a",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 574,
+    "end": 574,
+    "params": []
+  },
+  {
+    "name": "e",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 578,
+    "end": 578,
+    "params": []
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 597,
+    "end": 605,
+    "params": []
+  },
+  {
+    "name": "a",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 610,
+    "end": 610,
+    "params": []
+  },
+  {
+    "name": "a",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 612,
+    "end": 620,
+    "params": []
+  },
+  {
+    "name": "initStudentCourse",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 631,
+    "end": 702,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "a",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 660,
+    "end": 660,
+    "params": []
+  },
+  {
+    "name": "s",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 666,
+    "end": 672,
+    "params": []
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 676,
+    "end": 676,
+    "params": []
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 677,
+    "end": 677,
+    "params": []
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 688,
+    "end": 692,
+    "params": []
+  },
+  {
+    "name": "renderContentTree",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 704,
+    "end": 736,
+    "params": [
+      "items",
+      "isTeacher = false"
+    ]
+  },
+  {
+    "name": "i",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 705,
+    "end": 705,
+    "params": []
+  },
+  {
+    "name": "i",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 706,
+    "end": 706,
+    "params": []
+  },
+  {
+    "name": "ch",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 712,
+    "end": 728,
+    "params": []
+  },
+  {
+    "name": "i",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 713,
+    "end": 713,
+    "params": []
+  },
+  {
+    "name": "c",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 725,
+    "end": 725,
+    "params": []
+  },
+  {
+    "name": "i",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 730,
+    "end": 730,
+    "params": []
+  },
+  {
+    "name": "item",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 730,
+    "end": 732,
+    "params": []
+  },
+  {
+    "name": "renderContentItem",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 738,
+    "end": 782,
+    "params": [
+      "item",
+      "isTeacher"
+    ]
+  },
+  {
+    "name": "driveEmbed",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 784,
+    "end": 788,
+    "params": [
+      "url"
+    ]
+  },
+  {
+    "name": "playVideo",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 790,
+    "end": 816,
+    "params": [
+      "containerId",
+      "url",
+      "itemId"
+    ]
+  },
+  {
+    "name": "toggleChapter",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 818,
+    "end": 820,
+    "params": [
+      "id"
+    ]
+  },
+  {
+    "name": "initStudentFees",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 825,
+    "end": 850,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 833,
+    "end": 846,
+    "params": []
+  },
+  {
+    "name": "initStudentAttendance",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 855,
+    "end": 902,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 866,
+    "end": 870,
+    "params": []
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 874,
+    "end": 874,
+    "params": []
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 889,
+    "end": 894,
+    "params": []
+  },
+  {
+    "name": "initStudentAssignments",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 907,
+    "end": 916,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "filterStudentAssignments",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 918,
+    "end": 924,
+    "params": [
+      "filter",
+      "btn"
+    ]
+  },
+  {
+    "name": "b",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 920,
+    "end": 920,
+    "params": []
+  },
+  {
+    "name": "renderStudentAssignments",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 926,
+    "end": 931,
+    "params": [
+      "filter = 'all'"
+    ]
+  },
+  {
+    "name": "a",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 928,
+    "end": 928,
+    "params": []
+  },
+  {
+    "name": "a",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 930,
+    "end": 930,
+    "params": []
+  },
+  {
+    "name": "renderAssignmentCard",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 933,
+    "end": 973,
+    "params": [
+      "a",
+      "canSubmit = false"
+    ]
+  },
+  {
+    "name": "initEnrolPage",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 978,
+    "end": 1019,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 988,
+    "end": 988,
+    "params": []
+  },
+  {
+    "name": "renderEnrolStep1",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1021,
+    "end": 1045,
+    "params": [
+      "course",
+      "resubmit = false"
+    ]
+  },
+  {
+    "name": "applyCoupon",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1047,
+    "end": 1057,
+    "params": [
+      "originalFee"
+    ]
+  },
+  {
+    "name": "goToStep2",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1059,
+    "end": 1082,
+    "params": [
+      "courseId",
+      "fee"
+    ]
+  },
+  {
+    "name": "goToStep3",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1084,
+    "end": 1109,
+    "params": [
+      "courseId",
+      "fee"
+    ]
+  },
+  {
+    "name": "previewSS",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1111,
+    "end": 1122,
+    "params": [
+      "input"
+    ]
+  },
+  {
+    "name": "e",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1115,
+    "end": 1120,
+    "params": []
+  },
+  {
+    "name": "submitPaymentScreenshot",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1124,
+    "end": 1161,
+    "params": [
+      "courseId",
+      "fee"
+    ]
+  },
+  {
+    "name": "stepsBar",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1163,
+    "end": 1175,
+    "params": [
+      "active"
+    ]
+  },
+  {
+    "name": "initTeacherDashboard",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1180,
+    "end": 1210,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "c",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1184,
+    "end": 1185,
+    "params": []
+  },
+  {
+    "name": "initTeacherCourse",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1215,
+    "end": 1271,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "a",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1249,
+    "end": 1249,
+    "params": []
+  },
+  {
+    "name": "s",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1257,
+    "end": 1262,
+    "params": []
+  },
+  {
+    "name": "renderMarkAttendance",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1273,
+    "end": 1292,
+    "params": [
+      "students",
+      "courseId"
+    ]
+  },
+  {
+    "name": "s",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1283,
+    "end": 1290,
+    "params": []
+  },
+  {
+    "name": "setAtt",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1294,
+    "end": 1298,
+    "params": [
+      "btn",
+      "status"
+    ]
+  },
+  {
+    "name": "b",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1296,
+    "end": 1296,
+    "params": []
+  },
+  {
+    "name": "markAllPresent",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1300,
+    "end": 1306,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "row",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1301,
+    "end": 1305,
+    "params": []
+  },
+  {
+    "name": "b",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1302,
+    "end": 1302,
+    "params": []
+  },
+  {
+    "name": "submitAttendance",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1308,
+    "end": 1325,
+    "params": [
+      "courseId"
+    ]
+  },
+  {
+    "name": "row",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1313,
+    "end": 1317,
+    "params": []
+  },
+  {
+    "name": "initAdminDashboard",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1330,
+    "end": 1366,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1339,
+    "end": 1339,
+    "params": []
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1350,
+    "end": 1350,
+    "params": []
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1353,
+    "end": 1361,
+    "params": []
+  },
+  {
+    "name": "initAdminPayments",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1371,
+    "end": 1374,
+    "params": [
+      "filter = 'pending'"
+    ]
+  },
+  {
+    "name": "renderAdminPayments",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1376,
+    "end": 1389,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1382,
+    "end": 1382,
+    "params": []
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1385,
+    "end": 1385,
+    "params": []
+  },
+  {
+    "name": "filterPayments",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1391,
+    "end": 1396,
+    "params": [
+      "filter",
+      "btn"
+    ]
+  },
+  {
+    "name": "b",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1392,
+    "end": 1392,
+    "params": []
+  },
+  {
+    "name": "renderPaymentCard",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1398,
+    "end": 1418,
+    "params": [
+      "p"
+    ]
+  },
+  {
+    "name": "approvePayment",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1420,
+    "end": 1426,
+    "params": [
+      "payId"
+    ]
+  },
+  {
+    "name": "rejectPayment",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1428,
+    "end": 1435,
+    "params": [
+      "payId"
+    ]
+  },
+  {
+    "name": "previewScreenshot",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1437,
+    "end": 1446,
+    "params": [
+      "url",
+      "payId",
+      "status"
+    ]
+  },
+  {
+    "name": "initAdminStudents",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1451,
+    "end": 1461,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "renderAdminStudents",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1463,
+    "end": 1488,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "u",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1466,
+    "end": 1467,
+    "params": []
+  },
+  {
+    "name": "u",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1473,
+    "end": 1485,
+    "params": []
+  },
+  {
+    "name": "openManualEnrolModal",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1490,
+    "end": 1501,
+    "params": [
+      "studentId",
+      "studentName"
+    ]
+  },
+  {
+    "name": "c",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1499,
+    "end": 1499,
+    "params": []
+  },
+  {
+    "name": "submitManualEnrol",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1503,
+    "end": 1515,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "toggleUserActive",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1517,
+    "end": 1524,
+    "params": [
+      "id",
+      "active"
+    ]
+  },
+  {
+    "name": "exportAdminStudents",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1526,
+    "end": 1539,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "u",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1530,
+    "end": 1530,
+    "params": []
+  },
+  {
+    "name": "u",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1533,
+    "end": 1535,
+    "params": []
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1537,
+    "end": 1537,
+    "params": []
+  },
+  {
+    "name": "openStudentReport",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1541,
+    "end": 1573,
+    "params": [
+      "id"
+    ]
+  },
+  {
+    "name": "e",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1565,
+    "end": 1565,
+    "params": []
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1569,
+    "end": 1569,
+    "params": []
+  },
+  {
+    "name": "openCustomEmailModal",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1578,
+    "end": 1607,
+    "params": [
+      "userId = null",
+      "preSelectCourseId = null"
+    ]
+  },
+  {
+    "name": "u",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1586,
+    "end": 1586,
+    "params": []
+  },
+  {
+    "name": "u",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1586,
+    "end": 1586,
+    "params": []
+  },
+  {
+    "name": "c",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1604,
+    "end": 1604,
+    "params": []
+  },
+  {
+    "name": "toggleEmailMode",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1609,
+    "end": 1613,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "submitCustomEmail",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1615,
+    "end": 1640,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "initAdminCourses",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1645,
+    "end": 1655,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "renderAdminCourses",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1657,
+    "end": 1680,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "c",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1660,
+    "end": 1660,
+    "params": []
+  },
+  {
+    "name": "c",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1666,
+    "end": 1677,
+    "params": []
+  },
+  {
+    "name": "openCourseModal",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1682,
+    "end": 1718,
+    "params": [
+      "courseId = null"
+    ]
+  },
+  {
+    "name": "t",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1692,
+    "end": 1692,
+    "params": []
+  },
+  {
+    "name": "id",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1711,
+    "end": 1713,
+    "params": []
+  },
+  {
+    "name": "saveCourse",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1720,
+    "end": 1757,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "deleteCourseAdmin",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1759,
+    "end": 1766,
+    "params": [
+      "id"
+    ]
+  },
+  {
+    "name": "exportAdminCourses",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1768,
+    "end": 1780,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "c",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1772,
+    "end": 1772,
+    "params": []
+  },
+  {
+    "name": "c",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1775,
+    "end": 1777,
+    "params": []
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1778,
+    "end": 1778,
+    "params": []
+  },
+  {
+    "name": "initAdminUsers",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1785,
+    "end": 1795,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "renderAdminUsers",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1797,
+    "end": 1825,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "u",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1800,
+    "end": 1803,
+    "params": []
+  },
+  {
+    "name": "u",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1810,
+    "end": 1822,
+    "params": []
+  },
+  {
+    "name": "openAddUserModal",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1827,
+    "end": 1834,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "submitAddUser",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1836,
+    "end": 1856,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "triggerBulkUserUpload",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1858,
+    "end": 1860,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "handleBulkUserUpload",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1862,
+    "end": 1897,
+    "params": [
+      "event"
+    ]
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1868,
+    "end": 1868,
+    "params": []
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1868,
+    "end": 1868,
+    "params": []
+  },
+  {
+    "name": "openEditUserModal",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1899,
+    "end": 1909,
+    "params": [
+      "id"
+    ]
+  },
+  {
+    "name": "u",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1900,
+    "end": 1900,
+    "params": []
+  },
+  {
+    "name": "submitEditUser",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1911,
+    "end": 1928,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "deleteUserAdmin",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1930,
+    "end": 1938,
+    "params": [
+      "id"
+    ]
+  },
+  {
+    "name": "exportAdminUsers",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1940,
+    "end": 1952,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "u",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1944,
+    "end": 1944,
+    "params": []
+  },
+  {
+    "name": "u",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1947,
+    "end": 1949,
+    "params": []
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1950,
+    "end": 1950,
+    "params": []
+  },
+  {
+    "name": "exportAdminPayments",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1954,
+    "end": 1968,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1958,
+    "end": 1958,
+    "params": []
+  },
+  {
+    "name": "p",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1962,
+    "end": 1964,
+    "params": []
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1965,
+    "end": 1965,
+    "params": []
+  },
+  {
+    "name": "openContentModal",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1973,
+    "end": 1995,
+    "params": [
+      "courseId"
+    ]
+  },
+  {
+    "name": "b",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1983,
+    "end": 1983,
+    "params": []
+  },
+  {
+    "name": "c",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1988,
+    "end": 1988,
+    "params": []
+  },
+  {
+    "name": "c",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1991,
+    "end": 1991,
+    "params": []
+  },
+  {
+    "name": "selectCtype",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1997,
+    "end": 2004,
+    "params": [
+      "btn"
+    ]
+  },
+  {
+    "name": "b",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 1998,
+    "end": 1998,
+    "params": []
+  },
+  {
+    "name": "saveContent",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2006,
+    "end": 2030,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "deleteContent",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2032,
+    "end": 2039,
+    "params": [
+      "id"
+    ]
+  },
+  {
+    "name": "openPostAssignModal",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2044,
+    "end": 2051,
+    "params": [
+      "courseId"
+    ]
+  },
+  {
+    "name": "postAssignment",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2053,
+    "end": 2073,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "openSubmitModal",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2075,
+    "end": 2081,
+    "params": [
+      "assignId"
+    ]
+  },
+  {
+    "name": "submitAssignment",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2083,
+    "end": 2115,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "openSubmissionsModal",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2117,
+    "end": 2147,
+    "params": [
+      "assignId"
+    ]
+  },
+  {
+    "name": "s",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2127,
+    "end": 2143,
+    "params": []
+  },
+  {
+    "name": "saveGrade",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2149,
+    "end": 2157,
+    "params": [
+      "subId"
+    ]
+  },
+  {
+    "name": "switchTab",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2162,
+    "end": 2169,
+    "params": [
+      "name",
+      "btn"
+    ]
+  },
+  {
+    "name": "t",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2163,
+    "end": 2166,
+    "params": []
+  },
+  {
+    "name": "b",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2167,
+    "end": 2167,
+    "params": []
+  },
+  {
+    "name": "switchTeacherTab",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2171,
+    "end": 2178,
+    "params": [
+      "name",
+      "btn"
+    ]
+  },
+  {
+    "name": "t",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2172,
+    "end": 2175,
+    "params": []
+  },
+  {
+    "name": "b",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2176,
+    "end": 2176,
+    "params": []
+  },
+  {
+    "name": "initCourseChatView",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2183,
+    "end": 2205,
+    "params": [
+      "containerId",
+      "courseId"
+    ]
+  },
+  {
+    "name": "renderChatMessages",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2207,
+    "end": 2216,
+    "params": [
+      "courseId",
+      "msgs"
+    ]
+  },
+  {
+    "name": "m",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2214,
+    "end": 2214,
+    "params": []
+  },
+  {
+    "name": "createChatBubble",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2218,
+    "end": 2228,
+    "params": [
+      "m"
+    ]
+  },
+  {
+    "name": "sendCourseChatMessage",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2230,
+    "end": 2238,
+    "params": [
+      "e",
+      "courseId"
+    ]
+  },
+  {
+    "name": "openModal",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2243,
+    "end": 2257,
+    "params": [
+      "id"
+    ]
+  },
+  {
+    "name": "m",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2247,
+    "end": 2250,
+    "params": []
+  },
+  {
+    "name": "closeModal",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2259,
+    "end": 2261,
+    "params": [
+      "e"
+    ]
+  },
+  {
+    "name": "closeAllModals",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2263,
+    "end": 2271,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "m",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2267,
+    "end": 2270,
+    "params": []
+  },
+  {
+    "name": "generateQR",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2276,
+    "end": 2297,
+    "params": [
+      "containerId",
+      "text"
+    ]
+  },
+  {
+    "name": "downloadCSV",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2299,
+    "end": 2307,
+    "params": [
+      "csvContent",
+      "filename"
+    ]
+  },
+  {
+    "name": "val",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2312,
+    "end": 2312,
+    "params": [
+      "id"
+    ]
+  },
+  {
+    "name": "esc",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2313,
+    "end": 2313,
+    "params": [
+      "s"
+    ]
+  },
+  {
+    "name": "initials",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2314,
+    "end": 2314,
+    "params": [
+      "name"
+    ]
+  },
+  {
+    "name": "w",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2314,
+    "end": 2314,
+    "params": []
+  },
+  {
+    "name": "fmtDate",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2315,
+    "end": 2315,
+    "params": [
+      "d"
+    ]
+  },
+  {
+    "name": "showErr",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2316,
+    "end": 2316,
+    "params": [
+      "el",
+      "msg"
+    ]
+  },
+  {
+    "name": "getGreeting",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2318,
+    "end": 2323,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "statCard",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2325,
+    "end": 2327,
+    "params": [
+      "label",
+      "value",
+      "color = 'teal'"
+    ]
+  },
+  {
+    "name": "openWhatsApp",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2329,
+    "end": 2331,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "toast",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2333,
+    "end": 2340,
+    "params": [
+      "msg",
+      "type = ''"
+    ]
+  },
+  {
+    "name": "initAdminSettings",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2345,
+    "end": 2353,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "saveAdminSettings",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2355,
+    "end": 2377,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "ip",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2363,
+    "end": 2363,
+    "params": []
+  },
+  {
+    "name": "ip",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2363,
+    "end": 2363,
+    "params": []
+  },
+  {
+    "name": "loadAdminSettingsData",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2379,
+    "end": 2398,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "c",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2388,
+    "end": 2396,
+    "params": []
+  },
+  {
+    "name": "generateCoupon",
+    "type": "JS_Function",
+    "file": "app.js",
+    "start": 2400,
+    "end": 2411,
+    "params": [
+      ""
+    ]
+  },
+  {
+    "name": "<div [id=\"announcement-banner\"] [class=\"announcement-banner hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 18,
+    "end": 18,
+    "params": []
+  },
+  {
+    "name": "<nav [id=\"global-nav\"] [class=\"hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 23,
+    "end": 23,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"nav-brand\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 24,
+    "end": 24,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"nav-logo\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 25,
+    "end": 25,
+    "params": []
+  },
+  {
+    "name": "<span [class=\"nav-name\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 26,
+    "end": 26,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"nav-links\"] [id=\"nav-links\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 28,
+    "end": 28,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"nav-right\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 29,
+    "end": 29,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"wa-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 30,
+    "end": 30,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"nav-user\"] [id=\"nav-user-info\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 34,
+    "end": 34,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"logout-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 35,
+    "end": 35,
+    "params": []
+  },
+  {
+    "name": "<svg [class=\"mobile-icon\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 36,
+    "end": 36,
+    "params": []
+  },
+  {
+    "name": "<span [class=\"btn-text\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 37,
+    "end": 37,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"logout-btn\"] [id=\"logout-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 39,
+    "end": 39,
+    "params": []
+  },
+  {
+    "name": "<svg [class=\"mobile-icon\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 40,
+    "end": 40,
+    "params": []
+  },
+  {
+    "name": "<span [class=\"btn-text\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 41,
+    "end": 41,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-landing\"] [class=\"page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 49,
+    "end": 49,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"landing-bg\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 53,
+    "end": 53,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"bg-grid\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 54,
+    "end": 54,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"bg-glow\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 55,
+    "end": 55,
+    "params": []
+  },
+  {
+    "name": "<nav [class=\"land-nav\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 57,
+    "end": 57,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"nav-brand\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 58,
+    "end": 58,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"nav-logo\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 59,
+    "end": 59,
+    "params": []
+  },
+  {
+    "name": "<span [class=\"nav-name\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 60,
+    "end": 60,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"land-nav-actions\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 62,
+    "end": 62,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"wa-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 63,
+    "end": 63,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 67,
+    "end": 67,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 68,
+    "end": 68,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"hero\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 72,
+    "end": 72,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"hero-badge\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 73,
+    "end": 73,
+    "params": []
+  },
+  {
+    "name": "<h1 [class=\"hero-title\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 74,
+    "end": 74,
+    "params": []
+  },
+  {
+    "name": "<span [class=\"accent\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 74,
+    "end": 74,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"hero-sub\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 75,
+    "end": 75,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"hero-actions\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 76,
+    "end": 76,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary btn-lg\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 77,
+    "end": 77,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost btn-lg\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 78,
+    "end": 78,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"hero-stats\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 80,
+    "end": 80,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"stat-pill\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 81,
+    "end": 81,
+    "params": []
+  },
+  {
+    "name": "<span [class=\"stat-n\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 81,
+    "end": 81,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"stat-pill\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 82,
+    "end": 82,
+    "params": []
+  },
+  {
+    "name": "<span [class=\"stat-n\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 82,
+    "end": 82,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"stat-pill\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 83,
+    "end": 83,
+    "params": []
+  },
+  {
+    "name": "<span [class=\"stat-n\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 83,
+    "end": 83,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"courses-preview\"] [id=\"landing-courses\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 87,
+    "end": 87,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"section-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 88,
+    "end": 88,
+    "params": []
+  },
+  {
+    "name": "<h2 [class=\"section-title\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 89,
+    "end": 89,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"section-sub\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 90,
+    "end": 90,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"course-cards\"] [id=\"landing-course-grid\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 92,
+    "end": 92,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"land-footer\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 95,
+    "end": 95,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"nav-brand\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 96,
+    "end": 96,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"nav-logo sm\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 97,
+    "end": 97,
+    "params": []
+  },
+  {
+    "name": "<span [class=\"nav-name\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 98,
+    "end": 98,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"wa-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 101,
+    "end": 101,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-login\"] [class=\"page auth-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 111,
+    "end": 111,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"auth-bg\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 112,
+    "end": 112,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"bg-grid\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 112,
+    "end": 112,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"auth-card\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 113,
+    "end": 113,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"auth-logo\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 114,
+    "end": 114,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"nav-logo lg\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 115,
+    "end": 115,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 119,
+    "end": 119,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"login-username\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 121,
+    "end": 121,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 123,
+    "end": 123,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"login-password\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 125,
+    "end": 125,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"login-error\"] [class=\"form-error hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 127,
+    "end": 127,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary full\"] [id=\"login-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 128,
+    "end": 128,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"auth-switch\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 129,
+    "end": 129,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"wa-btn center\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 130,
+    "end": 130,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-signup\"] [class=\"page auth-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 140,
+    "end": 140,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"auth-bg\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 141,
+    "end": 141,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"bg-grid\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 141,
+    "end": 141,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"auth-card\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 142,
+    "end": 142,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"auth-logo\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 143,
+    "end": 143,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"nav-logo lg\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 144,
+    "end": 144,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 148,
+    "end": 148,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"signup-name\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 150,
+    "end": 150,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 152,
+    "end": 152,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"signup-username\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 154,
+    "end": 154,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 156,
+    "end": 156,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"signup-email\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 158,
+    "end": 158,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 160,
+    "end": 160,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"signup-password\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 162,
+    "end": 162,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 164,
+    "end": 164,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"role-toggle\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 166,
+    "end": 166,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"role-btn active\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 167,
+    "end": 167,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"role-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 168,
+    "end": 168,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"signup-error\"] [class=\"form-error hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 171,
+    "end": 171,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary full\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 172,
+    "end": 172,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"auth-switch\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 173,
+    "end": 173,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-courses-public\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 180,
+    "end": 180,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"inner-hero\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 181,
+    "end": 181,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"back-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 182,
+    "end": 182,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 186,
+    "end": 186,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"search-bar mb-2\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 187,
+    "end": 187,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"public-course-search\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 188,
+    "end": 188,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"course-cards lg\"] [id=\"public-course-grid\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 190,
+    "end": 190,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-student-dashboard\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 197,
+    "end": 197,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 198,
+    "end": 198,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 199,
+    "end": 199,
+    "params": []
+  },
+  {
+    "name": "<h1 [id=\"student-welcome\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 201,
+    "end": 201,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"text-muted\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 202,
+    "end": 202,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 204,
+    "end": 204,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"stats-row\"] [id=\"student-stats\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 206,
+    "end": 206,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-grid\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 207,
+    "end": 207,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-col\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 208,
+    "end": 208,
+    "params": []
+  },
+  {
+    "name": "<h3 [class=\"card-title\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 209,
+    "end": 209,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"student-my-courses\"] [class=\"list-cards\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 210,
+    "end": 210,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-col\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 212,
+    "end": 212,
+    "params": []
+  },
+  {
+    "name": "<h3 [class=\"card-title\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 213,
+    "end": 213,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"student-pending-payments\"] [class=\"list-cards\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 214,
+    "end": 214,
+    "params": []
+  },
+  {
+    "name": "<h3 [class=\"card-title mt-2\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 215,
+    "end": 215,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"student-due-assignments\"] [class=\"list-cards\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 216,
+    "end": 216,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"wa-sticky\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 219,
+    "end": 219,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"wa-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 220,
+    "end": 220,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-student-course\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 231,
+    "end": 231,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 232,
+    "end": 232,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"back-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 233,
+    "end": 233,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"student-course-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 234,
+    "end": 234,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"tab-bar\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 235,
+    "end": 235,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"tab active\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 236,
+    "end": 236,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"tab\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 237,
+    "end": 237,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"tab\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 238,
+    "end": 238,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"tab\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 239,
+    "end": 239,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"tab\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 240,
+    "end": 240,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"tab-content\"] [class=\"tab-panel\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 242,
+    "end": 242,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"tab-assignments\"] [class=\"tab-panel hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 243,
+    "end": 243,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"tab-batchmates\"] [class=\"tab-panel hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 244,
+    "end": 244,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"tab-attendance\"] [class=\"tab-panel hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 245,
+    "end": 245,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"tab-chat\"] [class=\"tab-panel hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 246,
+    "end": 246,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-enrol\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 253,
+    "end": 253,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container narrow\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 254,
+    "end": 254,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"back-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 255,
+    "end": 255,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"enrol-content\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 256,
+    "end": 256,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"wa-sticky\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 257,
+    "end": 257,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"wa-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 258,
+    "end": 258,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-student-fees\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 269,
+    "end": 269,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 270,
+    "end": 270,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"text-muted mb-2\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 272,
+    "end": 272,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"student-fees-list\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 273,
+    "end": 273,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"wa-sticky\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 274,
+    "end": 274,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"wa-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 275,
+    "end": 275,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-student-attendance\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 286,
+    "end": 286,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 287,
+    "end": 287,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"text-muted mb-2\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 289,
+    "end": 289,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"student-attendance-content\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 290,
+    "end": 290,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-student-assignments\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 297,
+    "end": 297,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 298,
+    "end": 298,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"text-muted mb-2\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 300,
+    "end": 300,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"filter-bar\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 301,
+    "end": 301,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"filter-btn active\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 302,
+    "end": 302,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"filter-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 303,
+    "end": 303,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"filter-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 304,
+    "end": 304,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"student-assignments-list\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 306,
+    "end": 306,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-teacher-dashboard\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 313,
+    "end": 313,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 314,
+    "end": 314,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 315,
+    "end": 315,
+    "params": []
+  },
+  {
+    "name": "<h1 [id=\"teacher-welcome\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 317,
+    "end": 317,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"text-muted\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 318,
+    "end": 318,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"stats-row\"] [id=\"teacher-stats\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 321,
+    "end": 321,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-grid\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 322,
+    "end": 322,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-col\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 323,
+    "end": 323,
+    "params": []
+  },
+  {
+    "name": "<h3 [class=\"card-title\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 324,
+    "end": 324,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"teacher-courses-list\"] [class=\"list-cards\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 325,
+    "end": 325,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-col\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 327,
+    "end": 327,
+    "params": []
+  },
+  {
+    "name": "<h3 [class=\"card-title\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 328,
+    "end": 328,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"teacher-submissions\"] [class=\"list-cards\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 329,
+    "end": 329,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-teacher-course\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 338,
+    "end": 338,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 339,
+    "end": 339,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"back-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 340,
+    "end": 340,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"teacher-course-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 341,
+    "end": 341,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"tab-bar\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 342,
+    "end": 342,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"tab active\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 343,
+    "end": 343,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"tab\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 344,
+    "end": 344,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"tab\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 345,
+    "end": 345,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"tab\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 346,
+    "end": 346,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"tab\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 347,
+    "end": 347,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"teacher-tab-content\"] [class=\"tab-panel\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 349,
+    "end": 349,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"teacher-tab-assignments\"] [class=\"tab-panel hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 350,
+    "end": 350,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"teacher-tab-attendance\"] [class=\"tab-panel hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 351,
+    "end": 351,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"teacher-tab-students\"] [class=\"tab-panel hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 352,
+    "end": 352,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"teacher-tab-chat\"] [class=\"tab-panel hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 353,
+    "end": 353,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-admin-dashboard\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 360,
+    "end": 360,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 361,
+    "end": 361,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 362,
+    "end": 362,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"text-muted\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 365,
+    "end": 365,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"stats-row\"] [id=\"admin-stats\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 368,
+    "end": 368,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-grid\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 369,
+    "end": 369,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-col\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 370,
+    "end": 370,
+    "params": []
+  },
+  {
+    "name": "<h3 [class=\"card-title\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 371,
+    "end": 371,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"admin-pending-list\"] [class=\"list-cards\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 372,
+    "end": 372,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-col\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 374,
+    "end": 374,
+    "params": []
+  },
+  {
+    "name": "<h3 [class=\"card-title\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 375,
+    "end": 375,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"admin-activity\"] [class=\"list-cards\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 376,
+    "end": 376,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-admin-payments\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 385,
+    "end": 385,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 386,
+    "end": 386,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"text-muted mb-2\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 388,
+    "end": 388,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"filter-bar\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 389,
+    "end": 389,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"filter-btn active\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 391,
+    "end": 391,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"filter-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 392,
+    "end": 392,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"filter-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 393,
+    "end": 393,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"filter-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 394,
+    "end": 394,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 396,
+    "end": 396,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"admin-payments-list\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 398,
+    "end": 398,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-admin-students\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 405,
+    "end": 405,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 406,
+    "end": 406,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"text-muted mb-2\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 408,
+    "end": 408,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"search-bar\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 409,
+    "end": 409,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"student-search\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 410,
+    "end": 410,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 411,
+    "end": 411,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"admin-students-table\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 413,
+    "end": 413,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-admin-courses\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 420,
+    "end": 420,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 421,
+    "end": 421,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 422,
+    "end": 422,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"text-muted\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 423,
+    "end": 423,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 424,
+    "end": 424,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"search-bar\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 426,
+    "end": 426,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"admin-course-search\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 427,
+    "end": 427,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 428,
+    "end": 428,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"admin-courses-table\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 430,
+    "end": 430,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-admin-users\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 437,
+    "end": 437,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 438,
+    "end": 438,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 439,
+    "end": 439,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"text-muted mb-2\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 440,
+    "end": 440,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 442,
+    "end": 442,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"bulk-user-upload\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 443,
+    "end": 443,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 444,
+    "end": 444,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"search-bar\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 447,
+    "end": 447,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"admin-user-search\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 448,
+    "end": 448,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 449,
+    "end": 449,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"admin-users-table\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 451,
+    "end": 451,
+    "params": []
+  },
+  {
+    "name": "<section [id=\"page-admin-settings\"] [class=\"page inner-page\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 458,
+    "end": 458,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"container narrow\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 459,
+    "end": 459,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"dash-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 460,
+    "end": 460,
+    "params": []
+  },
+  {
+    "name": "<p [class=\"text-muted mb-2\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 461,
+    "end": 461,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 465,
+    "end": 465,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"admin-set-announcement-active\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 466,
+    "end": 466,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 469,
+    "end": 469,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"admin-set-announcement\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 471,
+    "end": 471,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 475,
+    "end": 475,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"admin-set-upi-id\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 477,
+    "end": 477,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 479,
+    "end": 479,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"admin-set-upi-name\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 481,
+    "end": 481,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 483,
+    "end": 483,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"admin-set-wa\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 485,
+    "end": 485,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 489,
+    "end": 489,
+    "params": []
+  },
+  {
+    "name": "<textarea [id=\"admin-set-banned-ips\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 491,
+    "end": 491,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary mt-2\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 494,
+    "end": 494,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 500,
+    "end": 500,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"new-coupon-code\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 501,
+    "end": 501,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 503,
+    "end": 503,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"new-coupon-pct\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 504,
+    "end": 504,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 506,
+    "end": 506,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"admin-coupons-list\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 508,
+    "end": 508,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"modal-overlay\"] [class=\"modal-overlay hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 516,
+    "end": 516,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"modal-screenshot\"] [class=\"modal hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 519,
+    "end": 519,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 520,
+    "end": 520,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-body\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 524,
+    "end": 524,
+    "params": []
+  },
+  {
+    "name": "<img [id=\"screenshot-img\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 525,
+    "end": 525,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"screenshot-actions\"] [class=\"modal-actions\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 526,
+    "end": 526,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"modal-course\"] [class=\"modal hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 531,
+    "end": 531,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 532,
+    "end": 532,
+    "params": []
+  },
+  {
+    "name": "<h3 [id=\"course-modal-title\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 533,
+    "end": 533,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-body\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 536,
+    "end": 536,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"course-edit-id\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 537,
+    "end": 537,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 538,
+    "end": 538,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"course-name-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 540,
+    "end": 540,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 542,
+    "end": 542,
+    "params": []
+  },
+  {
+    "name": "<textarea [id=\"course-desc-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 544,
+    "end": 544,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 546,
+    "end": 546,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"course-category-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 548,
+    "end": 548,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 550,
+    "end": 550,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"course-thumbnail-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 552,
+    "end": 552,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 554,
+    "end": 554,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"course-fee-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 556,
+    "end": 556,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 558,
+    "end": 558,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"course-duration-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 560,
+    "end": 560,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 562,
+    "end": 562,
+    "params": []
+  },
+  {
+    "name": "<select [id=\"course-teacher-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 564,
+    "end": 564,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-actions\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 566,
+    "end": 566,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 567,
+    "end": 567,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 568,
+    "end": 568,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"modal-submit\"] [class=\"modal hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 574,
+    "end": 574,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 575,
+    "end": 575,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-body\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 579,
+    "end": 579,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"submit-assign-id\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 580,
+    "end": 580,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 581,
+    "end": 581,
+    "params": []
+  },
+  {
+    "name": "<textarea [id=\"submit-text\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 583,
+    "end": 583,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 585,
+    "end": 585,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"submit-url\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 587,
+    "end": 587,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 589,
+    "end": 589,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"submit-file\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 591,
+    "end": 591,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-actions\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 593,
+    "end": 593,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 594,
+    "end": 594,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 595,
+    "end": 595,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"modal-content\"] [class=\"modal hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 601,
+    "end": 601,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 602,
+    "end": 602,
+    "params": []
+  },
+  {
+    "name": "<h3 [id=\"content-modal-title\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 603,
+    "end": 603,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-body\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 606,
+    "end": 606,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"content-course-id\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 607,
+    "end": 607,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 608,
+    "end": 608,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"role-toggle\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 610,
+    "end": 610,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"role-btn active\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 611,
+    "end": 611,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"role-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 612,
+    "end": 612,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"role-btn\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 613,
+    "end": 613,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 616,
+    "end": 616,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"content-title-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 618,
+    "end": 618,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 620,
+    "end": 620,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"content-order-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 622,
+    "end": 622,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"content-url-group\"] [class=\"form-group hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 624,
+    "end": 624,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"content-url-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 626,
+    "end": 626,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"content-thumbnail-group\"] [class=\"form-group hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 628,
+    "end": 628,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"content-thumbnail-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 630,
+    "end": 630,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"content-parent-group\"] [class=\"form-group hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 632,
+    "end": 632,
+    "params": []
+  },
+  {
+    "name": "<select [id=\"content-parent-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 634,
+    "end": 634,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"content-desc-group\"] [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 638,
+    "end": 638,
+    "params": []
+  },
+  {
+    "name": "<textarea [id=\"content-desc-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 640,
+    "end": 640,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-actions\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 642,
+    "end": 642,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 643,
+    "end": 643,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 644,
+    "end": 644,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"modal-post-assign\"] [class=\"modal hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 650,
+    "end": 650,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 651,
+    "end": 651,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-body\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 655,
+    "end": 655,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"assign-course-id\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 656,
+    "end": 656,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 657,
+    "end": 657,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"assign-title-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 659,
+    "end": 659,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 661,
+    "end": 661,
+    "params": []
+  },
+  {
+    "name": "<textarea [id=\"assign-desc-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 663,
+    "end": 663,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 665,
+    "end": 665,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"assign-url-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 667,
+    "end": 667,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 669,
+    "end": 669,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"assign-due-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 671,
+    "end": 671,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-actions\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 673,
+    "end": 673,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 674,
+    "end": 674,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 675,
+    "end": 675,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"modal-submissions\"] [class=\"modal hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 681,
+    "end": 681,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 682,
+    "end": 682,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-body\"] [id=\"submissions-list\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 686,
+    "end": 686,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"modal-profile\"] [class=\"modal hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 690,
+    "end": 690,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 691,
+    "end": 691,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-body\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 695,
+    "end": 695,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 696,
+    "end": 696,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"profile-name-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 698,
+    "end": 698,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 700,
+    "end": 700,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"profile-email-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 702,
+    "end": 702,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 704,
+    "end": 704,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"profile-username-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 706,
+    "end": 706,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 709,
+    "end": 709,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"profile-password-input\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 711,
+    "end": 711,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 713,
+    "end": 713,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"profile-password-confirm\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 715,
+    "end": 715,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-actions\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 717,
+    "end": 717,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 718,
+    "end": 718,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 719,
+    "end": 719,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"modal-manual-enrol\"] [class=\"modal hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 725,
+    "end": 725,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 726,
+    "end": 726,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-body\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 730,
+    "end": 730,
+    "params": []
+  },
+  {
+    "name": "<strong [id=\"manual-enrol-student-name\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 731,
+    "end": 731,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"manual-enrol-student-id\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 732,
+    "end": 732,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 733,
+    "end": 733,
+    "params": []
+  },
+  {
+    "name": "<select [id=\"manual-enrol-course-select\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 735,
+    "end": 735,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-actions\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 737,
+    "end": 737,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 738,
+    "end": 738,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 739,
+    "end": 739,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"modal-add-user\"] [class=\"modal hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 745,
+    "end": 745,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 746,
+    "end": 746,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-body\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 750,
+    "end": 750,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 751,
+    "end": 751,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"add-user-name\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 753,
+    "end": 753,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 755,
+    "end": 755,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"add-user-username\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 757,
+    "end": 757,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 759,
+    "end": 759,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"add-user-email\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 761,
+    "end": 761,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 763,
+    "end": 763,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"add-user-password\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 765,
+    "end": 765,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 767,
+    "end": 767,
+    "params": []
+  },
+  {
+    "name": "<select [id=\"add-user-role\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 769,
+    "end": 769,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-actions\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 775,
+    "end": 775,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 776,
+    "end": 776,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 777,
+    "end": 777,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"modal-edit-user\"] [class=\"modal hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 783,
+    "end": 783,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 784,
+    "end": 784,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-body\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 788,
+    "end": 788,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"edit-user-id\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 789,
+    "end": 789,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 790,
+    "end": 790,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"edit-user-name\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 792,
+    "end": 792,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 794,
+    "end": 794,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"edit-user-username\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 796,
+    "end": 796,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 798,
+    "end": 798,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"edit-user-email\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 800,
+    "end": 800,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 802,
+    "end": 802,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"edit-user-password\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 804,
+    "end": 804,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 806,
+    "end": 806,
+    "params": []
+  },
+  {
+    "name": "<select [id=\"edit-user-role\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 808,
+    "end": 808,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-actions\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 814,
+    "end": 814,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 815,
+    "end": 815,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 816,
+    "end": 816,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"modal-student-report\"] [class=\"modal hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 822,
+    "end": 822,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 823,
+    "end": 823,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-body\"] [id=\"student-report-content\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 827,
+    "end": 827,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"modal-custom-email\"] [class=\"modal hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 832,
+    "end": 832,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-header\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 833,
+    "end": 833,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-body\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 837,
+    "end": 837,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 838,
+    "end": 838,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"custom-email-batch-toggle\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 839,
+    "end": 839,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"custom-email-single-view\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 842,
+    "end": 842,
+    "params": []
+  },
+  {
+    "name": "<strong [id=\"custom-email-target\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 843,
+    "end": 843,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"custom-email-user-id\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 844,
+    "end": 844,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"custom-email-batch-view\"] [class=\"form-group hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 846,
+    "end": 846,
+    "params": []
+  },
+  {
+    "name": "<select [id=\"custom-email-course-select\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 848,
+    "end": 848,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 850,
+    "end": 850,
+    "params": []
+  },
+  {
+    "name": "<input [id=\"custom-email-subject\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 852,
+    "end": 852,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"form-group\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 854,
+    "end": 854,
+    "params": []
+  },
+  {
+    "name": "<textarea [id=\"custom-email-body\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 856,
+    "end": 856,
+    "params": []
+  },
+  {
+    "name": "<div [class=\"modal-actions\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 858,
+    "end": 858,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-ghost\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 859,
+    "end": 859,
+    "params": []
+  },
+  {
+    "name": "<button [class=\"btn-primary\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 860,
+    "end": 860,
+    "params": []
+  },
+  {
+    "name": "<div [id=\"toast\"] [class=\"toast hidden\"]>",
+    "type": "HTML_Element",
+    "file": "index.html",
+    "start": 868,
+    "end": 868,
+    "params": []
+  },
+  {
+    "name": "err",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 53,
+    "end": 53,
+    "params": []
+  },
+  {
+    "name": "generateInvoicePDF",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 136,
+    "end": 174,
+    "params": [
+      "payment",
+      "student",
+      "course",
+      "teacher"
+    ]
+  },
+  {
+    "name": "a",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 296,
+    "end": 296,
+    "params": []
+  },
+  {
+    "name": "e",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 316,
+    "end": 316,
+    "params": []
+  },
+  {
+    "name": "a",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 420,
+    "end": 423,
+    "params": []
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 421,
+    "end": 421,
+    "params": []
+  },
+  {
+    "name": "a",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 432,
+    "end": 432,
+    "params": []
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 432,
+    "end": 432,
+    "params": []
+  },
+  {
+    "name": "e",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 457,
+    "end": 457,
+    "params": []
+  },
+  {
+    "name": "a",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 461,
+    "end": 464,
+    "params": []
+  },
+  {
+    "name": "s",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 462,
+    "end": 462,
+    "params": []
+  },
+  {
+    "name": "e",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 475,
+    "end": 478,
+    "params": []
+  },
+  {
+    "name": "a",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 658,
+    "end": 658,
+    "params": []
+  },
+  {
+    "name": "r",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 658,
+    "end": 658,
+    "params": []
+  },
+  {
+    "name": "e",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 690,
+    "end": 695,
+    "params": []
+  },
+  {
+    "name": "u",
+    "type": "JS_Function",
+    "file": "server.js",
+    "start": 707,
+    "end": 712,
+    "params": []
+  },
+  {
+    "name": ":root",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 7,
+    "end": 41,
+    "params": []
+  },
+  {
+    "name": "*, *::before, *::after",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 44,
+    "end": 44,
+    "params": []
+  },
+  {
+    "name": "a, button",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 45,
+    "end": 45,
+    "params": []
+  },
+  {
+    "name": "button, .nav-brand, .tab, .enrol-step",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 46,
+    "end": 46,
+    "params": []
+  },
+  {
+    "name": "html",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 47,
+    "end": 47,
+    "params": []
+  },
+  {
+    "name": "body",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 48,
+    "end": 56,
+    "params": []
+  },
+  {
+    "name": ".announcement-banner",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 58,
+    "end": 62,
+    "params": []
+  },
+  {
+    "name": "a",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 64,
+    "end": 64,
+    "params": []
+  },
+  {
+    "name": "a:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 65,
+    "end": 65,
+    "params": []
+  },
+  {
+    "name": "input, textarea, select, button",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 66,
+    "end": 66,
+    "params": []
+  },
+  {
+    "name": "img",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 67,
+    "end": 67,
+    "params": []
+  },
+  {
+    "name": "textarea",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 68,
+    "end": 68,
+    "params": []
+  },
+  {
+    "name": ".hidden",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 71,
+    "end": 71,
+    "params": []
+  },
+  {
+    "name": ".text-muted",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 72,
+    "end": 72,
+    "params": []
+  },
+  {
+    "name": ".mt-2",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 73,
+    "end": 73,
+    "params": []
+  },
+  {
+    "name": ".mb-2",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 74,
+    "end": 74,
+    "params": []
+  },
+  {
+    "name": ".full",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 75,
+    "end": 75,
+    "params": []
+  },
+  {
+    "name": ".center",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 76,
+    "end": 76,
+    "params": []
+  },
+  {
+    "name": "::-webkit-scrollbar",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 79,
+    "end": 79,
+    "params": []
+  },
+  {
+    "name": "::-webkit-scrollbar-track",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 80,
+    "end": 80,
+    "params": []
+  },
+  {
+    "name": "::-webkit-scrollbar-thumb",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 81,
+    "end": 81,
+    "params": []
+  },
+  {
+    "name": ".page",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 86,
+    "end": 86,
+    "params": []
+  },
+  {
+    "name": ".page.active",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 87,
+    "end": 87,
+    "params": []
+  },
+  {
+    "name": "#global-nav",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 92,
+    "end": 100,
+    "params": []
+  },
+  {
+    "name": "#global-nav.active",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 101,
+    "end": 101,
+    "params": []
+  },
+  {
+    "name": ".nav-brand",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 102,
+    "end": 102,
+    "params": []
+  },
+  {
+    "name": ".nav-logo",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 103,
+    "end": 109,
+    "params": []
+  },
+  {
+    "name": ".nav-logo.lg",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 110,
+    "end": 110,
+    "params": []
+  },
+  {
+    "name": ".nav-logo.sm",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 111,
+    "end": 111,
+    "params": []
+  },
+  {
+    "name": ".nav-name",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 112,
+    "end": 115,
+    "params": []
+  },
+  {
+    "name": ".nav-links",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 116,
+    "end": 120,
+    "params": []
+  },
+  {
+    "name": ".nav-links::-webkit-scrollbar",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 121,
+    "end": 121,
+    "params": []
+  },
+  {
+    "name": ".nav-links button",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 122,
+    "end": 128,
+    "params": []
+  },
+  {
+    "name": ".nav-links button:hover, .nav-links button.active",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 129,
+    "end": 131,
+    "params": []
+  },
+  {
+    "name": ".nav-right",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 132,
+    "end": 132,
+    "params": []
+  },
+  {
+    "name": ".nav-user",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 133,
+    "end": 133,
+    "params": []
+  },
+  {
+    "name": ".logout-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 134,
+    "end": 140,
+    "params": []
+  },
+  {
+    "name": ".logout-btn:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 141,
+    "end": 141,
+    "params": []
+  },
+  {
+    "name": ".btn-primary",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 146,
+    "end": 154,
+    "params": []
+  },
+  {
+    "name": ".btn-primary:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 155,
+    "end": 155,
+    "params": []
+  },
+  {
+    "name": ".btn-primary:active",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 156,
+    "end": 156,
+    "params": []
+  },
+  {
+    "name": ".btn-primary:disabled",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 157,
+    "end": 157,
+    "params": []
+  },
+  {
+    "name": ".btn-primary.btn-lg",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 158,
+    "end": 158,
+    "params": []
+  },
+  {
+    "name": ".btn-ghost",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 160,
+    "end": 165,
+    "params": []
+  },
+  {
+    "name": ".btn-ghost:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 166,
+    "end": 166,
+    "params": []
+  },
+  {
+    "name": ".btn-ghost.btn-lg",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 167,
+    "end": 167,
+    "params": []
+  },
+  {
+    "name": ".btn-danger",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 169,
+    "end": 173,
+    "params": []
+  },
+  {
+    "name": ".btn-danger:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 174,
+    "end": 174,
+    "params": []
+  },
+  {
+    "name": ".btn-approve",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 176,
+    "end": 180,
+    "params": []
+  },
+  {
+    "name": ".btn-approve:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 181,
+    "end": 181,
+    "params": []
+  },
+  {
+    "name": ".wa-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 183,
+    "end": 191,
+    "params": []
+  },
+  {
+    "name": ".wa-btn:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 192,
+    "end": 192,
+    "params": []
+  },
+  {
+    "name": ".back-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 194,
+    "end": 199,
+    "params": []
+  },
+  {
+    "name": ".back-btn:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 200,
+    "end": 200,
+    "params": []
+  },
+  {
+    "name": ".form-group",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 205,
+    "end": 205,
+    "params": []
+  },
+  {
+    "name": ".form-group label",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 206,
+    "end": 208,
+    "params": []
+  },
+  {
+    "name": ".form-group input,\r .form-group textarea,\r .form-group select",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 209,
+    "end": 218,
+    "params": []
+  },
+  {
+    "name": ".form-group input:focus,\r .form-group textarea:focus,\r .form-group select:focus",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 219,
+    "end": 224,
+    "params": []
+  },
+  {
+    "name": ".form-group input::placeholder,\r .form-group textarea::placeholder",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 225,
+    "end": 226,
+    "params": []
+  },
+  {
+    "name": ".form-group select option",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 227,
+    "end": 227,
+    "params": []
+  },
+  {
+    "name": ".form-error",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 229,
+    "end": 235,
+    "params": []
+  },
+  {
+    "name": ".role-toggle",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 237,
+    "end": 239,
+    "params": []
+  },
+  {
+    "name": ".role-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 240,
+    "end": 245,
+    "params": []
+  },
+  {
+    "name": ".role-btn.active",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 246,
+    "end": 249,
+    "params": []
+  },
+  {
+    "name": "#page-landing",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 254,
+    "end": 254,
+    "params": []
+  },
+  {
+    "name": ".landing-bg",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 256,
+    "end": 258,
+    "params": []
+  },
+  {
+    "name": ".bg-grid",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 259,
+    "end": 265,
+    "params": []
+  },
+  {
+    "name": ".bg-glow",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 266,
+    "end": 270,
+    "params": []
+  },
+  {
+    "name": ".land-nav",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 272,
+    "end": 276,
+    "params": []
+  },
+  {
+    "name": ".land-nav-actions",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 277,
+    "end": 279,
+    "params": []
+  },
+  {
+    "name": ".hero",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 281,
+    "end": 287,
+    "params": []
+  },
+  {
+    "name": ".hero-badge",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 288,
+    "end": 293,
+    "params": []
+  },
+  {
+    "name": ".hero-title",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 294,
+    "end": 298,
+    "params": []
+  },
+  {
+    "name": ".hero-title .accent",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 299,
+    "end": 304,
+    "params": []
+  },
+  {
+    "name": ".hero-sub",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 305,
+    "end": 308,
+    "params": []
+  },
+  {
+    "name": ".hero-actions",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 309,
+    "end": 312,
+    "params": []
+  },
+  {
+    "name": ".hero-stats",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 313,
+    "end": 315,
+    "params": []
+  },
+  {
+    "name": ".stat-pill",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 316,
+    "end": 320,
+    "params": []
+  },
+  {
+    "name": ".stat-pill .stat-n",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 321,
+    "end": 321,
+    "params": []
+  },
+  {
+    "name": ".courses-preview",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 323,
+    "end": 327,
+    "params": []
+  },
+  {
+    "name": ".section-header",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 328,
+    "end": 328,
+    "params": []
+  },
+  {
+    "name": ".section-title",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 329,
+    "end": 332,
+    "params": []
+  },
+  {
+    "name": ".section-sub",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 333,
+    "end": 333,
+    "params": []
+  },
+  {
+    "name": ".land-footer",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 335,
+    "end": 340,
+    "params": []
+  },
+  {
+    "name": ".land-footer p",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 341,
+    "end": 341,
+    "params": []
+  },
+  {
+    "name": ".course-cards",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 346,
+    "end": 350,
+    "params": []
+  },
+  {
+    "name": ".course-cards.lg",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 351,
+    "end": 353,
+    "params": []
+  },
+  {
+    "name": ".course-card",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 354,
+    "end": 359,
+    "params": []
+  },
+  {
+    "name": ".course-card:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 360,
+    "end": 363,
+    "params": []
+  },
+  {
+    "name": ".course-card-icon",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 364,
+    "end": 370,
+    "params": []
+  },
+  {
+    "name": ".course-card-name",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 371,
+    "end": 373,
+    "params": []
+  },
+  {
+    "name": ".course-card-desc",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 374,
+    "end": 374,
+    "params": []
+  },
+  {
+    "name": ".course-card-meta",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 375,
+    "end": 377,
+    "params": []
+  },
+  {
+    "name": ".meta-tag",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 378,
+    "end": 382,
+    "params": []
+  },
+  {
+    "name": ".course-card-footer",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 383,
+    "end": 386,
+    "params": []
+  },
+  {
+    "name": ".course-fee",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 387,
+    "end": 390,
+    "params": []
+  },
+  {
+    "name": ".enrol-badge",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 391,
+    "end": 395,
+    "params": []
+  },
+  {
+    "name": ".auth-page",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 400,
+    "end": 404,
+    "params": []
+  },
+  {
+    "name": ".auth-page.active",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 405,
+    "end": 405,
+    "params": []
+  },
+  {
+    "name": ".auth-bg",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 406,
+    "end": 406,
+    "params": []
+  },
+  {
+    "name": ".auth-card",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 407,
+    "end": 414,
+    "params": []
+  },
+  {
+    "name": ".auth-logo",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 415,
+    "end": 415,
+    "params": []
+  },
+  {
+    "name": ".auth-logo h2",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 416,
+    "end": 419,
+    "params": []
+  },
+  {
+    "name": ".auth-logo p",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 420,
+    "end": 420,
+    "params": []
+  },
+  {
+    "name": ".auth-logo .nav-logo",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 421,
+    "end": 421,
+    "params": []
+  },
+  {
+    "name": ".auth-switch",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 422,
+    "end": 424,
+    "params": []
+  },
+  {
+    "name": ".inner-page",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 429,
+    "end": 429,
+    "params": []
+  },
+  {
+    "name": ".inner-page.active",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 430,
+    "end": 430,
+    "params": []
+  },
+  {
+    "name": ".inner-hero",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 432,
+    "end": 435,
+    "params": []
+  },
+  {
+    "name": ".inner-hero h1",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 436,
+    "end": 439,
+    "params": []
+  },
+  {
+    "name": ".inner-hero p",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 440,
+    "end": 440,
+    "params": []
+  },
+  {
+    "name": ".container",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 442,
+    "end": 442,
+    "params": []
+  },
+  {
+    "name": ".container.narrow",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 443,
+    "end": 443,
+    "params": []
+  },
+  {
+    "name": ".dash-header",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 445,
+    "end": 449,
+    "params": []
+  },
+  {
+    "name": ".dash-header h1",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 450,
+    "end": 452,
+    "params": []
+  },
+  {
+    "name": ".stats-row",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 457,
+    "end": 461,
+    "params": []
+  },
+  {
+    "name": ".stat-card",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 462,
+    "end": 467,
+    "params": []
+  },
+  {
+    "name": ".stat-card:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 468,
+    "end": 471,
+    "params": []
+  },
+  {
+    "name": ".stat-card .stat-label",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 472,
+    "end": 472,
+    "params": []
+  },
+  {
+    "name": ".stat-card .stat-val",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 473,
+    "end": 475,
+    "params": []
+  },
+  {
+    "name": ".stat-card .stat-val.teal",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 476,
+    "end": 476,
+    "params": []
+  },
+  {
+    "name": ".stat-card .stat-val.amber",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 477,
+    "end": 477,
+    "params": []
+  },
+  {
+    "name": ".stat-card .stat-val.red",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 478,
+    "end": 478,
+    "params": []
+  },
+  {
+    "name": ".stat-card .stat-val.blue",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 479,
+    "end": 479,
+    "params": []
+  },
+  {
+    "name": ".dash-grid",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 484,
+    "end": 488,
+    "params": []
+  },
+  {
+    "name": ".dash-grid",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 489,
+    "end": 489,
+    "params": []
+  },
+  {
+    "name": ".dash-col",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 490,
+    "end": 490,
+    "params": []
+  },
+  {
+    "name": ".card-title",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 491,
+    "end": 494,
+    "params": []
+  },
+  {
+    "name": ".list-cards",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 499,
+    "end": 499,
+    "params": []
+  },
+  {
+    "name": ".list-card",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 500,
+    "end": 505,
+    "params": []
+  },
+  {
+    "name": ".list-card:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 506,
+    "end": 510,
+    "params": []
+  },
+  {
+    "name": ".list-card .lc-icon",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 511,
+    "end": 515,
+    "params": []
+  },
+  {
+    "name": ".list-card .lc-body",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 516,
+    "end": 516,
+    "params": []
+  },
+  {
+    "name": ".list-card .lc-name",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 517,
+    "end": 520,
+    "params": []
+  },
+  {
+    "name": ".list-card .lc-sub",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 521,
+    "end": 521,
+    "params": []
+  },
+  {
+    "name": ".list-card .lc-actions",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 522,
+    "end": 522,
+    "params": []
+  },
+  {
+    "name": ".empty-state",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 524,
+    "end": 527,
+    "params": []
+  },
+  {
+    "name": ".empty-state .es-icon",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 528,
+    "end": 528,
+    "params": []
+  },
+  {
+    "name": ".badge",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 533,
+    "end": 537,
+    "params": []
+  },
+  {
+    "name": ".badge-pending",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 538,
+    "end": 538,
+    "params": []
+  },
+  {
+    "name": ".badge-approved",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 539,
+    "end": 539,
+    "params": []
+  },
+  {
+    "name": ".badge-rejected",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 540,
+    "end": 540,
+    "params": []
+  },
+  {
+    "name": ".badge-enrolled",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 541,
+    "end": 541,
+    "params": []
+  },
+  {
+    "name": ".tab-bar",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 546,
+    "end": 553,
+    "params": []
+  },
+  {
+    "name": ".tab-bar::-webkit-scrollbar",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 554,
+    "end": 554,
+    "params": []
+  },
+  {
+    "name": ".tab",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 555,
+    "end": 562,
+    "params": []
+  },
+  {
+    "name": ".tab:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 563,
+    "end": 563,
+    "params": []
+  },
+  {
+    "name": ".tab.active",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 564,
+    "end": 564,
+    "params": []
+  },
+  {
+    "name": ".tab-panel",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 565,
+    "end": 565,
+    "params": []
+  },
+  {
+    "name": ".tab-panel.hidden",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 566,
+    "end": 566,
+    "params": []
+  },
+  {
+    "name": ".enrol-steps",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 571,
+    "end": 574,
+    "params": []
+  },
+  {
+    "name": ".enrol-step",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 575,
+    "end": 578,
+    "params": []
+  },
+  {
+    "name": ".enrol-step .step-dot",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 579,
+    "end": 584,
+    "params": []
+  },
+  {
+    "name": ".enrol-step.done .step-dot",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 585,
+    "end": 585,
+    "params": []
+  },
+  {
+    "name": ".enrol-step.active .step-dot",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 586,
+    "end": 586,
+    "params": []
+  },
+  {
+    "name": ".enrol-step.active",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 587,
+    "end": 587,
+    "params": []
+  },
+  {
+    "name": ".step-sep",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 588,
+    "end": 588,
+    "params": []
+  },
+  {
+    "name": ".payment-card",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 590,
+    "end": 593,
+    "params": []
+  },
+  {
+    "name": ".payment-card h3",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 594,
+    "end": 597,
+    "params": []
+  },
+  {
+    "name": ".payment-card p",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 598,
+    "end": 598,
+    "params": []
+  },
+  {
+    "name": ".qr-container",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 600,
+    "end": 603,
+    "params": []
+  },
+  {
+    "name": ".upi-amount",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 604,
+    "end": 607,
+    "params": []
+  },
+  {
+    "name": ".upi-id",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 608,
+    "end": 611,
+    "params": []
+  },
+  {
+    "name": ".screenshot-upload",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 613,
+    "end": 617,
+    "params": []
+  },
+  {
+    "name": ".screenshot-upload:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 618,
+    "end": 618,
+    "params": []
+  },
+  {
+    "name": ".screenshot-upload input",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 619,
+    "end": 619,
+    "params": []
+  },
+  {
+    "name": ".screenshot-preview",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 620,
+    "end": 623,
+    "params": []
+  },
+  {
+    "name": ".payment-status-card",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 625,
+    "end": 628,
+    "params": []
+  },
+  {
+    "name": ".status-icon",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 629,
+    "end": 629,
+    "params": []
+  },
+  {
+    "name": ".attendance-grid",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 634,
+    "end": 637,
+    "params": []
+  },
+  {
+    "name": ".attendance-course-card",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 638,
+    "end": 641,
+    "params": []
+  },
+  {
+    "name": ".attendance-course-card h4",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 642,
+    "end": 642,
+    "params": []
+  },
+  {
+    "name": ".att-bar-bg",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 643,
+    "end": 646,
+    "params": []
+  },
+  {
+    "name": ".att-bar-fill",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 647,
+    "end": 647,
+    "params": []
+  },
+  {
+    "name": ".att-pct",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 648,
+    "end": 648,
+    "params": []
+  },
+  {
+    "name": ".att-table",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 650,
+    "end": 650,
+    "params": []
+  },
+  {
+    "name": ".att-table th, .att-table td",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 651,
+    "end": 654,
+    "params": []
+  },
+  {
+    "name": ".att-table th",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 655,
+    "end": 655,
+    "params": []
+  },
+  {
+    "name": ".att-present",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 656,
+    "end": 656,
+    "params": []
+  },
+  {
+    "name": ".att-absent",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 657,
+    "end": 657,
+    "params": []
+  },
+  {
+    "name": ".content-tree",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 662,
+    "end": 662,
+    "params": []
+  },
+  {
+    "name": ".chapter-folder",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 663,
+    "end": 667,
+    "params": []
+  },
+  {
+    "name": ".chapter-header",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 668,
+    "end": 672,
+    "params": []
+  },
+  {
+    "name": ".chapter-header:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 673,
+    "end": 673,
+    "params": []
+  },
+  {
+    "name": ".chapter-icon",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 674,
+    "end": 674,
+    "params": []
+  },
+  {
+    "name": ".chapter-name",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 675,
+    "end": 675,
+    "params": []
+  },
+  {
+    "name": ".chapter-toggle",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 676,
+    "end": 676,
+    "params": []
+  },
+  {
+    "name": ".chapter-folder.open .chapter-toggle",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 677,
+    "end": 677,
+    "params": []
+  },
+  {
+    "name": ".chapter-children",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 678,
+    "end": 682,
+    "params": []
+  },
+  {
+    "name": ".chapter-folder.open .chapter-children",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 683,
+    "end": 683,
+    "params": []
+  },
+  {
+    "name": ".content-item",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 685,
+    "end": 691,
+    "params": []
+  },
+  {
+    "name": ".content-item:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 692,
+    "end": 692,
+    "params": []
+  },
+  {
+    "name": ".video-item",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 693,
+    "end": 693,
+    "params": []
+  },
+  {
+    "name": ".file-item",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 694,
+    "end": 694,
+    "params": []
+  },
+  {
+    "name": ".ci-header",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 696,
+    "end": 696,
+    "params": []
+  },
+  {
+    "name": ".ci-title-wrapper",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 697,
+    "end": 697,
+    "params": []
+  },
+  {
+    "name": ".ci-icon",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 698,
+    "end": 698,
+    "params": []
+  },
+  {
+    "name": ".ci-icon svg",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 699,
+    "end": 699,
+    "params": []
+  },
+  {
+    "name": ".file-item .ci-icon svg",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 700,
+    "end": 700,
+    "params": []
+  },
+  {
+    "name": ".ci-title-text",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 701,
+    "end": 701,
+    "params": []
+  },
+  {
+    "name": ".ci-actions",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 702,
+    "end": 702,
+    "params": []
+  },
+  {
+    "name": ".ci-desc",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 703,
+    "end": 703,
+    "params": []
+  },
+  {
+    "name": ".video-embed",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 705,
+    "end": 710,
+    "params": []
+  },
+  {
+    "name": ".video-embed iframe,\r .video-embed video",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 711,
+    "end": 715,
+    "params": []
+  },
+  {
+    "name": ".video-thumbnail-overlay",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 716,
+    "end": 720,
+    "params": []
+  },
+  {
+    "name": ".video-embed:hover .video-thumbnail-overlay",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 721,
+    "end": 721,
+    "params": []
+  },
+  {
+    "name": ".video-play-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 722,
+    "end": 729,
+    "params": []
+  },
+  {
+    "name": ".video-embed:hover .video-play-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 730,
+    "end": 730,
+    "params": []
+  },
+  {
+    "name": ".data-table",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 735,
+    "end": 739,
+    "params": []
+  },
+  {
+    "name": ".data-table th",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 740,
+    "end": 745,
+    "params": []
+  },
+  {
+    "name": ".data-table td",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 746,
+    "end": 750,
+    "params": []
+  },
+  {
+    "name": ".data-table tr:last-child td",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 751,
+    "end": 751,
+    "params": []
+  },
+  {
+    "name": ".data-table tr:hover td",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 752,
+    "end": 752,
+    "params": []
+  },
+  {
+    "name": ".search-bar",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 754,
+    "end": 754,
+    "params": []
+  },
+  {
+    "name": ".search-bar input",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 755,
+    "end": 759,
+    "params": []
+  },
+  {
+    "name": ".search-bar input:focus",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 760,
+    "end": 760,
+    "params": []
+  },
+  {
+    "name": ".filter-bar",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 762,
+    "end": 764,
+    "params": []
+  },
+  {
+    "name": ".filter-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 765,
+    "end": 769,
+    "params": []
+  },
+  {
+    "name": ".filter-btn:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 770,
+    "end": 770,
+    "params": []
+  },
+  {
+    "name": ".filter-btn.active",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 771,
+    "end": 771,
+    "params": []
+  },
+  {
+    "name": ".payment-review-card",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 776,
+    "end": 782,
+    "params": []
+  },
+  {
+    "name": ".payment-review-card:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 783,
+    "end": 783,
+    "params": []
+  },
+  {
+    "name": ".pay-thumb",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 784,
+    "end": 789,
+    "params": []
+  },
+  {
+    "name": ".pay-info",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 790,
+    "end": 790,
+    "params": []
+  },
+  {
+    "name": ".pay-name",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 791,
+    "end": 791,
+    "params": []
+  },
+  {
+    "name": ".pay-meta",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 792,
+    "end": 792,
+    "params": []
+  },
+  {
+    "name": ".pay-actions",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 793,
+    "end": 793,
+    "params": []
+  },
+  {
+    "name": ".modal-overlay",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 798,
+    "end": 804,
+    "params": []
+  },
+  {
+    "name": ".modal-overlay.active",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 805,
+    "end": 805,
+    "params": []
+  },
+  {
+    "name": ".modal",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 806,
+    "end": 813,
+    "params": []
+  },
+  {
+    "name": ".modal.active",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 814,
+    "end": 814,
+    "params": []
+  },
+  {
+    "name": ".modal-header",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 815,
+    "end": 818,
+    "params": []
+  },
+  {
+    "name": ".modal-header h3",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 819,
+    "end": 821,
+    "params": []
+  },
+  {
+    "name": ".modal-header button",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 822,
+    "end": 826,
+    "params": []
+  },
+  {
+    "name": ".modal-header button:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 827,
+    "end": 827,
+    "params": []
+  },
+  {
+    "name": ".modal-body",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 828,
+    "end": 828,
+    "params": []
+  },
+  {
+    "name": ".modal-actions",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 829,
+    "end": 829,
+    "params": []
+  },
+  {
+    "name": ".toast",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 834,
+    "end": 843,
+    "params": []
+  },
+  {
+    "name": ".toast.success",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 844,
+    "end": 844,
+    "params": []
+  },
+  {
+    "name": ".toast.error",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 845,
+    "end": 845,
+    "params": []
+  },
+  {
+    "name": ".wa-sticky",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 850,
+    "end": 852,
+    "params": []
+  },
+  {
+    "name": ".wa-sticky .wa-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 853,
+    "end": 855,
+    "params": []
+  },
+  {
+    "name": ".batchmates-grid",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 860,
+    "end": 864,
+    "params": []
+  },
+  {
+    "name": ".batchmate-card",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 865,
+    "end": 868,
+    "params": []
+  },
+  {
+    "name": ".avatar",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 869,
+    "end": 875,
+    "params": []
+  },
+  {
+    "name": ".batchmate-name",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 876,
+    "end": 876,
+    "params": []
+  },
+  {
+    "name": ".batchmate-meta",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 877,
+    "end": 877,
+    "params": []
+  },
+  {
+    "name": ".mark-att-row",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 882,
+    "end": 887,
+    "params": []
+  },
+  {
+    "name": ".mark-att-name",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 888,
+    "end": 888,
+    "params": []
+  },
+  {
+    "name": ".att-toggle",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 889,
+    "end": 889,
+    "params": []
+  },
+  {
+    "name": ".att-toggle button",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 890,
+    "end": 895,
+    "params": []
+  },
+  {
+    "name": ".att-toggle button.p",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 896,
+    "end": 896,
+    "params": []
+  },
+  {
+    "name": ".att-toggle button.a",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 897,
+    "end": 897,
+    "params": []
+  },
+  {
+    "name": ".assignment-card",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 902,
+    "end": 907,
+    "params": []
+  },
+  {
+    "name": ".assignment-card::before",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 908,
+    "end": 910,
+    "params": []
+  },
+  {
+    "name": ".assignment-card.status-pending::before",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 911,
+    "end": 911,
+    "params": []
+  },
+  {
+    "name": ".assignment-card.status-approved::before",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 912,
+    "end": 912,
+    "params": []
+  },
+  {
+    "name": ".assignment-card-header",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 914,
+    "end": 918,
+    "params": []
+  },
+  {
+    "name": ".assignment-title",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 919,
+    "end": 919,
+    "params": []
+  },
+  {
+    "name": ".assignment-due",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 920,
+    "end": 920,
+    "params": []
+  },
+  {
+    "name": ".assignment-desc",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 921,
+    "end": 921,
+    "params": []
+  },
+  {
+    "name": ".resource-link",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 923,
+    "end": 929,
+    "params": []
+  },
+  {
+    "name": ".resource-link:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 930,
+    "end": 930,
+    "params": []
+  },
+  {
+    "name": ".assignment-footer",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 932,
+    "end": 932,
+    "params": []
+  },
+  {
+    "name": ".submission-receipt",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 934,
+    "end": 938,
+    "params": []
+  },
+  {
+    "name": ".receipt-title",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 939,
+    "end": 939,
+    "params": []
+  },
+  {
+    "name": ".receipt-text",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 940,
+    "end": 940,
+    "params": []
+  },
+  {
+    "name": ".receipt-links",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 941,
+    "end": 941,
+    "params": []
+  },
+  {
+    "name": ".receipt-links .btn-ghost",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 942,
+    "end": 942,
+    "params": []
+  },
+  {
+    "name": ".assignment-grade",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 944,
+    "end": 948,
+    "params": []
+  },
+  {
+    "name": ".grade-score",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 949,
+    "end": 949,
+    "params": []
+  },
+  {
+    "name": ".grade-feedback",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 950,
+    "end": 950,
+    "params": []
+  },
+  {
+    "name": ".chat-container",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 955,
+    "end": 960,
+    "params": []
+  },
+  {
+    "name": ".chat-messages",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 961,
+    "end": 964,
+    "params": []
+  },
+  {
+    "name": ".chat-msg",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 965,
+    "end": 965,
+    "params": []
+  },
+  {
+    "name": ".chat-msg.self",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 966,
+    "end": 966,
+    "params": []
+  },
+  {
+    "name": ".chat-msg-sender",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 967,
+    "end": 967,
+    "params": []
+  },
+  {
+    "name": ".chat-msg-bubble",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 968,
+    "end": 972,
+    "params": []
+  },
+  {
+    "name": ".chat-msg.self .chat-msg-bubble",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 973,
+    "end": 976,
+    "params": []
+  },
+  {
+    "name": ".chat-input-area",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 977,
+    "end": 977,
+    "params": []
+  },
+  {
+    "name": ".chat-input-area input",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 978,
+    "end": 978,
+    "params": []
+  },
+  {
+    "name": ".chat-input-area input:focus",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 979,
+    "end": 979,
+    "params": []
+  },
+  {
+    "name": ".chat-input-area button",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 980,
+    "end": 980,
+    "params": []
+  },
+  {
+    "name": ".chat-input-area button:hover",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 981,
+    "end": 981,
+    "params": []
+  },
+  {
+    "name": ".mobile-icon",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 998,
+    "end": 998,
+    "params": []
+  },
+  {
+    "name": ".nav-user",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1000,
+    "end": 1000,
+    "params": []
+  },
+  {
+    "name": "#global-nav .wa-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1001,
+    "end": 1001,
+    "params": []
+  },
+  {
+    "name": "#global-nav",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1002,
+    "end": 1002,
+    "params": []
+  },
+  {
+    "name": "body.has-bottom-nav #nav-links",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1005,
+    "end": 1012,
+    "params": []
+  },
+  {
+    "name": "body.has-bottom-nav .nav-links button",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1013,
+    "end": 1017,
+    "params": []
+  },
+  {
+    "name": "body.has-bottom-nav .nav-links button .nav-icn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1018,
+    "end": 1018,
+    "params": []
+  },
+  {
+    "name": "body.has-bottom-nav .nav-links button.active",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1019,
+    "end": 1019,
+    "params": []
+  },
+  {
+    "name": "body.has-bottom-nav .page",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1020,
+    "end": 1020,
+    "params": []
+  },
+  {
+    "name": "body.has-bottom-nav",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1021,
+    "end": 1021,
+    "params": []
+  },
+  {
+    "name": "body.has-bottom-nav .wa-sticky",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1022,
+    "end": 1022,
+    "params": []
+  },
+  {
+    "name": "body.has-bottom-nav .toast",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1023,
+    "end": 1023,
+    "params": []
+  },
+  {
+    "name": ".btn-text",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1027,
+    "end": 1027,
+    "params": []
+  },
+  {
+    "name": ".mobile-icon",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1028,
+    "end": 1028,
+    "params": []
+  },
+  {
+    "name": "#global-nav .nav-right .logout-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1029,
+    "end": 1029,
+    "params": []
+  },
+  {
+    "name": ".land-nav-actions .wa-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1030,
+    "end": 1030,
+    "params": []
+  },
+  {
+    "name": ".land-nav-actions .btn-ghost, .land-nav-actions .btn-primary",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1031,
+    "end": 1031,
+    "params": []
+  },
+  {
+    "name": ".dash-header",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1032,
+    "end": 1032,
+    "params": []
+  },
+  {
+    "name": ".dash-header button",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1033,
+    "end": 1033,
+    "params": []
+  },
+  {
+    "name": ".container",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1034,
+    "end": 1034,
+    "params": []
+  },
+  {
+    "name": ".inner-hero",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1035,
+    "end": 1035,
+    "params": []
+  },
+  {
+    "name": ".land-nav",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1036,
+    "end": 1036,
+    "params": []
+  },
+  {
+    "name": ".hero",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1037,
+    "end": 1037,
+    "params": []
+  },
+  {
+    "name": ".hero-title",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1038,
+    "end": 1038,
+    "params": []
+  },
+  {
+    "name": ".hero-actions",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1039,
+    "end": 1039,
+    "params": []
+  },
+  {
+    "name": ".hero-actions button",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1040,
+    "end": 1040,
+    "params": []
+  },
+  {
+    "name": ".dash-header",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1041,
+    "end": 1041,
+    "params": []
+  },
+  {
+    "name": ".dash-header button",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1042,
+    "end": 1042,
+    "params": []
+  },
+  {
+    "name": ".stats-row",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1043,
+    "end": 1043,
+    "params": []
+  },
+  {
+    "name": ".stat-card",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1044,
+    "end": 1044,
+    "params": []
+  },
+  {
+    "name": ".stat-card .stat-val",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1045,
+    "end": 1045,
+    "params": []
+  },
+  {
+    "name": ".auth-card",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1046,
+    "end": 1046,
+    "params": []
+  },
+  {
+    "name": ".data-table",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1047,
+    "end": 1047,
+    "params": []
+  },
+  {
+    "name": ".data-table th, .data-table td",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1048,
+    "end": 1048,
+    "params": []
+  },
+  {
+    "name": ".modal-overlay",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1049,
+    "end": 1049,
+    "params": []
+  },
+  {
+    "name": ".modal",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1050,
+    "end": 1050,
+    "params": []
+  },
+  {
+    "name": ".modal::before",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1051,
+    "end": 1055,
+    "params": []
+  },
+  {
+    "name": ".modal-header",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1056,
+    "end": 1056,
+    "params": []
+  },
+  {
+    "name": ".modal-body",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1057,
+    "end": 1057,
+    "params": []
+  },
+  {
+    "name": ".chat-container",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1058,
+    "end": 1058,
+    "params": []
+  },
+  {
+    "name": ".video-play-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1059,
+    "end": 1059,
+    "params": []
+  },
+  {
+    "name": ".course-cards, .course-cards.lg",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1060,
+    "end": 1060,
+    "params": []
+  },
+  {
+    "name": ".btn-primary, .btn-ghost, .btn-danger, .btn-approve, .wa-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1061,
+    "end": 1061,
+    "params": []
+  },
+  {
+    "name": ".form-group input, .form-group textarea, .form-group select",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1062,
+    "end": 1062,
+    "params": []
+  },
+  {
+    "name": ".back-btn",
+    "type": "CSS_Rule",
+    "file": "style.css",
+    "start": 1063,
+    "end": 1063,
+    "params": []
+  }
+]

@@ -737,26 +737,34 @@ function renderContentTree(items, isTeacher = false) {
 
 function renderContentItem(item, isTeacher) {
   const isVideo = item.type === 'video';
-  const icon = isVideo ? '🎬' : '📄';
-  const lecBadge = item.order ? `<span class="badge badge-enrolled" style="margin-right:6px">Lec ${item.order}</span>` : '';
+  const icon = isVideo 
+    ? `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>` 
+    : `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>`;
+  const lecBadge = item.order ? `<span class="badge badge-enrolled" style="margin-right:10px">Lec ${item.order}</span>` : '';
   
-  const fileBtn = (!isVideo && item.url) ? `<a href="${item.url}" target="_blank" class="btn-ghost" style="padding:5px 12px;font-size:13px;margin-left:auto;text-decoration:none">View File</a>` : '';
+  let actionBtn = '';
+  if (!isVideo && item.url) {
+    actionBtn = `<a href="${item.url}" target="_blank" class="btn-ghost" style="padding:6px 14px;font-size:13px;text-decoration:none;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> View / Download</a>`;
+  }
 
-  let html = `
-    <div class="content-item">
-      <div style="display:flex;align-items:center;width:100%;gap:10px;flex-wrap:wrap">
-        <span class="content-item-icon">${icon}</span>
-        <span class="content-item-name" style="font-weight:500">${lecBadge}${esc(item.title)}</span>
-        ${fileBtn}
-        ${isTeacher ? `<button class="btn-danger" onclick="deleteContent('${item._id}')" style="padding:5px 10px;font-size:13px;margin-left:${fileBtn?'8px':'auto'}">Delete</button>` : ''}
+  let html = `<div class="content-item ${isVideo ? 'video-item' : 'file-item'}">
+      <div class="ci-header">
+        <div class="ci-title-wrapper">
+          <div class="ci-icon">${icon}</div>
+          <div class="ci-title-text">${lecBadge}${esc(item.title)}</div>
+        </div>
+        <div class="ci-actions">
+          ${actionBtn}
+          ${isTeacher ? `<button class="btn-danger" onclick="deleteContent('${item._id}')" style="padding:6px 12px;font-size:13px;" title="Delete">🗑️</button>` : ''}
+        </div>
       </div>
-      ${item.description ? `<div style="font-size:14px;color:var(--text-2);margin-top:8px;padding-left:34px">${esc(item.description)}</div>` : ''}`;
+      ${item.description ? `<div class="ci-desc">${esc(item.description)}</div>` : ''}`;
 
   if (isVideo && item.url) {
     if (item.thumbnail) {
-      html += `<div class="video-embed" id="vid-${item._id}" onclick="playVideo('vid-${item._id}', '${item.url}', '${item._id}')" style="cursor:pointer;position:relative;background-image:url('${item.thumbnail}');background-size:cover;background-position:center;">
+      html += `<div class="video-embed" id="vid-${item._id}" onclick="playVideo('vid-${item._id}', '${item.url}', '${item._id}')" style="cursor:pointer;background-image:url('${item.thumbnail}');background-size:cover;background-position:center;">
         <div class="video-thumbnail-overlay">
-          <div class="video-play-btn">▶</div>
+          <div class="video-play-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
         </div>
       </div>`;
     } else {
@@ -924,31 +932,43 @@ function renderStudentAssignments(filter = 'all') {
 
 function renderAssignmentCard(a, canSubmit = false) {
   const isTeacher = STATE.user?.role === 'teacher';
+  const statusClass = a.submitted ? 'approved' : 'pending';
+  const statusText = a.submitted ? '✓ Submitted' : 'Pending';
+  
   return `
-    <div class="assignment-card">
+    <div class="assignment-card status-${statusClass}">
       <div class="assignment-card-header">
-        <div>
+        <div style="flex:1">
           <div class="assignment-title">${esc(a.title)}</div>
-          <div class="assignment-due">Due: ${fmtDate(a.dueDate)}</div>
+          <div class="assignment-due">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            Due: ${fmtDate(a.dueDate)}
+          </div>
         </div>
-        <span class="badge badge-${a.submitted ? 'approved' : 'pending'}">${a.submitted ? 'Submitted' : 'Pending'}</span>
+        <span class="badge badge-${statusClass}" style="padding:6px 12px;font-size:13px">${statusText}</span>
       </div>
       <div class="assignment-desc">${esc(a.description || '')}</div>
-      ${a.url ? `<a href="${a.url}" target="_blank" class="btn-ghost" style="padding:5px 12px;font-size:13px;display:inline-block;margin-bottom:1rem;text-decoration:none">🔗 View Attachment</a><br/>` : ''}
-      ${canSubmit && !a.submitted ? `<button class="btn-primary" style="font-size:15px;padding:9px 20px" onclick="openSubmitModal('${a._id}')">Submit Work</button>` : ''}
-      ${a.submitted && canSubmit ? `
-        <div style="background:var(--bg3); padding:1rem; border-radius:var(--r-md); margin-top:.75rem; font-size:15px; color:var(--text-2);">
-          <strong style="color:var(--text);">My Submission:</strong><br/>
-          ${esc(a.subText || 'No text provided')}
-          ${(a.subUrl || a.subFile) ? `
-          <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap">
-            ${a.subUrl ? `<a href="${a.subUrl}" target="_blank" class="btn-ghost" style="padding:6px 12px; font-size:14px; text-decoration:none">🔗 View Link</a>` : ''}
-            ${a.subFile ? `<a href="${a.subFile}" target="_blank" class="btn-ghost" style="padding:6px 12px; font-size:14px; text-decoration:none">📄 View File</a>` : ''}
-          </div>` : ''}
-        </div>
-      ` : ''}
-      ${a.grade ? `<div style="margin-top:.5rem;font-size:15px;color:var(--teal)">Grade: <strong>${esc(a.grade)}</strong> ${a.feedback ? '· ' + esc(a.feedback) : ''}</div>` : ''}
-      ${isTeacher ? `<button class="btn-ghost" style="font-size:14px;padding:7px 14px;margin-top:.75rem" onclick="openSubmissionsModal('${a._id}')">View Submissions</button>` : ''}
+      ${a.url ? `<a href="${a.url}" target="_blank" class="resource-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg> View Reference Material</a>` : ''}
+      
+      <div class="assignment-footer">
+        ${canSubmit && !a.submitted ? `<button class="btn-primary" style="font-size:15px;padding:10px 24px" onclick="openSubmitModal('${a._id}')">Submit Assignment</button>` : ''}
+        
+        ${a.submitted && canSubmit ? `
+          <div class="submission-receipt">
+            <div class="receipt-title">Your Submission</div>
+            <div class="receipt-text">${esc(a.subText || 'No text provided')}</div>
+            ${(a.subUrl || a.subFile) ? `
+            <div class="receipt-links">
+              ${a.subUrl ? `<a href="${a.subUrl}" target="_blank" class="btn-ghost">🔗 Link</a>` : ''}
+              ${a.subFile ? `<a href="${a.subFile}" target="_blank" class="btn-ghost">📄 File</a>` : ''}
+            </div>` : ''}
+          </div>
+        ` : ''}
+        
+        ${a.grade ? `<div class="assignment-grade"><div class="grade-score">Grade: ${esc(a.grade)}</div>${a.feedback ? '<div class="grade-feedback">"'+esc(a.feedback)+'"</div>' : ''}</div>` : ''}
+        
+        ${isTeacher ? `<button class="btn-ghost" style="width:100%; justify-content:center; margin-top:1rem;" onclick="openSubmissionsModal('${a._id}')">View Student Submissions</button>` : ''}
+      </div>
     </div>`;
 }
 
