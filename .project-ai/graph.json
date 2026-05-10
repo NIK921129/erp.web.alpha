@@ -18,7 +18,7 @@
       "id": "app.js",
       "path": "app.js",
       "extension": ".js",
-      "size": 117803,
+      "size": 117886,
       "language": "javascript"
     },
     {
@@ -2187,7 +2187,7 @@
       "id": "index.html",
       "path": "index.html",
       "extension": ".html",
-      "size": 50194,
+      "size": 49873,
       "language": "html"
     },
     {
@@ -2911,48 +2911,12 @@
       "params": []
     },
     {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 164,
-      "end": 164,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"role-toggle\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"role-toggle\"]>",
-      "file": "index.html",
-      "start": 166,
-      "end": 166,
-      "params": []
-    },
-    {
-      "id": "index.html::<button [class=\"role-btn active\"]>",
-      "type": "HTML_Element",
-      "name": "<button [class=\"role-btn active\"]>",
-      "file": "index.html",
-      "start": 167,
-      "end": 167,
-      "params": []
-    },
-    {
-      "id": "index.html::<button [class=\"role-btn\"]>",
-      "type": "HTML_Element",
-      "name": "<button [class=\"role-btn\"]>",
-      "file": "index.html",
-      "start": 168,
-      "end": 168,
-      "params": []
-    },
-    {
       "id": "index.html::<div [id=\"signup-error\"] [class=\"form-error hidden\"]>",
       "type": "HTML_Element",
       "name": "<div [id=\"signup-error\"] [class=\"form-error hidden\"]>",
       "file": "index.html",
-      "start": 171,
-      "end": 171,
+      "start": 164,
+      "end": 164,
       "params": []
     },
     {
@@ -2960,8 +2924,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary full\"]>",
       "file": "index.html",
-      "start": 172,
-      "end": 172,
+      "start": 165,
+      "end": 165,
       "params": []
     },
     {
@@ -2969,8 +2933,8 @@
       "type": "HTML_Element",
       "name": "<p [class=\"auth-switch\"]>",
       "file": "index.html",
-      "start": 173,
-      "end": 173,
+      "start": 166,
+      "end": 166,
       "params": []
     },
     {
@@ -2978,8 +2942,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-courses-public\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 180,
-      "end": 180,
+      "start": 173,
+      "end": 173,
       "params": []
     },
     {
@@ -2987,8 +2951,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"inner-hero\"]>",
       "file": "index.html",
-      "start": 181,
-      "end": 181,
+      "start": 174,
+      "end": 174,
       "params": []
     },
     {
@@ -2996,8 +2960,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"back-btn\"]>",
       "file": "index.html",
-      "start": 182,
-      "end": 182,
+      "start": 175,
+      "end": 175,
       "params": []
     },
     {
@@ -3005,8 +2969,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container\"]>",
       "file": "index.html",
-      "start": 186,
-      "end": 186,
+      "start": 179,
+      "end": 179,
       "params": []
     },
     {
@@ -3014,8 +2978,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"search-bar mb-2\"]>",
       "file": "index.html",
-      "start": 187,
-      "end": 187,
+      "start": 180,
+      "end": 180,
       "params": []
     },
     {
@@ -3023,8 +2987,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"public-course-search\"]>",
       "file": "index.html",
-      "start": 188,
-      "end": 188,
+      "start": 181,
+      "end": 181,
       "params": []
     },
     {
@@ -3032,8 +2996,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"course-cards lg\"] [id=\"public-course-grid\"]>",
       "file": "index.html",
-      "start": 190,
-      "end": 190,
+      "start": 183,
+      "end": 183,
       "params": []
     },
     {
@@ -3041,8 +3005,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-student-dashboard\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 197,
-      "end": 197,
+      "start": 190,
+      "end": 190,
       "params": []
     },
     {
@@ -3050,8 +3014,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container\"]>",
       "file": "index.html",
-      "start": 198,
-      "end": 198,
+      "start": 191,
+      "end": 191,
       "params": []
     },
     {
@@ -3059,8 +3023,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-header\"]>",
       "file": "index.html",
-      "start": 199,
-      "end": 199,
+      "start": 192,
+      "end": 192,
       "params": []
     },
     {
@@ -3068,8 +3032,8 @@
       "type": "HTML_Element",
       "name": "<h1 [id=\"student-welcome\"]>",
       "file": "index.html",
-      "start": 201,
-      "end": 201,
+      "start": 194,
+      "end": 194,
       "params": []
     },
     {
@@ -3077,8 +3041,8 @@
       "type": "HTML_Element",
       "name": "<p [class=\"text-muted\"]>",
       "file": "index.html",
-      "start": 202,
-      "end": 202,
+      "start": 195,
+      "end": 195,
       "params": []
     },
     {
@@ -3086,8 +3050,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary\"]>",
       "file": "index.html",
-      "start": 204,
-      "end": 204,
+      "start": 197,
+      "end": 197,
       "params": []
     },
     {
@@ -3095,8 +3059,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"stats-row\"] [id=\"student-stats\"]>",
       "file": "index.html",
-      "start": 206,
-      "end": 206,
+      "start": 199,
+      "end": 199,
       "params": []
     },
     {
@@ -3104,8 +3068,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-grid\"]>",
       "file": "index.html",
-      "start": 207,
-      "end": 207,
+      "start": 200,
+      "end": 200,
       "params": []
     },
     {
@@ -3113,8 +3077,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-col\"]>",
       "file": "index.html",
-      "start": 208,
-      "end": 208,
+      "start": 201,
+      "end": 201,
       "params": []
     },
     {
@@ -3122,8 +3086,8 @@
       "type": "HTML_Element",
       "name": "<h3 [class=\"card-title\"]>",
       "file": "index.html",
-      "start": 209,
-      "end": 209,
+      "start": 202,
+      "end": 202,
       "params": []
     },
     {
@@ -3131,8 +3095,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"student-my-courses\"] [class=\"list-cards\"]>",
       "file": "index.html",
-      "start": 210,
-      "end": 210,
+      "start": 203,
+      "end": 203,
       "params": []
     },
     {
@@ -3140,8 +3104,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-col\"]>",
       "file": "index.html",
-      "start": 212,
-      "end": 212,
+      "start": 205,
+      "end": 205,
       "params": []
     },
     {
@@ -3149,8 +3113,8 @@
       "type": "HTML_Element",
       "name": "<h3 [class=\"card-title\"]>",
       "file": "index.html",
-      "start": 213,
-      "end": 213,
+      "start": 206,
+      "end": 206,
       "params": []
     },
     {
@@ -3158,8 +3122,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"student-pending-payments\"] [class=\"list-cards\"]>",
       "file": "index.html",
-      "start": 214,
-      "end": 214,
+      "start": 207,
+      "end": 207,
       "params": []
     },
     {
@@ -3167,8 +3131,8 @@
       "type": "HTML_Element",
       "name": "<h3 [class=\"card-title mt-2\"]>",
       "file": "index.html",
-      "start": 215,
-      "end": 215,
+      "start": 208,
+      "end": 208,
       "params": []
     },
     {
@@ -3176,8 +3140,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"student-due-assignments\"] [class=\"list-cards\"]>",
       "file": "index.html",
-      "start": 216,
-      "end": 216,
+      "start": 209,
+      "end": 209,
       "params": []
     },
     {
@@ -3185,8 +3149,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"wa-sticky\"]>",
       "file": "index.html",
-      "start": 219,
-      "end": 219,
+      "start": 212,
+      "end": 212,
       "params": []
     },
     {
@@ -3194,8 +3158,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"wa-btn\"]>",
       "file": "index.html",
-      "start": 220,
-      "end": 220,
+      "start": 213,
+      "end": 213,
       "params": []
     },
     {
@@ -3203,8 +3167,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-student-course\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 231,
-      "end": 231,
+      "start": 224,
+      "end": 224,
       "params": []
     },
     {
@@ -3212,8 +3176,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container\"]>",
       "file": "index.html",
-      "start": 232,
-      "end": 232,
+      "start": 225,
+      "end": 225,
       "params": []
     },
     {
@@ -3221,8 +3185,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"back-btn\"]>",
       "file": "index.html",
-      "start": 233,
-      "end": 233,
+      "start": 226,
+      "end": 226,
       "params": []
     },
     {
@@ -3230,8 +3194,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"student-course-header\"]>",
       "file": "index.html",
-      "start": 234,
-      "end": 234,
+      "start": 227,
+      "end": 227,
       "params": []
     },
     {
@@ -3239,8 +3203,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"tab-bar\"]>",
       "file": "index.html",
-      "start": 235,
-      "end": 235,
+      "start": 228,
+      "end": 228,
       "params": []
     },
     {
@@ -3248,8 +3212,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"tab active\"]>",
       "file": "index.html",
-      "start": 236,
-      "end": 236,
+      "start": 229,
+      "end": 229,
       "params": []
     },
     {
@@ -3257,8 +3221,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"tab\"]>",
       "file": "index.html",
-      "start": 237,
-      "end": 237,
+      "start": 230,
+      "end": 230,
       "params": []
     },
     {
@@ -3266,8 +3230,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"tab\"]>",
       "file": "index.html",
-      "start": 238,
-      "end": 238,
+      "start": 231,
+      "end": 231,
       "params": []
     },
     {
@@ -3275,8 +3239,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"tab\"]>",
       "file": "index.html",
-      "start": 239,
-      "end": 239,
+      "start": 232,
+      "end": 232,
       "params": []
     },
     {
@@ -3284,8 +3248,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"tab\"]>",
       "file": "index.html",
-      "start": 240,
-      "end": 240,
+      "start": 233,
+      "end": 233,
       "params": []
     },
     {
@@ -3293,8 +3257,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"tab-content\"] [class=\"tab-panel\"]>",
       "file": "index.html",
-      "start": 242,
-      "end": 242,
+      "start": 235,
+      "end": 235,
       "params": []
     },
     {
@@ -3302,8 +3266,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"tab-assignments\"] [class=\"tab-panel hidden\"]>",
       "file": "index.html",
-      "start": 243,
-      "end": 243,
+      "start": 236,
+      "end": 236,
       "params": []
     },
     {
@@ -3311,8 +3275,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"tab-batchmates\"] [class=\"tab-panel hidden\"]>",
       "file": "index.html",
-      "start": 244,
-      "end": 244,
+      "start": 237,
+      "end": 237,
       "params": []
     },
     {
@@ -3320,8 +3284,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"tab-attendance\"] [class=\"tab-panel hidden\"]>",
       "file": "index.html",
-      "start": 245,
-      "end": 245,
+      "start": 238,
+      "end": 238,
       "params": []
     },
     {
@@ -3329,8 +3293,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"tab-chat\"] [class=\"tab-panel hidden\"]>",
       "file": "index.html",
-      "start": 246,
-      "end": 246,
+      "start": 239,
+      "end": 239,
       "params": []
     },
     {
@@ -3338,8 +3302,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-enrol\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 253,
-      "end": 253,
+      "start": 246,
+      "end": 246,
       "params": []
     },
     {
@@ -3347,8 +3311,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container narrow\"]>",
       "file": "index.html",
-      "start": 254,
-      "end": 254,
+      "start": 247,
+      "end": 247,
       "params": []
     },
     {
@@ -3356,8 +3320,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"back-btn\"]>",
       "file": "index.html",
-      "start": 255,
-      "end": 255,
+      "start": 248,
+      "end": 248,
       "params": []
     },
     {
@@ -3365,8 +3329,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"enrol-content\"]>",
       "file": "index.html",
-      "start": 256,
-      "end": 256,
+      "start": 249,
+      "end": 249,
       "params": []
     },
     {
@@ -3374,8 +3338,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"wa-sticky\"]>",
       "file": "index.html",
-      "start": 257,
-      "end": 257,
+      "start": 250,
+      "end": 250,
       "params": []
     },
     {
@@ -3383,8 +3347,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"wa-btn\"]>",
       "file": "index.html",
-      "start": 258,
-      "end": 258,
+      "start": 251,
+      "end": 251,
       "params": []
     },
     {
@@ -3392,8 +3356,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-student-fees\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 269,
-      "end": 269,
+      "start": 262,
+      "end": 262,
       "params": []
     },
     {
@@ -3401,8 +3365,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container\"]>",
       "file": "index.html",
-      "start": 270,
-      "end": 270,
+      "start": 263,
+      "end": 263,
       "params": []
     },
     {
@@ -3410,8 +3374,8 @@
       "type": "HTML_Element",
       "name": "<p [class=\"text-muted mb-2\"]>",
       "file": "index.html",
-      "start": 272,
-      "end": 272,
+      "start": 265,
+      "end": 265,
       "params": []
     },
     {
@@ -3419,8 +3383,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"student-fees-list\"]>",
       "file": "index.html",
-      "start": 273,
-      "end": 273,
+      "start": 266,
+      "end": 266,
       "params": []
     },
     {
@@ -3428,8 +3392,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"wa-sticky\"]>",
       "file": "index.html",
-      "start": 274,
-      "end": 274,
+      "start": 267,
+      "end": 267,
       "params": []
     },
     {
@@ -3437,8 +3401,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"wa-btn\"]>",
       "file": "index.html",
-      "start": 275,
-      "end": 275,
+      "start": 268,
+      "end": 268,
       "params": []
     },
     {
@@ -3446,8 +3410,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-student-attendance\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 286,
-      "end": 286,
+      "start": 279,
+      "end": 279,
       "params": []
     },
     {
@@ -3455,8 +3419,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container\"]>",
       "file": "index.html",
-      "start": 287,
-      "end": 287,
+      "start": 280,
+      "end": 280,
       "params": []
     },
     {
@@ -3464,8 +3428,8 @@
       "type": "HTML_Element",
       "name": "<p [class=\"text-muted mb-2\"]>",
       "file": "index.html",
-      "start": 289,
-      "end": 289,
+      "start": 282,
+      "end": 282,
       "params": []
     },
     {
@@ -3473,8 +3437,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"student-attendance-content\"]>",
       "file": "index.html",
-      "start": 290,
-      "end": 290,
+      "start": 283,
+      "end": 283,
       "params": []
     },
     {
@@ -3482,8 +3446,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-student-assignments\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 297,
-      "end": 297,
+      "start": 290,
+      "end": 290,
       "params": []
     },
     {
@@ -3491,8 +3455,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container\"]>",
       "file": "index.html",
-      "start": 298,
-      "end": 298,
+      "start": 291,
+      "end": 291,
       "params": []
     },
     {
@@ -3500,8 +3464,8 @@
       "type": "HTML_Element",
       "name": "<p [class=\"text-muted mb-2\"]>",
       "file": "index.html",
-      "start": 300,
-      "end": 300,
+      "start": 293,
+      "end": 293,
       "params": []
     },
     {
@@ -3509,8 +3473,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"filter-bar\"]>",
       "file": "index.html",
-      "start": 301,
-      "end": 301,
+      "start": 294,
+      "end": 294,
       "params": []
     },
     {
@@ -3518,8 +3482,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"filter-btn active\"]>",
       "file": "index.html",
-      "start": 302,
-      "end": 302,
+      "start": 295,
+      "end": 295,
       "params": []
     },
     {
@@ -3527,8 +3491,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"filter-btn\"]>",
       "file": "index.html",
-      "start": 303,
-      "end": 303,
+      "start": 296,
+      "end": 296,
       "params": []
     },
     {
@@ -3536,8 +3500,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"filter-btn\"]>",
       "file": "index.html",
-      "start": 304,
-      "end": 304,
+      "start": 297,
+      "end": 297,
       "params": []
     },
     {
@@ -3545,8 +3509,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"student-assignments-list\"]>",
       "file": "index.html",
-      "start": 306,
-      "end": 306,
+      "start": 299,
+      "end": 299,
       "params": []
     },
     {
@@ -3554,8 +3518,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-teacher-dashboard\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 313,
-      "end": 313,
+      "start": 306,
+      "end": 306,
       "params": []
     },
     {
@@ -3563,8 +3527,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container\"]>",
       "file": "index.html",
-      "start": 314,
-      "end": 314,
+      "start": 307,
+      "end": 307,
       "params": []
     },
     {
@@ -3572,8 +3536,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-header\"]>",
       "file": "index.html",
-      "start": 315,
-      "end": 315,
+      "start": 308,
+      "end": 308,
       "params": []
     },
     {
@@ -3581,8 +3545,8 @@
       "type": "HTML_Element",
       "name": "<h1 [id=\"teacher-welcome\"]>",
       "file": "index.html",
-      "start": 317,
-      "end": 317,
+      "start": 310,
+      "end": 310,
       "params": []
     },
     {
@@ -3590,8 +3554,8 @@
       "type": "HTML_Element",
       "name": "<p [class=\"text-muted\"]>",
       "file": "index.html",
-      "start": 318,
-      "end": 318,
+      "start": 311,
+      "end": 311,
       "params": []
     },
     {
@@ -3599,8 +3563,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"stats-row\"] [id=\"teacher-stats\"]>",
       "file": "index.html",
-      "start": 321,
-      "end": 321,
+      "start": 314,
+      "end": 314,
       "params": []
     },
     {
@@ -3608,8 +3572,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-grid\"]>",
       "file": "index.html",
-      "start": 322,
-      "end": 322,
+      "start": 315,
+      "end": 315,
       "params": []
     },
     {
@@ -3617,8 +3581,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-col\"]>",
       "file": "index.html",
-      "start": 323,
-      "end": 323,
+      "start": 316,
+      "end": 316,
       "params": []
     },
     {
@@ -3626,8 +3590,8 @@
       "type": "HTML_Element",
       "name": "<h3 [class=\"card-title\"]>",
       "file": "index.html",
-      "start": 324,
-      "end": 324,
+      "start": 317,
+      "end": 317,
       "params": []
     },
     {
@@ -3635,8 +3599,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"teacher-courses-list\"] [class=\"list-cards\"]>",
       "file": "index.html",
-      "start": 325,
-      "end": 325,
+      "start": 318,
+      "end": 318,
       "params": []
     },
     {
@@ -3644,8 +3608,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-col\"]>",
       "file": "index.html",
-      "start": 327,
-      "end": 327,
+      "start": 320,
+      "end": 320,
       "params": []
     },
     {
@@ -3653,8 +3617,8 @@
       "type": "HTML_Element",
       "name": "<h3 [class=\"card-title\"]>",
       "file": "index.html",
-      "start": 328,
-      "end": 328,
+      "start": 321,
+      "end": 321,
       "params": []
     },
     {
@@ -3662,8 +3626,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"teacher-submissions\"] [class=\"list-cards\"]>",
       "file": "index.html",
-      "start": 329,
-      "end": 329,
+      "start": 322,
+      "end": 322,
       "params": []
     },
     {
@@ -3671,8 +3635,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-teacher-course\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 338,
-      "end": 338,
+      "start": 331,
+      "end": 331,
       "params": []
     },
     {
@@ -3680,8 +3644,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container\"]>",
       "file": "index.html",
-      "start": 339,
-      "end": 339,
+      "start": 332,
+      "end": 332,
       "params": []
     },
     {
@@ -3689,8 +3653,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"back-btn\"]>",
       "file": "index.html",
-      "start": 340,
-      "end": 340,
+      "start": 333,
+      "end": 333,
       "params": []
     },
     {
@@ -3698,8 +3662,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"teacher-course-header\"]>",
       "file": "index.html",
-      "start": 341,
-      "end": 341,
+      "start": 334,
+      "end": 334,
       "params": []
     },
     {
@@ -3707,8 +3671,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"tab-bar\"]>",
       "file": "index.html",
-      "start": 342,
-      "end": 342,
+      "start": 335,
+      "end": 335,
       "params": []
     },
     {
@@ -3716,8 +3680,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"tab active\"]>",
       "file": "index.html",
-      "start": 343,
-      "end": 343,
+      "start": 336,
+      "end": 336,
       "params": []
     },
     {
@@ -3725,8 +3689,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"tab\"]>",
       "file": "index.html",
-      "start": 344,
-      "end": 344,
+      "start": 337,
+      "end": 337,
       "params": []
     },
     {
@@ -3734,8 +3698,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"tab\"]>",
       "file": "index.html",
-      "start": 345,
-      "end": 345,
+      "start": 338,
+      "end": 338,
       "params": []
     },
     {
@@ -3743,8 +3707,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"tab\"]>",
       "file": "index.html",
-      "start": 346,
-      "end": 346,
+      "start": 339,
+      "end": 339,
       "params": []
     },
     {
@@ -3752,8 +3716,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"tab\"]>",
       "file": "index.html",
-      "start": 347,
-      "end": 347,
+      "start": 340,
+      "end": 340,
       "params": []
     },
     {
@@ -3761,8 +3725,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"teacher-tab-content\"] [class=\"tab-panel\"]>",
       "file": "index.html",
-      "start": 349,
-      "end": 349,
+      "start": 342,
+      "end": 342,
       "params": []
     },
     {
@@ -3770,8 +3734,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"teacher-tab-assignments\"] [class=\"tab-panel hidden\"]>",
       "file": "index.html",
-      "start": 350,
-      "end": 350,
+      "start": 343,
+      "end": 343,
       "params": []
     },
     {
@@ -3779,8 +3743,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"teacher-tab-attendance\"] [class=\"tab-panel hidden\"]>",
       "file": "index.html",
-      "start": 351,
-      "end": 351,
+      "start": 344,
+      "end": 344,
       "params": []
     },
     {
@@ -3788,8 +3752,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"teacher-tab-students\"] [class=\"tab-panel hidden\"]>",
       "file": "index.html",
-      "start": 352,
-      "end": 352,
+      "start": 345,
+      "end": 345,
       "params": []
     },
     {
@@ -3797,8 +3761,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"teacher-tab-chat\"] [class=\"tab-panel hidden\"]>",
       "file": "index.html",
-      "start": 353,
-      "end": 353,
+      "start": 346,
+      "end": 346,
       "params": []
     },
     {
@@ -3806,8 +3770,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-admin-dashboard\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 360,
-      "end": 360,
+      "start": 353,
+      "end": 353,
       "params": []
     },
     {
@@ -3815,8 +3779,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container\"]>",
       "file": "index.html",
-      "start": 361,
-      "end": 361,
+      "start": 354,
+      "end": 354,
       "params": []
     },
     {
@@ -3824,8 +3788,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-header\"]>",
       "file": "index.html",
-      "start": 362,
-      "end": 362,
+      "start": 355,
+      "end": 355,
       "params": []
     },
     {
@@ -3833,8 +3797,8 @@
       "type": "HTML_Element",
       "name": "<p [class=\"text-muted\"]>",
       "file": "index.html",
-      "start": 365,
-      "end": 365,
+      "start": 358,
+      "end": 358,
       "params": []
     },
     {
@@ -3842,8 +3806,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"stats-row\"] [id=\"admin-stats\"]>",
       "file": "index.html",
-      "start": 368,
-      "end": 368,
+      "start": 361,
+      "end": 361,
       "params": []
     },
     {
@@ -3851,8 +3815,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-grid\"]>",
       "file": "index.html",
-      "start": 369,
-      "end": 369,
+      "start": 362,
+      "end": 362,
       "params": []
     },
     {
@@ -3860,8 +3824,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-col\"]>",
       "file": "index.html",
-      "start": 370,
-      "end": 370,
+      "start": 363,
+      "end": 363,
       "params": []
     },
     {
@@ -3869,8 +3833,8 @@
       "type": "HTML_Element",
       "name": "<h3 [class=\"card-title\"]>",
       "file": "index.html",
-      "start": 371,
-      "end": 371,
+      "start": 364,
+      "end": 364,
       "params": []
     },
     {
@@ -3878,8 +3842,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"admin-pending-list\"] [class=\"list-cards\"]>",
       "file": "index.html",
-      "start": 372,
-      "end": 372,
+      "start": 365,
+      "end": 365,
       "params": []
     },
     {
@@ -3887,8 +3851,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-col\"]>",
       "file": "index.html",
-      "start": 374,
-      "end": 374,
+      "start": 367,
+      "end": 367,
       "params": []
     },
     {
@@ -3896,8 +3860,8 @@
       "type": "HTML_Element",
       "name": "<h3 [class=\"card-title\"]>",
       "file": "index.html",
-      "start": 375,
-      "end": 375,
+      "start": 368,
+      "end": 368,
       "params": []
     },
     {
@@ -3905,8 +3869,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"admin-activity\"] [class=\"list-cards\"]>",
       "file": "index.html",
-      "start": 376,
-      "end": 376,
+      "start": 369,
+      "end": 369,
       "params": []
     },
     {
@@ -3914,8 +3878,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-admin-payments\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 385,
-      "end": 385,
+      "start": 378,
+      "end": 378,
       "params": []
     },
     {
@@ -3923,8 +3887,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container\"]>",
       "file": "index.html",
-      "start": 386,
-      "end": 386,
+      "start": 379,
+      "end": 379,
       "params": []
     },
     {
@@ -3932,8 +3896,8 @@
       "type": "HTML_Element",
       "name": "<p [class=\"text-muted mb-2\"]>",
       "file": "index.html",
-      "start": 388,
-      "end": 388,
+      "start": 381,
+      "end": 381,
       "params": []
     },
     {
@@ -3941,8 +3905,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"filter-bar\"]>",
       "file": "index.html",
-      "start": 389,
-      "end": 389,
+      "start": 382,
+      "end": 382,
       "params": []
     },
     {
@@ -3950,8 +3914,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"filter-btn active\"]>",
       "file": "index.html",
-      "start": 391,
-      "end": 391,
+      "start": 384,
+      "end": 384,
       "params": []
     },
     {
@@ -3959,8 +3923,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"filter-btn\"]>",
       "file": "index.html",
-      "start": 392,
-      "end": 392,
+      "start": 385,
+      "end": 385,
       "params": []
     },
     {
@@ -3968,8 +3932,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"filter-btn\"]>",
       "file": "index.html",
-      "start": 393,
-      "end": 393,
+      "start": 386,
+      "end": 386,
       "params": []
     },
     {
@@ -3977,8 +3941,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"filter-btn\"]>",
       "file": "index.html",
-      "start": 394,
-      "end": 394,
+      "start": 387,
+      "end": 387,
       "params": []
     },
     {
@@ -3986,8 +3950,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-ghost\"]>",
       "file": "index.html",
-      "start": 396,
-      "end": 396,
+      "start": 389,
+      "end": 389,
       "params": []
     },
     {
@@ -3995,8 +3959,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"admin-payments-list\"]>",
       "file": "index.html",
-      "start": 398,
-      "end": 398,
+      "start": 391,
+      "end": 391,
       "params": []
     },
     {
@@ -4004,8 +3968,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-admin-students\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 405,
-      "end": 405,
+      "start": 398,
+      "end": 398,
       "params": []
     },
     {
@@ -4013,8 +3977,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container\"]>",
       "file": "index.html",
-      "start": 406,
-      "end": 406,
+      "start": 399,
+      "end": 399,
       "params": []
     },
     {
@@ -4022,8 +3986,8 @@
       "type": "HTML_Element",
       "name": "<p [class=\"text-muted mb-2\"]>",
       "file": "index.html",
-      "start": 408,
-      "end": 408,
+      "start": 401,
+      "end": 401,
       "params": []
     },
     {
@@ -4031,8 +3995,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"search-bar\"]>",
       "file": "index.html",
-      "start": 409,
-      "end": 409,
+      "start": 402,
+      "end": 402,
       "params": []
     },
     {
@@ -4040,8 +4004,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"student-search\"]>",
       "file": "index.html",
-      "start": 410,
-      "end": 410,
+      "start": 403,
+      "end": 403,
       "params": []
     },
     {
@@ -4049,8 +4013,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-ghost\"]>",
       "file": "index.html",
-      "start": 411,
-      "end": 411,
+      "start": 404,
+      "end": 404,
       "params": []
     },
     {
@@ -4058,8 +4022,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"admin-students-table\"]>",
       "file": "index.html",
-      "start": 413,
-      "end": 413,
+      "start": 406,
+      "end": 406,
       "params": []
     },
     {
@@ -4067,8 +4031,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-admin-courses\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 420,
-      "end": 420,
+      "start": 413,
+      "end": 413,
       "params": []
     },
     {
@@ -4076,8 +4040,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container\"]>",
       "file": "index.html",
-      "start": 421,
-      "end": 421,
+      "start": 414,
+      "end": 414,
       "params": []
     },
     {
@@ -4085,8 +4049,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-header\"]>",
       "file": "index.html",
-      "start": 422,
-      "end": 422,
+      "start": 415,
+      "end": 415,
       "params": []
     },
     {
@@ -4094,8 +4058,8 @@
       "type": "HTML_Element",
       "name": "<p [class=\"text-muted\"]>",
       "file": "index.html",
-      "start": 423,
-      "end": 423,
+      "start": 416,
+      "end": 416,
       "params": []
     },
     {
@@ -4103,8 +4067,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary\"]>",
       "file": "index.html",
-      "start": 424,
-      "end": 424,
+      "start": 417,
+      "end": 417,
       "params": []
     },
     {
@@ -4112,8 +4076,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"search-bar\"]>",
       "file": "index.html",
-      "start": 426,
-      "end": 426,
+      "start": 419,
+      "end": 419,
       "params": []
     },
     {
@@ -4121,8 +4085,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"admin-course-search\"]>",
       "file": "index.html",
-      "start": 427,
-      "end": 427,
+      "start": 420,
+      "end": 420,
       "params": []
     },
     {
@@ -4130,8 +4094,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-ghost\"]>",
       "file": "index.html",
-      "start": 428,
-      "end": 428,
+      "start": 421,
+      "end": 421,
       "params": []
     },
     {
@@ -4139,8 +4103,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"admin-courses-table\"]>",
       "file": "index.html",
-      "start": 430,
-      "end": 430,
+      "start": 423,
+      "end": 423,
       "params": []
     },
     {
@@ -4148,8 +4112,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-admin-users\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 437,
-      "end": 437,
+      "start": 430,
+      "end": 430,
       "params": []
     },
     {
@@ -4157,8 +4121,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container\"]>",
       "file": "index.html",
-      "start": 438,
-      "end": 438,
+      "start": 431,
+      "end": 431,
       "params": []
     },
     {
@@ -4166,8 +4130,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-header\"]>",
       "file": "index.html",
-      "start": 439,
-      "end": 439,
+      "start": 432,
+      "end": 432,
       "params": []
     },
     {
@@ -4175,8 +4139,53 @@
       "type": "HTML_Element",
       "name": "<p [class=\"text-muted mb-2\"]>",
       "file": "index.html",
+      "start": 433,
+      "end": 433,
+      "params": []
+    },
+    {
+      "id": "index.html::<button [class=\"btn-ghost\"]>",
+      "type": "HTML_Element",
+      "name": "<button [class=\"btn-ghost\"]>",
+      "file": "index.html",
+      "start": 435,
+      "end": 435,
+      "params": []
+    },
+    {
+      "id": "index.html::<input [id=\"bulk-user-upload\"]>",
+      "type": "HTML_Element",
+      "name": "<input [id=\"bulk-user-upload\"]>",
+      "file": "index.html",
+      "start": 436,
+      "end": 436,
+      "params": []
+    },
+    {
+      "id": "index.html::<button [class=\"btn-primary\"]>",
+      "type": "HTML_Element",
+      "name": "<button [class=\"btn-primary\"]>",
+      "file": "index.html",
+      "start": 437,
+      "end": 437,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"search-bar\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"search-bar\"]>",
+      "file": "index.html",
       "start": 440,
       "end": 440,
+      "params": []
+    },
+    {
+      "id": "index.html::<input [id=\"admin-user-search\"]>",
+      "type": "HTML_Element",
+      "name": "<input [id=\"admin-user-search\"]>",
+      "file": "index.html",
+      "start": 441,
+      "end": 441,
       "params": []
     },
     {
@@ -4189,57 +4198,12 @@
       "params": []
     },
     {
-      "id": "index.html::<input [id=\"bulk-user-upload\"]>",
-      "type": "HTML_Element",
-      "name": "<input [id=\"bulk-user-upload\"]>",
-      "file": "index.html",
-      "start": 443,
-      "end": 443,
-      "params": []
-    },
-    {
-      "id": "index.html::<button [class=\"btn-primary\"]>",
-      "type": "HTML_Element",
-      "name": "<button [class=\"btn-primary\"]>",
-      "file": "index.html",
-      "start": 444,
-      "end": 444,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"search-bar\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"search-bar\"]>",
-      "file": "index.html",
-      "start": 447,
-      "end": 447,
-      "params": []
-    },
-    {
-      "id": "index.html::<input [id=\"admin-user-search\"]>",
-      "type": "HTML_Element",
-      "name": "<input [id=\"admin-user-search\"]>",
-      "file": "index.html",
-      "start": 448,
-      "end": 448,
-      "params": []
-    },
-    {
-      "id": "index.html::<button [class=\"btn-ghost\"]>",
-      "type": "HTML_Element",
-      "name": "<button [class=\"btn-ghost\"]>",
-      "file": "index.html",
-      "start": 449,
-      "end": 449,
-      "params": []
-    },
-    {
       "id": "index.html::<div [id=\"admin-users-table\"]>",
       "type": "HTML_Element",
       "name": "<div [id=\"admin-users-table\"]>",
       "file": "index.html",
-      "start": 451,
-      "end": 451,
+      "start": 444,
+      "end": 444,
       "params": []
     },
     {
@@ -4247,8 +4211,8 @@
       "type": "HTML_Element",
       "name": "<section [id=\"page-admin-settings\"] [class=\"page inner-page\"]>",
       "file": "index.html",
-      "start": 458,
-      "end": 458,
+      "start": 451,
+      "end": 451,
       "params": []
     },
     {
@@ -4256,8 +4220,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"container narrow\"]>",
       "file": "index.html",
-      "start": 459,
-      "end": 459,
+      "start": 452,
+      "end": 452,
       "params": []
     },
     {
@@ -4265,8 +4229,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"dash-header\"]>",
       "file": "index.html",
-      "start": 460,
-      "end": 460,
+      "start": 453,
+      "end": 453,
       "params": []
     },
     {
@@ -4274,8 +4238,8 @@
       "type": "HTML_Element",
       "name": "<p [class=\"text-muted mb-2\"]>",
       "file": "index.html",
-      "start": 461,
-      "end": 461,
+      "start": 454,
+      "end": 454,
       "params": []
     },
     {
@@ -4283,8 +4247,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 465,
-      "end": 465,
+      "start": 458,
+      "end": 458,
       "params": []
     },
     {
@@ -4292,8 +4256,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"admin-set-announcement-active\"]>",
       "file": "index.html",
-      "start": 466,
-      "end": 466,
+      "start": 459,
+      "end": 459,
       "params": []
     },
     {
@@ -4301,8 +4265,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 469,
-      "end": 469,
+      "start": 462,
+      "end": 462,
       "params": []
     },
     {
@@ -4310,8 +4274,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"admin-set-announcement\"]>",
       "file": "index.html",
-      "start": 471,
-      "end": 471,
+      "start": 464,
+      "end": 464,
       "params": []
     },
     {
@@ -4319,8 +4283,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 475,
-      "end": 475,
+      "start": 468,
+      "end": 468,
       "params": []
     },
     {
@@ -4328,8 +4292,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"admin-set-upi-id\"]>",
       "file": "index.html",
-      "start": 477,
-      "end": 477,
+      "start": 470,
+      "end": 470,
       "params": []
     },
     {
@@ -4337,8 +4301,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 479,
-      "end": 479,
+      "start": 472,
+      "end": 472,
       "params": []
     },
     {
@@ -4346,8 +4310,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"admin-set-upi-name\"]>",
       "file": "index.html",
-      "start": 481,
-      "end": 481,
+      "start": 474,
+      "end": 474,
       "params": []
     },
     {
@@ -4355,8 +4319,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 483,
-      "end": 483,
+      "start": 476,
+      "end": 476,
       "params": []
     },
     {
@@ -4364,8 +4328,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"admin-set-wa\"]>",
       "file": "index.html",
-      "start": 485,
-      "end": 485,
+      "start": 478,
+      "end": 478,
       "params": []
     },
     {
@@ -4373,8 +4337,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 489,
-      "end": 489,
+      "start": 482,
+      "end": 482,
       "params": []
     },
     {
@@ -4382,14 +4346,32 @@
       "type": "HTML_Element",
       "name": "<textarea [id=\"admin-set-banned-ips\"]>",
       "file": "index.html",
-      "start": 491,
-      "end": 491,
+      "start": 484,
+      "end": 484,
       "params": []
     },
     {
       "id": "index.html::<button [class=\"btn-primary mt-2\"]>",
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary mt-2\"]>",
+      "file": "index.html",
+      "start": 487,
+      "end": 487,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"form-group\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"form-group\"]>",
+      "file": "index.html",
+      "start": 493,
+      "end": 493,
+      "params": []
+    },
+    {
+      "id": "index.html::<input [id=\"new-coupon-code\"]>",
+      "type": "HTML_Element",
+      "name": "<input [id=\"new-coupon-code\"]>",
       "file": "index.html",
       "start": 494,
       "end": 494,
@@ -4400,26 +4382,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 500,
-      "end": 500,
-      "params": []
-    },
-    {
-      "id": "index.html::<input [id=\"new-coupon-code\"]>",
-      "type": "HTML_Element",
-      "name": "<input [id=\"new-coupon-code\"]>",
-      "file": "index.html",
-      "start": 501,
-      "end": 501,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 503,
-      "end": 503,
+      "start": 496,
+      "end": 496,
       "params": []
     },
     {
@@ -4427,8 +4391,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"new-coupon-pct\"]>",
       "file": "index.html",
-      "start": 504,
-      "end": 504,
+      "start": 497,
+      "end": 497,
       "params": []
     },
     {
@@ -4436,8 +4400,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary\"]>",
       "file": "index.html",
-      "start": 506,
-      "end": 506,
+      "start": 499,
+      "end": 499,
       "params": []
     },
     {
@@ -4445,8 +4409,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"admin-coupons-list\"]>",
       "file": "index.html",
-      "start": 508,
-      "end": 508,
+      "start": 501,
+      "end": 501,
       "params": []
     },
     {
@@ -4454,8 +4418,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"modal-overlay\"] [class=\"modal-overlay hidden\"]>",
       "file": "index.html",
-      "start": 516,
-      "end": 516,
+      "start": 509,
+      "end": 509,
       "params": []
     },
     {
@@ -4463,8 +4427,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"modal-screenshot\"] [class=\"modal hidden\"]>",
       "file": "index.html",
-      "start": 519,
-      "end": 519,
+      "start": 512,
+      "end": 512,
       "params": []
     },
     {
@@ -4472,8 +4436,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-header\"]>",
       "file": "index.html",
-      "start": 520,
-      "end": 520,
+      "start": 513,
+      "end": 513,
       "params": []
     },
     {
@@ -4481,8 +4445,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-body\"]>",
       "file": "index.html",
-      "start": 524,
-      "end": 524,
+      "start": 517,
+      "end": 517,
       "params": []
     },
     {
@@ -4490,8 +4454,8 @@
       "type": "HTML_Element",
       "name": "<img [id=\"screenshot-img\"]>",
       "file": "index.html",
-      "start": 525,
-      "end": 525,
+      "start": 518,
+      "end": 518,
       "params": []
     },
     {
@@ -4499,8 +4463,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"screenshot-actions\"] [class=\"modal-actions\"]>",
       "file": "index.html",
-      "start": 526,
-      "end": 526,
+      "start": 519,
+      "end": 519,
       "params": []
     },
     {
@@ -4508,8 +4472,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"modal-course\"] [class=\"modal hidden\"]>",
       "file": "index.html",
-      "start": 531,
-      "end": 531,
+      "start": 524,
+      "end": 524,
       "params": []
     },
     {
@@ -4517,8 +4481,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-header\"]>",
       "file": "index.html",
-      "start": 532,
-      "end": 532,
+      "start": 525,
+      "end": 525,
       "params": []
     },
     {
@@ -4526,8 +4490,8 @@
       "type": "HTML_Element",
       "name": "<h3 [id=\"course-modal-title\"]>",
       "file": "index.html",
-      "start": 533,
-      "end": 533,
+      "start": 526,
+      "end": 526,
       "params": []
     },
     {
@@ -4535,14 +4499,50 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-body\"]>",
       "file": "index.html",
-      "start": 536,
-      "end": 536,
+      "start": 529,
+      "end": 529,
       "params": []
     },
     {
       "id": "index.html::<input [id=\"course-edit-id\"]>",
       "type": "HTML_Element",
       "name": "<input [id=\"course-edit-id\"]>",
+      "file": "index.html",
+      "start": 530,
+      "end": 530,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"form-group\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"form-group\"]>",
+      "file": "index.html",
+      "start": 531,
+      "end": 531,
+      "params": []
+    },
+    {
+      "id": "index.html::<input [id=\"course-name-input\"]>",
+      "type": "HTML_Element",
+      "name": "<input [id=\"course-name-input\"]>",
+      "file": "index.html",
+      "start": 533,
+      "end": 533,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"form-group\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"form-group\"]>",
+      "file": "index.html",
+      "start": 535,
+      "end": 535,
+      "params": []
+    },
+    {
+      "id": "index.html::<textarea [id=\"course-desc-input\"]>",
+      "type": "HTML_Element",
+      "name": "<textarea [id=\"course-desc-input\"]>",
       "file": "index.html",
       "start": 537,
       "end": 537,
@@ -4553,44 +4553,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 538,
-      "end": 538,
-      "params": []
-    },
-    {
-      "id": "index.html::<input [id=\"course-name-input\"]>",
-      "type": "HTML_Element",
-      "name": "<input [id=\"course-name-input\"]>",
-      "file": "index.html",
-      "start": 540,
-      "end": 540,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 542,
-      "end": 542,
-      "params": []
-    },
-    {
-      "id": "index.html::<textarea [id=\"course-desc-input\"]>",
-      "type": "HTML_Element",
-      "name": "<textarea [id=\"course-desc-input\"]>",
-      "file": "index.html",
-      "start": 544,
-      "end": 544,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 546,
-      "end": 546,
+      "start": 539,
+      "end": 539,
       "params": []
     },
     {
@@ -4598,8 +4562,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"course-category-input\"]>",
       "file": "index.html",
-      "start": 548,
-      "end": 548,
+      "start": 541,
+      "end": 541,
       "params": []
     },
     {
@@ -4607,8 +4571,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 550,
-      "end": 550,
+      "start": 543,
+      "end": 543,
       "params": []
     },
     {
@@ -4616,8 +4580,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"course-thumbnail-input\"]>",
       "file": "index.html",
-      "start": 552,
-      "end": 552,
+      "start": 545,
+      "end": 545,
       "params": []
     },
     {
@@ -4625,8 +4589,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 554,
-      "end": 554,
+      "start": 547,
+      "end": 547,
       "params": []
     },
     {
@@ -4634,8 +4598,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"course-fee-input\"]>",
       "file": "index.html",
-      "start": 556,
-      "end": 556,
+      "start": 549,
+      "end": 549,
       "params": []
     },
     {
@@ -4643,8 +4607,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 558,
-      "end": 558,
+      "start": 551,
+      "end": 551,
       "params": []
     },
     {
@@ -4652,8 +4616,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"course-duration-input\"]>",
       "file": "index.html",
-      "start": 560,
-      "end": 560,
+      "start": 553,
+      "end": 553,
       "params": []
     },
     {
@@ -4661,8 +4625,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 562,
-      "end": 562,
+      "start": 555,
+      "end": 555,
       "params": []
     },
     {
@@ -4670,8 +4634,8 @@
       "type": "HTML_Element",
       "name": "<select [id=\"course-teacher-input\"]>",
       "file": "index.html",
-      "start": 564,
-      "end": 564,
+      "start": 557,
+      "end": 557,
       "params": []
     },
     {
@@ -4679,8 +4643,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-actions\"]>",
       "file": "index.html",
-      "start": 566,
-      "end": 566,
+      "start": 559,
+      "end": 559,
       "params": []
     },
     {
@@ -4688,8 +4652,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-ghost\"]>",
       "file": "index.html",
-      "start": 567,
-      "end": 567,
+      "start": 560,
+      "end": 560,
       "params": []
     },
     {
@@ -4697,8 +4661,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary\"]>",
       "file": "index.html",
-      "start": 568,
-      "end": 568,
+      "start": 561,
+      "end": 561,
       "params": []
     },
     {
@@ -4706,8 +4670,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"modal-submit\"] [class=\"modal hidden\"]>",
       "file": "index.html",
-      "start": 574,
-      "end": 574,
+      "start": 567,
+      "end": 567,
       "params": []
     },
     {
@@ -4715,8 +4679,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-header\"]>",
       "file": "index.html",
-      "start": 575,
-      "end": 575,
+      "start": 568,
+      "end": 568,
       "params": []
     },
     {
@@ -4724,14 +4688,50 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-body\"]>",
       "file": "index.html",
-      "start": 579,
-      "end": 579,
+      "start": 572,
+      "end": 572,
       "params": []
     },
     {
       "id": "index.html::<input [id=\"submit-assign-id\"]>",
       "type": "HTML_Element",
       "name": "<input [id=\"submit-assign-id\"]>",
+      "file": "index.html",
+      "start": 573,
+      "end": 573,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"form-group\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"form-group\"]>",
+      "file": "index.html",
+      "start": 574,
+      "end": 574,
+      "params": []
+    },
+    {
+      "id": "index.html::<textarea [id=\"submit-text\"]>",
+      "type": "HTML_Element",
+      "name": "<textarea [id=\"submit-text\"]>",
+      "file": "index.html",
+      "start": 576,
+      "end": 576,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"form-group\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"form-group\"]>",
+      "file": "index.html",
+      "start": 578,
+      "end": 578,
+      "params": []
+    },
+    {
+      "id": "index.html::<input [id=\"submit-url\"]>",
+      "type": "HTML_Element",
+      "name": "<input [id=\"submit-url\"]>",
       "file": "index.html",
       "start": 580,
       "end": 580,
@@ -4742,44 +4742,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 581,
-      "end": 581,
-      "params": []
-    },
-    {
-      "id": "index.html::<textarea [id=\"submit-text\"]>",
-      "type": "HTML_Element",
-      "name": "<textarea [id=\"submit-text\"]>",
-      "file": "index.html",
-      "start": 583,
-      "end": 583,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 585,
-      "end": 585,
-      "params": []
-    },
-    {
-      "id": "index.html::<input [id=\"submit-url\"]>",
-      "type": "HTML_Element",
-      "name": "<input [id=\"submit-url\"]>",
-      "file": "index.html",
-      "start": 587,
-      "end": 587,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 589,
-      "end": 589,
+      "start": 582,
+      "end": 582,
       "params": []
     },
     {
@@ -4787,8 +4751,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"submit-file\"]>",
       "file": "index.html",
-      "start": 591,
-      "end": 591,
+      "start": 584,
+      "end": 584,
       "params": []
     },
     {
@@ -4796,8 +4760,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-actions\"]>",
       "file": "index.html",
-      "start": 593,
-      "end": 593,
+      "start": 586,
+      "end": 586,
       "params": []
     },
     {
@@ -4805,8 +4769,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-ghost\"]>",
       "file": "index.html",
-      "start": 594,
-      "end": 594,
+      "start": 587,
+      "end": 587,
       "params": []
     },
     {
@@ -4814,8 +4778,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary\"]>",
       "file": "index.html",
-      "start": 595,
-      "end": 595,
+      "start": 588,
+      "end": 588,
       "params": []
     },
     {
@@ -4823,8 +4787,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"modal-content\"] [class=\"modal hidden\"]>",
       "file": "index.html",
-      "start": 601,
-      "end": 601,
+      "start": 594,
+      "end": 594,
       "params": []
     },
     {
@@ -4832,8 +4796,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-header\"]>",
       "file": "index.html",
-      "start": 602,
-      "end": 602,
+      "start": 595,
+      "end": 595,
       "params": []
     },
     {
@@ -4841,8 +4805,8 @@
       "type": "HTML_Element",
       "name": "<h3 [id=\"content-modal-title\"]>",
       "file": "index.html",
-      "start": 603,
-      "end": 603,
+      "start": 596,
+      "end": 596,
       "params": []
     },
     {
@@ -4850,8 +4814,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-body\"]>",
       "file": "index.html",
-      "start": 606,
-      "end": 606,
+      "start": 599,
+      "end": 599,
       "params": []
     },
     {
@@ -4859,8 +4823,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"content-course-id\"]>",
       "file": "index.html",
-      "start": 607,
-      "end": 607,
+      "start": 600,
+      "end": 600,
       "params": []
     },
     {
@@ -4868,8 +4832,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 608,
-      "end": 608,
+      "start": 601,
+      "end": 601,
       "params": []
     },
     {
@@ -4877,8 +4841,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"role-toggle\"]>",
       "file": "index.html",
-      "start": 610,
-      "end": 610,
+      "start": 603,
+      "end": 603,
       "params": []
     },
     {
@@ -4886,8 +4850,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"role-btn active\"]>",
       "file": "index.html",
-      "start": 611,
-      "end": 611,
+      "start": 604,
+      "end": 604,
       "params": []
     },
     {
@@ -4895,8 +4859,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"role-btn\"]>",
       "file": "index.html",
-      "start": 612,
-      "end": 612,
+      "start": 605,
+      "end": 605,
       "params": []
     },
     {
@@ -4904,8 +4868,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"role-btn\"]>",
       "file": "index.html",
-      "start": 613,
-      "end": 613,
+      "start": 606,
+      "end": 606,
       "params": []
     },
     {
@@ -4913,8 +4877,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 616,
-      "end": 616,
+      "start": 609,
+      "end": 609,
       "params": []
     },
     {
@@ -4922,8 +4886,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"content-title-input\"]>",
       "file": "index.html",
-      "start": 618,
-      "end": 618,
+      "start": 611,
+      "end": 611,
       "params": []
     },
     {
@@ -4931,8 +4895,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 620,
-      "end": 620,
+      "start": 613,
+      "end": 613,
       "params": []
     },
     {
@@ -4940,8 +4904,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"content-order-input\"]>",
       "file": "index.html",
-      "start": 622,
-      "end": 622,
+      "start": 615,
+      "end": 615,
       "params": []
     },
     {
@@ -4949,8 +4913,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"content-url-group\"] [class=\"form-group hidden\"]>",
       "file": "index.html",
-      "start": 624,
-      "end": 624,
+      "start": 617,
+      "end": 617,
       "params": []
     },
     {
@@ -4958,8 +4922,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"content-url-input\"]>",
       "file": "index.html",
-      "start": 626,
-      "end": 626,
+      "start": 619,
+      "end": 619,
       "params": []
     },
     {
@@ -4967,8 +4931,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"content-thumbnail-group\"] [class=\"form-group hidden\"]>",
       "file": "index.html",
-      "start": 628,
-      "end": 628,
+      "start": 621,
+      "end": 621,
       "params": []
     },
     {
@@ -4976,8 +4940,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"content-thumbnail-input\"]>",
       "file": "index.html",
-      "start": 630,
-      "end": 630,
+      "start": 623,
+      "end": 623,
       "params": []
     },
     {
@@ -4985,8 +4949,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"content-parent-group\"] [class=\"form-group hidden\"]>",
       "file": "index.html",
-      "start": 632,
-      "end": 632,
+      "start": 625,
+      "end": 625,
       "params": []
     },
     {
@@ -4994,8 +4958,8 @@
       "type": "HTML_Element",
       "name": "<select [id=\"content-parent-input\"]>",
       "file": "index.html",
-      "start": 634,
-      "end": 634,
+      "start": 627,
+      "end": 627,
       "params": []
     },
     {
@@ -5003,8 +4967,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"content-desc-group\"] [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 638,
-      "end": 638,
+      "start": 631,
+      "end": 631,
       "params": []
     },
     {
@@ -5012,8 +4976,8 @@
       "type": "HTML_Element",
       "name": "<textarea [id=\"content-desc-input\"]>",
       "file": "index.html",
-      "start": 640,
-      "end": 640,
+      "start": 633,
+      "end": 633,
       "params": []
     },
     {
@@ -5021,8 +4985,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-actions\"]>",
       "file": "index.html",
-      "start": 642,
-      "end": 642,
+      "start": 635,
+      "end": 635,
       "params": []
     },
     {
@@ -5030,8 +4994,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-ghost\"]>",
       "file": "index.html",
-      "start": 643,
-      "end": 643,
+      "start": 636,
+      "end": 636,
       "params": []
     },
     {
@@ -5039,8 +5003,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary\"]>",
       "file": "index.html",
-      "start": 644,
-      "end": 644,
+      "start": 637,
+      "end": 637,
       "params": []
     },
     {
@@ -5048,8 +5012,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"modal-post-assign\"] [class=\"modal hidden\"]>",
       "file": "index.html",
-      "start": 650,
-      "end": 650,
+      "start": 643,
+      "end": 643,
       "params": []
     },
     {
@@ -5057,8 +5021,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-header\"]>",
       "file": "index.html",
-      "start": 651,
-      "end": 651,
+      "start": 644,
+      "end": 644,
       "params": []
     },
     {
@@ -5066,14 +5030,50 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-body\"]>",
       "file": "index.html",
-      "start": 655,
-      "end": 655,
+      "start": 648,
+      "end": 648,
       "params": []
     },
     {
       "id": "index.html::<input [id=\"assign-course-id\"]>",
       "type": "HTML_Element",
       "name": "<input [id=\"assign-course-id\"]>",
+      "file": "index.html",
+      "start": 649,
+      "end": 649,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"form-group\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"form-group\"]>",
+      "file": "index.html",
+      "start": 650,
+      "end": 650,
+      "params": []
+    },
+    {
+      "id": "index.html::<input [id=\"assign-title-input\"]>",
+      "type": "HTML_Element",
+      "name": "<input [id=\"assign-title-input\"]>",
+      "file": "index.html",
+      "start": 652,
+      "end": 652,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"form-group\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"form-group\"]>",
+      "file": "index.html",
+      "start": 654,
+      "end": 654,
+      "params": []
+    },
+    {
+      "id": "index.html::<textarea [id=\"assign-desc-input\"]>",
+      "type": "HTML_Element",
+      "name": "<textarea [id=\"assign-desc-input\"]>",
       "file": "index.html",
       "start": 656,
       "end": 656,
@@ -5084,44 +5084,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 657,
-      "end": 657,
-      "params": []
-    },
-    {
-      "id": "index.html::<input [id=\"assign-title-input\"]>",
-      "type": "HTML_Element",
-      "name": "<input [id=\"assign-title-input\"]>",
-      "file": "index.html",
-      "start": 659,
-      "end": 659,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 661,
-      "end": 661,
-      "params": []
-    },
-    {
-      "id": "index.html::<textarea [id=\"assign-desc-input\"]>",
-      "type": "HTML_Element",
-      "name": "<textarea [id=\"assign-desc-input\"]>",
-      "file": "index.html",
-      "start": 663,
-      "end": 663,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 665,
-      "end": 665,
+      "start": 658,
+      "end": 658,
       "params": []
     },
     {
@@ -5129,8 +5093,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"assign-url-input\"]>",
       "file": "index.html",
-      "start": 667,
-      "end": 667,
+      "start": 660,
+      "end": 660,
       "params": []
     },
     {
@@ -5138,8 +5102,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 669,
-      "end": 669,
+      "start": 662,
+      "end": 662,
       "params": []
     },
     {
@@ -5147,8 +5111,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"assign-due-input\"]>",
       "file": "index.html",
-      "start": 671,
-      "end": 671,
+      "start": 664,
+      "end": 664,
       "params": []
     },
     {
@@ -5156,8 +5120,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-actions\"]>",
       "file": "index.html",
-      "start": 673,
-      "end": 673,
+      "start": 666,
+      "end": 666,
       "params": []
     },
     {
@@ -5165,8 +5129,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-ghost\"]>",
       "file": "index.html",
-      "start": 674,
-      "end": 674,
+      "start": 667,
+      "end": 667,
       "params": []
     },
     {
@@ -5174,8 +5138,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary\"]>",
       "file": "index.html",
-      "start": 675,
-      "end": 675,
+      "start": 668,
+      "end": 668,
       "params": []
     },
     {
@@ -5183,8 +5147,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"modal-submissions\"] [class=\"modal hidden\"]>",
       "file": "index.html",
-      "start": 681,
-      "end": 681,
+      "start": 674,
+      "end": 674,
       "params": []
     },
     {
@@ -5192,8 +5156,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-header\"]>",
       "file": "index.html",
-      "start": 682,
-      "end": 682,
+      "start": 675,
+      "end": 675,
       "params": []
     },
     {
@@ -5201,8 +5165,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-body\"] [id=\"submissions-list\"]>",
       "file": "index.html",
-      "start": 686,
-      "end": 686,
+      "start": 679,
+      "end": 679,
       "params": []
     },
     {
@@ -5210,8 +5174,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"modal-profile\"] [class=\"modal hidden\"]>",
       "file": "index.html",
-      "start": 690,
-      "end": 690,
+      "start": 683,
+      "end": 683,
       "params": []
     },
     {
@@ -5219,14 +5183,50 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-header\"]>",
       "file": "index.html",
-      "start": 691,
-      "end": 691,
+      "start": 684,
+      "end": 684,
       "params": []
     },
     {
       "id": "index.html::<div [class=\"modal-body\"]>",
       "type": "HTML_Element",
       "name": "<div [class=\"modal-body\"]>",
+      "file": "index.html",
+      "start": 688,
+      "end": 688,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"form-group\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"form-group\"]>",
+      "file": "index.html",
+      "start": 689,
+      "end": 689,
+      "params": []
+    },
+    {
+      "id": "index.html::<input [id=\"profile-name-input\"]>",
+      "type": "HTML_Element",
+      "name": "<input [id=\"profile-name-input\"]>",
+      "file": "index.html",
+      "start": 691,
+      "end": 691,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"form-group\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"form-group\"]>",
+      "file": "index.html",
+      "start": 693,
+      "end": 693,
+      "params": []
+    },
+    {
+      "id": "index.html::<input [id=\"profile-email-input\"]>",
+      "type": "HTML_Element",
+      "name": "<input [id=\"profile-email-input\"]>",
       "file": "index.html",
       "start": 695,
       "end": 695,
@@ -5237,44 +5237,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 696,
-      "end": 696,
-      "params": []
-    },
-    {
-      "id": "index.html::<input [id=\"profile-name-input\"]>",
-      "type": "HTML_Element",
-      "name": "<input [id=\"profile-name-input\"]>",
-      "file": "index.html",
-      "start": 698,
-      "end": 698,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 700,
-      "end": 700,
-      "params": []
-    },
-    {
-      "id": "index.html::<input [id=\"profile-email-input\"]>",
-      "type": "HTML_Element",
-      "name": "<input [id=\"profile-email-input\"]>",
-      "file": "index.html",
-      "start": 702,
-      "end": 702,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 704,
-      "end": 704,
+      "start": 697,
+      "end": 697,
       "params": []
     },
     {
@@ -5282,8 +5246,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"profile-username-input\"]>",
       "file": "index.html",
-      "start": 706,
-      "end": 706,
+      "start": 699,
+      "end": 699,
       "params": []
     },
     {
@@ -5291,8 +5255,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 709,
-      "end": 709,
+      "start": 702,
+      "end": 702,
       "params": []
     },
     {
@@ -5300,8 +5264,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"profile-password-input\"]>",
       "file": "index.html",
-      "start": 711,
-      "end": 711,
+      "start": 704,
+      "end": 704,
       "params": []
     },
     {
@@ -5309,8 +5273,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 713,
-      "end": 713,
+      "start": 706,
+      "end": 706,
       "params": []
     },
     {
@@ -5318,8 +5282,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"profile-password-confirm\"]>",
       "file": "index.html",
-      "start": 715,
-      "end": 715,
+      "start": 708,
+      "end": 708,
       "params": []
     },
     {
@@ -5327,8 +5291,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-actions\"]>",
       "file": "index.html",
-      "start": 717,
-      "end": 717,
+      "start": 710,
+      "end": 710,
       "params": []
     },
     {
@@ -5336,8 +5300,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-ghost\"]>",
       "file": "index.html",
-      "start": 718,
-      "end": 718,
+      "start": 711,
+      "end": 711,
       "params": []
     },
     {
@@ -5345,8 +5309,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary\"]>",
       "file": "index.html",
-      "start": 719,
-      "end": 719,
+      "start": 712,
+      "end": 712,
       "params": []
     },
     {
@@ -5354,8 +5318,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"modal-manual-enrol\"] [class=\"modal hidden\"]>",
       "file": "index.html",
-      "start": 725,
-      "end": 725,
+      "start": 718,
+      "end": 718,
       "params": []
     },
     {
@@ -5363,8 +5327,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-header\"]>",
       "file": "index.html",
-      "start": 726,
-      "end": 726,
+      "start": 719,
+      "end": 719,
       "params": []
     },
     {
@@ -5372,8 +5336,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-body\"]>",
       "file": "index.html",
-      "start": 730,
-      "end": 730,
+      "start": 723,
+      "end": 723,
       "params": []
     },
     {
@@ -5381,8 +5345,8 @@
       "type": "HTML_Element",
       "name": "<strong [id=\"manual-enrol-student-name\"]>",
       "file": "index.html",
-      "start": 731,
-      "end": 731,
+      "start": 724,
+      "end": 724,
       "params": []
     },
     {
@@ -5390,8 +5354,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"manual-enrol-student-id\"]>",
       "file": "index.html",
-      "start": 732,
-      "end": 732,
+      "start": 725,
+      "end": 725,
       "params": []
     },
     {
@@ -5399,8 +5363,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 733,
-      "end": 733,
+      "start": 726,
+      "end": 726,
       "params": []
     },
     {
@@ -5408,8 +5372,8 @@
       "type": "HTML_Element",
       "name": "<select [id=\"manual-enrol-course-select\"]>",
       "file": "index.html",
-      "start": 735,
-      "end": 735,
+      "start": 728,
+      "end": 728,
       "params": []
     },
     {
@@ -5417,8 +5381,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-actions\"]>",
       "file": "index.html",
-      "start": 737,
-      "end": 737,
+      "start": 730,
+      "end": 730,
       "params": []
     },
     {
@@ -5426,8 +5390,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-ghost\"]>",
       "file": "index.html",
-      "start": 738,
-      "end": 738,
+      "start": 731,
+      "end": 731,
       "params": []
     },
     {
@@ -5435,8 +5399,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary\"]>",
       "file": "index.html",
-      "start": 739,
-      "end": 739,
+      "start": 732,
+      "end": 732,
       "params": []
     },
     {
@@ -5444,8 +5408,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"modal-add-user\"] [class=\"modal hidden\"]>",
       "file": "index.html",
-      "start": 745,
-      "end": 745,
+      "start": 738,
+      "end": 738,
       "params": []
     },
     {
@@ -5453,14 +5417,50 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-header\"]>",
       "file": "index.html",
-      "start": 746,
-      "end": 746,
+      "start": 739,
+      "end": 739,
       "params": []
     },
     {
       "id": "index.html::<div [class=\"modal-body\"]>",
       "type": "HTML_Element",
       "name": "<div [class=\"modal-body\"]>",
+      "file": "index.html",
+      "start": 743,
+      "end": 743,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"form-group\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"form-group\"]>",
+      "file": "index.html",
+      "start": 744,
+      "end": 744,
+      "params": []
+    },
+    {
+      "id": "index.html::<input [id=\"add-user-name\"]>",
+      "type": "HTML_Element",
+      "name": "<input [id=\"add-user-name\"]>",
+      "file": "index.html",
+      "start": 746,
+      "end": 746,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"form-group\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"form-group\"]>",
+      "file": "index.html",
+      "start": 748,
+      "end": 748,
+      "params": []
+    },
+    {
+      "id": "index.html::<input [id=\"add-user-username\"]>",
+      "type": "HTML_Element",
+      "name": "<input [id=\"add-user-username\"]>",
       "file": "index.html",
       "start": 750,
       "end": 750,
@@ -5471,44 +5471,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 751,
-      "end": 751,
-      "params": []
-    },
-    {
-      "id": "index.html::<input [id=\"add-user-name\"]>",
-      "type": "HTML_Element",
-      "name": "<input [id=\"add-user-name\"]>",
-      "file": "index.html",
-      "start": 753,
-      "end": 753,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 755,
-      "end": 755,
-      "params": []
-    },
-    {
-      "id": "index.html::<input [id=\"add-user-username\"]>",
-      "type": "HTML_Element",
-      "name": "<input [id=\"add-user-username\"]>",
-      "file": "index.html",
-      "start": 757,
-      "end": 757,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 759,
-      "end": 759,
+      "start": 752,
+      "end": 752,
       "params": []
     },
     {
@@ -5516,8 +5480,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"add-user-email\"]>",
       "file": "index.html",
-      "start": 761,
-      "end": 761,
+      "start": 754,
+      "end": 754,
       "params": []
     },
     {
@@ -5525,8 +5489,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 763,
-      "end": 763,
+      "start": 756,
+      "end": 756,
       "params": []
     },
     {
@@ -5534,8 +5498,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"add-user-password\"]>",
       "file": "index.html",
-      "start": 765,
-      "end": 765,
+      "start": 758,
+      "end": 758,
       "params": []
     },
     {
@@ -5543,8 +5507,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 767,
-      "end": 767,
+      "start": 760,
+      "end": 760,
       "params": []
     },
     {
@@ -5552,8 +5516,8 @@
       "type": "HTML_Element",
       "name": "<select [id=\"add-user-role\"]>",
       "file": "index.html",
-      "start": 769,
-      "end": 769,
+      "start": 762,
+      "end": 762,
       "params": []
     },
     {
@@ -5561,8 +5525,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-actions\"]>",
       "file": "index.html",
-      "start": 775,
-      "end": 775,
+      "start": 768,
+      "end": 768,
       "params": []
     },
     {
@@ -5570,8 +5534,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-ghost\"]>",
       "file": "index.html",
-      "start": 776,
-      "end": 776,
+      "start": 769,
+      "end": 769,
       "params": []
     },
     {
@@ -5579,8 +5543,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary\"]>",
       "file": "index.html",
-      "start": 777,
-      "end": 777,
+      "start": 770,
+      "end": 770,
       "params": []
     },
     {
@@ -5588,8 +5552,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"modal-edit-user\"] [class=\"modal hidden\"]>",
       "file": "index.html",
-      "start": 783,
-      "end": 783,
+      "start": 776,
+      "end": 776,
       "params": []
     },
     {
@@ -5597,8 +5561,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-header\"]>",
       "file": "index.html",
-      "start": 784,
-      "end": 784,
+      "start": 777,
+      "end": 777,
       "params": []
     },
     {
@@ -5606,14 +5570,50 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-body\"]>",
       "file": "index.html",
-      "start": 788,
-      "end": 788,
+      "start": 781,
+      "end": 781,
       "params": []
     },
     {
       "id": "index.html::<input [id=\"edit-user-id\"]>",
       "type": "HTML_Element",
       "name": "<input [id=\"edit-user-id\"]>",
+      "file": "index.html",
+      "start": 782,
+      "end": 782,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"form-group\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"form-group\"]>",
+      "file": "index.html",
+      "start": 783,
+      "end": 783,
+      "params": []
+    },
+    {
+      "id": "index.html::<input [id=\"edit-user-name\"]>",
+      "type": "HTML_Element",
+      "name": "<input [id=\"edit-user-name\"]>",
+      "file": "index.html",
+      "start": 785,
+      "end": 785,
+      "params": []
+    },
+    {
+      "id": "index.html::<div [class=\"form-group\"]>",
+      "type": "HTML_Element",
+      "name": "<div [class=\"form-group\"]>",
+      "file": "index.html",
+      "start": 787,
+      "end": 787,
+      "params": []
+    },
+    {
+      "id": "index.html::<input [id=\"edit-user-username\"]>",
+      "type": "HTML_Element",
+      "name": "<input [id=\"edit-user-username\"]>",
       "file": "index.html",
       "start": 789,
       "end": 789,
@@ -5624,44 +5624,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 790,
-      "end": 790,
-      "params": []
-    },
-    {
-      "id": "index.html::<input [id=\"edit-user-name\"]>",
-      "type": "HTML_Element",
-      "name": "<input [id=\"edit-user-name\"]>",
-      "file": "index.html",
-      "start": 792,
-      "end": 792,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 794,
-      "end": 794,
-      "params": []
-    },
-    {
-      "id": "index.html::<input [id=\"edit-user-username\"]>",
-      "type": "HTML_Element",
-      "name": "<input [id=\"edit-user-username\"]>",
-      "file": "index.html",
-      "start": 796,
-      "end": 796,
-      "params": []
-    },
-    {
-      "id": "index.html::<div [class=\"form-group\"]>",
-      "type": "HTML_Element",
-      "name": "<div [class=\"form-group\"]>",
-      "file": "index.html",
-      "start": 798,
-      "end": 798,
+      "start": 791,
+      "end": 791,
       "params": []
     },
     {
@@ -5669,8 +5633,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"edit-user-email\"]>",
       "file": "index.html",
-      "start": 800,
-      "end": 800,
+      "start": 793,
+      "end": 793,
       "params": []
     },
     {
@@ -5678,8 +5642,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 802,
-      "end": 802,
+      "start": 795,
+      "end": 795,
       "params": []
     },
     {
@@ -5687,8 +5651,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"edit-user-password\"]>",
       "file": "index.html",
-      "start": 804,
-      "end": 804,
+      "start": 797,
+      "end": 797,
       "params": []
     },
     {
@@ -5696,8 +5660,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 806,
-      "end": 806,
+      "start": 799,
+      "end": 799,
       "params": []
     },
     {
@@ -5705,8 +5669,8 @@
       "type": "HTML_Element",
       "name": "<select [id=\"edit-user-role\"]>",
       "file": "index.html",
-      "start": 808,
-      "end": 808,
+      "start": 801,
+      "end": 801,
       "params": []
     },
     {
@@ -5714,8 +5678,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-actions\"]>",
       "file": "index.html",
-      "start": 814,
-      "end": 814,
+      "start": 807,
+      "end": 807,
       "params": []
     },
     {
@@ -5723,8 +5687,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-ghost\"]>",
       "file": "index.html",
-      "start": 815,
-      "end": 815,
+      "start": 808,
+      "end": 808,
       "params": []
     },
     {
@@ -5732,8 +5696,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary\"]>",
       "file": "index.html",
-      "start": 816,
-      "end": 816,
+      "start": 809,
+      "end": 809,
       "params": []
     },
     {
@@ -5741,8 +5705,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"modal-student-report\"] [class=\"modal hidden\"]>",
       "file": "index.html",
-      "start": 822,
-      "end": 822,
+      "start": 815,
+      "end": 815,
       "params": []
     },
     {
@@ -5750,8 +5714,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-header\"]>",
       "file": "index.html",
-      "start": 823,
-      "end": 823,
+      "start": 816,
+      "end": 816,
       "params": []
     },
     {
@@ -5759,8 +5723,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-body\"] [id=\"student-report-content\"]>",
       "file": "index.html",
-      "start": 827,
-      "end": 827,
+      "start": 820,
+      "end": 820,
       "params": []
     },
     {
@@ -5768,8 +5732,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"modal-custom-email\"] [class=\"modal hidden\"]>",
       "file": "index.html",
-      "start": 832,
-      "end": 832,
+      "start": 825,
+      "end": 825,
       "params": []
     },
     {
@@ -5777,8 +5741,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-header\"]>",
       "file": "index.html",
-      "start": 833,
-      "end": 833,
+      "start": 826,
+      "end": 826,
       "params": []
     },
     {
@@ -5786,8 +5750,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-body\"]>",
       "file": "index.html",
-      "start": 837,
-      "end": 837,
+      "start": 830,
+      "end": 830,
       "params": []
     },
     {
@@ -5795,8 +5759,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 838,
-      "end": 838,
+      "start": 831,
+      "end": 831,
       "params": []
     },
     {
@@ -5804,8 +5768,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"custom-email-batch-toggle\"]>",
       "file": "index.html",
-      "start": 839,
-      "end": 839,
+      "start": 832,
+      "end": 832,
       "params": []
     },
     {
@@ -5813,8 +5777,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"custom-email-single-view\"]>",
       "file": "index.html",
-      "start": 842,
-      "end": 842,
+      "start": 835,
+      "end": 835,
       "params": []
     },
     {
@@ -5822,8 +5786,8 @@
       "type": "HTML_Element",
       "name": "<strong [id=\"custom-email-target\"]>",
       "file": "index.html",
-      "start": 843,
-      "end": 843,
+      "start": 836,
+      "end": 836,
       "params": []
     },
     {
@@ -5831,8 +5795,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"custom-email-user-id\"]>",
       "file": "index.html",
-      "start": 844,
-      "end": 844,
+      "start": 837,
+      "end": 837,
       "params": []
     },
     {
@@ -5840,8 +5804,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"custom-email-batch-view\"] [class=\"form-group hidden\"]>",
       "file": "index.html",
-      "start": 846,
-      "end": 846,
+      "start": 839,
+      "end": 839,
       "params": []
     },
     {
@@ -5849,8 +5813,8 @@
       "type": "HTML_Element",
       "name": "<select [id=\"custom-email-course-select\"]>",
       "file": "index.html",
-      "start": 848,
-      "end": 848,
+      "start": 841,
+      "end": 841,
       "params": []
     },
     {
@@ -5858,8 +5822,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 850,
-      "end": 850,
+      "start": 843,
+      "end": 843,
       "params": []
     },
     {
@@ -5867,8 +5831,8 @@
       "type": "HTML_Element",
       "name": "<input [id=\"custom-email-subject\"]>",
       "file": "index.html",
-      "start": 852,
-      "end": 852,
+      "start": 845,
+      "end": 845,
       "params": []
     },
     {
@@ -5876,8 +5840,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"form-group\"]>",
       "file": "index.html",
-      "start": 854,
-      "end": 854,
+      "start": 847,
+      "end": 847,
       "params": []
     },
     {
@@ -5885,8 +5849,8 @@
       "type": "HTML_Element",
       "name": "<textarea [id=\"custom-email-body\"]>",
       "file": "index.html",
-      "start": 856,
-      "end": 856,
+      "start": 849,
+      "end": 849,
       "params": []
     },
     {
@@ -5894,8 +5858,8 @@
       "type": "HTML_Element",
       "name": "<div [class=\"modal-actions\"]>",
       "file": "index.html",
-      "start": 858,
-      "end": 858,
+      "start": 851,
+      "end": 851,
       "params": []
     },
     {
@@ -5903,8 +5867,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-ghost\"]>",
       "file": "index.html",
-      "start": 859,
-      "end": 859,
+      "start": 852,
+      "end": 852,
       "params": []
     },
     {
@@ -5912,8 +5876,8 @@
       "type": "HTML_Element",
       "name": "<button [class=\"btn-primary\"]>",
       "file": "index.html",
-      "start": 860,
-      "end": 860,
+      "start": 853,
+      "end": 853,
       "params": []
     },
     {
@@ -5921,8 +5885,8 @@
       "type": "HTML_Element",
       "name": "<div [id=\"toast\"] [class=\"toast hidden\"]>",
       "file": "index.html",
-      "start": 868,
-      "end": 868,
+      "start": 861,
+      "end": 861,
       "params": []
     },
     {
@@ -5943,7 +5907,7 @@
       "id": "server.js",
       "path": "server.js",
       "extension": ".js",
-      "size": 36428,
+      "size": 37867,
       "language": "javascript"
     },
     {
@@ -5983,8 +5947,8 @@
       "type": "JS_Function",
       "name": "e",
       "file": "server.js",
-      "start": 316,
-      "end": 316,
+      "start": 317,
+      "end": 317,
       "params": []
     },
     {
@@ -5992,8 +5956,8 @@
       "type": "JS_Function",
       "name": "a",
       "file": "server.js",
-      "start": 420,
-      "end": 423,
+      "start": 426,
+      "end": 429,
       "params": []
     },
     {
@@ -6001,8 +5965,8 @@
       "type": "JS_Function",
       "name": "r",
       "file": "server.js",
-      "start": 421,
-      "end": 421,
+      "start": 427,
+      "end": 427,
       "params": []
     },
     {
@@ -6010,8 +5974,8 @@
       "type": "JS_Function",
       "name": "a",
       "file": "server.js",
-      "start": 432,
-      "end": 432,
+      "start": 438,
+      "end": 438,
       "params": []
     },
     {
@@ -6019,8 +5983,8 @@
       "type": "JS_Function",
       "name": "r",
       "file": "server.js",
-      "start": 432,
-      "end": 432,
+      "start": 438,
+      "end": 438,
       "params": []
     },
     {
@@ -6028,8 +5992,8 @@
       "type": "JS_Function",
       "name": "e",
       "file": "server.js",
-      "start": 457,
-      "end": 457,
+      "start": 463,
+      "end": 463,
       "params": []
     },
     {
@@ -6037,8 +6001,8 @@
       "type": "JS_Function",
       "name": "a",
       "file": "server.js",
-      "start": 461,
-      "end": 464,
+      "start": 467,
+      "end": 470,
       "params": []
     },
     {
@@ -6046,8 +6010,8 @@
       "type": "JS_Function",
       "name": "s",
       "file": "server.js",
-      "start": 462,
-      "end": 462,
+      "start": 468,
+      "end": 468,
       "params": []
     },
     {
@@ -6055,8 +6019,8 @@
       "type": "JS_Function",
       "name": "e",
       "file": "server.js",
-      "start": 475,
-      "end": 478,
+      "start": 486,
+      "end": 489,
       "params": []
     },
     {
@@ -6064,8 +6028,8 @@
       "type": "JS_Function",
       "name": "a",
       "file": "server.js",
-      "start": 658,
-      "end": 658,
+      "start": 675,
+      "end": 675,
       "params": []
     },
     {
@@ -6073,8 +6037,8 @@
       "type": "JS_Function",
       "name": "r",
       "file": "server.js",
-      "start": 658,
-      "end": 658,
+      "start": 675,
+      "end": 675,
       "params": []
     },
     {
@@ -6082,8 +6046,8 @@
       "type": "JS_Function",
       "name": "e",
       "file": "server.js",
-      "start": 690,
-      "end": 695,
+      "start": 707,
+      "end": 712,
       "params": []
     },
     {
@@ -6091,8 +6055,17 @@
       "type": "JS_Function",
       "name": "u",
       "file": "server.js",
-      "start": 707,
-      "end": 712,
+      "start": 727,
+      "end": 732,
+      "params": []
+    },
+    {
+      "id": "server.js::msg",
+      "type": "JS_Function",
+      "name": "msg",
+      "file": "server.js",
+      "start": 737,
+      "end": 740,
       "params": []
     },
     {
@@ -10520,26 +10493,6 @@
     },
     {
       "from": "index.html",
-      "to": "index.html::<div [class=\"form-group\"]>",
-      "type": "defines"
-    },
-    {
-      "from": "index.html",
-      "to": "index.html::<div [class=\"role-toggle\"]>",
-      "type": "defines"
-    },
-    {
-      "from": "index.html",
-      "to": "index.html::<button [class=\"role-btn active\"]>",
-      "type": "defines"
-    },
-    {
-      "from": "index.html",
-      "to": "index.html::<button [class=\"role-btn\"]>",
-      "type": "defines"
-    },
-    {
-      "from": "index.html",
       "to": "index.html::<div [id=\"signup-error\"] [class=\"form-error hidden\"]>",
       "type": "defines"
     },
@@ -12271,6 +12224,11 @@
     {
       "from": "server.js",
       "to": "server.js::u",
+      "type": "defines"
+    },
+    {
+      "from": "server.js",
+      "to": "server.js::msg",
       "type": "defines"
     },
     {

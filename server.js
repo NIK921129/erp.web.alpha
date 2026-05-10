@@ -296,6 +296,7 @@ api.delete('/courses/:id', auth, async (req, res) => {
     await Submission.deleteMany({ assignment: { $in: assigns.map(a => a._id) } });
     await Assignment.deleteMany({ course: cid });
     await Content.deleteMany({ course: cid });
+    await ChatMessage.deleteMany({ course: cid });
     res.json({ message: 'Deleted' });
   } catch (e) {
     res.status(500).json({ message: e.message });
@@ -390,6 +391,11 @@ api.post('/payments/:id/approve', auth, async (req, res) => {
           }]
         }]
       });
+
+      // Check if Mailjet returned a specific message error despite a 200 OK HTTP status
+      if (response.body?.Messages?.[0]?.Status === 'error') {
+        console.error("⚠️ Mailjet Message Error:", response.body.Messages[0].Errors);
+      }
     } catch (emailErr) { 
       console.error("❌ Mailjet Email Error:");
       console.error(emailErr.response ? JSON.stringify(emailErr.response.data, null, 2) : emailErr.message || emailErr);
@@ -469,6 +475,11 @@ api.get('/assignments/me', auth, async (req, res) => {
 api.post('/assignments', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin' && req.user.role !== 'teacher') return res.status(403).json({ message: 'Forbidden' });
+    if (req.user.role === 'teacher') {
+      const course = await Course.findById(req.body.course);
+      if (!course || course.teacher?.toString() !== req.user._id.toString()) 
+        return res.status(403).json({ message: 'Forbidden: You do not own this course' });
+    }
     const assignment = await Assignment.create(req.body);
     
     const enrols = await Enrolment.find({ course: req.body.course, status: 'active' });
@@ -530,6 +541,11 @@ api.get('/content/course/:id', auth, async (req, res) => {
 api.post('/content', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin' && req.user.role !== 'teacher') return res.status(403).json({ message: 'Forbidden' });
+    if (req.user.role === 'teacher') {
+      const course = await Course.findById(req.body.course);
+      if (!course || course.teacher?.toString() !== req.user._id.toString()) 
+        return res.status(403).json({ message: 'Forbidden: You do not own this course' });
+    }
     const content = await Content.create(req.body);
     res.json({ content });
   } catch (e) { res.status(500).json({ message: e.message }); }
@@ -624,6 +640,7 @@ api.delete('/users/:id', auth, async (req, res) => {
     await Submission.deleteMany({ student: uid });
     await Attendance.updateMany({}, { $pull: { records: { student: uid } } });
     await Course.updateMany({ teacher: uid }, { $unset: { teacher: 1 } });
+    await ChatMessage.deleteMany({ sender: uid });
     
     res.json({ message: 'User deleted successfully' });
   } catch (e) { res.status(500).json({ message: e.message }); }
@@ -702,6 +719,9 @@ api.post('/admin/send-email', auth, async (req, res) => {
 
     // Mailjet allows max 50 messages per API call, split into batches if sending to hundreds of students
     const BATCH_SIZE = 50; 
+    let successCount = 0;
+    let errorCount = 0;
+
     for (let i = 0; i < users.length; i += BATCH_SIZE) {
       const batch = users.slice(i, i + BATCH_SIZE);
       const messages = batch.map(u => ({
@@ -710,10 +730,21 @@ api.post('/admin/send-email', auth, async (req, res) => {
         "Subject": subject || "Message from ABC Institute",
         "HTMLPart": `<p>Dear ${u.name},</p><p>${message.replace(/\n/g, '<br/>')}</p>`
       }));
-      await mailjet.post("send", {'version': 'v3.1'}).request({ "Messages": messages });
+      const response = await mailjet.post("send", {'version': 'v3.1'}).request({ "Messages": messages });
+      
+      // Mailjet v3.1 processes valid messages even if some fail. Count the actual successes/errors.
+      const results = response.body?.Messages || [];
+      results.forEach(msg => {
+        if (msg.Status === 'success') successCount++;
+        else errorCount++;
+      });
     }
 
-    res.json({ message: `Email sent successfully to ${users.length} recipient(s)` });
+    if (errorCount > 0) {
+      res.json({ message: `Email processing finished. Success: ${successCount}, Failed: ${errorCount}.` });
+    } else {
+      res.json({ message: `Email sent successfully to ${successCount} recipient(s)` });
+    }
   } catch (e) { 
     console.error("❌ Mailjet Error:", e.response ? JSON.stringify(e.response.data, null, 2) : e.message || e);
     const errorDetail = e.response?.data?.ErrorMessage || e.response?.data?.Messages?.[0]?.Errors?.[0]?.ErrorMessage || 'Check configuration.';

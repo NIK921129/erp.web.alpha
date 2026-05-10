@@ -1463,7 +1463,7 @@ function renderAdminStudents() {
   const el  = document.getElementById('admin-students-table');
   const q   = document.getElementById('student-search')?.value?.toLowerCase() || '';
   const list = STATE.adminStudents.filter(u =>
-      u.name.toLowerCase().includes(q) || u.username.toLowerCase().includes(q)
+      (u.name || '').toLowerCase().includes(q) || (u.username || '').toLowerCase().includes(q)
     );
     if (!list.length) { el.innerHTML = '<div class="empty-state">No students found</div>'; return; }
     el.innerHTML = `
@@ -2217,7 +2217,7 @@ function renderChatMessages(courseId, msgs) {
 function createChatBubble(m) {
   const isSelf = m.sender?._id === STATE.user._id || m.sender === STATE.user._id;
   const senderName = isSelf ? 'You' : (m.sender?.name || 'User');
-  const roleBadge = m.sender?.role === 'teacher' ? '<span class="badge" style="padding:2px 6px;font-size:10px;background:var(--teal-glow);color:var(--teal);border:none;">Teacher</span>' : '';
+  const roleBadge = (m.sender?.role === 'teacher' || m.sender?.role === 'admin') ? `<span class="badge" style="padding:2px 6px;font-size:10px;background:var(--teal-glow);color:var(--teal);border:none;text-transform:capitalize;">${m.sender.role}</span>` : '';
   return `
     <div class="chat-msg ${isSelf ? 'self' : ''}">
       <div class="chat-msg-sender">${senderName} ${roleBadge}</div>
