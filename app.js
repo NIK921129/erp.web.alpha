@@ -1617,16 +1617,19 @@ function renderAdminStudents() {
       (u.name || '').toLowerCase().includes(q) || (u.username || '').toLowerCase().includes(q)
     );
     if (!list.length) { el.innerHTML = '<div class="empty-state">No students found</div>'; return; }
-    el.innerHTML = `
-      <table class="data-table">
-        <thead><tr><th>Name</th><th>Username</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead>
-        <tbody>${list.map(u => `
-          <tr>
-            <td><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="width:36px;height:36px;font-size:15px">${initials(u.name)}</div>${esc(u.name)}</div></td>
-            <td style="font-family:monospace;font-size:15px">@${esc(u.username)}</td>
-            <td style="font-size:15px">${esc(u.email)}</td>
-            <td><span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span></td>
-            <td><div class="actions-menu">
+    el.innerHTML = '<div class="modern-list">' + list.map(u => `
+      <div class="modern-list-card">
+        <div class="mlc-info">
+          <div class="avatar" style="width:40px;height:40px;font-size:15px;margin:0;">${initials(u.name)}</div>
+          <div class="mlc-details">
+            <div class="mlc-title">${esc(u.name)}</div>
+            <div class="mlc-subtitle">@${esc(u.username)} · ${esc(u.email)}</div>
+          </div>
+        </div>
+        <div class="mlc-status">
+          <span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span>
+        </div>
+        <div class="mlc-actions actions-menu">
               <button class="actions-btn" onclick="toggleActionsMenu(event)">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
               </button>
@@ -1636,10 +1639,8 @@ function renderAdminStudents() {
                 <a onclick="openCustomEmailModal('${u._id}')">Send Email</a>
                 <a onclick="toggleUserActive('${u._id}',${!u.active})">${u.active?'Suspend':'Activate'}</a>
               </div>
-            </div></td>
-          </tr>`).join('')}
-        </tbody>
-      </table>`;
+        </div>
+      </div>`).join('') + '</div>';
 }
 
 async function openManualEnrolModal(studentId, studentName) {
@@ -1815,16 +1816,20 @@ function renderAdminCourses() {
   const list = STATE.adminCourses.filter(c => (c.name||'').toLowerCase().includes(q) || (c.teacher?.name||'').toLowerCase().includes(q));
   if (!list.length) { el.innerHTML = '<div class="empty-state">No courses found.</div>'; return; }
 
-    el.innerHTML = `
-      <table class="data-table">
-        <thead><tr><th>Course</th><th>Teacher</th><th>Fee</th><th>Students</th><th>Actions</th></tr></thead>
-        <tbody>${list.map(c => `
-          <tr>
-            <td><strong>${esc(c.name)}</strong><br/><span style="font-size:14px;color:var(--text-2)">${esc(c.duration||'')}</span></td>
-            <td style="font-size:15px">${esc(c.teacher?.name||'Unassigned')}</td>
-            <td style="font-weight:600;color:var(--teal)">₹${Number(c.fee).toLocaleString('en-IN')}</td>
-            <td>${c.studentCount||0}</td>
-            <td><div class="actions-menu">
+    el.innerHTML = '<div class="modern-list">' + list.map(c => `
+      <div class="modern-list-card">
+        <div class="mlc-info">
+          <div class="avatar" style="width:44px;height:44px;font-size:18px;margin:0;background:var(--bg3);border-color:var(--border2);color:var(--text);">${esc(c.name[0].toUpperCase())}</div>
+          <div class="mlc-details">
+            <div class="mlc-title">${esc(c.name)}</div>
+            <div class="mlc-subtitle">${esc(c.duration||'Self-paced')} · Teacher: ${esc(c.teacher?.name||'Unassigned')}</div>
+          </div>
+        </div>
+        <div class="mlc-status">
+          <span style="font-weight:600;color:var(--teal);font-size:16px;">₹${Number(c.fee).toLocaleString('en-IN')}</span>
+          <span class="badge badge-enrolled" style="margin-left:8px;">👥 ${c.studentCount||0}</span>
+        </div>
+        <div class="mlc-actions actions-menu">
               <button class="actions-btn" onclick="toggleActionsMenu(event)">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
               </button>
@@ -1833,10 +1838,8 @@ function renderAdminCourses() {
                 <a onclick="openCustomEmailModal(null, '${c._id}')">Email Class</a>
                 <a class="danger" onclick="deleteCourseAdmin('${c._id}')">Delete Course</a>
               </div>
-            </div></td>
-          </tr>`).join('')}
-        </tbody>
-      </table>`;
+        </div>
+      </div>`).join('') + '</div>';
 }
 
 async function openCourseModal(courseId = null) {
@@ -1964,16 +1967,20 @@ function renderAdminUsers() {
   );
   if (!list.length) { el.innerHTML = '<div class="empty-state">No users found.</div>'; return; }
 
-    el.innerHTML = `
-      <table class="data-table">
-        <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
-        <tbody>${list.map(u => `
-          <tr>
-            <td>${esc(u.name)}</td>
-            <td style="font-family:monospace;font-size:15px">@${esc(u.username)}</td>
-            <td><span class="badge badge-enrolled">${esc(u.role)}</span></td>
-            <td><span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span></td>
-            <td><div class="actions-menu">
+    el.innerHTML = '<div class="modern-list">' + list.map(u => `
+      <div class="modern-list-card">
+        <div class="mlc-info">
+          <div class="avatar" style="width:40px;height:40px;font-size:15px;margin:0;">${initials(u.name)}</div>
+          <div class="mlc-details">
+            <div class="mlc-title">${esc(u.name)}</div>
+            <div class="mlc-subtitle">@${esc(u.username)}</div>
+          </div>
+        </div>
+        <div class="mlc-status">
+          <span class="badge badge-pending" style="border-color:currentColor; text-transform:capitalize;">${esc(u.role)}</span>
+          <span class="badge badge-${u.active?'approved':'rejected'}" style="margin-left:6px;">${u.active?'Active':'Suspended'}</span>
+        </div>
+        <div class="mlc-actions actions-menu">
               <button class="actions-btn" onclick="toggleActionsMenu(event)">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
               </button>
@@ -1983,10 +1990,8 @@ function renderAdminUsers() {
                 <a onclick="toggleUserActive('${u._id}', ${!u.active})">${u.active ? 'Suspend' : 'Activate'}</a>
                 <a class="danger" onclick="deleteUserAdmin('${u._id}')">Delete User</a>
               </div>
-            </div></td>
-          </tr>`).join('')}
-        </tbody>
-      </table>`;
+        </div>
+      </div>`).join('') + '</div>';
 }
 
 function openAddUserModal() {
@@ -2162,26 +2167,27 @@ function renderAdminLogs() {
   const ipCounts = {};
   STATE.adminLogs.forEach(l => { if (l.action === 'visit') ipCounts[l.ip] = (ipCounts[l.ip] || 0) + 1; });
 
-  el.innerHTML = `
-    <table class="data-table">
-      <thead><tr><th>Date & Time</th><th>IP Address</th><th>Action</th><th>User</th><th>Details</th></tr></thead>
-      <tbody>${list.map(l => {
+  el.innerHTML = '<div class="modern-list">' + list.map(l => {
         let bColor = 'blue';
         if (l.action === 'login' || l.action === 'signup') bColor = 'green';
         else if (l.action === 'logout' || l.action === 'exit') bColor = 'red';
         else if (l.action === 'visit') bColor = 'teal';
         
         return `
-        <tr>
-          <td style="font-size:14px;white-space:nowrap">${new Date(l.createdAt).toLocaleString('en-IN')}</td>
-          <td style="font-family:monospace">${esc(l.ip)} <span style="font-size:12px;color:var(--text-3)">(${ipCounts[l.ip] || 0} visits)</span></td>
-          <td><span class="badge" style="border:1px solid currentColor;color:var(--${bColor})">${esc(l.action)}</span></td>
-          <td>${l.user ? `<strong>${esc(l.user.name)}</strong><br/><span style="font-size:13px;color:var(--text-2)">@${esc(l.user.username)}</span>` : '<span class="text-muted">Guest</span>'}</td>
-          <td style="font-size:14px">${esc(l.details || '')}</td>
-        </tr>`;
-      }).join('')}
-      </tbody>
-    </table>`;
+        <div class="modern-list-card">
+          <div class="mlc-info">
+            <div class="mlc-details">
+              <div class="mlc-title">${l.user ? esc(l.user.name) + ' <span style="color:var(--text-3);font-size:14px;font-weight:400;">(@' + esc(l.user.username) + ')</span>' : '<span class="text-muted">Guest User</span>'}</div>
+              <div class="mlc-subtitle" style="font-family:monospace; margin:2px 0 6px;">${esc(l.ip)} <span style="color:var(--text-3)">(${ipCounts[l.ip] || 0} visits)</span></div>
+              <div class="mlc-subtitle" style="color:var(--text); white-space:normal; line-height:1.4;">${esc(l.details || '')}</div>
+              <div class="mlc-subtitle" style="font-size:12px; margin-top:4px;">${new Date(l.createdAt).toLocaleString('en-IN')}</div>
+            </div>
+          </div>
+          <div class="mlc-status">
+            <span class="badge" style="border:1px solid currentColor;color:var(--${bColor})">${esc(l.action)}</span>
+          </div>
+        </div>`;
+      }).join('') + '</div>';
 }
 
 function exportAdminLogs() {
@@ -2657,20 +2663,14 @@ function skeletonStats(count = 4) {
 }
 
 function skeletonTable(rows = 5) {
-  return `<table class="data-table">
-    <thead><tr>
-      <th><div class="skeleton-box" style="height:16px; width:60%;"></div></th>
-      <th><div class="skeleton-box" style="height:16px; width:40%;"></div></th>
-      <th><div class="skeleton-box" style="height:16px; width:50%;"></div></th>
-      <th><div class="skeleton-box" style="height:16px; width:30%;"></div></th>
-    </tr></thead>
-    <tbody>` + Array(rows).fill(`<tr>
-      <td><div class="skeleton-box" style="height:20px; width:80%;"></div></td>
-      <td><div class="skeleton-box" style="height:20px; width:60%;"></div></td>
-      <td><div class="skeleton-box" style="height:20px; width:40%;"></div></td>
-      <td><div class="skeleton-box" style="height:20px; width:30%;"></div></td>
-    </tr>`).join('') + `</tbody>
-  </table>`;
+  return '<div class="modern-list">' + Array(rows).fill(`
+    <div class="modern-list-card">
+      <div class="mlc-info">
+        <div class="skeleton-box" style="width:40px;height:40px;border-radius:50%;"></div>
+        <div class="mlc-details" style="flex:1;"><div class="skeleton-box" style="height:16px; width:60%; margin-bottom:8px;"></div><div class="skeleton-box" style="height:12px; width:40%;"></div></div>
+      </div>
+      <div class="skeleton-box" style="height:28px; width:80px; border-radius:50px;"></div>
+    </div>`).join('') + '</div>';
 }
 
 /* ══════════════════════════════════════════

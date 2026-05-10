@@ -814,6 +814,25 @@ textarea { resize: vertical; }
 .filter-btn:hover { border-color: var(--teal); color: var(--teal); }
 .filter-btn.active { background: var(--teal-glow); border-color: var(--teal); color: var(--teal); }
 
+/* ══════════════════════════════════════════
+   MODERN LIST CARDS (Replaces Admin Tables)
+══════════════════════════════════════════ */
+.modern-list { display: flex; flex-direction: column; gap: 12px; }
+.modern-list-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 1rem 1.25rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  backdrop-filter: var(--backdrop); -webkit-backdrop-filter: var(--backdrop);
+  transition: var(--trans); position: relative;
+}
+.modern-list-card:hover { border-color: var(--teal); box-shadow: var(--shadow-lg); transform: translateY(-2px); z-index: 2; }
+.mlc-info { display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0; }
+.mlc-details { display: flex; flex-direction: column; min-width: 0; }
+.mlc-title { font-family: var(--font-head); font-weight: 700; font-size: 17px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+.mlc-subtitle { font-size: 14px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mlc-status { flex-shrink: 0; display: flex; align-items: center; }
+.mlc-actions { flex-shrink: 0; }
+
 /* Action Dropdown Menu */
 .actions-menu {
   position: relative;
@@ -1121,7 +1140,6 @@ textarea { resize: vertical; }
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 100px;
     padding: 8px 12px;
-    margin: 0; justify-content: flex-start;
     margin: 0; justify-content: flex-start; align-items: center;
     overflow-x: auto; overflow-y: hidden;
     -webkit-overflow-scrolling: touch; scrollbar-width: none;
@@ -1228,24 +1246,15 @@ textarea { resize: vertical; }
   .modal-actions { flex-direction: column-reverse; width: 100%; gap: 10px; margin-top: 1.5rem; }
   .modal-actions button { width: 100%; margin: 0 !important; }
   
-  /* 6. Tables & Table Dropdowns */
-  .data-table { display: block; overflow-x: auto; white-space: nowrap; font-size: 14px; width: 100vw; margin-left: -1rem; padding: 0 1rem; border-radius: 0; border-left: none; border-right: none; }
-  .data-table th, .data-table td { padding: 12px 14px; }
-  /* 6. Tables & Table Dropdowns (Fixes column text overlapping by using scrollable wrappers instead of breaking table display) */
-  #admin-students-table, #admin-courses-table, #admin-users-table, #admin-logs-table, #student-attendance-content {
-    overflow-x: auto; -webkit-overflow-scrolling: touch;
-    width: 100vw; margin-left: -1rem; padding: 0 1rem 1rem 1rem;
-  }
-  .data-table, .att-table { 
-    display: table; width: 100%; min-width: max-content; white-space: nowrap; font-size: 14px; 
-    border-radius: 0; border-left: none; border-right: none; margin: 0;
-  }
-  .data-table th, .data-table td, .att-table th, .att-table td { padding: 12px 14px; white-space: nowrap; min-width: 110px; }
-  .actions-menu { display: flex; flex-direction: column; align-items: stretch; width: 100%; }
-  .actions-btn { width: 100%; height: 44px; border-radius: 12px; background: var(--bg3); border: 1px solid var(--border2); }
-  .actions-dropdown { position: static; width: 100%; min-width: 0; background: transparent; border: none; box-shadow: none; padding: 8px 0 0 0; }
-  .actions-dropdown a { background: var(--bg2); border: 1px solid var(--border2); border-radius: 10px; margin-bottom: 6px; text-align: center; white-space: normal; }
-  .actions-dropdown a:last-child { margin-bottom: 0; }
+  /* 6. Modern List Cards - Mobile Format */
+  .modern-list-card { flex-wrap: wrap; align-items: flex-start; padding: 1.25rem; flex-direction: column; gap: 14px; }
+  .mlc-info { width: 100%; align-items: flex-start; padding-right: 40px; }
+  .mlc-title { white-space: normal; word-break: break-word; font-size: 18px; line-height: 1.3; margin-bottom: 6px; }
+  .mlc-subtitle { white-space: normal; word-break: break-word; line-height: 1.4; }
+  .mlc-status { width: 100%; display: flex; justify-content: flex-start; border-top: 1px solid var(--border); padding-top: 12px; flex-wrap: wrap; gap: 10px; }
+  .mlc-actions { position: absolute; top: 1rem; right: 1rem; }
+  
+  #student-attendance-content { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100vw; margin-left: -1rem; padding: 0 1rem; }
 
   /* 7. Components & Chat */
   .chat-container { height: calc(100dvh - 260px); border-radius: 24px; }
