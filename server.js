@@ -58,7 +58,9 @@ const User = mongoose.model('User', new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, enum: ['student', 'teacher', 'admin'], default: 'student' },
-  active: { type: Boolean, default: true }
+  active: { type: Boolean, default: true },
+  aiCredits: { type: Number, default: 5 },
+  lastCreditReset: { type: String }
 }));
 
 const Course = mongoose.model('Course', new mongoose.Schema({
@@ -115,7 +117,8 @@ const Setting = mongoose.model('Setting', new mongoose.Schema({
   waNumber: { type: String, default: '919211293576' },
   announcementText: { type: String, default: '' },
   announcementActive: { type: Boolean, default: false },
-  bannedIPs: [{ type: String }]
+  bannedIPs: [{ type: String }],
+  dailyAiCredits: { type: Number, default: 5 }
 }));
 
 const Coupon = mongoose.model('Coupon', new mongoose.Schema({
@@ -854,6 +857,42 @@ api.post('/chat/course/:id', auth, async (req, res) => {
     const populated = await msg.populate('sender', 'name role');
     io.to(`course_${req.params.id}`).emit('chat_message', populated);
     res.json({ message: populated });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+// --- AI DOUBT SOLVER ---
+api.post('/ai/chat', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'student') return res.status(403).json({ message: 'Forbidden: Only students can use the AI solver.' });
+    const { courseId, text } = req.body;
+
+    const enrol = await Enrolment.findOne({ student: req.user._id, course: courseId, status: 'active' });
+    if (!enrol) return res.status(403).json({ message: 'Forbidden: You must be enrolled to use the AI.' });
+
+    const today = new Date().toISOString().split('T')[0];
+    let user = await User.findById(req.user._id);
+    
+    // Reset credits if it's a new day
+    if (user.lastCreditReset !== today) {
+      user.aiCredits = 5;
+      user.lastCreditReset = today;
+    }
+    
+    if (user.aiCredits <= 0) return res.status(429).json({ message: 'Daily limit reached. You will get 5 more credits tomorrow!' });
+
+    const course = await Course.findById(courseId);
+    const prompt = `Context: The student is asking a doubt related to the course "${course?.name || 'General'}". Answer clearly and concisely. Question: ${text}`;
+
+    const geminiKey = process.env.GEMINI_API_KEY || 'AIzaSyA1OAAh_aDssL-EFkgKSc94zSkwzw-i1Bo';
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
+    
+    const aiRes = await fetch(geminiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) });
+    const aiData = await aiRes.json();
+    if (!aiRes.ok) throw new Error(aiData.error?.message || 'AI generation failed');
+
+    user.aiCredits -= 1;
+    await user.save();
+    res.json({ reply: aiData.candidates[0].content.parts[0].text, credits: user.aiCredits, maxCredits: dailyLimit });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 

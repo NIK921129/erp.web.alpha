@@ -17,6 +17,7 @@ const CONFIG = {
   WA_NUMBER:  '919211293576',
   ANNOUNCEMENT_TEXT: '',
   ANNOUNCEMENT_ACTIVE: false,
+  DAILY_AI_CREDITS: 5,
   ICONS: ['📘','📗','📙','📕','🎯','💡','⚡','🔬','🎨','🖥️','🧮','📐'],
 };
 
@@ -135,6 +136,7 @@ const API = {
   /* Chat */
   courseChat:      (id)     => api('GET', '/chat/course/' + id),
   sendChatMessage: (id, d)  => api('POST', '/chat/course/' + id, d),
+  aiChat:          (d)      => api('POST', '/ai/chat', d),
 
   /* Logs */
   logEvent:        (d)      => api('POST', '/logs', d),
@@ -273,6 +275,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         const banner = document.getElementById('announcement-banner');
         if (banner) { banner.innerHTML = esc(settings.announcementText); banner.classList.remove('hidden'); }
       }
+      if (settings.dailyAiCredits !== undefined) CONFIG.DAILY_AI_CREDITS = settings.dailyAiCredits;
     }
   } catch (e) { /* silently ignore if first setup */ }
 });
@@ -769,6 +772,9 @@ async function initStudentCourse() {
 
     /* Discussions tab */
     initCourseChatView('tab-chat', courseId);
+
+    /* AI Solver tab */
+    initAiChatView('tab-ai', courseId);
 
   } catch (e) {
     toast('Error loading course', 'error');
@@ -2432,7 +2438,7 @@ window.addEventListener('click', (e) => {
    TABS
 ══════════════════════════════════════════ */
 function switchTab(name, btn) {
-  ['content','assignments','batchmates','attendance','chat'].forEach(t => {
+  ['content','assignments','batchmates','attendance','chat','ai'].forEach(t => {
     const el = document.getElementById('tab-' + t);
     if (el) el.classList.toggle('hidden', t !== name);
   });
@@ -2529,6 +2535,62 @@ async function sendCourseChatMessage(e, courseId) {
 
   try { await API.sendChatMessage(courseId, { text }); } 
   catch(err) { toast('Failed to send message', 'error'); }
+}
+
+/* ══════════════════════════════════════════
+   AI CHAT HELPER
+══════════════════════════════════════════ */
+function initAiChatView(containerId, courseId) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = `
+    <div class="chat-container">
+      <div class="dash-header" style="padding:1rem 1.5rem; border-bottom:1px solid var(--border); margin:0; display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-family:var(--font-head); font-weight:700; font-size:16px; margin:0;">✨ AI Doubt Solver</h3>
+        <span class="badge" style="background:var(--teal-glow); color:var(--teal); font-size:12px; border:none;" id="ai-credits-badge">${CONFIG.DAILY_AI_CREDITS} Daily Credits</span>
+      </div>
+      <div class="chat-messages" id="ai-chat-msgs-${courseId}">
+        <div class="chat-msg">
+          <div class="chat-msg-sender">✨ AI Assistant</div>
+          <div class="chat-msg-bubble" style="background:rgba(0,240,255,0.1); border-color:var(--teal);">Hello! I am your AI doubt solver for this course. I can help explain concepts, resolve doubts, and guide your learning. Ask me anything!</div>
+        </div>
+      </div>
+      <form class="chat-input-area" onsubmit="sendAiMessage(event, '${courseId}')">
+        <input type="text" id="ai-chat-input-${courseId}" placeholder="Ask a question..." autocomplete="off" required />
+        <button type="submit" style="background:linear-gradient(135deg,var(--teal),#00b3ff); color:#000;">✨</button>
+      </form>
+    </div>
+  `;
+}
+
+async function sendAiMessage(e, courseId) {
+  e.preventDefault();
+  const input = document.getElementById(`ai-chat-input-${courseId}`);
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  const container = document.getElementById(`ai-chat-msgs-${courseId}`);
+  container.insertAdjacentHTML('beforeend', `<div class="chat-msg self"><div class="chat-msg-sender">You</div><div class="chat-msg-bubble">${esc(text)}</div></div>`);
+  
+  const loaderId = 'ai-loader-' + Date.now();
+  container.insertAdjacentHTML('beforeend', `<div class="chat-msg" id="${loaderId}"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:rgba(0,240,255,0.1);border-color:var(--teal);font-style:italic">Thinking...</div></div>`);
+  container.scrollTop = container.scrollHeight;
+
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  submitBtn.disabled = true; submitBtn.style.opacity = '0.5';
+
+  try {
+    const res = await API.aiChat({ courseId, text });
+    document.getElementById(loaderId).remove();
+    container.insertAdjacentHTML('beforeend', `<div class="chat-msg"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:rgba(0,240,255,0.1);border-color:var(--teal);white-space:pre-wrap;">${esc(res.reply)}</div></div>`);
+    document.getElementById('ai-credits-badge').textContent = `Credits Remaining: ${res.credits}/${res.maxCredits || CONFIG.DAILY_AI_CREDITS}`;
+  } catch (err) {
+    document.getElementById(loaderId).remove();
+    container.insertAdjacentHTML('beforeend', `<div class="chat-msg"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:rgba(251,113,133,0.1);border-color:var(--red);color:var(--red)">${esc(err.message)}</div></div>`);
+  } finally {
+    submitBtn.disabled = false; submitBtn.style.opacity = '1';
+    container.scrollTop = container.scrollHeight;
+  }
 }
 
 /* ══════════════════════════════════════════
@@ -2682,6 +2744,7 @@ async function initAdminSettings() {
   document.getElementById('admin-set-wa').value = CONFIG.WA_NUMBER;
   document.getElementById('admin-set-announcement').value = CONFIG.ANNOUNCEMENT_TEXT;
   document.getElementById('admin-set-announcement-active').checked = CONFIG.ANNOUNCEMENT_ACTIVE;
+  document.getElementById('admin-set-ai-credits').value = CONFIG.DAILY_AI_CREDITS;
   
   loadAdminSettingsData();
 }
@@ -2692,14 +2755,16 @@ async function saveAdminSettings() {
   const waNumber = document.getElementById('admin-set-wa').value.trim();
   const announcementText = document.getElementById('admin-set-announcement').value.trim();
   const announcementActive = document.getElementById('admin-set-announcement-active').checked;
+  const dailyAiCredits = Number(document.getElementById('admin-set-ai-credits').value) || 0;
   
   const bannedIpsText = document.getElementById('admin-set-banned-ips').value;
   const bannedIPs = bannedIpsText.split(',').map(ip => ip.trim()).filter(ip => ip);
   
   try {
-    await API.updateSettings({ upiId, upiName, waNumber, announcementText, announcementActive, bannedIPs });
+    await API.updateSettings({ upiId, upiName, waNumber, announcementText, announcementActive, bannedIPs, dailyAiCredits });
     CONFIG.UPI_ID = upiId; CONFIG.UPI_NAME = upiName; CONFIG.WA_NUMBER = waNumber;
     CONFIG.ANNOUNCEMENT_TEXT = announcementText; CONFIG.ANNOUNCEMENT_ACTIVE = announcementActive;
+    CONFIG.DAILY_AI_CREDITS = dailyAiCredits;
     
     const banner = document.getElementById('announcement-banner');
     if (announcementActive && announcementText) {
