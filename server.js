@@ -43,7 +43,10 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname.replace(/\s+/g, '-'))
 });
-const upload = multer({ storage });
+const upload = multer({ 
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit to prevent storage exhaustion attacks
+});
 
 /* ══════════════════════════════════════════
    DATABASE SETUP (Mongoose Models)
@@ -78,11 +81,11 @@ const Enrolment = mongoose.model('Enrolment', new mongoose.Schema({
 }));
 
 const Payment = mongoose.model('Payment', new mongoose.Schema({
-  student: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
+  student: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true },
+  course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', index: true },
   amount: Number,
   screenshotUrl: String,
-  status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' }
+  status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending', index: true }
 }, { timestamps: true }));
 
 const Attendance = mongoose.model('Attendance', new mongoose.Schema({
@@ -133,12 +136,14 @@ const ChatMessage = mongoose.model('ChatMessage', new mongoose.Schema({
   text: String
 }, { timestamps: true }));
 
-const Log = mongoose.model('Log', new mongoose.Schema({
-  ip: { type: String, required: true },
-  action: { type: String, required: true },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+const LogSchema = new mongoose.Schema({
+  ip: { type: String, required: true, index: true },
+  action: { type: String, required: true, index: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true },
   details: { type: String }
-}, { timestamps: true }));
+}, { timestamps: true });
+LogSchema.index({ createdAt: -1 }); // Index necessary for fast descending sort
+const Log = mongoose.model('Log', LogSchema);
 
 /* ══════════════════════════════════════════
    HELPER: INVOICE GENERATOR
@@ -215,11 +220,17 @@ const optionalAuth = async (req, res, next) => {
   next();
 };
 
+let settingsCache = { data: undefined, lastFetch: 0 };
 const ipFilter = async (req, res, next) => {
   try {
     const clientIp = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress;
     // Cache settings in production to avoid DB hits on every request
-    const settings = await Setting.findOne(); 
+    const now = Date.now();
+    if (settingsCache.data === undefined || now - settingsCache.lastFetch > 60000) {
+      settingsCache.data = await Setting.findOne() || null;
+      settingsCache.lastFetch = now;
+    }
+    const settings = settingsCache.data;
     if (settings && settings.bannedIPs && settings.bannedIPs.includes(clientIp)) {
       return res.status(403).json({ message: 'Access Denied: Your IP has been banned.' });
     }
@@ -470,6 +481,11 @@ api.post('/attendance/mark', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin' && req.user.role !== 'teacher') return res.status(403).json({ message: 'Forbidden' });
     const { course, date, records } = req.body;
+    if (req.user.role === 'teacher') {
+      const c = await Course.findById(course);
+      if (!c || c.teacher?.toString() !== req.user._id.toString()) 
+        return res.status(403).json({ message: 'Forbidden: You do not own this course' });
+    }
     await Attendance.findOneAndUpdate({ course, date }, { records }, { upsert: true });
     res.json({ message: 'Attendance marked' });
   } catch (e) { res.status(500).json({ message: e.message }); }
@@ -538,7 +554,7 @@ api.post('/assignments/:id/submit', auth, upload.single('file'), async (req, res
 api.get('/assignments/:id/submissions', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin' && req.user.role !== 'teacher') return res.status(403).json({ message: 'Forbidden' });
-    const submissions = await Submission.find({ assignment: req.params.id }).populate('student', 'name');
+    const submissions = await Submission.find({ assignment: req.params.id }).populate('student', 'name username');
     res.json({ submissions });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
@@ -547,9 +563,16 @@ api.put('/submissions/:id/grade', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin' && req.user.role !== 'teacher') return res.status(403).json({ message: 'Forbidden' });
     const { grade, feedback } = req.body;
-    const sub = await Submission.findByIdAndUpdate(req.params.id, { grade, feedback });
+    const sub = await Submission.findById(req.params.id).populate('assignment');
     if (!sub) return res.status(404).json({ message: 'Submission not found' });
     
+    if (req.user.role === 'teacher') {
+      const c = await Course.findById(sub.assignment.course);
+      if (!c || c.teacher?.toString() !== req.user._id.toString()) 
+        return res.status(403).json({ message: 'Forbidden: You do not own this course' });
+    }
+    sub.grade = grade; sub.feedback = feedback; await sub.save();
+
     io.to(sub.student.toString()).emit('notification', { message: `Your assignment has been graded: ${grade}`, type: 'success' });
     io.to(sub.student.toString()).emit('refresh_data');
     
@@ -584,6 +607,11 @@ api.delete('/content/:id', auth, async (req, res) => {
     if (req.user.role !== 'teacher' && req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
     
     const item = await Content.findById(req.params.id);
+    if (item && req.user.role === 'teacher') {
+      const course = await Course.findById(item.course);
+      if (!course || course.teacher?.toString() !== req.user._id.toString()) 
+        return res.status(403).json({ message: 'Forbidden: You do not own this course' });
+    }
     if (item && item.type === 'chapter') {
       // Schema stores parentId as a String, must explicitly cast ObjectId to string
       await Content.deleteMany({ parentId: item._id.toString() });

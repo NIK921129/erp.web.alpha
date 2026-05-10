@@ -1,32 +1,32 @@
 ========================================================================
-             ABC INSTITUTE ERP & LMS - COMPLETE PLATFORM
+             ABC INSTITUTE ERP & LMS - THE COMPLETE PLATFORM
 ========================================================================
 
 Overview:
 ABC Institute ERP is a highly advanced, mobile-first Learning Management 
 System (LMS) and Enterprise Resource Planning (ERP) platform. Built with 
-a modern, dark-themed "FinTech-style" UI, it offers a seamless experience 
-for Students, Teachers, and Administrators. 
+a premium "Deep Slate / Navy FinTech-style" UI, it delivers a seamless, 
+app-like experience for Students, Teachers, and Administrators. 
 
-It handles everything from course enrolment and UPI payment verification 
-to real-time chat, AI-powered doubt solving, automated PDF invoicing, 
-and deep system analytics.
+From zero-friction course enrolment and UPI payment verification to 
+real-time chat, AI-powered doubt solving, automated PDF invoicing, 
+and deep system analytics—this platform handles it all in one place.
 
 ========================================================================
 1. KEY SELLING POINTS (THE VALUE PROPOSITION)
 ========================================================================
 • Zero-Friction Payments: Built-in UPI QR code generator with manual 
-  screenshot verification. No expensive payment gateway fees!
-• Automated Email Invoicing: Automatically generates and emails PDF 
-  invoices/receipts upon payment approval.
+  screenshot verification. Bypass expensive payment gateway fees entirely!
+• Automated Email Invoicing: Automatically generates and dispatches PDF 
+  invoices and enrolment receipts the moment a payment is approved.
 • Real-Time Ecosystem: Powered by WebSockets for live chat, typing 
-  indicators, and instant notifications.
-• AI Integration: Built-in Google Gemini-powered AI Doubt Solver with 
-  a daily credit system to monetize or limit API usage.
-• Mobile-First Glassmorphism UI: Beautiful floating bottom navigation, 
-  modern card-based layouts, and touch-friendly interfaces.
-• Ultimate Security: IP banning, action logging, and secure encrypted 
-  passwords.
+  indicators, and instant system-wide notifications.
+• AI Integration: Features a Google Gemini 2.5 Flash-powered AI Doubt Solver 
+  with a daily credit system, allowing you to monetize or control API usage.
+• Mobile-First Glassmorphism UI: Stunning floating bottom navigation, 
+  modern card-based layouts, and highly touch-friendly interfaces.
+• Ultimate Security: Equipped with IP banning, comprehensive action logging, 
+  and robust bcrypt password encryption.
 
 ========================================================================
 2. ROLE-BASED FEATURE BREAKDOWN
@@ -35,108 +35,98 @@ and deep system analytics.
 A. ADMINISTRATOR PANEL (The Control Center)
 --------------------------------------------------
 1. Financial Dashboard & Analytics
-   - Real-time revenue analytics with a 30-day interactive Line Chart.
-   - Total revenue, monthly revenue, and today's revenue calculations.
-   - Quick-view of pending payments and recent system activity.
+   - Real-time revenue analytics with an interactive 30-day Line Chart.
+   - Instantly track total revenue, monthly performance, and daily income.
+   - Quick-view widgets for pending payments and recent system activity.
 2. Payment Verification System
-   - Review student-uploaded UPI payment screenshots.
-   - One-click "Approve" (auto-enrols student + emails PDF invoice).
-   - One-click "Reject" (notifies student to re-upload).
-   - Export financial records to CSV.
+   - Efficiently review student-uploaded UPI payment screenshots.
+   - One-click "Approve" (auto-enrols the student & emails a PDF invoice).
+   - One-click "Reject" (instantly notifies the student to re-upload).
+   - Export financial records to CSV for easy accounting.
 3. Comprehensive User Management
-   - Manage Students, Teachers, and other Admins.
-   - Bulk Upload Users via CSV files.
-   - Export user data to CSV.
-   - Suspend/Activate accounts instantly.
-   - View deep "Student Progress Reports" (Attendance %, Submissions).
+   - Manage Students, Teachers, and fellow Administrators.
+   - Bulk upload users seamlessly via CSV files.
+   - Export user data to CSV for external CRM use.
+   - Suspend or activate accounts with a single click.
+   - Access deep "Student Progress Reports" detailing attendance and grades.
 4. System Settings & Configurations
-   - Dynamically update UPI ID and Receiver Name for payments.
-   - Update Global WhatsApp Support Number.
-   - Toggle Global System Announcement Banners.
-   - Configure daily AI limits (e.g., 5 AI prompts per student/day).
+   - Dynamically update the institute's UPI ID and Receiver Name.
+   - Configure a Global WhatsApp Support Number for instant help.
+   - Toggle Global System Announcement Banners for important alerts.
+   - Configure daily AI limits to manage your API budget effectively.
 5. Security & Logs
-   - Detailed System Logs tracking IP Addresses, Logins, Visits, and Actions.
-   - Auto-count IP visits to detect suspicious traffic.
-   - IP Banning tool to instantly block malicious traffic.
+   - Detailed System Logs tracking IP Addresses, Logins, and critical Actions.
+   - Auto-count IP visits to identify and block suspicious traffic.
+   - IP Banning tool to instantly protect the platform from malicious actors.
 6. Marketing & Engagement
-   - Create Discount Coupons (e.g., SUMMER50 for 50% off).
-   - Send Custom Bulk Emails to entire course batches or single students.
+   - Create custom Discount Coupons (e.g., 'SUMMER50' for 50% off).
+   - Send targeted bulk emails to specific course batches or individuals.
 
 B. TEACHER PANEL (Content & Class Management)
 --------------------------------------------------
 1. Course Content Builder
-   - Create hierarchical content (Chapter Folders -> Videos / PDFs / Links).
-   - Support for Google Drive embeds and direct MP4 links.
+   - Create structured, hierarchical content (Chapter Folders -> Materials).
+   - Seamless support for Google Drive embeds and direct MP4 video links.
 2. Assignment Engine
-   - Post assignments with titles, instructions, due dates, and references.
-   - View all student submissions in a clean, scrollable interface.
-   - Grade submissions (e.g., "9/10") and leave customized feedback.
+   - Post assignments complete with instructions, due dates, and resources.
+   - Review all student submissions in a clean, easily scrollable interface.
+   - Grade submissions (e.g., "9/10") and provide personalized feedback.
 3. Attendance Tracker
-   - Rapidly mark students Present/Absent for any given date.
-   - Visual color-coded toggles for fast daily operations.
+   - Rapidly mark students as Present or Absent for any specific date.
+   - Visual, color-coded toggles ensure fast daily administrative operations.
 4. Class Community
-   - Access a dedicated real-time discussion room for each course.
+   - Access a dedicated, real-time discussion room for every active course.
 
 C. STUDENT PANEL (The Learning Experience)
 --------------------------------------------------
 1. Frictionless Enrolment
    - Browse public courses with detailed metadata (fees, teacher, duration).
-   - Apply discount coupons instantly.
-   - Scan dynamic UPI QR codes and upload payment screenshots.
+   - Apply discount coupons instantly at checkout.
+   - Scan dynamic UPI QR codes and easily upload payment screenshots.
 2. Student Dashboard
-   - Track enrolled courses, attendance percentage, and pending assignments.
+   - Track enrolled courses, attendance percentages, and pending assignments.
 3. Rich Course Player
-   - Clean, uninterrupted video/document viewer.
-   - Auto-saves video progress/timestamps locally.
+   - Enjoy a clean, distraction-free video and document viewing experience.
+   - Progress tracking automatically saves video timestamps locally.
 4. ✨ AI Doubt Solver (Premium Feature)
-   - Chat interface integrated with Google Gemini AI.
-   - Context-aware (knows which course the student is asking about).
+   - Chat interface directly integrated with Google Gemini 2.5 Flash AI.
+   - Context-aware intelligence (knows exactly which course is being discussed).
    - Governed by an Admin-controlled Daily Credit System.
 5. Real-Time Discussions
-   - Live chat with batchmates and teachers.
-   - "User is typing..." indicators.
+   - Engage in live chat with batchmates and instructors.
+   - Live "User is typing..." indicators for a modern messaging feel.
 6. Track Records
-   - Dedicated tabs to track Fee Status, Attendance History, and Grades.
+   - Dedicated sections to easily track Fee Status, Attendance History, and Grades.
 
 ========================================================================
-3. TECHNICAL ARCHITECTURE & METHODS
+3. TECHNICAL ARCHITECTURE & STACK
 ========================================================================
 
 FRONTEND (Client-Side)
-- Tech: Vanilla HTML5, CSS3 (Custom Variables), ES6 JavaScript.
-- Styling: Fully custom CSS. No bloated frameworks (Bootstrap/Tailwind).
-- Layout: CSS Grid and Flexbox. Mobile UI uses a custom floating dock.
-- Interaction: Asynchronous fetch API calls for zero page-reloads (SPA feel).
-- Graphs: Chart.js for revenue analytics.
+- Technologies: Vanilla HTML5, CSS3 (Custom Variables), ES6 JavaScript.
+- Styling: 100% custom CSS. Zero reliance on bloated frameworks like Bootstrap.
+- Layout Strategy: CSS Grid and Flexbox with a custom floating mobile dock.
+- Interaction: Asynchronous Fetch API calls provide a fast, Single Page App feel.
+- Data Visualization: Chart.js for beautiful, responsive revenue analytics.
 
 BACKEND (Server-Side)
-- Tech: Node.js, Express.js.
-- Database: MongoDB via Mongoose ORM.
-- Authentication: JWT-like stateless token logic + bcryptjs password hashing.
-- File Uploads: Multer (handles payment screenshots & assignment files).
-- Real-Time: Socket.io for chat, live notifications, and live UI updates.
-- Emailing: Node-Mailjet for transactional emails.
-- PDF Generation: PDFKit for automated on-the-fly invoice creation.
-
-CORE API ENDPOINTS & FUNCTIONS:
-- POST /api/auth/login : Validates bcrypt passwords, returns token.
-- POST /api/payments : Handles multipart/form-data for image uploads.
-- POST /api/payments/:id/approve : Core ERP logic (Updates status -> 
-  Creates Enrolment -> Updates Course Count -> Generates PDF -> Emails User).
-- POST /api/ai/chat : Securely connects to Google Gemini API, deducts 
-  user credits, and streams response.
-- GET /api/admin/stats : Aggregates platform data (Revenue, user counts).
-- POST /api/logs : Middleware-injected logging system capturing x-forwarded-for IPs.
+- Core: Node.js and Express.js.
+- Database: MongoDB managed via the Mongoose ORM.
+- Authentication: Secure, stateless token logic with bcryptjs password hashing.
+- File Handling: Multer for managing payment screenshots and assignment uploads.
+- Real-Time Engine: Socket.io powers live chat, notifications, and UI updates.
+- Communications: Node-Mailjet handles reliable transactional emailing.
+- Document Generation: PDFKit dynamically generates automated invoices.
 
 ========================================================================
 4. WHY THIS IS A PREMIUM PRODUCT
 ========================================================================
-1. No Gateway Fees: By using manual UPI screenshot uploads, institutes 
-   save 2-3% on every single transaction compared to Razorpay/Stripe.
-2. Plug-and-Play: Simply swap out the MongoDB URI and Mailjet Keys, 
-   and the platform is ready to launch.
-3. Future-Proof UI: The dark-mode, glassmorphism UI feels like a premium 
-   mobile app (Spotify/Discord style), vastly outperforming standard, 
-   clunky educational ERPs.
-4. AI Advantage: The inclusion of an AI Doubt Solver acts as a massive 
-   marketing tool for the institute to attract modern students.
+1. Zero Payment Gateway Fees: By utilizing manual UPI screenshot uploads, 
+   institutes save 2-3% on every single transaction compared to Stripe/Razorpay.
+2. Plug-and-Play Deployment: Simply configure your MongoDB URI and Mailjet Keys, 
+   and the platform is completely ready to launch.
+3. Future-Proof Design: The dark-mode, glassmorphism UI feels like a premium 
+   consumer app (reminiscent of Spotify or Discord), significantly outperforming 
+   standard, clunky educational ERPs.
+4. The AI Advantage: The integrated AI Doubt Solver serves as a powerful 
+   marketing tool, helping the institute attract modern, tech-savvy students.

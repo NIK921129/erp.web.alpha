@@ -1477,8 +1477,8 @@ async function initAdminDashboard() {
       
       const ctx = canvas.getContext('2d');
       const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-      gradient.addColorStop(0, 'rgba(0, 240, 255, 0.3)');
-      gradient.addColorStop(1, 'rgba(0, 240, 255, 0.0)');
+      gradient.addColorStop(0, 'rgba(34, 211, 238, 0.3)');
+      gradient.addColorStop(1, 'rgba(34, 211, 238, 0.0)');
 
       new Chart(ctx, {
         type: 'line',
@@ -1487,14 +1487,14 @@ async function initAdminDashboard() {
           datasets: [{
             label: 'Revenue (₹)',
             data: last30Days.map(d => revMap[d]),
-            borderColor: '#00f0ff',
+            borderColor: '#22d3ee',
             backgroundColor: gradient,
             borderWidth: 3,
             fill: true,
             tension: 0.4,
             pointRadius: 1,
             pointHoverRadius: 6,
-            pointBackgroundColor: '#00f0ff'
+            pointBackgroundColor: '#22d3ee'
           }]
         },
         options: {
@@ -2556,7 +2556,7 @@ function initAiChatView(containerId, courseId) {
       <div class="chat-messages" id="ai-chat-msgs-${courseId}">
         <div class="chat-msg">
           <div class="chat-msg-sender">✨ AI Assistant</div>
-          <div class="chat-msg-bubble" style="background:rgba(0,240,255,0.1); border-color:var(--teal);">Hello! I am your AI doubt solver for this course. I can help explain concepts, resolve doubts, and guide your learning. Ask me anything!</div>
+        <div class="chat-msg-bubble" style="background:var(--teal-glow); border-color:var(--teal);">Hello! I am your AI doubt solver for this course. I can help explain concepts, resolve doubts, and guide your learning. Ask me anything!</div>
         </div>
       </div>
       <form class="chat-input-area" onsubmit="sendAiMessage(event, '${courseId}')">
@@ -2578,7 +2578,7 @@ async function sendAiMessage(e, courseId) {
   container.insertAdjacentHTML('beforeend', `<div class="chat-msg self"><div class="chat-msg-sender">You</div><div class="chat-msg-bubble">${esc(text)}</div></div>`);
   
   const loaderId = 'ai-loader-' + Date.now();
-  container.insertAdjacentHTML('beforeend', `<div class="chat-msg" id="${loaderId}"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:rgba(0,240,255,0.1);border-color:var(--teal);font-style:italic">Thinking...</div></div>`);
+  container.insertAdjacentHTML('beforeend', `<div class="chat-msg" id="${loaderId}"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:var(--teal-glow);border-color:var(--teal);font-style:italic">Thinking...</div></div>`);
   container.scrollTop = container.scrollHeight;
 
   const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -2587,7 +2587,7 @@ async function sendAiMessage(e, courseId) {
   try {
     const res = await API.aiChat({ courseId, text });
     document.getElementById(loaderId).remove();
-    container.insertAdjacentHTML('beforeend', `<div class="chat-msg"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:rgba(0,240,255,0.1);border-color:var(--teal);white-space:pre-wrap;">${esc(res.reply)}</div></div>`);
+    container.insertAdjacentHTML('beforeend', `<div class="chat-msg"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:var(--teal-glow);border-color:var(--teal);white-space:pre-wrap;">${esc(res.reply)}</div></div>`);
     document.getElementById('ai-credits-badge').textContent = `Credits Remaining: ${res.credits}/${res.maxCredits || CONFIG.DAILY_AI_CREDITS}`;
 
     if (STATE.user) {
