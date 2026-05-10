@@ -883,8 +883,9 @@ api.post('/ai/chat', auth, async (req, res) => {
     const course = await Course.findById(courseId);
     const prompt = `Context: The student is asking a doubt related to the course "${course?.name || 'General'}". Answer clearly and concisely. Question: ${text}`;
 
-    const geminiKey = process.env.GEMINI_API_KEY || 'AIzaSyA1OAAh_aDssL-EFkgKSc94zSkwzw-i1Bo';
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
+    const geminiKey = process.env.GEMINI_API_KEY;
+    if (!geminiKey) throw new Error('AI Service is not configured (Missing API Key).');
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${geminiKey}`;
     
     const aiRes = await fetch(geminiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) });
     const aiData = await aiRes.json();
@@ -901,7 +902,7 @@ api.post('/logs', optionalAuth, async (req, res) => {
   try {
     const { action, details } = req.body;
     const clientIp = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
-    const userId = req.user ? req.user._id : null;
+    const userId = (req.user && mongoose.Types.ObjectId.isValid(req.user._id)) ? req.user._id : null;
     await Log.create({ ip: clientIp, action, user: userId, details });
     res.json({ message: 'Logged' });
   } catch (e) { res.status(500).json({ message: e.message }); }
