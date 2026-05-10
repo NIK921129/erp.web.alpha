@@ -480,8 +480,12 @@ function redirectByRole() {
 }
 
 async function handleLogout() {
-  await API.logEvent({ action: 'logout', details: 'User logged out' }).catch(()=>{});
-  STATE.user = null; STATE.token = null;
+  const wasLoggedIn = STATE.user;
+  STATE.user = null; // Clear immediately to prevent infinite 401 loop
+  if (wasLoggedIn) {
+    await API.logEvent({ action: 'logout', details: 'User logged out' }).catch(()=>{});
+  }
+  STATE.token = null;
   localStorage.removeItem('abc_token');
   localStorage.removeItem('abc_user');
   if (socket) {
@@ -1355,7 +1359,8 @@ async function initTeacherCourse() {
 
 function renderMarkAttendance(students, courseId) {
   if (!students.length) return '<div class="empty-state">No students enrolled yet</div>';
-  const today = new Date().toISOString().split('T')[0];
+  const d = new Date();
+  const today = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   return `
     <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap">
       <input type="date" id="att-date" value="${today}" style="background:var(--card);border:1px solid var(--border2);color:var(--text);padding:10px 16px;border-radius:var(--r-md);font-size:16px" />
@@ -1689,7 +1694,7 @@ function exportAdminStudents() {
   const list = STATE.adminStudents;
   if (!list.length) { toast('No students to export', 'error'); return; }
   const q = document.getElementById('student-search')?.value?.toLowerCase() || '';
-  const filtered = list.filter(u => u.name.toLowerCase().includes(q) || u.username.toLowerCase().includes(q));
+  const filtered = list.filter(u => (u.name || '').toLowerCase().includes(q) || (u.username || '').toLowerCase().includes(q));
   
   const headers = ['Name', 'Username', 'Email', 'Status'];
   const rows = filtered.map(u => [
@@ -2499,7 +2504,7 @@ function createChatBubble(m) {
   const roleBadge = (m.sender?.role === 'teacher' || m.sender?.role === 'admin') ? `<span class="badge" style="padding:2px 6px;font-size:10px;background:var(--teal-glow);color:var(--teal);border:none;text-transform:capitalize;">${m.sender.role}</span>` : '';
   return `
     <div class="chat-msg ${isSelf ? 'self' : ''}">
-      <div class="chat-msg-sender">${senderName} ${roleBadge}</div>
+      <div class="chat-msg-sender">${esc(senderName)} ${roleBadge}</div>
       <div class="chat-msg-bubble">${esc(m.text)}</div>
     </div>
   `;

@@ -217,7 +217,7 @@ const optionalAuth = async (req, res, next) => {
 
 const ipFilter = async (req, res, next) => {
   try {
-    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    const clientIp = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress;
     // Cache settings in production to avoid DB hits on every request
     const settings = await Setting.findOne(); 
     if (settings && settings.bannedIPs && settings.bannedIPs.includes(clientIp)) {
@@ -392,7 +392,7 @@ api.post('/payments/:id/approve', auth, async (req, res) => {
     try {
       const pdfBuffer = await generateInvoicePDF(p, p.student, p.course, p.course.teacher);
       
-      await mailjet.post("send", {'version': 'v3.1'}).request({
+      const response = await mailjet.post("send", {'version': 'v3.1'}).request({
         "Messages": [{
           "From": {
             "Email": process.env.MAILJET_SENDER_EMAIL || "nikunjsingh79827@gmail.com",
