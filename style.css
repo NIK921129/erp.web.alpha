@@ -814,6 +814,50 @@ textarea { resize: vertical; }
 .filter-btn:hover { border-color: var(--teal); color: var(--teal); }
 .filter-btn.active { background: var(--teal-glow); border-color: var(--teal); color: var(--teal); }
 
+/* Action Dropdown Menu */
+.actions-menu {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+}
+.actions-btn {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--text-2);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--trans);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.actions-btn:hover {
+  background: var(--card2);
+  border-color: var(--border2);
+  color: var(--text);
+}
+.actions-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 40px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow);
+  z-index: 10;
+  min-width: 180px;
+  overflow: hidden;
+  padding: 6px 0;
+  animation: fadeUp .2s ease;
+}
+.actions-dropdown.active { display: block; }
+.actions-dropdown a { display: block; padding: 10px 16px; font-size: 15px; color: var(--text); cursor: pointer; text-decoration: none; white-space: nowrap; }
+.actions-dropdown a:hover { background-color: var(--card2); }
+.actions-dropdown a.danger { color: var(--red); }
+.actions-dropdown a.danger:hover { background-color: rgba(251, 113, 133, 0.1); }
+
 /* ══════════════════════════════════════════
    PAYMENT CARD (Admin)
 ══════════════════════════════════════════ */

@@ -1551,10 +1551,8 @@ function filterPayments(filter, btn) {
 function renderPaymentCard(p) {
   const isPending = p.status === 'pending';
   return `
-    <div class="payment-review-card">
-      <img class="pay-thumb" src="${p.screenshotUrl||''}" alt="Screenshot"
-        onclick="previewScreenshot('${p.screenshotUrl}','${p._id}','${p.status}')"
-        onerror="this.style.background='var(--bg3)'" />
+    <div class="payment-review-card" onclick="previewScreenshot('${p.screenshotUrl}','${p._id}','${p.status}')" style="cursor:pointer;">
+      <img class="pay-thumb" src="${p.screenshotUrl||''}" alt="Screenshot" onerror="this.style.background='var(--bg3)'" />
       <div class="pay-info">
         <div class="pay-name">${esc(p.student?.name||'Student')}</div>
         <div class="pay-meta">Course: ${esc(p.course?.name||'—')} · ₹${Number(p.amount).toLocaleString('en-IN')}</div>
@@ -1563,9 +1561,8 @@ function renderPaymentCard(p) {
       <div class="pay-actions">
         <span class="badge badge-${p.status}">${p.status}</span>
         ${isPending ? `
-          <button class="btn-approve" onclick="approvePayment('${p._id}')">✓ Approve</button>
-          <button class="btn-danger"  onclick="rejectPayment('${p._id}')">✕ Reject</button>` : ''}
-        <button class="btn-ghost" style="padding:8px 14px;font-size:14px" onclick="previewScreenshot('${p.screenshotUrl}','${p._id}','${p.status}')">View</button>
+          <button class="btn-danger"  onclick="event.stopPropagation(); rejectPayment('${p._id}')">✕ Reject</button>
+          <button class="btn-approve" onclick="event.stopPropagation(); approvePayment('${p._id}')">✓ Approve</button>` : ''}
       </div>
     </div>`;
 }
@@ -1629,12 +1626,17 @@ function renderAdminStudents() {
             <td style="font-family:monospace;font-size:15px">@${esc(u.username)}</td>
             <td style="font-size:15px">${esc(u.email)}</td>
             <td><span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span></td>
-            <td style="display:flex;gap:6px;flex-wrap:wrap;">
-              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openCustomEmailModal('${u._id}')">Email</button>
-              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openStudentReport('${u._id}')">Report</button>
-              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="toggleUserActive('${u._id}',${!u.active})">${u.active?'Suspend':'Activate'}</button>
-              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openManualEnrolModal('${u._id}', '${esc(u.name)}')">+ Enrol</button>
-            </td>
+            <td><div class="actions-menu">
+              <button class="actions-btn" onclick="toggleActionsMenu(event)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+              </button>
+              <div class="actions-dropdown">
+                <a onclick="openStudentReport('${u._id}')">View Report</a>
+                <a onclick="openManualEnrolModal('${u._id}', '${esc(u.name)}')">Enrol in Course</a>
+                <a onclick="openCustomEmailModal('${u._id}')">Send Email</a>
+                <a onclick="toggleUserActive('${u._id}',${!u.active})">${u.active?'Suspend':'Activate'}</a>
+              </div>
+            </div></td>
           </tr>`).join('')}
         </tbody>
       </table>`;
@@ -1822,11 +1824,16 @@ function renderAdminCourses() {
             <td style="font-size:15px">${esc(c.teacher?.name||'Unassigned')}</td>
             <td style="font-weight:600;color:var(--teal)">₹${Number(c.fee).toLocaleString('en-IN')}</td>
             <td>${c.studentCount||0}</td>
-            <td style="display:flex;gap:6px;flex-wrap:wrap">
-              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openCustomEmailModal(null, '${c._id}')">Email Class</button>
-              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openCourseModal('${c._id}')">Edit</button>
-              <button class="btn-danger"  style="font-size:14px;padding:7px 14px" onclick="deleteCourseAdmin('${c._id}')">Delete</button>
-            </td>
+            <td><div class="actions-menu">
+              <button class="actions-btn" onclick="toggleActionsMenu(event)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+              </button>
+              <div class="actions-dropdown">
+                <a onclick="openCourseModal('${c._id}')">Edit Course</a>
+                <a onclick="openCustomEmailModal(null, '${c._id}')">Email Class</a>
+                <a class="danger" onclick="deleteCourseAdmin('${c._id}')">Delete Course</a>
+              </div>
+            </div></td>
           </tr>`).join('')}
         </tbody>
       </table>`;
@@ -1966,12 +1973,17 @@ function renderAdminUsers() {
             <td style="font-family:monospace;font-size:15px">@${esc(u.username)}</td>
             <td><span class="badge badge-enrolled">${esc(u.role)}</span></td>
             <td><span class="badge badge-${u.active?'approved':'rejected'}">${u.active?'Active':'Suspended'}</span></td>
-            <td style="display:flex;gap:6px;flex-wrap:wrap">
-              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openCustomEmailModal('${u._id}')">Email</button>
-              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="openEditUserModal('${u._id}')">Edit</button>
-              <button class="btn-ghost" style="font-size:14px;padding:7px 14px" onclick="toggleUserActive('${u._id}', ${!u.active})">${u.active ? 'Suspend' : 'Activate'}</button>
-              <button class="btn-danger" style="font-size:14px;padding:7px 14px" onclick="deleteUserAdmin('${u._id}')">Delete</button>
-            </td>
+            <td><div class="actions-menu">
+              <button class="actions-btn" onclick="toggleActionsMenu(event)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+              </button>
+              <div class="actions-dropdown">
+                <a onclick="openEditUserModal('${u._id}')">Edit User</a>
+                <a onclick="openCustomEmailModal('${u._id}')">Send Email</a>
+                <a onclick="toggleUserActive('${u._id}', ${!u.active})">${u.active ? 'Suspend' : 'Activate'}</a>
+                <a class="danger" onclick="deleteUserAdmin('${u._id}')">Delete User</a>
+              </div>
+            </div></td>
           </tr>`).join('')}
         </tbody>
       </table>`;
@@ -2382,6 +2394,33 @@ async function saveGrade(subId) {
     toast('Grade saved successfully!', 'success');
   } catch (e) { toast('Error saving grade', 'error'); }
 }
+
+/* ══════════════════════════════════════════
+   UI HELPERS
+══════════════════════════════════════════ */
+function toggleActionsMenu(event) {
+  event.stopPropagation();
+  const dropdown = event.target.closest('.actions-menu').querySelector('.actions-dropdown');
+  
+  // Close all other open menus
+  document.querySelectorAll('.actions-dropdown.active').forEach(openMenu => {
+    if (openMenu !== dropdown) {
+      openMenu.classList.remove('active');
+    }
+  });
+
+  dropdown.classList.toggle('active');
+}
+
+// Close menus when clicking elsewhere
+window.addEventListener('click', (e) => {
+  if (!e.target.closest('.actions-menu')) {
+    document.querySelectorAll('.actions-dropdown.active').forEach(openMenu => {
+      openMenu.classList.remove('active');
+    });
+  }
+});
+
 
 /* ══════════════════════════════════════════
    TABS
