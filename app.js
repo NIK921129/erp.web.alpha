@@ -343,21 +343,21 @@ function buildNavLinks() {
 
   const links = {
     student: [
-          { icon: '🏠', label: 'Home',        page: 'student-dashboard' },
+      { icon: '🏠', label: 'Home',        page: 'student-dashboard' },
       { icon: '📚', label: 'Courses',     page: 'courses-public' },
-          { icon: '📝', label: 'Assign.',     page: 'student-assignments' },
+      { icon: '📝', label: 'Assign.',     page: 'student-assignments' },
       { icon: '💰', label: 'Fees',        page: 'student-fees' },
-          { icon: '👤', label: 'Profile',     action: 'openProfileModal()', mobileOnly: true }
+      { icon: '👤', label: 'Profile',     action: 'openProfileModal()', mobileOnly: true }
     ],
     teacher: [
-          { icon: '🏠', label: 'Home',        page: 'teacher-dashboard' },
-          { icon: '📚', label: 'Courses',     page: 'courses-public' },
-          { icon: '👤', label: 'Profile',     action: 'openProfileModal()', mobileOnly: true }
+      { icon: '🏠', label: 'Home',        page: 'teacher-dashboard' },
+      { icon: '📚', label: 'Courses',     page: 'courses-public' },
+      { icon: '👤', label: 'Profile',     action: 'openProfileModal()', mobileOnly: true }
     ],
     admin: [
-          { icon: '🏠', label: 'Home',        page: 'admin-dashboard' },
-          { icon: '💳', label: 'Pay',         page: 'admin-payments' },
-          { icon: '👥', label: 'Users',       page: 'admin-users' },
+      { icon: '🏠', label: 'Home',        page: 'admin-dashboard' },
+      { icon: '💳', label: 'Pay',         page: 'admin-payments' },
+      { icon: '👥', label: 'Users',       page: 'admin-users' },
       { icon: '📚', label: 'Courses',     page: 'admin-courses' },
       { icon: '⚙️', label: 'Settings',    page: 'admin-settings' },
       { icon: '👤', label: 'Profile',     action: 'openProfileModal()', mobileOnly: true }
