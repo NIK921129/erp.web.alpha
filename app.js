@@ -17,7 +17,6 @@ const CONFIG = {
   WA_NUMBER:  '919211293576',
   ANNOUNCEMENT_TEXT: '',
   ANNOUNCEMENT_ACTIVE: false,
-  DAILY_AI_CREDITS: 50,
   ICONS: ['📘','📗','📙','📕','🎯','💡','⚡','🔬','🎨','🖥️','🧮','📐'],
 };
 
@@ -275,7 +274,6 @@ window.addEventListener('DOMContentLoaded', async () => {
         const banner = document.getElementById('announcement-banner');
         if (banner) { banner.innerHTML = esc(settings.announcementText); banner.classList.remove('hidden'); }
       }
-      if (settings.dailyAiCredits !== undefined) CONFIG.DAILY_AI_CREDITS = settings.dailyAiCredits;
     }
   } catch (e) { /* silently ignore if first setup */ }
 });
@@ -2551,7 +2549,6 @@ function initAiChatView(containerId, courseId) {
     <div class="chat-container">
       <div class="dash-header" style="padding:1rem 1.5rem; border-bottom:1px solid var(--border); margin:0; display:flex; justify-content:space-between; align-items:center;">
         <h3 style="font-family:var(--font-head); font-weight:700; font-size:16px; margin:0;">✨ AI Doubt Solver</h3>
-        <span class="badge" style="background:var(--teal-glow); color:var(--teal); font-size:12px; border:none;" id="ai-credits-badge">Credits Remaining: ${STATE.user?.aiCredits !== undefined ? STATE.user.aiCredits : CONFIG.DAILY_AI_CREDITS}</span>
       </div>
       <div class="chat-messages" id="ai-chat-msgs-${courseId}">
         <div class="chat-msg">
@@ -2588,12 +2585,6 @@ async function sendAiMessage(e, courseId) {
     const res = await API.aiChat({ courseId, text });
     document.getElementById(loaderId).remove();
     container.insertAdjacentHTML('beforeend', `<div class="chat-msg"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:var(--teal-glow);border-color:var(--teal);white-space:pre-wrap;">${esc(res.reply)}</div></div>`);
-    document.getElementById('ai-credits-badge').textContent = `Credits Remaining: ${res.credits}/${res.maxCredits || CONFIG.DAILY_AI_CREDITS}`;
-
-    if (STATE.user) {
-      STATE.user.aiCredits = res.credits;
-      localStorage.setItem('abc_user', JSON.stringify(STATE.user));
-    }
   } catch (err) {
     document.getElementById(loaderId).remove();
     container.insertAdjacentHTML('beforeend', `<div class="chat-msg"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:rgba(251,113,133,0.1);border-color:var(--red);color:var(--red)">${esc(err.message)}</div></div>`);
@@ -2754,7 +2745,6 @@ async function initAdminSettings() {
   document.getElementById('admin-set-wa').value = CONFIG.WA_NUMBER;
   document.getElementById('admin-set-announcement').value = CONFIG.ANNOUNCEMENT_TEXT;
   document.getElementById('admin-set-announcement-active').checked = CONFIG.ANNOUNCEMENT_ACTIVE;
-  document.getElementById('admin-set-ai-credits').value = CONFIG.DAILY_AI_CREDITS;
   
   loadAdminSettingsData();
 }
@@ -2765,16 +2755,14 @@ async function saveAdminSettings() {
   const waNumber = document.getElementById('admin-set-wa').value.trim();
   const announcementText = document.getElementById('admin-set-announcement').value.trim();
   const announcementActive = document.getElementById('admin-set-announcement-active').checked;
-  const dailyAiCredits = Number(document.getElementById('admin-set-ai-credits').value) || 0;
   
   const bannedIpsText = document.getElementById('admin-set-banned-ips').value;
   const bannedIPs = bannedIpsText.split(',').map(ip => ip.trim()).filter(ip => ip);
   
   try {
-    await API.updateSettings({ upiId, upiName, waNumber, announcementText, announcementActive, bannedIPs, dailyAiCredits });
+    await API.updateSettings({ upiId, upiName, waNumber, announcementText, announcementActive, bannedIPs });
     CONFIG.UPI_ID = upiId; CONFIG.UPI_NAME = upiName; CONFIG.WA_NUMBER = waNumber;
     CONFIG.ANNOUNCEMENT_TEXT = announcementText; CONFIG.ANNOUNCEMENT_ACTIVE = announcementActive;
-    CONFIG.DAILY_AI_CREDITS = dailyAiCredits;
     
     const banner = document.getElementById('announcement-banner');
     if (announcementActive && announcementText) {

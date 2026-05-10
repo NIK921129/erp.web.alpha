@@ -61,9 +61,7 @@ const User = mongoose.model('User', new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, enum: ['student', 'teacher', 'admin'], default: 'student' },
-  active: { type: Boolean, default: true },
-  aiCredits: { type: Number, default: 50 },
-  lastCreditReset: { type: String }
+  active: { type: Boolean, default: true }
 }));
 
 const Course = mongoose.model('Course', new mongoose.Schema({
@@ -120,8 +118,7 @@ const Setting = mongoose.model('Setting', new mongoose.Schema({
   waNumber: { type: String, default: '919211293576' },
   announcementText: { type: String, default: '' },
   announcementActive: { type: Boolean, default: false },
-  bannedIPs: [{ type: String }],
-  dailyAiCredits: { type: Number, default: 50 }
+  bannedIPs: [{ type: String }]
 }));
 
 const Coupon = mongoose.model('Coupon', new mongoose.Schema({
@@ -261,7 +258,7 @@ api.post('/auth/signup', async (req, res) => {
     const user = await User.create({ name, username, email, password: hashedPassword, role });
     io.to('admin_room').emit('admin_alert', { message: `New user signup: ${name}` });
     const token = user._id.toString();
-    res.json({ user: { _id: user._id, name, username, email, role, aiCredits: user.aiCredits, lastCreditReset: user.lastCreditReset }, token });
+    res.json({ user: { _id: user._id, name, username, email, role }, token });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
@@ -275,7 +272,7 @@ api.post('/auth/login', async (req, res) => {
     if (!user.active) return res.status(403).json({ message: 'Account is suspended' });
     
     const token = user._id.toString();
-    res.json({ user: { _id: user._id, name: user.name, username: user.username, email: user.email, role: user.role, aiCredits: user.aiCredits, lastCreditReset: user.lastCreditReset }, token });
+    res.json({ user: { _id: user._id, name: user.name, username: user.username, email: user.email, role: user.role }, token });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
@@ -897,20 +894,6 @@ api.post('/ai/chat', auth, async (req, res) => {
     const enrol = await Enrolment.findOne({ student: req.user._id, course: courseId, status: 'active' });
     if (!enrol) return res.status(403).json({ message: 'Forbidden: You must be enrolled to use the AI.' });
 
-    const today = new Date().toISOString().split('T')[0];
-    let user = await User.findById(req.user._id);
-    
-    const settings = await Setting.findOne() || {};
-    const dailyLimit = settings.dailyAiCredits !== undefined ? settings.dailyAiCredits : 50;
-
-    // Reset credits if it's a new day
-    if (user.lastCreditReset !== today) {
-      user.aiCredits = dailyLimit;
-      user.lastCreditReset = today;
-    }
-    
-    if (user.aiCredits <= 0) return res.status(429).json({ message: `Daily limit reached. You will get ${dailyLimit} more credits tomorrow!` });
-
     const course = await Course.findById(courseId);
     const prompt = `Context: The student is asking a doubt related to the course "${course?.name || 'General'}". Answer clearly and concisely. Question: ${text}`;
 
@@ -922,9 +905,7 @@ api.post('/ai/chat', auth, async (req, res) => {
     const aiData = await aiRes.json();
     if (!aiRes.ok) throw new Error(aiData.error?.message || 'AI generation failed');
 
-    user.aiCredits -= 1;
-    await user.save();
-    res.json({ reply: aiData.candidates[0].content.parts[0].text, credits: user.aiCredits, maxCredits: dailyLimit });
+    res.json({ reply: aiData.candidates[0].content.parts[0].text });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 

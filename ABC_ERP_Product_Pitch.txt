@@ -22,7 +22,7 @@ and deep system analytics—this platform handles it all in one place.
 • Real-Time Ecosystem: Powered by WebSockets for live chat, typing 
   indicators, and instant system-wide notifications.
 • AI Integration: Features a Google Gemini 2.5 Flash-powered AI Doubt Solver 
-  with a daily credit system, allowing you to monetize or control API usage.
+  for immediate, context-aware student support.
 • Mobile-First Glassmorphism UI: Stunning floating bottom navigation, 
   modern card-based layouts, and highly touch-friendly interfaces.
 • Ultimate Security: Equipped with IP banning, comprehensive action logging, 
@@ -53,7 +53,6 @@ A. ADMINISTRATOR PANEL (The Control Center)
    - Dynamically update the institute's UPI ID and Receiver Name.
    - Configure a Global WhatsApp Support Number for instant help.
    - Toggle Global System Announcement Banners for important alerts.
-   - Configure daily AI limits to manage your API budget effectively.
 5. Security & Logs
    - Detailed System Logs tracking IP Addresses, Logins, and critical Actions.
    - Auto-count IP visits to identify and block suspicious traffic.
@@ -91,7 +90,6 @@ C. STUDENT PANEL (The Learning Experience)
 4. ✨ AI Doubt Solver (Premium Feature)
    - Chat interface directly integrated with Google Gemini 2.5 Flash AI.
    - Context-aware intelligence (knows exactly which course is being discussed).
-   - Governed by an Admin-controlled Daily Credit System.
 5. Real-Time Discussions
    - Engage in live chat with batchmates and instructors.
    - Live "User is typing..." indicators for a modern messaging feel.
