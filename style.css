@@ -1122,6 +1122,7 @@ textarea { resize: vertical; }
     border-radius: 100px;
     padding: 8px 12px;
     margin: 0; justify-content: flex-start;
+    margin: 0; justify-content: flex-start; align-items: center;
     overflow-x: auto; overflow-y: hidden;
     -webkit-overflow-scrolling: touch; scrollbar-width: none;
     z-index: 900; box-shadow: 0 16px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.05);
@@ -1131,6 +1132,7 @@ textarea { resize: vertical; }
     flex-direction: column; gap: 2px; padding: 6px 12px;
     font-size: 11px; font-weight: 600; background: transparent !important;
     border-radius: 20px; flex: 0 0 auto; color: var(--text-3); min-width: 64px;
+    justify-content: center; line-height: 1.2; white-space: nowrap;
   }
   body.has-bottom-nav .nav-links button .nav-icn { font-size: 22px; margin-bottom: 2px; transition: var(--trans); }
   body.has-bottom-nav .nav-links button.active { color: var(--text); background: rgba(255, 255, 255, 0.08) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); }
@@ -1229,6 +1231,16 @@ textarea { resize: vertical; }
   /* 6. Tables & Table Dropdowns */
   .data-table { display: block; overflow-x: auto; white-space: nowrap; font-size: 14px; width: 100vw; margin-left: -1rem; padding: 0 1rem; border-radius: 0; border-left: none; border-right: none; }
   .data-table th, .data-table td { padding: 12px 14px; }
+  /* 6. Tables & Table Dropdowns (Fixes column text overlapping by using scrollable wrappers instead of breaking table display) */
+  #admin-students-table, #admin-courses-table, #admin-users-table, #admin-logs-table, #student-attendance-content {
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    width: 100vw; margin-left: -1rem; padding: 0 1rem 1rem 1rem;
+  }
+  .data-table, .att-table { 
+    display: table; width: 100%; min-width: max-content; white-space: nowrap; font-size: 14px; 
+    border-radius: 0; border-left: none; border-right: none; margin: 0;
+  }
+  .data-table th, .data-table td, .att-table th, .att-table td { padding: 12px 14px; white-space: nowrap; min-width: 110px; }
   .actions-menu { display: flex; flex-direction: column; align-items: stretch; width: 100%; }
   .actions-btn { width: 100%; height: 44px; border-radius: 12px; background: var(--bg3); border: 1px solid var(--border2); }
   .actions-dropdown { position: static; width: 100%; min-width: 0; background: transparent; border: none; box-shadow: none; padding: 8px 0 0 0; }
