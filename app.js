@@ -2551,7 +2551,7 @@ function initAiChatView(containerId, courseId) {
     <div class="chat-container">
       <div class="dash-header" style="padding:1rem 1.5rem; border-bottom:1px solid var(--border); margin:0; display:flex; justify-content:space-between; align-items:center;">
         <h3 style="font-family:var(--font-head); font-weight:700; font-size:16px; margin:0;">✨ AI Doubt Solver</h3>
-        <span class="badge" style="background:var(--teal-glow); color:var(--teal); font-size:12px; border:none;" id="ai-credits-badge">${CONFIG.DAILY_AI_CREDITS} Daily Credits</span>
+        <span class="badge" style="background:var(--teal-glow); color:var(--teal); font-size:12px; border:none;" id="ai-credits-badge">Credits Remaining: ${STATE.user?.aiCredits !== undefined ? STATE.user.aiCredits : CONFIG.DAILY_AI_CREDITS}</span>
       </div>
       <div class="chat-messages" id="ai-chat-msgs-${courseId}">
         <div class="chat-msg">
@@ -2589,6 +2589,11 @@ async function sendAiMessage(e, courseId) {
     document.getElementById(loaderId).remove();
     container.insertAdjacentHTML('beforeend', `<div class="chat-msg"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:rgba(0,240,255,0.1);border-color:var(--teal);white-space:pre-wrap;">${esc(res.reply)}</div></div>`);
     document.getElementById('ai-credits-badge').textContent = `Credits Remaining: ${res.credits}/${res.maxCredits || CONFIG.DAILY_AI_CREDITS}`;
+
+    if (STATE.user) {
+      STATE.user.aiCredits = res.credits;
+      localStorage.setItem('abc_user', JSON.stringify(STATE.user));
+    }
   } catch (err) {
     document.getElementById(loaderId).remove();
     container.insertAdjacentHTML('beforeend', `<div class="chat-msg"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:rgba(251,113,133,0.1);border-color:var(--red);color:var(--red)">${esc(err.message)}</div></div>`);

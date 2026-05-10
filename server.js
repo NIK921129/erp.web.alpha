@@ -250,7 +250,7 @@ api.post('/auth/signup', async (req, res) => {
     const user = await User.create({ name, username, email, password: hashedPassword, role });
     io.to('admin_room').emit('admin_alert', { message: `New user signup: ${name}` });
     const token = user._id.toString();
-    res.json({ user: { _id: user._id, name, username, email, role }, token });
+    res.json({ user: { _id: user._id, name, username, email, role, aiCredits: user.aiCredits, lastCreditReset: user.lastCreditReset }, token });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
@@ -264,7 +264,7 @@ api.post('/auth/login', async (req, res) => {
     if (!user.active) return res.status(403).json({ message: 'Account is suspended' });
     
     const token = user._id.toString();
-    res.json({ user: { _id: user._id, name: user.name, username: user.username, email: user.email, role: user.role }, token });
+    res.json({ user: { _id: user._id, name: user.name, username: user.username, email: user.email, role: user.role, aiCredits: user.aiCredits, lastCreditReset: user.lastCreditReset }, token });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
