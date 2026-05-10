@@ -1151,14 +1151,19 @@ textarea { resize: vertical; }
 }
 
 @media (max-width: 600px) {
+  /* 1. Force strict boundaries to prevent flexbox blowouts */
+  *, *::before, *::after { min-width: 0; overflow-wrap: break-word; }
+  
   .btn-text { display: none; }
   .mobile-icon { display: block; }
+  
+  /* 2. Responsive Global Navigation */
+  #global-nav { height: auto; min-height: 64px; flex-wrap: wrap; padding: 12px 1rem; }
   #global-nav .nav-right .logout-btn { padding: 8px; width: 44px; height: 44px; justify-content: center; border-radius: 50%; }
-  #global-nav .nav-right #logout-btn { display: none !important; } /* Prevents double-button overlap */
+  #global-nav .nav-right #logout-btn { display: none !important; }
   .land-nav-actions .wa-btn { display: none; }
   .land-nav-actions .btn-ghost, .land-nav-actions .btn-primary { padding: 8px 14px; font-size: 14px; min-height: 40px; border-radius: 100px; }
   
-  /* Prevent Landing Nav Overlap */
   .nav-name { display: none; }
   .land-nav { padding: 1rem 0.5rem; gap: 0.5rem; }
 
@@ -1166,66 +1171,83 @@ textarea { resize: vertical; }
   .dash-header button { width: 100%; justify-content: center; border-radius: 100px; }
   .dash-header > div { display: flex; flex-direction: column; align-items: stretch; gap: 10px; width: 100%; }
   
-  .container { padding: 1.25rem 1rem; }
+  .container { padding: 1.25rem 1rem; width: 100%; max-width: 100vw; overflow-x: hidden; box-sizing: border-box; }
   .inner-hero { padding: 2rem 1rem; text-align: center; }
   .hero { padding: 3rem 1rem 2rem; }
-  .hero-title { font-size: 44px; letter-spacing: -1.5px; }
+  .hero-title { font-size: 38px; letter-spacing: -1px; }
   .hero-actions { flex-direction: column; align-items: stretch; }
   .hero-actions button { width: 100%; justify-content: center; border-radius: 100px; }
   
-  .stats-row { grid-template-columns: 1fr 1fr; gap: 12px; }
+  /* 3. Vertical Stacking for Cards to kill horizontal overlap */
+  .stats-row { grid-template-columns: 1fr; gap: 12px; }
   .stat-card { padding: 1.25rem 1rem; border-radius: 20px; text-align: center; }
-  .stat-card .stat-val { font-size: 22px; word-break: break-word; }
+  .stat-card .stat-val { font-size: 26px; }
   
+  .list-card { flex-direction: column; align-items: stretch; text-align: center; padding: 1.5rem 1.2rem; border-radius: 20px; gap: 12px; }
+  .list-card .lc-icon { margin: 0 auto; width: 48px; height: 48px; font-size: 24px; }
+  .list-card > span { display: none; }
+  .list-card .lc-actions { justify-content: center; }
+
+  .payment-review-card { flex-direction: column; align-items: stretch; text-align: center; gap: 12px; }
+  .pay-thumb { width: 100%; max-height: 200px; aspect-ratio: 16/9; margin: 0 auto; }
+  .pay-actions { flex-direction: column; width: 100%; }
+  .pay-actions button { width: 100%; }
+
+  .course-cards, .course-cards.lg { grid-template-columns: 1fr; gap: 1rem; }
+  .course-card { padding: 1.5rem; border-radius: 24px; }
+  .course-card-footer { flex-direction: column; gap: 12px; align-items: stretch; }
+  .course-fee { text-align: center; font-size: 24px; }
+
+  .assignment-card-header { flex-direction: column; align-items: stretch; gap: 12px; text-align: center; }
+  .assignment-footer { display: flex; flex-direction: column; gap: 10px; }
+  .assignment-footer button { width: 100%; }
+  
+  .attendance-grid { grid-template-columns: 1fr; }
+  .batchmates-grid { grid-template-columns: 1fr 1fr; }
   .auth-card { padding: 2rem 1.5rem; border-radius: 28px; }
   
-  .data-table { display: block; overflow-x: auto; white-space: nowrap; font-size: 14px; }
-  .data-table th, .data-table td { padding: 12px 14px; }
-  
-  /* Fix Input, Search & Filter Bar Overlaps */
+  /* 4. Form & Search Bar Enhancements */
   .search-bar, .filter-bar { flex-direction: column; align-items: stretch !important; gap: 12px !important; }
-  .search-bar input { max-width: 100% !important; flex: none !important; }
+  .search-bar input { max-width: 100% !important; flex: none !important; width: 100%; }
   .search-bar button, .filter-bar > button { width: 100%; flex: none !important; }
-  .filter-bar > div { justify-content: center; width: 100%; }
-
-  /* Accordion Action Menus for Mobile (prevents table clipping) */
-  .actions-menu { display: flex; flex-direction: column; align-items: stretch; width: 100%; }
-  .actions-btn { width: 100%; height: 44px; border-radius: 12px; background: var(--bg3); border: 1px solid var(--border2); }
-  .actions-dropdown { position: static; width: 100%; min-width: 0; background: transparent; border: none; box-shadow: none; padding: 8px 0 0 0; }
-  .actions-dropdown a { background: var(--bg2); border: 1px solid var(--border2); border-radius: 10px; margin-bottom: 6px; text-align: center; white-space: normal; word-break: break-word; }
-  .actions-dropdown a:last-child { margin-bottom: 0; }
-
-  /* Wrap elements to prevent horizontal overflow */
-  .enrol-steps { flex-wrap: wrap; }
-  .assignment-card-header, .course-card-footer, .pl-actions { flex-wrap: wrap; gap: 10px; }
-  .mark-att-row { flex-wrap: wrap; }
-  .chat-msg-bubble { word-break: break-word; }
+  .filter-bar > div { display: flex; flex-direction: column; align-items: stretch !important; gap: 8px; width: 100%; }
+  .filter-btn { width: 100%; text-align: center; }
+  .role-toggle { flex-direction: column; width: 100%; }
+  .role-btn { width: 100%; }
   
-  /* Move toast to top to avoid overlap with WA button and Bottom Nav */
-  .toast { bottom: auto !important; top: max(1.5rem, env(safe-area-inset-top)) !important; z-index: 99999; }
-
+  /* 5. Modals - Fat finger friendly */
   .modal-overlay { align-items: flex-end; padding: 0; }
   .modal { border-radius: 32px 32px 0 0; max-height: 90vh; padding-bottom: max(2rem, env(safe-area-inset-bottom)); border-bottom: none; box-shadow: 0 -10px 40px rgba(0,0,0,0.5); }
   .modal::before {
-    content: ''; display: block; width: 48px; height: 6px;
-    background: rgba(255,255,255,0.2); border-radius: 6px;
-    margin: 16px auto 0;
+    content: ''; display: block; width: 48px; height: 6px; background: rgba(255,255,255,0.2); border-radius: 6px; margin: 16px auto 0;
   }
   .modal-header { padding-top: 1rem; border-bottom: none; }
   .modal-body { padding: 1rem 1.5rem 1.5rem; }
+  .modal-actions { flex-direction: column-reverse; width: 100%; gap: 10px; margin-top: 1.5rem; }
+  .modal-actions button { width: 100%; margin: 0 !important; }
   
+  /* 6. Tables & Table Dropdowns */
+  .data-table { display: block; overflow-x: auto; white-space: nowrap; font-size: 14px; width: 100vw; margin-left: -1rem; padding: 0 1rem; border-radius: 0; border-left: none; border-right: none; }
+  .data-table th, .data-table td { padding: 12px 14px; }
+  .actions-menu { display: flex; flex-direction: column; align-items: stretch; width: 100%; }
+  .actions-btn { width: 100%; height: 44px; border-radius: 12px; background: var(--bg3); border: 1px solid var(--border2); }
+  .actions-dropdown { position: static; width: 100%; min-width: 0; background: transparent; border: none; box-shadow: none; padding: 8px 0 0 0; }
+  .actions-dropdown a { background: var(--bg2); border: 1px solid var(--border2); border-radius: 10px; margin-bottom: 6px; text-align: center; white-space: normal; }
+  .actions-dropdown a:last-child { margin-bottom: 0; }
+
+  /* 7. Components & Chat */
   .chat-container { height: calc(100dvh - 260px); border-radius: 24px; }
-  
-  .course-cards, .course-cards.lg { grid-template-columns: 1fr; gap: 1rem; }
-  .course-card { padding: 1.5rem; border-radius: 24px; }
-  
-  .list-card { padding: 1.2rem; border-radius: 20px; gap: 1rem; }
-  
   .btn-primary, .btn-ghost, .btn-danger, .btn-approve, .wa-btn { min-height: 52px; justify-content: center; border-radius: 16px; }
-  .form-group input, .form-group textarea, .form-group select { padding: 16px 18px; border-radius: 16px; font-size: 16px; }
+  .form-group input, .form-group textarea, .form-group select { padding: 16px 18px; border-radius: 16px; font-size: 16px; width: 100%; }
   .back-btn { padding: 8px 0; min-height: 44px; margin-bottom: 1.5rem; }
-  
   .playlist-item { flex-direction: column; padding: 1rem; gap: 1rem; border-radius: 20px; }
   .pl-thumb { width: 100%; aspect-ratio: 16/9; border-radius: 12px; }
-  .pl-actions { width: 100%; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 1rem; }
+  .pl-actions { width: 100%; flex-direction: column; gap: 10px; align-items: stretch; border-top: 1px solid var(--border); padding-top: 1rem; }
+  
+  /* 8. Steps & Attendance Rows */
+  .enrol-steps { flex-direction: column; align-items: flex-start; gap: 16px; background: var(--card2); padding: 1.5rem; border-radius: var(--r-lg); border: 1px solid var(--border); margin-bottom: 2rem; }
+  .step-sep { display: none; }
+  .mark-att-row { flex-direction: column; align-items: stretch; gap: 12px; text-align: center; }
+  .att-toggle { justify-content: stretch; }
+  .att-toggle button { flex: 1; min-height: 44px; }
 }
