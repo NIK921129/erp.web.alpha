@@ -1121,13 +1121,16 @@ textarea { resize: vertical; }
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 100px;
     padding: 8px 12px;
-    margin: 0; justify-content: space-around;
+    margin: 0; justify-content: flex-start;
+    overflow-x: auto; overflow-y: hidden;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
     z-index: 900; box-shadow: 0 16px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.05);
   }
+  body.has-bottom-nav #nav-links::-webkit-scrollbar { display: none; }
   body.has-bottom-nav .nav-links button {
     flex-direction: column; gap: 2px; padding: 6px 12px;
     font-size: 11px; font-weight: 600; background: transparent !important;
-    border-radius: 20px; flex: 0 1 auto; color: var(--text-3); min-width: 60px;
+    border-radius: 20px; flex: 0 0 auto; color: var(--text-3); min-width: 64px;
   }
   body.has-bottom-nav .nav-links button .nav-icn { font-size: 22px; margin-bottom: 2px; transition: var(--trans); }
   body.has-bottom-nav .nav-links button.active { color: var(--text); background: rgba(255, 255, 255, 0.08) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); }
@@ -1154,8 +1157,9 @@ textarea { resize: vertical; }
   .land-nav-actions .wa-btn { display: none; }
   .land-nav-actions .btn-ghost, .land-nav-actions .btn-primary { padding: 8px 14px; font-size: 14px; min-height: 40px; border-radius: 100px; }
   
-  .dash-header { flex-direction: column; align-items: center; text-align: center; gap: 16px; margin-bottom: 2rem; }
+  .dash-header { flex-direction: column; align-items: stretch; text-align: center; gap: 16px; margin-bottom: 2rem; }
   .dash-header button { width: 100%; justify-content: center; border-radius: 100px; }
+  .dash-header > div { display: flex; flex-direction: column; align-items: stretch; gap: 10px; width: 100%; }
   
   .container { padding: 1.25rem 1rem; }
   .inner-hero { padding: 2rem 1rem; text-align: center; }
@@ -1174,6 +1178,19 @@ textarea { resize: vertical; }
   .data-table { display: block; overflow-x: auto; white-space: nowrap; font-size: 14px; }
   .data-table th, .data-table td { padding: 12px 14px; }
   
+  /* Fix Input, Search & Filter Bar Overlaps */
+  .search-bar, .filter-bar { flex-direction: column; align-items: stretch !important; gap: 12px !important; }
+  .search-bar input { max-width: 100% !important; flex: none !important; }
+  .search-bar button, .filter-bar > button { width: 100%; flex: none !important; }
+  .filter-bar > div { justify-content: center; width: 100%; }
+
+  /* Accordion Action Menus for Mobile (prevents table clipping) */
+  .actions-menu { display: flex; flex-direction: column; align-items: stretch; width: 100%; }
+  .actions-btn { width: 100%; height: 44px; border-radius: 12px; background: var(--bg3); border: 1px solid var(--border2); }
+  .actions-dropdown { position: static; width: 100%; min-width: 0; background: transparent; border: none; box-shadow: none; padding: 8px 0 0 0; }
+  .actions-dropdown a { background: var(--bg2); border: 1px solid var(--border2); border-radius: 10px; margin-bottom: 6px; text-align: center; }
+  .actions-dropdown a:last-child { margin-bottom: 0; }
+
   .modal-overlay { align-items: flex-end; padding: 0; }
   .modal { border-radius: 32px 32px 0 0; max-height: 90vh; padding-bottom: max(2rem, env(safe-area-inset-bottom)); border-bottom: none; box-shadow: 0 -10px 40px rgba(0,0,0,0.5); }
   .modal::before {
