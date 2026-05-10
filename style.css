@@ -1147,23 +1147,27 @@ textarea { resize: vertical; }
     box-shadow: 0 8px 24px rgba(37,211,102,0.3); font-size: 0; color: transparent;
   }
   body.has-bottom-nav .wa-sticky .wa-btn svg { width: 32px; height: 32px; color: #25d366; margin: 0; }
-  body.has-bottom-nav .toast { bottom: calc(100px + env(safe-area-inset-bottom)); }
+  body.has-bottom-nav .toast { bottom: auto; top: max(1.5rem, env(safe-area-inset-top)); z-index: 99999; }
 }
 
 @media (max-width: 600px) {
   .btn-text { display: none; }
   .mobile-icon { display: block; }
   #global-nav .nav-right .logout-btn { padding: 8px; width: 44px; height: 44px; justify-content: center; border-radius: 50%; }
+  #global-nav .nav-right #logout-btn { display: none !important; } /* Prevents double-button overlap */
   .land-nav-actions .wa-btn { display: none; }
   .land-nav-actions .btn-ghost, .land-nav-actions .btn-primary { padding: 8px 14px; font-size: 14px; min-height: 40px; border-radius: 100px; }
   
+  /* Prevent Landing Nav Overlap */
+  .nav-name { display: none; }
+  .land-nav { padding: 1rem 0.5rem; gap: 0.5rem; }
+
   .dash-header { flex-direction: column; align-items: stretch; text-align: center; gap: 16px; margin-bottom: 2rem; }
   .dash-header button { width: 100%; justify-content: center; border-radius: 100px; }
   .dash-header > div { display: flex; flex-direction: column; align-items: stretch; gap: 10px; width: 100%; }
   
   .container { padding: 1.25rem 1rem; }
   .inner-hero { padding: 2rem 1rem; text-align: center; }
-  .land-nav { padding: 1rem; }
   .hero { padding: 3rem 1rem 2rem; }
   .hero-title { font-size: 44px; letter-spacing: -1.5px; }
   .hero-actions { flex-direction: column; align-items: stretch; }
@@ -1171,7 +1175,7 @@ textarea { resize: vertical; }
   
   .stats-row { grid-template-columns: 1fr 1fr; gap: 12px; }
   .stat-card { padding: 1.25rem 1rem; border-radius: 20px; text-align: center; }
-  .stat-card .stat-val { font-size: 28px; }
+  .stat-card .stat-val { font-size: 22px; word-break: break-word; }
   
   .auth-card { padding: 2rem 1.5rem; border-radius: 28px; }
   
@@ -1188,8 +1192,17 @@ textarea { resize: vertical; }
   .actions-menu { display: flex; flex-direction: column; align-items: stretch; width: 100%; }
   .actions-btn { width: 100%; height: 44px; border-radius: 12px; background: var(--bg3); border: 1px solid var(--border2); }
   .actions-dropdown { position: static; width: 100%; min-width: 0; background: transparent; border: none; box-shadow: none; padding: 8px 0 0 0; }
-  .actions-dropdown a { background: var(--bg2); border: 1px solid var(--border2); border-radius: 10px; margin-bottom: 6px; text-align: center; }
+  .actions-dropdown a { background: var(--bg2); border: 1px solid var(--border2); border-radius: 10px; margin-bottom: 6px; text-align: center; white-space: normal; word-break: break-word; }
   .actions-dropdown a:last-child { margin-bottom: 0; }
+
+  /* Wrap elements to prevent horizontal overflow */
+  .enrol-steps { flex-wrap: wrap; }
+  .assignment-card-header, .course-card-footer, .pl-actions { flex-wrap: wrap; gap: 10px; }
+  .mark-att-row { flex-wrap: wrap; }
+  .chat-msg-bubble { word-break: break-word; }
+  
+  /* Move toast to top to avoid overlap with WA button and Bottom Nav */
+  .toast { bottom: auto !important; top: max(1.5rem, env(safe-area-inset-top)) !important; z-index: 99999; }
 
   .modal-overlay { align-items: flex-end; padding: 0; }
   .modal { border-radius: 32px 32px 0 0; max-height: 90vh; padding-bottom: max(2rem, env(safe-area-inset-bottom)); border-bottom: none; box-shadow: 0 -10px 40px rgba(0,0,0,0.5); }
