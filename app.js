@@ -34,6 +34,7 @@ let STATE = {
   adminStudents: [], // Store for local search filtering
   adminCourses:  [],
   adminUsers:    [],
+  adminLogs:     [],
   studentAssignments: [],
   enrolCtx:      null,   // { course, step }
   currentChatCourse: null,
@@ -134,6 +135,10 @@ const API = {
   /* Chat */
   courseChat:      (id)     => api('GET', '/chat/course/' + id),
   sendChatMessage: (id, d)  => api('POST', '/chat/course/' + id, d),
+
+  /* Logs */
+  logEvent:        (d)      => api('POST', '/logs', d),
+  adminLogs:       ()       => api('GET', '/admin/logs'),
 };
 
 /* ══════════════════════════════════════════
@@ -253,6 +258,9 @@ window.addEventListener('DOMContentLoaded', async () => {
   /* Pre-load courses for landing */
   loadPublicCourses();
 
+  /* Log visit */
+  API.logEvent({ action: 'visit', details: 'User visited the site' }).catch(()=>{});
+
   /* Load settings in the background without blocking the UI rendering */
   try {
     const { settings } = await API.getSettings();
@@ -267,6 +275,21 @@ window.addEventListener('DOMContentLoaded', async () => {
       }
     }
   } catch (e) { /* silently ignore if first setup */ }
+});
+
+/* Log exit before unload */
+window.addEventListener('beforeunload', () => {
+  const url = CONFIG.BASE_URL + '/logs';
+  const data = JSON.stringify({ action: 'exit', details: 'User left the site' });
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(STATE.token ? { 'Authorization': 'Bearer ' + STATE.token } : {})
+    },
+    body: data,
+    keepalive: true
+  }).catch(()=>{});
 });
 
 /* ══════════════════════════════════════════
@@ -322,6 +345,7 @@ const pageInits = {
   'admin-students':      initAdminStudents,
   'admin-courses':       initAdminCourses,
   'admin-users':         initAdminUsers,
+  'admin-logs':          initAdminLogs,
   'admin-settings':      initAdminSettings,
   'enrol':               initEnrolPage,
 };
@@ -359,6 +383,7 @@ function buildNavLinks() {
       { icon: '💳', label: 'Pay',         page: 'admin-payments' },
       { icon: '👥', label: 'Users',       page: 'admin-users' },
       { icon: '📚', label: 'Courses',     page: 'admin-courses' },
+      { icon: '📊', label: 'Logs',        page: 'admin-logs' },
       { icon: '⚙️', label: 'Settings',    page: 'admin-settings' },
       { icon: '👤', label: 'Profile',     action: 'openProfileModal()', mobileOnly: true }
     ],
@@ -405,6 +430,7 @@ async function handleLogin() {
     initSocket();
     showNav();
     redirectByRole();
+    API.logEvent({ action: 'login', details: 'User logged in' }).catch(()=>{});
     toast('Welcome back, ' + data.user.name + '!', 'success');
   } catch (e) {
     showErr(errEl, e.message || 'Invalid credentials');
@@ -435,6 +461,7 @@ async function handleSignup() {
     initSocket();
     showNav();
     redirectByRole();
+    API.logEvent({ action: 'signup', details: 'User signed up' }).catch(()=>{});
     toast('Account created! Welcome to ABC Institute 🎉', 'success');
   } catch (e) {
     showErr(errEl, e.message || 'Signup failed');
@@ -449,7 +476,8 @@ function redirectByRole() {
   else                    navigate('student-dashboard');
 }
 
-function handleLogout() {
+async function handleLogout() {
+  await API.logEvent({ action: 'logout', details: 'User logged out' }).catch(()=>{});
   STATE.user = null; STATE.token = null;
   localStorage.removeItem('abc_token');
   localStorage.removeItem('abc_user');
@@ -2090,6 +2118,80 @@ async function exportAdminPayments() {
     const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
     downloadCSV(csv, `payments_${filter}_export.csv`);
   } catch (e) { toast('Error exporting payments', 'error'); }
+}
+
+/* ══════════════════════════════════════════
+   ADMIN LOGS
+══════════════════════════════════════════ */
+async function initAdminLogs() {
+  const el = document.getElementById('admin-logs-table');
+  el.innerHTML = skeletonTable(5);
+  try {
+    const { logs } = await API.adminLogs();
+    STATE.adminLogs = logs || [];
+    renderAdminLogs();
+  } catch (e) {
+    el.innerHTML = '<div class="empty-state">Error loading logs</div>';
+  }
+}
+
+function renderAdminLogs() {
+  const el = document.getElementById('admin-logs-table');
+  const q = document.getElementById('admin-log-search')?.value?.toLowerCase() || '';
+  const list = STATE.adminLogs.filter(l => 
+    (l.ip||'').toLowerCase().includes(q) || 
+    (l.action||'').toLowerCase().includes(q) || 
+    (l.user?.name||'').toLowerCase().includes(q) ||
+    (l.user?.username||'').toLowerCase().includes(q)
+  );
+
+  if (!list.length) { el.innerHTML = '<div class="empty-state">No logs found.</div>'; return; }
+
+  const ipCounts = {};
+  STATE.adminLogs.forEach(l => { if (l.action === 'visit') ipCounts[l.ip] = (ipCounts[l.ip] || 0) + 1; });
+
+  el.innerHTML = `
+    <table class="data-table">
+      <thead><tr><th>Date & Time</th><th>IP Address</th><th>Action</th><th>User</th><th>Details</th></tr></thead>
+      <tbody>${list.map(l => {
+        let bColor = 'blue';
+        if (l.action === 'login' || l.action === 'signup') bColor = 'green';
+        else if (l.action === 'logout' || l.action === 'exit') bColor = 'red';
+        else if (l.action === 'visit') bColor = 'teal';
+        
+        return `
+        <tr>
+          <td style="font-size:14px;white-space:nowrap">${new Date(l.createdAt).toLocaleString('en-IN')}</td>
+          <td style="font-family:monospace">${esc(l.ip)} <span style="font-size:12px;color:var(--text-3)">(${ipCounts[l.ip] || 0} visits)</span></td>
+          <td><span class="badge" style="border:1px solid currentColor;color:var(--${bColor})">${esc(l.action)}</span></td>
+          <td>${l.user ? `<strong>${esc(l.user.name)}</strong><br/><span style="font-size:13px;color:var(--text-2)">@${esc(l.user.username)}</span>` : '<span class="text-muted">Guest</span>'}</td>
+          <td style="font-size:14px">${esc(l.details || '')}</td>
+        </tr>`;
+      }).join('')}
+      </tbody>
+    </table>`;
+}
+
+function exportAdminLogs() {
+  const list = STATE.adminLogs;
+  if (!list || !list.length) { toast('No logs to export', 'error'); return; }
+  const q = document.getElementById('admin-log-search')?.value?.toLowerCase() || '';
+  const filtered = list.filter(l => 
+    (l.ip||'').toLowerCase().includes(q) || 
+    (l.action||'').toLowerCase().includes(q) || 
+    (l.user?.name||'').toLowerCase().includes(q) ||
+    (l.user?.username||'').toLowerCase().includes(q)
+  );
+  
+  const headers = ['Date & Time', 'IP Address', 'Action', 'User Name', 'Username', 'Details'];
+  const rows = filtered.map(l => [
+    `"${new Date(l.createdAt).toLocaleString('en-IN')}"`, 
+    `"${l.ip || ''}"`, `"${l.action || ''}"`, 
+    `"${l.user?.name || 'Guest'}"`, `"${l.user?.username || ''}"`, 
+    `"${(l.details || '').replace(/"/g, '""')}"`
+  ]);
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  downloadCSV(csv, 'system_logs_export.csv');
 }
 
 /* ══════════════════════════════════════════
