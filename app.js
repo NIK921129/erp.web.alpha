@@ -470,6 +470,8 @@ async function saveProfile() {
    LANDING / PUBLIC COURSES
 ══════════════════════════════════════════ */
 async function loadPublicCourses() {
+  const el = document.getElementById('landing-course-grid');
+  if (el) el.innerHTML = skeletonCards(6);
   try {
     const { courses } = await API.courses();
     STATE.courses = courses || [];
@@ -478,6 +480,8 @@ async function loadPublicCourses() {
 }
 
 async function loadPublicCourseGrid() {
+  const el = document.getElementById('public-course-grid');
+  if (el) el.innerHTML = skeletonCards(8);
   try {
     const { courses } = await API.courses();
     STATE.courses = courses || [];
@@ -543,6 +547,11 @@ function isEnrolled(courseId) {
 ══════════════════════════════════════════ */
 async function initStudentDashboard() {
   document.getElementById('student-welcome').textContent = `${getGreeting()}, ${STATE.user.name} 👋`;
+
+  document.getElementById('student-stats').innerHTML = skeletonStats(4);
+  document.getElementById('student-my-courses').innerHTML = skeletonList(2);
+  document.getElementById('student-pending-payments').innerHTML = skeletonList(2);
+  document.getElementById('student-due-assignments').innerHTML = skeletonList(2);
 
   try {
     const [enrRes, payRes, attRes, assRes] = await Promise.allSettled([
@@ -1178,6 +1187,10 @@ function stepsBar(active) {
 ══════════════════════════════════════════ */
 async function initTeacherDashboard() {
   document.getElementById('teacher-welcome').textContent = `${getGreeting()}, ${STATE.user.name} 👋`;
+  
+  document.getElementById('teacher-stats').innerHTML = skeletonStats(2);
+  document.getElementById('teacher-courses-list').innerHTML = skeletonList(3);
+
   try {
     const [coursesData] = await Promise.all([API.courses()]);
     const myCourses = (coursesData.courses||[]).filter(c =>
@@ -1374,7 +1387,7 @@ async function initAdminPayments(filter = 'pending') {
 
 async function renderAdminPayments() {
   const el = document.getElementById('admin-payments-list');
-  el.innerHTML = '<div class="empty-state">Loading…</div>';
+  el.innerHTML = skeletonList(4);
   try {
     const { payments } = await API.allPayments();
     const filter = STATE.paymentFilter;
@@ -1449,7 +1462,7 @@ function previewScreenshot(url, payId, status) {
 ══════════════════════════════════════════ */
 async function initAdminStudents() {
   const el = document.getElementById('admin-students-table');
-  el.innerHTML = '<div class="empty-state">Loading students...</div>';
+  el.innerHTML = skeletonTable(5);
   try {
     const { users } = await API.allStudents();
     STATE.adminStudents = users || [];
@@ -1643,7 +1656,7 @@ async function submitCustomEmail() {
 ══════════════════════════════════════════ */
 async function initAdminCourses() {
   const el = document.getElementById('admin-courses-table');
-  el.innerHTML = '<div class="empty-state">Loading courses...</div>';
+  el.innerHTML = skeletonTable(5);
   try {
     const { courses } = await API.courses();
     STATE.adminCourses = courses || [];
@@ -1783,7 +1796,7 @@ function exportAdminCourses() {
 ══════════════════════════════════════════ */
 async function initAdminUsers() {
   const el = document.getElementById('admin-users-table');
-  el.innerHTML = '<div class="empty-state">Loading users...</div>';
+  el.innerHTML = skeletonTable(5);
   try {
     const { users } = await API.allUsers();
     STATE.adminUsers = users || [];
@@ -2336,6 +2349,52 @@ function toast(msg, type = '') {
   el.classList.remove('hidden');
   clearTimeout(el._t);
   el._t = setTimeout(() => el.classList.add('hidden'), 3000);
+}
+
+/* ══════════════════════════════════════════
+   SKELETON LOADERS
+══════════════════════════════════════════ */
+function skeletonCards(count = 4) {
+  return Array(count).fill(`<div class="course-card" style="pointer-events:none">
+    <div class="skeleton-box" style="height:160px; border-radius:12px; margin-bottom:1rem;"></div>
+    <div class="skeleton-box" style="height:24px; width:70%;"></div>
+    <div class="skeleton-box" style="height:16px; width:90%; margin-top:8px;"></div>
+    <div class="skeleton-box" style="height:16px; width:50%; margin-top:4px;"></div>
+  </div>`).join('');
+}
+
+function skeletonList(count = 3) {
+  return Array(count).fill(`<div class="list-card" style="pointer-events:none">
+    <div class="skeleton-box" style="width:38px; height:38px; border-radius:8px;"></div>
+    <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+      <div class="skeleton-box" style="height:16px; width:60%;"></div>
+      <div class="skeleton-box" style="height:12px; width:40%;"></div>
+    </div>
+  </div>`).join('');
+}
+
+function skeletonStats(count = 4) {
+  return Array(count).fill(`<div class="stat-card" style="pointer-events:none">
+    <div class="skeleton-box" style="height:14px; width:50%; margin-bottom:12px;"></div>
+    <div class="skeleton-box" style="height:32px; width:30%;"></div>
+  </div>`).join('');
+}
+
+function skeletonTable(rows = 5) {
+  return `<table class="data-table">
+    <thead><tr>
+      <th><div class="skeleton-box" style="height:16px; width:60%;"></div></th>
+      <th><div class="skeleton-box" style="height:16px; width:40%;"></div></th>
+      <th><div class="skeleton-box" style="height:16px; width:50%;"></div></th>
+      <th><div class="skeleton-box" style="height:16px; width:30%;"></div></th>
+    </tr></thead>
+    <tbody>` + Array(rows).fill(`<tr>
+      <td><div class="skeleton-box" style="height:20px; width:80%;"></div></td>
+      <td><div class="skeleton-box" style="height:20px; width:60%;"></div></td>
+      <td><div class="skeleton-box" style="height:20px; width:40%;"></div></td>
+      <td><div class="skeleton-box" style="height:20px; width:30%;"></div></td>
+    </tr>`).join('') + `</tbody>
+  </table>`;
 }
 
 /* ══════════════════════════════════════════
