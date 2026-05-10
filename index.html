@@ -48,7 +48,7 @@
 ═══════════════════════════════════════════════ -->
 <section id="page-landing" class="page">
   <!-- Secret Admin Button -->
-  <button onclick="promptAdminAccess()" style="position:absolute; top:0; left:0; width:40px; height:40px; opacity:0; z-index:9999; border:none; background:transparent; cursor:default;"></button>
+  <button onclick="promptAdminAccess()" style="position:absolute; top:0; left:0; width:40px; height:40px; opacity:0; z-index:99; border:none; background:transparent; cursor:default;"></button>
 
   <div class="landing-bg">
     <div class="bg-grid"></div>
@@ -358,7 +358,15 @@
         <p class="text-muted">ABC Institute — Control Center</p>
       </div>
     </div>
-    <div class="stats-row" id="admin-stats"></div>
+    <div class="stats-row" id="admin-finance-stats"></div>
+    <div class="stats-row" id="admin-entity-stats"></div>
+    
+    <div class="chart-container-wrapper" style="background:var(--card); border:1px solid var(--border); border-radius:var(--r-xl); padding:1.5rem; backdrop-filter:var(--backdrop); margin-bottom: 1.5rem; box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);">
+      <h3 class="card-title" style="margin-bottom: 1rem;">Revenue Analytics (Last 30 Days)</h3>
+      <div style="position: relative; height: 300px; width: 100%;">
+        <canvas id="admin-revenue-chart"></canvas>
+      </div>
+    </div>
     <div class="dash-grid">
       <div class="dash-col">
         <h3 class="card-title">⏳ Pending Payments</h3>
@@ -860,6 +868,7 @@
 <!-- Toast notification -->
 <div id="toast" class="toast hidden"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script src="app.js"></script>
 </body>

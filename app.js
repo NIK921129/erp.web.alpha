@@ -171,7 +171,7 @@ function initSocket() {
   
   socket.on('connect', () => {
     console.log('🟢 Connected to live socket');
-    if (STATE.user) socket.emit('register', STATE.user._id);
+    if (STATE.user) socket.emit('register', STATE.user._id, STATE.user.role);
   });
 
   socket.on('notification', (data) => {
@@ -183,6 +183,38 @@ function initSocket() {
     if (STATE.currentPage === 'student-fees') initStudentFees();
     if (STATE.currentPage === 'student-assignments') initStudentAssignments();
     if (STATE.currentPage === 'student-course') initStudentCourse();
+  });
+
+  socket.on('course_updated', (courseId) => {
+    if (STATE.currentPage === 'student-course' && STATE.activeCourseId === courseId) {
+      initStudentCourse();
+      toast('Course content updated live!', 'success');
+    }
+  });
+
+  socket.on('admin_alert', (data) => {
+    if (STATE.user && STATE.user.role === 'admin') {
+      toast(data.message, 'success');
+      if (STATE.currentPage === 'admin-dashboard') initAdminDashboard();
+      if (STATE.currentPage === 'admin-payments') renderAdminPayments();
+    }
+  });
+
+  socket.on('user_typing', ({ courseId, name }) => {
+    if (courseId === STATE.currentChatCourse) {
+      let ind = document.getElementById('typing-indicator');
+      const container = document.getElementById(`chat-msgs-${courseId}`);
+      if (!ind && container) {
+        container.insertAdjacentHTML('beforeend', `<div id="typing-indicator" class="chat-msg" style="align-self:flex-start; margin-top: -5px;"><div class="chat-msg-sender" style="margin-bottom:0; font-style:italic;">${esc(name)} is typing...</div></div>`);
+        container.scrollTop = container.scrollHeight;
+      }
+    }
+  });
+
+  socket.on('user_stop_typing', ({ courseId }) => {
+    if (courseId === STATE.currentChatCourse) {
+      document.getElementById('typing-indicator')?.remove();
+    }
   });
 
   socket.on('chat_message', (msg) => {
@@ -204,34 +236,37 @@ window.addEventListener('DOMContentLoaded', async () => {
   const savedToken = localStorage.getItem('abc_token');
   const savedUser  = localStorage.getItem('abc_user');
 
-  try {
-    const { settings } = await API.getSettings();
-    if (settings) {
-      CONFIG.UPI_ID = settings.upiId || CONFIG.UPI_ID;
-      CONFIG.UPI_NAME = settings.upiName || CONFIG.UPI_NAME;
-      CONFIG.WA_NUMBER = settings.waNumber || CONFIG.WA_NUMBER;
-      CONFIG.ANNOUNCEMENT_TEXT = settings.announcementText || '';
-      CONFIG.ANNOUNCEMENT_ACTIVE = settings.announcementActive || false;
-    }
-  } catch (e) { /* silently ignore if first setup */ }
-  
-  if (CONFIG.ANNOUNCEMENT_ACTIVE && CONFIG.ANNOUNCEMENT_TEXT) {
-    const banner = document.getElementById('announcement-banner');
-    if (banner) { banner.innerHTML = esc(CONFIG.ANNOUNCEMENT_TEXT); banner.classList.remove('hidden'); }
-  }
-
   if (savedToken && savedUser) {
-    STATE.token = savedToken;
-    STATE.user  = JSON.parse(savedUser);
-    initSocket();
-    showNav();
-    redirectByRole();
+    try {
+      STATE.token = savedToken;
+      STATE.user  = JSON.parse(savedUser);
+      initSocket();
+      showNav();
+      redirectByRole();
+    } catch (e) {
+      handleLogout(); // Safely clear corrupt data
+    }
   } else {
     navigate('landing');
   }
 
   /* Pre-load courses for landing */
   loadPublicCourses();
+
+  /* Load settings in the background without blocking the UI rendering */
+  try {
+    const { settings } = await API.getSettings();
+    if (settings) {
+      CONFIG.UPI_ID = settings.upiId || CONFIG.UPI_ID;
+      CONFIG.UPI_NAME = settings.upiName || CONFIG.UPI_NAME;
+      CONFIG.WA_NUMBER = settings.waNumber || CONFIG.WA_NUMBER;
+      
+      if (settings.announcementActive && settings.announcementText) {
+        const banner = document.getElementById('announcement-banner');
+        if (banner) { banner.innerHTML = esc(settings.announcementText); banner.classList.remove('hidden'); }
+      }
+    }
+  } catch (e) { /* silently ignore if first setup */ }
 });
 
 /* ══════════════════════════════════════════
@@ -308,28 +343,29 @@ function buildNavLinks() {
 
   const links = {
     student: [
-      { icon: '🏠', label: 'Dashboard',   page: 'student-dashboard' },
+          { icon: '🏠', label: 'Home',        page: 'student-dashboard' },
       { icon: '📚', label: 'Courses',     page: 'courses-public' },
-      { icon: '📅', label: 'Attendance',  page: 'student-attendance' },
-      { icon: '📝', label: 'Assignments', page: 'student-assignments' },
+          { icon: '📝', label: 'Assign.',     page: 'student-assignments' },
       { icon: '💰', label: 'Fees',        page: 'student-fees' },
+          { icon: '👤', label: 'Profile',     action: 'openProfileModal()', mobileOnly: true }
     ],
     teacher: [
-      { icon: '🏠', label: 'Dashboard',   page: 'teacher-dashboard' },
+          { icon: '🏠', label: 'Home',        page: 'teacher-dashboard' },
+          { icon: '📚', label: 'Courses',     page: 'courses-public' },
+          { icon: '👤', label: 'Profile',     action: 'openProfileModal()', mobileOnly: true }
     ],
     admin: [
-      { icon: '🏠', label: 'Dashboard',   page: 'admin-dashboard' },
-      { icon: '💳', label: 'Payments',    page: 'admin-payments' },
-      { icon: '👥', label: 'Students',    page: 'admin-students' },
+          { icon: '🏠', label: 'Home',        page: 'admin-dashboard' },
+          { icon: '💳', label: 'Pay',         page: 'admin-payments' },
+          { icon: '👥', label: 'Users',       page: 'admin-users' },
       { icon: '📚', label: 'Courses',     page: 'admin-courses' },
-      { icon: '👤', label: 'Users',       page: 'admin-users' },
       { icon: '⚙️', label: 'Settings',    page: 'admin-settings' },
     ],
   };
 
   const role = STATE.user.role;
   nav.innerHTML = (links[role] || []).map(l =>
-    `<button onclick="navigate('${l.page}')"><span class="nav-icn">${l.icon}</span><span class="nav-lbl">${l.label}</span></button>`
+        `<button class="${l.mobileOnly ? 'mobile-only-link' : ''}" onclick="${l.action ? l.action : `navigate('${l.page}')`}"><span class="nav-icn">${l.icon}</span><span class="nav-lbl">${l.label}</span></button>`
   ).join('');
   document.body.classList.add('has-bottom-nav');
 }
@@ -1340,6 +1376,9 @@ async function submitAttendance(courseId) {
    ADMIN DASHBOARD
 ══════════════════════════════════════════ */
 async function initAdminDashboard() {
+  document.getElementById('admin-finance-stats').innerHTML = skeletonStats(4);
+  document.getElementById('admin-entity-stats').innerHTML = skeletonStats(3);
+
   try {
     const [statsRes, paymentsRes] = await Promise.allSettled([
       API.adminStats().catch(() => ({})),
@@ -1349,14 +1388,87 @@ async function initAdminDashboard() {
     const stats    = statsRes.status === 'fulfilled' ? statsRes.value.stats || {} : {};
     const payments = paymentsRes.status === 'fulfilled' ? paymentsRes.value.payments || [] : [];
     const pending  = payments.filter(p => p.status === 'pending');
+    const approved = payments.filter(p => p.status === 'approved');
 
-    document.getElementById('admin-stats').innerHTML = `
+    /* Financial Calculations */
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+    
+    let todayRev = 0;
+    let monthRev = 0;
+    
+    // Generate last 30 days array for the chart
+    const last30Days = [...Array(30)].map((_, i) => {
+      const d = new Date(now.getTime() - (29 - i) * 24 * 60 * 60 * 1000);
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    });
+    const revMap = {};
+    last30Days.forEach(d => revMap[d] = 0);
+
+    approved.forEach(p => {
+      const pTime = new Date(p.createdAt).getTime();
+      const pDate = new Date(p.createdAt);
+      const dateStr = `${pDate.getFullYear()}-${String(pDate.getMonth()+1).padStart(2,'0')}-${String(pDate.getDate()).padStart(2,'0')}`;
+      
+      if (pTime >= startOfDay) todayRev += (p.amount || 0);
+      if (pTime >= startOfMonth) monthRev += (p.amount || 0);
+      if (revMap[dateStr] !== undefined) revMap[dateStr] += (p.amount || 0);
+    });
+
+    document.getElementById('admin-finance-stats').innerHTML = `
       ${statCard('Total Revenue', '₹' + Number(stats.totalRevenue || 0).toLocaleString('en-IN'), 'green')}
+      ${statCard('This Month', '₹' + Number(monthRev).toLocaleString('en-IN'), 'teal')}
+      ${statCard('Today', '₹' + Number(todayRev).toLocaleString('en-IN'), 'blue')}
+      ${statCard('Pending Payments', pending.length, 'amber')}
+    `;
+    
+    document.getElementById('admin-entity-stats').innerHTML = `
       ${statCard('Total Students', stats.students || 0, 'teal')}
       ${statCard('Total Teachers', stats.teachers || 0, 'blue')}
       ${statCard('Total Courses',  stats.courses  || 0, 'amber')}
-      ${statCard('Pending Payments', pending.length, 'amber')}
     `;
+
+    /* Render Revenue Chart */
+    const canvas = document.getElementById('admin-revenue-chart');
+    if (canvas && typeof Chart !== 'undefined') {
+      const existingChart = Chart.getChart('admin-revenue-chart');
+      if (existingChart) existingChart.destroy();
+      
+      const ctx = canvas.getContext('2d');
+      const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+      gradient.addColorStop(0, 'rgba(0, 240, 255, 0.3)');
+      gradient.addColorStop(1, 'rgba(0, 240, 255, 0.0)');
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: last30Days.map(d => d.slice(5)), // Show MM-DD
+          datasets: [{
+            label: 'Revenue (₹)',
+            data: last30Days.map(d => revMap[d]),
+            borderColor: '#00f0ff',
+            backgroundColor: gradient,
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 1,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#00f0ff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+          scales: {
+            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a1a1aa' } },
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a1a1aa' }, beginAtZero: true }
+          }
+        }
+      });
+    }
+
     const pendingEl = document.getElementById('admin-pending-list');
     pendingEl.innerHTML = pending.length
       ? pending.slice(0,5).map(p => renderPaymentCard(p)).join('')
@@ -2201,7 +2313,7 @@ async function initCourseChatView(containerId, courseId) {
         <div class="text-muted" style="text-align:center;font-size:14px;margin-top:auto">Loading discussions...</div>
       </div>
       <form class="chat-input-area" onsubmit="sendCourseChatMessage(event, '${courseId}')">
-        <input type="text" id="chat-input-${courseId}" placeholder="Type a message..." autocomplete="off" required />
+        <input type="text" id="chat-input-${courseId}" placeholder="Type a message..." autocomplete="off" required oninput="handleChatTyping('${courseId}')" />
         <button type="submit">➤</button>
       </form>
     </div>
@@ -2239,12 +2351,34 @@ function createChatBubble(m) {
   `;
 }
 
+let isTyping = false;
+let typingTimer = null;
+window.handleChatTyping = function(courseId) {
+  if (!socket) return;
+  if (!isTyping) {
+    socket.emit('typing', { courseId, name: STATE.user.name });
+    isTyping = true;
+  }
+  clearTimeout(typingTimer);
+  typingTimer = setTimeout(() => {
+    isTyping = false;
+    socket.emit('stop_typing', { courseId, name: STATE.user.name });
+  }, 2000);
+};
+
 async function sendCourseChatMessage(e, courseId) {
   e.preventDefault();
   const input = document.getElementById(`chat-input-${courseId}`);
   const text = input.value.trim();
   if (!text) return;
   input.value = '';
+  
+  clearTimeout(typingTimer);
+  if (socket && isTyping) {
+    isTyping = false;
+    socket.emit('stop_typing', { courseId, name: STATE.user.name });
+  }
+
   try { await API.sendChatMessage(courseId, { text }); } 
   catch(err) { toast('Failed to send message', 'error'); }
 }

@@ -17,14 +17,14 @@
     "id": "app.js",
     "path": "app.js",
     "extension": ".js",
-    "size": 120836,
+    "size": 126229,
     "language": "javascript"
   },
   {
     "id": "index.html",
     "path": "index.html",
     "extension": ".html",
-    "size": 49873,
+    "size": 50507,
     "language": "html"
   },
   {
@@ -45,14 +45,14 @@
     "id": "server.js",
     "path": "server.js",
     "extension": ".js",
-    "size": 37867,
+    "size": 38884,
     "language": "javascript"
   },
   {
     "id": "style.css",
     "path": "style.css",
     "extension": ".css",
-    "size": 48972,
+    "size": 50036,
     "language": "css"
   },
   {

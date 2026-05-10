@@ -224,6 +224,7 @@ api.post('/auth/signup', async (req, res) => {
     
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ name, username, email, password: hashedPassword, role });
+    io.to('admin_room').emit('admin_alert', { message: `New user signup: ${name}` });
     const token = user._id.toString();
     res.json({ user: { _id: user._id, name, username, email, role }, token });
   } catch (e) { res.status(500).json({ message: e.message }); }
@@ -325,6 +326,7 @@ api.post('/payments', auth, upload.single('screenshot'), async (req, res) => {
     await Payment.create({
       student: req.user._id, course: req.body.course, amount: req.body.amount, screenshotUrl: fileUrl
     });
+    io.to('admin_room').emit('admin_alert', { message: `New payment submitted for verification.` });
     res.json({ message: 'Payment submitted successfully' });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
@@ -487,6 +489,7 @@ api.post('/assignments', auth, async (req, res) => {
       io.to(e.student.toString()).emit('notification', { message: `New assignment posted: ${assignment.title}`, type: 'success' });
       io.to(e.student.toString()).emit('refresh_data');
     });
+    io.to(`course_${req.body.course}`).emit('course_updated', req.body.course.toString());
     
     res.json({ assignment });
   } catch (e) { res.status(500).json({ message: e.message }); }
@@ -547,6 +550,7 @@ api.post('/content', auth, async (req, res) => {
         return res.status(403).json({ message: 'Forbidden: You do not own this course' });
     }
     const content = await Content.create(req.body);
+    io.to(`course_${req.body.course}`).emit('course_updated', req.body.course.toString());
     res.json({ content });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
@@ -561,6 +565,7 @@ api.delete('/content/:id', auth, async (req, res) => {
       await Content.deleteMany({ parentId: item._id.toString() });
     }
     await Content.findByIdAndDelete(req.params.id);
+    if (item) io.to(`course_${item.course}`).emit('course_updated', item.course.toString());
     res.json({ message: 'Deleted' });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
@@ -585,7 +590,17 @@ api.post('/users', auth, async (req, res) => {
     
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ name, username, email, password: hashedPassword, role });
-    res.json({ user });
+    
+    res.json({ 
+      user: { 
+        _id: user._id, 
+        name: user.name, 
+        username: user.username, 
+        email: user.email, 
+        role: user.role, 
+        active: user.active 
+      } 
+    });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
@@ -838,8 +853,9 @@ app.use((err, req, res, next) => {
 ══════════════════════════════════════════ */
 io.on('connection', (socket) => {
   console.log('⚡ A user connected:', socket.id);
-  socket.on('register', (userId) => {
+  socket.on('register', (userId, role) => {
     socket.join(userId);
+    if (role === 'admin') socket.join('admin_room');
     console.log(`👤 User ${userId} registered to socket ${socket.id}`);
   });
   socket.on('join_course', (courseId) => {
@@ -848,6 +864,14 @@ io.on('connection', (socket) => {
   });
   socket.on('disconnect', () => console.log('🔌 User disconnected:', socket.id));
   
+  socket.on('typing', ({ courseId, name }) => {
+    socket.to(`course_${courseId}`).emit('user_typing', { courseId, name });
+  });
+  
+  socket.on('stop_typing', ({ courseId, name }) => {
+    socket.to(`course_${courseId}`).emit('user_stop_typing', { courseId, name });
+  });
+
   // Handle unexpected socket errors to prevent server crashes
   socket.on('error', (err) => {
     console.error(`⚠️ Socket error on ${socket.id}:`, err.message);
