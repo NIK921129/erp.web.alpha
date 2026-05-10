@@ -59,7 +59,7 @@ const User = mongoose.model('User', new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ['student', 'teacher', 'admin'], default: 'student' },
   active: { type: Boolean, default: true },
-  aiCredits: { type: Number, default: 5 },
+  aiCredits: { type: Number, default: 50 },
   lastCreditReset: { type: String }
 }));
 
@@ -118,7 +118,7 @@ const Setting = mongoose.model('Setting', new mongoose.Schema({
   announcementText: { type: String, default: '' },
   announcementActive: { type: Boolean, default: false },
   bannedIPs: [{ type: String }],
-  dailyAiCredits: { type: Number, default: 5 }
+  dailyAiCredits: { type: Number, default: 50 }
 }));
 
 const Coupon = mongoose.model('Coupon', new mongoose.Schema({
@@ -872,13 +872,16 @@ api.post('/ai/chat', auth, async (req, res) => {
     const today = new Date().toISOString().split('T')[0];
     let user = await User.findById(req.user._id);
     
+    const settings = await Setting.findOne() || {};
+    const dailyLimit = settings.dailyAiCredits !== undefined ? settings.dailyAiCredits : 50;
+
     // Reset credits if it's a new day
     if (user.lastCreditReset !== today) {
-      user.aiCredits = 5;
+      user.aiCredits = dailyLimit;
       user.lastCreditReset = today;
     }
     
-    if (user.aiCredits <= 0) return res.status(429).json({ message: 'Daily limit reached. You will get 5 more credits tomorrow!' });
+    if (user.aiCredits <= 0) return res.status(429).json({ message: `Daily limit reached. You will get ${dailyLimit} more credits tomorrow!` });
 
     const course = await Course.findById(courseId);
     const prompt = `Context: The student is asking a doubt related to the course "${course?.name || 'General'}". Answer clearly and concisely. Question: ${text}`;

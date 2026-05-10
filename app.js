@@ -17,7 +17,7 @@ const CONFIG = {
   WA_NUMBER:  '919211293576',
   ANNOUNCEMENT_TEXT: '',
   ANNOUNCEMENT_ACTIVE: false,
-  DAILY_AI_CREDITS: 5,
+  DAILY_AI_CREDITS: 50,
   ICONS: ['📘','📗','📙','📕','🎯','💡','⚡','🔬','🎨','🖥️','🧮','📐'],
 };
 
