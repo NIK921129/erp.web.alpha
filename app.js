@@ -1583,6 +1583,8 @@ async function toggleManualEmailFromPayments() {
   CONFIG.MANUAL_EMAIL = isChecked;
   const setEl = document.getElementById('admin-set-manual-email');
   if (setEl) setEl.checked = isChecked; // Keep Settings page synced
+  const customEl = document.getElementById('custom-email-manual-toggle');
+  if (customEl) customEl.checked = isChecked; // Keep Custom Email modal synced
   
   try {
     await API.updateSettings({ manualEmail: isChecked });
@@ -1814,6 +1816,8 @@ async function openCustomEmailModal(userId = null, preSelectCourseId = null) {
   document.getElementById('custom-email-subject').value = '';
   document.getElementById('custom-email-body').value = '';
   
+  document.getElementById('custom-email-manual-toggle').checked = CONFIG.MANUAL_EMAIL;
+
   const toggle = document.getElementById('custom-email-batch-toggle');
   toggle.checked = !!preSelectCourseId || !userId;
   
@@ -1847,6 +1851,23 @@ function toggleEmailMode() {
   document.getElementById('custom-email-batch-view').classList.toggle('hidden', !isBatch);
 }
 
+async function toggleManualEmailFromCustom() {
+  const isChecked = document.getElementById('custom-email-manual-toggle').checked;
+  CONFIG.MANUAL_EMAIL = isChecked;
+  
+  const setEl = document.getElementById('admin-set-manual-email');
+  if (setEl) setEl.checked = isChecked;
+  const payEl = document.getElementById('payments-manual-email-toggle');
+  if (payEl) payEl.checked = isChecked;
+  
+  try {
+    await API.updateSettings({ manualEmail: isChecked });
+    toast(isChecked ? 'Manual Mode ENABLED' : 'Automatic Mode ENABLED', 'success');
+  } catch (e) {
+    toast('Error saving setting', 'error');
+  }
+}
+
 async function submitCustomEmail() {
   const isBatch = document.getElementById('custom-email-batch-toggle').checked;
   const subject = document.getElementById('custom-email-subject').value.trim();
@@ -1854,14 +1875,48 @@ async function submitCustomEmail() {
   if (!subject || !message) { toast('Subject and message are required', 'error'); return; }
   
   let payload = { subject, message };
+  let emails = [];
+
   if (isBatch) {
     const courseId = document.getElementById('custom-email-course-select').value;
     if (!courseId) { toast('Please select a course', 'error'); return; }
     payload.courseId = courseId;
+    
+    if (CONFIG.MANUAL_EMAIL) {
+      try {
+        const data = await API.courseStudents(courseId);
+        emails = (data.students || []).map(s => s.email).filter(e => e);
+      } catch(e) { toast('Error fetching students', 'error'); return; }
+    }
   } else {
     const userId = document.getElementById('custom-email-user-id').value;
     if (!userId) { toast('No single user selected', 'error'); return; }
     payload.userId = userId;
+    
+    if (CONFIG.MANUAL_EMAIL) {
+      const user = STATE.adminUsers.find(u => u._id === userId) || STATE.adminStudents.find(u => u._id === userId);
+      if (user && user.email) emails.push(user.email);
+    }
+  }
+
+  if (CONFIG.MANUAL_EMAIL) {
+    if (!emails.length) { toast('No recipients found', 'error'); return; }
+    
+    // For single users, put them in 'To'. For batches, put them in 'BCC' to protect privacy.
+    const mailtoLink = isBatch 
+      ? `mailto:?bcc=${encodeURIComponent(emails.join(','))}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`
+      : `mailto:${encodeURIComponent(emails[0])}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+      
+    const a = document.createElement('a');
+    a.href = mailtoLink;
+    a.target = '_blank';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    toast('Opened in your email client!', 'success');
+    closeAllModals();
+    return;
   }
 
   const btn = document.querySelector('#modal-custom-email .btn-primary');

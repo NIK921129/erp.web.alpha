@@ -871,6 +871,10 @@
       <button onclick="closeAllModals()">✕</button>
     </div>
     <div class="modal-body">
+      <div class="form-group" style="flex-direction:row; align-items:center; gap:10px; margin-bottom:1.5rem; padding:12px; background:var(--bg3); border:1px solid var(--teal); border-radius:var(--r-md); box-shadow:0 0 12px var(--teal-glow);">
+        <input type="checkbox" id="custom-email-manual-toggle" onchange="toggleManualEmailFromCustom()" style="width:auto; transform:scale(1.2)" />
+        <label for="custom-email-manual-toggle" style="margin:0; cursor:pointer; color:var(--teal); font-weight:700;">Manual Email Mode (Opens Email App)</label>
+      </div>
       <div class="form-group" style="flex-direction:row; align-items:center; gap:10px; margin-bottom:1rem; padding-bottom:1rem; border-bottom:1px solid var(--border);">
         <input type="checkbox" id="custom-email-batch-toggle" onchange="toggleEmailMode()" style="width:auto; transform:scale(1.2)" />
         <label for="custom-email-batch-toggle" style="margin:0; cursor:pointer; color:var(--text)">Send to entire course batch</label>
