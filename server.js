@@ -417,7 +417,6 @@ api.delete('/courses/:id', auth, async (req, res) => {
     await Enrolment.deleteMany({ course: cid });
     await Payment.deleteMany({ course: cid });
     await Attendance.deleteMany({ course: cid });
-    const assigns = await Assignment.find({ course: cid });
     await Submission.deleteMany({ assignment: { $in: assigns.map(a => a._id) } });
     await Assignment.deleteMany({ course: cid });
     await Content.deleteMany({ course: cid });
