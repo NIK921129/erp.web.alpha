@@ -232,6 +232,11 @@ function initSocket() {
       }
     }
   });
+
+  socket.on('force_logout', (data) => {
+    toast(data.message || 'Session terminated.', 'error');
+    setTimeout(() => handleLogout(), 2000);
+  });
 }
 
 /* ══════════════════════════════════════════

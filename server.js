@@ -565,12 +565,24 @@ api.post('/attendance/mark', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin' && req.user.role !== 'teacher') return res.status(403).json({ message: 'Forbidden' });
     const { course, date, records } = req.body;
+    let courseName = 'Course';
     if (req.user.role === 'teacher') {
       const c = await Course.findById(course);
       if (!c || c.teacher?.toString() !== req.user._id.toString()) 
         return res.status(403).json({ message: 'Forbidden: You do not own this course' });
+      courseName = c.name;
+    } else {
+      const c = await Course.findById(course);
+      if (c) courseName = c.name;
     }
     await Attendance.findOneAndUpdate({ course, date }, { records }, { upsert: true });
+    records.forEach(r => {
+      io.to(r.student.toString()).emit('notification', { 
+        message: `Attendance marked ${r.status} for ${courseName} on ${date}.`, 
+        type: r.status === 'present' ? 'success' : 'amber' 
+      });
+      io.to(r.student.toString()).emit('refresh_data');
+    });
     res.json({ message: 'Attendance marked' });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
@@ -637,6 +649,13 @@ api.post('/assignments/:id/submit', auth, upload.single('file'), async (req, res
       { $set: updateData },
       { upsert: true }
     );
+    
+    const assignment = await Assignment.findById(req.params.id).populate('course');
+    if (assignment && assignment.course && assignment.course.teacher) {
+      io.to(assignment.course.teacher.toString()).emit('notification', { message: `New submission received for: ${assignment.title}`, type: 'info' });
+      io.to(assignment.course.teacher.toString()).emit('refresh_data');
+    }
+
     res.json({ message: 'Submitted' });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
@@ -781,7 +800,10 @@ api.put('/users/:id', auth, async (req, res) => {
     if (req.user.role !== 'admin' && req.user._id.toString() !== req.params.id) return res.status(403).json({ message: 'Forbidden' });
     const { name, email, password, active, username, role } = req.body;
     const updateData = { name, email };
-    if (active !== undefined && req.user.role === 'admin') updateData.active = active;
+    if (active !== undefined && req.user.role === 'admin') {
+      updateData.active = active;
+      if (active === false) io.to(req.params.id).emit('force_logout', { message: 'Your account has been suspended by an administrator.' });
+    }
     if (username && req.user.role === 'admin') updateData.username = username;
     if (role && req.user.role === 'admin') updateData.role = role;
     if (password) updateData.password = await bcrypt.hash(password, 10);
@@ -796,6 +818,8 @@ api.delete('/users/:id', auth, async (req, res) => {
     const uid = req.params.id;
     if (req.user._id.toString() === uid) return res.status(400).json({ message: 'Cannot delete yourself' });
     
+    io.to(uid).emit('force_logout', { message: 'Your account has been permanently deleted.' });
+
     // Cleanup user's local files
     const payments = await Payment.find({ student: uid });
     payments.forEach(p => deleteLocalFile(p.screenshotUrl));
