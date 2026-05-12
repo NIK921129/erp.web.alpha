@@ -841,6 +841,7 @@ function renderContentTree(items, isTeacher = false) {
 
 function renderContentItem(item, isTeacher) {
   const isVideo = item.type === 'video';
+  const isNote = item.type === 'file';
   
   let thumb = '';
   if (isVideo) {
@@ -853,8 +854,10 @@ function renderContentItem(item, isTeacher) {
     thumb = `<div class="pl-thumb file-fallback"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></div>`;
   }
 
-  const onClickAttr = isVideo && item.url 
-    ? `onclick="playCourseVideo('${item._id}', '${item.url}', '${esc(item.title).replace(/'/g, "\\'")}', '${esc(item.description||'').replace(/'/g, "\\'")}')"` 
+  const safeTitle = esc(item.title).replace(/'/g, "\\'").replace(/\n/g, ' ');
+  const safeDesc = esc(item.description || '').replace(/'/g, "\\'").replace(/\n/g, '\\n');
+  const onClickAttr = (isVideo || isNote) 
+    ? `onclick="viewCourseItem('${item._id}', '${item.type}', '${item.url || ''}', '${safeTitle}', '${safeDesc}')"` 
     : '';
   
   const lecBadge = item.order ? `<span class="badge badge-enrolled" style="margin-right:8px">Lec ${item.order}</span>` : '';
@@ -867,7 +870,7 @@ function renderContentItem(item, isTeacher) {
         ${item.description ? `<div class="pl-desc">${esc(item.description)}</div>` : ''}
       </div>
       <div class="pl-actions" onclick="event.stopPropagation()">
-        ${!isVideo && item.url ? `<a href="${item.url}" target="_blank" class="btn-ghost" style="padding:6px 14px;font-size:13px;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> View</a>` : ''}
+        ${isNote && item.url ? `<a href="${item.url}" target="_blank" class="btn-ghost" style="padding:6px 14px;font-size:13px;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> View External</a>` : ''}
         ${isTeacher ? `<button class="btn-danger" onclick="deleteContent('${item._id}')" style="padding:6px 12px;font-size:13px;" title="Delete">🗑️</button>` : ''}
       </div>
     </div>`;
@@ -879,7 +882,7 @@ function driveEmbed(url) {
   return url;
 }
 
-window.playCourseVideo = function(id, url, title, desc) {
+window.viewCourseItem = function(id, type, url, title, desc) {
   const wrapper = document.getElementById('active-player-wrapper');
   const placeholder = document.getElementById('player-placeholder');
   const container = document.getElementById('active-player-container');
@@ -889,25 +892,39 @@ window.playCourseVideo = function(id, url, title, desc) {
   wrapper.classList.remove('hidden');
   if (placeholder) placeholder.classList.add('hidden');
   titleEl.textContent = title;
-  descEl.textContent = desc;
   
   document.querySelectorAll('.playlist-item').forEach(el => el.classList.remove('active-playing'));
   const activeItem = document.getElementById('pl-item-' + id);
   if (activeItem) activeItem.classList.add('active-playing');
 
-  if (url.includes('drive.google.com')) {
-    const embedUrl = driveEmbed(url);
-    container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>`;
-  } else {
-    container.innerHTML = `<video id="player-${id}" src="${url}" controls autoplay playsinline webkit-playsinline></video>`;
-    const video = document.getElementById(`player-${id}`);
-    video.addEventListener('loadedmetadata', () => {
-      const savedTime = localStorage.getItem(`vid_progress_${id}`);
-      if (savedTime) video.currentTime = parseFloat(savedTime);
-    });
-    video.addEventListener('timeupdate', () => {
-      localStorage.setItem(`vid_progress_${id}`, video.currentTime);
-    });
+  if (type === 'video') {
+    descEl.textContent = desc;
+    if (url.includes('drive.google.com')) {
+      const embedUrl = driveEmbed(url);
+      container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>`;
+    } else {
+      container.innerHTML = `<video id="player-${id}" src="${url}" controls autoplay playsinline webkit-playsinline></video>`;
+      const video = document.getElementById(`player-${id}`);
+      video.addEventListener('loadedmetadata', () => {
+        const savedTime = localStorage.getItem(`vid_progress_${id}`);
+        if (savedTime) video.currentTime = parseFloat(savedTime);
+      });
+      video.addEventListener('timeupdate', () => {
+        localStorage.setItem(`vid_progress_${id}`, video.currentTime);
+      });
+    }
+  } else if (type === 'file') {
+    if (url && url.includes('drive.google.com')) {
+      descEl.textContent = desc;
+      const embedUrl = driveEmbed(url);
+      container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen></iframe>`;
+    } else if (url) {
+      descEl.textContent = desc;
+      container.innerHTML = `<div class="notes-viewer-content" style="display:flex;align-items:center;justify-content:center;"><a href="${url}" target="_blank" class="btn-primary">Open External Document</a></div>`;
+    } else {
+      descEl.textContent = ''; // Hide sub-desc because the note content becomes the main view
+      container.innerHTML = `<div class="notes-viewer-content">${desc ? desc.replace(/\\n/g, '<br>') : 'No notes available.'}</div>`;
+    }
   }
   
   wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2338,9 +2355,23 @@ function selectCtype(btn) {
   document.querySelectorAll('.role-btn[data-ctype]').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   const type = btn.dataset.ctype;
-  document.getElementById('content-url-group').classList.toggle('hidden', type !== 'video');
+  
+  const urlGroup = document.getElementById('content-url-group');
+  const descGroup = document.getElementById('content-desc-group');
+  
+  urlGroup.classList.toggle('hidden', type === 'chapter');
   document.getElementById('content-thumbnail-group').classList.toggle('hidden', type !== 'video');
   document.getElementById('content-parent-group').classList.toggle('hidden', type === 'chapter');
+  
+  if (type === 'file') {
+    urlGroup.querySelector('label').textContent = 'Google Drive Link (Optional Document)';
+    descGroup.querySelector('label').textContent = 'Notes Content (Optional Text)';
+    document.getElementById('content-desc-input').rows = 6;
+  } else {
+    urlGroup.querySelector('label').textContent = 'Google Drive Link';
+    descGroup.querySelector('label').textContent = 'Description (optional)';
+    document.getElementById('content-desc-input').rows = 2;
+  }
 }
 
 async function saveContent() {

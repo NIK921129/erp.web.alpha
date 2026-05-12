@@ -773,6 +773,13 @@ textarea { resize: vertical; }
   border: none; outline: none; background: #000;
 }
 
+.notes-viewer-content {
+  position: absolute; inset: 0; background: var(--bg2);
+  padding: 2rem; overflow-y: auto; color: var(--text);
+  font-size: 16px; line-height: 1.8; text-align: left;
+  scrollbar-width: thin;
+}
+
 /* ══════════════════════════════════════════
    YOUTUBE STYLE COURSE PLAYER
 ══════════════════════════════════════════ */
