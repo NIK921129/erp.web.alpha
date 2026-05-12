@@ -54,7 +54,11 @@ app.use('/uploads', express.static(uploadDir));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),
-  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname.replace(/\s+/g, '-'))
+  filename: (req, file, cb) => {
+    // Sanitize the original name using basename to prevent directory traversal attacks
+    const safeName = path.basename(file.originalname).replace(/[^a-zA-Z0-9.\-]/g, '_');
+    cb(null, Date.now() + '-' + safeName);
+  }
 });
 const upload = multer({ 
   storage,
@@ -70,7 +74,8 @@ const deleteLocalFile = (fileUrl) => {
     if (fileUrl.includes('/uploads/')) {
       const filename = fileUrl.split('/uploads/')[1];
       if (filename) {
-        const filepath = path.join(uploadDir, filename);
+        // Use basename to prevent path traversal during file deletion
+        const filepath = path.join(uploadDir, path.basename(filename));
         if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
       }
     }
@@ -305,6 +310,7 @@ api.post('/auth/signup', async (req, res) => {
   
   try {
     const { name, username, email, password, role } = req.body;
+    if (!name || !username || !email || !password) return res.status(400).json({ message: 'All fields are required' });
     if (role === 'admin') return res.status(403).json({ message: 'Forbidden: Cannot sign up as admin' });
     
     const existing = await User.findOne({ $or: [{ username }, { email }] });
@@ -473,6 +479,7 @@ api.post('/payments/:id/approve', auth, async (req, res) => {
       .populate({ path: 'course', populate: { path: 'teacher' } });
       
     if (!p) return res.status(404).json({ message: 'Payment not found' });
+    if (!p.student) return res.status(400).json({ message: 'Student account no longer exists. Cannot approve.' });
     if (!p.course) return res.status(400).json({ message: 'Course no longer exists. Cannot approve.' });
     
     p.status = 'approved';
@@ -1094,5 +1101,7 @@ const gracefulShutdown = () => {
     });
   });
 };
+process.on('SIGINT', gracefulShutdown);
+process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);
