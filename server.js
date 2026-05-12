@@ -565,6 +565,7 @@ api.post('/attendance/mark', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin' && req.user.role !== 'teacher') return res.status(403).json({ message: 'Forbidden' });
     const { course, date, records } = req.body;
+
     let courseName = 'Course';
     if (req.user.role === 'teacher') {
       const c = await Course.findById(course);
@@ -927,6 +928,7 @@ api.post('/admin/send-email', auth, async (req, res) => {
           successCount++;
         } catch (err) {
           errorCount++;
+          console.error(`❌ Failed to send email to ${u.email}:`, err.message);
         }
       }));
     }
