@@ -73,6 +73,7 @@ const API = {
   signup:   (d)     => api('POST', '/auth/signup', d),
   login:    (d)     => api('POST', '/auth/login', d),
   me:       ()      => api('GET',  '/auth/me'),
+  adminAccess: (d)  => api('POST', '/auth/admin-access', d),
 
   /* Courses */
   courses:         ()       => api('GET', '/courses'),
@@ -125,6 +126,7 @@ const API = {
   allTeachers:     ()       => api('GET', '/users?role=teacher'),
   adminStats:      ()       => api('GET', '/admin/stats'),
   manualEnrol:     (d)      => api('POST', '/admin/enrol', d),
+  broadcast:       (d)      => api('POST', '/admin/broadcast', d),
   studentReport:   (id)     => api('GET', `/admin/users/${id}/report`),
   sendCustomEmail: (d)      => api('POST', '/admin/send-email', d),
 
@@ -145,25 +147,22 @@ const API = {
 /* ══════════════════════════════════════════
    SECRET ADMIN ACCESS
 ══════════════════════════════════════════ */
-function promptAdminAccess() {
+async function promptAdminAccess() {
   const code = prompt("Enter Admin Passcode:");
-  if (code === "79827") {
-    STATE.user = {
-      _id: 'secret_admin_123',
-      name: 'System Admin',
-      username: 'admin',
-      email: 'projects.nikunj.singh@gmail.com',
-      role: 'admin'
-    };
-    STATE.token = 'secret_admin_token';
+  if (!code) return;
+  
+  try {
+    const data = await API.adminAccess({ passcode: code });
+    STATE.user = data.user;
+    STATE.token = data.token;
     localStorage.setItem('abc_token', STATE.token);
     localStorage.setItem('abc_user', JSON.stringify(STATE.user));
     initSocket();
     showNav();
     navigate('admin-dashboard');
     toast('Secret admin access granted! 🕵️‍♂️', 'success');
-  } else if (code !== null) {
-    toast('Incorrect passcode', 'error');
+  } catch (e) {
+    toast(e.message || 'Incorrect passcode', 'error');
   }
 }
 
@@ -360,6 +359,9 @@ function showNav() {
   nav.classList.add('active');
   buildNavLinks();
   document.getElementById('nav-user-info').textContent = STATE.user.name + ' · ' + STATE.user.role;
+  
+  const returnBtn = document.getElementById('return-admin-btn');
+  if (returnBtn) returnBtn.classList.toggle('hidden', !localStorage.getItem('abc_admin_backup_token'));
 }
 
 function buildNavLinks() {
@@ -486,6 +488,8 @@ async function handleLogout() {
   STATE.token = null;
   localStorage.removeItem('abc_token');
   localStorage.removeItem('abc_user');
+  localStorage.removeItem('abc_admin_backup_token');
+  localStorage.removeItem('abc_admin_backup_user');
   if (socket) {
     socket.disconnect();
     socket = null;
@@ -1999,6 +2003,7 @@ function renderAdminUsers() {
               </button>
               <div class="actions-dropdown">
                 <a onclick="openEditUserModal('${u._id}')">Edit User</a>
+            ${u.role !== 'admin' ? `<a onclick="impersonateUser('${u._id}')">🕵️ Impersonate</a>` : ''}
                 <a onclick="openCustomEmailModal('${u._id}')">Send Email</a>
                 <a onclick="toggleUserActive('${u._id}', ${!u.active})">${u.active ? 'Suspend' : 'Activate'}</a>
                 <a class="danger" onclick="deleteUserAdmin('${u._id}')">Delete User</a>
@@ -2148,6 +2153,72 @@ async function exportAdminPayments() {
     const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
     downloadCSV(csv, `payments_${filter}_export.csv`);
   } catch (e) { toast('Error exporting payments', 'error'); }
+}
+
+/* ══════════════════════════════════════════
+   ADMIN EXTENDED FEATURES (Impersonate & Broadcast)
+══════════════════════════════════════════ */
+async function impersonateUser(id) {
+  if (!confirm('You are about to log in as this user. Continue?')) return;
+  try {
+    const target = STATE.adminUsers.find(u => u._id === id);
+    if (!target) throw new Error('User not found');
+
+    localStorage.setItem('abc_admin_backup_token', STATE.token);
+    localStorage.setItem('abc_admin_backup_user', JSON.stringify(STATE.user));
+
+    STATE.token = id;
+    STATE.user = target;
+    localStorage.setItem('abc_token', id);
+    localStorage.setItem('abc_user', JSON.stringify(target));
+
+    if (socket) { socket.disconnect(); socket = null; }
+    initSocket();
+    showNav();
+    redirectByRole();
+    toast(`Impersonating ${target.name}`, 'success');
+  } catch (e) { toast('Error impersonating user', 'error'); }
+}
+
+function returnToAdmin() {
+  const backupToken = localStorage.getItem('abc_admin_backup_token');
+  const backupUser = localStorage.getItem('abc_admin_backup_user');
+  if (!backupToken || !backupUser) return;
+
+  STATE.token = backupToken;
+  STATE.user = JSON.parse(backupUser);
+  localStorage.setItem('abc_token', backupToken);
+  localStorage.setItem('abc_user', backupUser);
+
+  localStorage.removeItem('abc_admin_backup_token');
+  localStorage.removeItem('abc_admin_backup_user');
+
+  if (socket) { socket.disconnect(); socket = null; }
+  initSocket();
+  showNav();
+  redirectByRole();
+  toast('Returned to Admin mode', 'success');
+}
+
+function openBroadcastModal() {
+  document.getElementById('broadcast-msg').value = '';
+  document.getElementById('broadcast-type').value = 'success';
+  openModal('modal-broadcast');
+}
+
+async function sendBroadcast() {
+  const message = document.getElementById('broadcast-msg').value.trim();
+  const type = document.getElementById('broadcast-type').value;
+  if (!message) { toast('Message is required', 'error'); return; }
+  
+  const btn = document.querySelector('#modal-broadcast .btn-primary');
+  btn.textContent = 'Sending...'; btn.disabled = true;
+  try {
+    await API.broadcast({ message, type });
+    toast('Broadcast sent to all users!', 'success');
+    closeAllModals();
+  } catch (e) { toast(e.message || 'Error sending broadcast', 'error'); }
+  finally { btn.textContent = 'Send Broadcast'; btn.disabled = false; }
 }
 
 /* ══════════════════════════════════════════

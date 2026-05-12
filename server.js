@@ -192,7 +192,7 @@ const auth = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ message: 'Unauthorized: No token provided' });
-    if (token === 'secret_admin_token') {
+    if (token === (process.env.ADMIN_TOKEN || 'secret_admin_token')) {
       req.user = { _id: 'secret_admin_123', name: 'System Admin', role: 'admin', active: true };
       return next();
     }
@@ -207,7 +207,7 @@ const optionalAuth = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
     if (token) {
-      if (token === 'secret_admin_token') {
+      if (token === (process.env.ADMIN_TOKEN || 'secret_admin_token')) {
         req.user = { _id: 'secret_admin_123', name: 'System Admin', role: 'admin', active: true };
       } else if (mongoose.Types.ObjectId.isValid(token)) {
         req.user = await User.findById(token).select('-password');
@@ -274,6 +274,26 @@ api.post('/auth/login', async (req, res) => {
     const token = user._id.toString();
     res.json({ user: { _id: user._id, name: user.name, username: user.username, email: user.email, role: user.role }, token });
   } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+api.post('/auth/admin-access', (req, res) => {
+  const { passcode } = req.body;
+  // Compare with environment variable (fallback to 79827 if not set for local dev)
+  const validPasscode = process.env.ADMIN_PASSCODE || '79827';
+  
+  if (passcode === validPasscode) {
+    const user = {
+      _id: 'secret_admin_123',
+      name: 'System Admin',
+      username: 'admin',
+      email: 'projects.nikunj.singh@gmail.com',
+      role: 'admin'
+    };
+    const token = process.env.ADMIN_TOKEN || 'secret_admin_token';
+    res.json({ user, token });
+  } else {
+    res.status(401).json({ message: 'Incorrect passcode' });
+  }
 });
 
 api.get('/auth/me', auth, (req, res) => res.json({ user: req.user }));
