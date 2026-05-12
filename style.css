@@ -522,6 +522,9 @@ textarea { resize: vertical; }
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 }
+@media (max-width: 768px) {
+  .dash-grid { grid-template-columns: 1fr; }
+}
 .dash-col { display: flex; flex-direction: column; gap: 1rem; }
 .card-title {
   font-family: var(--font-head); font-weight: 600; font-size: 18px;

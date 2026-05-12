@@ -750,8 +750,6 @@ async function initStudentCourse() {
           <div class="batchmate-card">
             <div class="avatar">${initials(s.name)}</div>
             <div class="batchmate-name">${esc(s.name)}</div>
-            <div class="batchmate-meta">${esc(s.username)}</div>
-            <div class="batchmate-meta">${esc(s.email)}</div>
           </div>`).join('')}
       </div>`;
 
