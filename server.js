@@ -45,6 +45,16 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+/* Verify Gmail Connection on Startup */
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("❌ Gmail Configuration Error:", error.message);
+    console.error("👉 Fix: Ensure GMAIL_USER and GMAIL_PASS (16-letter App Password) are set in Render Environment Variables.");
+  } else {
+    console.log("✅ Gmail service is configured and ready to send emails.");
+  }
+});
+
 /* ══════════════════════════════════════════
    FILE UPLOAD CONFIG (Multer)
 ══════════════════════════════════════════ */
@@ -496,7 +506,7 @@ api.post('/payments/:id/approve', auth, async (req, res) => {
       const pdfBuffer = await generateInvoicePDF(p, p.student, p.course, p.course.teacher);
       
       const mailOptions = {
-        from: `"ABC Institute" <${process.env.GMAIL_USER}>`,
+        from: `"ABC Institute" <${process.env.GMAIL_USER || transporter.options.auth.user}>`,
         to: p.student.email,
         subject: `Your Invoice & Enrolment: ${p.course.name}`,
         html: `
@@ -920,7 +930,7 @@ api.post('/admin/send-email', auth, async (req, res) => {
       await Promise.all(batch.map(async (u) => {
         try {
           await transporter.sendMail({
-            from: `"ABC Institute" <${process.env.GMAIL_USER}>`,
+            from: `"ABC Institute" <${process.env.GMAIL_USER || transporter.options.auth.user}>`,
             to: u.email,
             subject: subject || "Message from ABC Institute",
             html: `<p>Dear ${u.name},</p><p>${message.replace(/\n/g, '<br/>')}</p>`
