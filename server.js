@@ -166,7 +166,8 @@ const Setting = mongoose.model('Setting', new mongoose.Schema({
   waNumber: { type: String, default: '919211293576' },
   announcementText: { type: String, default: '' },
   announcementActive: { type: Boolean, default: false },
-  bannedIPs: [{ type: String }]
+  bannedIPs: [{ type: String }],
+  manualEmail: { type: Boolean, default: false }
 }));
 
 const Coupon = mongoose.model('Coupon', new mongoose.Schema({
@@ -471,6 +472,33 @@ api.get('/payments/me', auth, async (req, res) => {
   res.json({ payments });
 });
 
+api.get('/payments/:id/invoice', async (req, res) => {
+  try {
+    const token = req.query.token;
+    if (!token) return res.status(401).send('Unauthorized');
+    
+    let user;
+    if (token === (process.env.ADMIN_TOKEN || 'secret_admin_token')) {
+      user = { role: 'admin' };
+    } else if (mongoose.Types.ObjectId.isValid(token)) {
+      user = await User.findById(token);
+    }
+    if (!user) return res.status(401).send('Unauthorized');
+
+    const p = await Payment.findById(req.params.id)
+      .populate('student')
+      .populate({ path: 'course', populate: { path: 'teacher' } });
+      
+    if (!p) return res.status(404).send('Payment not found');
+    if (user.role !== 'admin' && user._id.toString() !== p.student._id.toString()) return res.status(403).send('Forbidden');
+
+    const pdfBuffer = await generateInvoicePDF(p, p.student, p.course, p.course.teacher);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="Invoice_${(p.course?.name || 'Course').replace(/\s+/g, '_')}.pdf"`);
+    res.send(pdfBuffer);
+  } catch (e) { res.status(500).send('Error generating invoice'); }
+});
+
 api.get('/payments', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
@@ -501,6 +529,18 @@ api.post('/payments/:id/approve', auth, async (req, res) => {
     io.to(p.student._id.toString()).emit('notification', { message: 'Your payment was approved! You are now enrolled.', type: 'success' });
     io.to(p.student._id.toString()).emit('refresh_data');
     
+    /* === CHECK EMAIL SETTINGS === */
+    const settings = await Setting.findOne();
+    if (settings && settings.manualEmail) {
+      const hostUrl = `${req.protocol}://${req.get('host')}`;
+      const token = req.headers.authorization?.split(' ')[1] || '';
+      const invoiceLink = `${hostUrl}/api/payments/${p._id}/invoice?token=${token}`;
+      
+      const subject = `Your Invoice & Enrolment: ${p.course.name}`;
+      const body = `Hello ${p.student.name},\n\nThank you for your purchase! Your payment of INR ${p.amount} has been successfully verified and you are now enrolled in ${p.course.name}.\n\nYour Account Login details:\nUsername: ${p.student.username}\nEmail: ${p.student.email}\nNote: Your password is encrypted and hidden for security.\n\nYou can download your PDF invoice securely using the link below:\n${invoiceLink}\n\nWelcome to ${p.course.name}!`;
+      return res.json({ message: 'Payment approved', manualEmail: { to: p.student.email, subject, body } });
+    }
+
     /* === INVOICE EMAIL LOGIC === */
     try {
       const pdfBuffer = await generateInvoicePDF(p, p.student, p.course, p.course.teacher);

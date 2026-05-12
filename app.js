@@ -17,6 +17,7 @@ const CONFIG = {
   WA_NUMBER:  '919211293576',
   ANNOUNCEMENT_TEXT: '',
   ANNOUNCEMENT_ACTIVE: false,
+  MANUAL_EMAIL: false,
   ICONS: ['📘','📗','📙','📕','🎯','💡','⚡','🔬','🎨','🖥️','🧮','📐'],
 };
 
@@ -273,6 +274,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       CONFIG.UPI_ID = settings.upiId || CONFIG.UPI_ID;
       CONFIG.UPI_NAME = settings.upiName || CONFIG.UPI_NAME;
       CONFIG.WA_NUMBER = settings.waNumber || CONFIG.WA_NUMBER;
+      CONFIG.MANUAL_EMAIL = settings.manualEmail || false;
       
       if (settings.announcementActive && settings.announcementText) {
         const banner = document.getElementById('announcement-banner');
@@ -1617,8 +1619,21 @@ function renderPaymentCard(p) {
 
 async function approvePayment(payId) {
   try {
-    await API.approvePayment(payId);
+    const res = await API.approvePayment(payId);
     toast('Payment approved — student enrolled!', 'success');
+    
+    if (res.manualEmail) {
+      const { to, subject, body } = res.manualEmail;
+      const mailtoLink = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      const a = document.createElement('a');
+      a.href = mailtoLink;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+    
     renderAdminPayments();
   } catch (e) { toast('Error approving payment', 'error'); }
 }
@@ -2865,6 +2880,7 @@ async function initAdminSettings() {
   document.getElementById('admin-set-wa').value = CONFIG.WA_NUMBER;
   document.getElementById('admin-set-announcement').value = CONFIG.ANNOUNCEMENT_TEXT;
   document.getElementById('admin-set-announcement-active').checked = CONFIG.ANNOUNCEMENT_ACTIVE;
+  document.getElementById('admin-set-manual-email').checked = CONFIG.MANUAL_EMAIL;
   
   loadAdminSettingsData();
 }
@@ -2875,14 +2891,16 @@ async function saveAdminSettings() {
   const waNumber = document.getElementById('admin-set-wa').value.trim();
   const announcementText = document.getElementById('admin-set-announcement').value.trim();
   const announcementActive = document.getElementById('admin-set-announcement-active').checked;
+  const manualEmail = document.getElementById('admin-set-manual-email').checked;
   
   const bannedIpsText = document.getElementById('admin-set-banned-ips').value;
   const bannedIPs = bannedIpsText.split(',').map(ip => ip.trim()).filter(ip => ip);
   
   try {
-    await API.updateSettings({ upiId, upiName, waNumber, announcementText, announcementActive, bannedIPs });
+    await API.updateSettings({ upiId, upiName, waNumber, announcementText, announcementActive, manualEmail, bannedIPs });
     CONFIG.UPI_ID = upiId; CONFIG.UPI_NAME = upiName; CONFIG.WA_NUMBER = waNumber;
     CONFIG.ANNOUNCEMENT_TEXT = announcementText; CONFIG.ANNOUNCEMENT_ACTIVE = announcementActive;
+    CONFIG.MANUAL_EMAIL = manualEmail;
     
     const banner = document.getElementById('announcement-banner');
     if (announcementActive && announcementText) {
@@ -2898,6 +2916,11 @@ async function loadAdminSettingsData() {
     const { settings } = await API.getSettings();
     if (settings && settings.bannedIPs) {
       document.getElementById('admin-set-banned-ips').value = settings.bannedIPs.join(', ');
+    }
+    if (settings && settings.manualEmail !== undefined) {
+      CONFIG.MANUAL_EMAIL = settings.manualEmail;
+      const el = document.getElementById('admin-set-manual-email');
+      if (el) el.checked = CONFIG.MANUAL_EMAIL;
     }
     
     const { coupons } = await API.getCoupons();
