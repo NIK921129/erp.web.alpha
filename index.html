@@ -397,7 +397,13 @@
         <button class="filter-btn" onclick="filterPayments('rejected', this)">Rejected</button>
         <button class="filter-btn" onclick="filterPayments('all', this)">All</button>
       </div>
-      <button class="btn-ghost" style="padding:9px 18px; font-size:15px" onclick="exportAdminPayments()">📥 Export CSV</button>
+      <div style="display:flex; align-items:center; gap:15px; flex-wrap:wrap; margin-top:10px;">
+        <div style="display:flex; align-items:center; gap:8px; background:var(--bg3); padding:8px 16px; border-radius:50px; border:1px solid var(--teal); box-shadow:0 0 12px var(--teal-glow);">
+          <input type="checkbox" id="payments-manual-email-toggle" onchange="toggleManualEmailFromPayments()" style="cursor:pointer; transform:scale(1.2);" />
+          <label for="payments-manual-email-toggle" style="cursor:pointer; font-size:14px; font-weight:700; color:var(--teal); margin:0;">Manual Email Mode</label>
+        </div>
+        <button class="btn-ghost" style="padding:9px 18px; font-size:15px" onclick="exportAdminPayments()">📥 Export CSV</button>
+      </div>
     </div>
     <div id="admin-payments-list"></div>
   </div>

@@ -1573,7 +1573,23 @@ async function initAdminDashboard() {
 ══════════════════════════════════════════ */
 async function initAdminPayments(filter = 'pending') {
   STATE.paymentFilter = filter;
+  const toggle = document.getElementById('payments-manual-email-toggle');
+  if (toggle) toggle.checked = CONFIG.MANUAL_EMAIL;
   await renderAdminPayments();
+}
+
+async function toggleManualEmailFromPayments() {
+  const isChecked = document.getElementById('payments-manual-email-toggle').checked;
+  CONFIG.MANUAL_EMAIL = isChecked;
+  const setEl = document.getElementById('admin-set-manual-email');
+  if (setEl) setEl.checked = isChecked; // Keep Settings page synced
+  
+  try {
+    await API.updateSettings({ manualEmail: isChecked });
+    toast(isChecked ? 'Manual Email Mode ENABLED' : 'Automatic Email Mode ENABLED', 'success');
+  } catch (e) {
+    toast('Error saving setting', 'error');
+  }
 }
 
 async function renderAdminPayments() {
