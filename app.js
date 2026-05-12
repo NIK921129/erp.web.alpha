@@ -284,6 +284,43 @@ window.addEventListener('DOMContentLoaded', async () => {
   } catch (e) { /* silently ignore if first setup */ }
 });
 
+/* ══════════════════════════════════════════
+   PWA / SERVICE WORKER
+══════════════════════════════════════════ */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(err => console.error('SW registration failed:', err));
+  });
+}
+
+/* PWA Installation Prompt Logic */
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent Chrome 67 and earlier from automatically showing the prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+  // Update UI to notify the user they can add to home screen
+  const installBtn = document.getElementById('install-app-btn');
+  if (installBtn) {
+    installBtn.classList.remove('hidden');
+    installBtn.onclick = async () => {
+      installBtn.classList.add('hidden');
+      // Show the native browser install prompt
+      deferredPrompt.prompt();
+      // Wait for the user to respond to the prompt
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+    };
+  }
+});
+
+window.addEventListener('appinstalled', () => {
+  const installBtn = document.getElementById('install-app-btn');
+  if (installBtn) installBtn.classList.add('hidden');
+  deferredPrompt = null;
+});
+
 /* Log exit before unload */
 window.addEventListener('beforeunload', () => {
   const url = CONFIG.BASE_URL + '/logs';

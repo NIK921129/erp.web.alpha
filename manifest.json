@@ -1,0 +1,21 @@
+{
+  "name": "ABC Institute ERP",
+  "short_name": "ABC ERP",
+  "description": "Learn, track, and grow with ABC Institute's digital platform.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#030712",
+  "theme_color": "#050505",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192/22D3EE/030712?text=ABC",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://via.placeholder.com/512/22D3EE/030712?text=ABC",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
