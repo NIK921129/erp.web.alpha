@@ -796,13 +796,22 @@ function renderContentTree(items, isTeacher = false) {
   if (!items.length) return '<div class="empty-state"><div class="es-icon">📂</div>No content uploaded yet</div>';
 
   let html = `
-    <!-- Main Player Area -->
-    <div id="active-player-wrapper" class="hidden" style="margin-bottom: 2rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 1.5rem; box-shadow: var(--shadow-lg);">
-      <div id="active-player-container" class="video-embed" style="margin-top:0;"></div>
-      <h3 id="active-player-title" style="margin-top:1rem; font-family:var(--font-head); font-weight:700; font-size:20px; color:var(--text);"></h3>
-      <p id="active-player-desc" style="color:var(--text-2); font-size:15px; margin-top:4px; line-height:1.6;"></p>
-    </div>
-    <div class="content-tree">`;
+    <div class="course-player-layout">
+      <!-- Main Player Area (Left side) -->
+      <div class="course-player-main">
+        <div id="active-player-wrapper" class="hidden youtube-style-player">
+          <div id="active-player-container" class="video-embed"></div>
+          <div class="player-meta">
+            <h3 id="active-player-title" class="player-title"></h3>
+            <p id="active-player-desc" class="player-desc"></p>
+          </div>
+        </div>
+        ${isTeacher ? '' : '<div id="player-placeholder" class="player-placeholder"><div class="es-icon">▶️</div><p>Select a video from the sidebar to start watching.</p></div>'}
+      </div>
+      <!-- Sidebar Playlist (Right side) -->
+      <div class="course-player-sidebar">
+        <div class="sidebar-header-row"><h3 class="sidebar-header">Course Content</h3></div>
+        <div class="content-tree">`;
 
   chapters.forEach(ch => {
     const children = items.filter(i => i.parentId === ch._id).sort((a,b) => (a.order||0) - (b.order||0));
@@ -826,7 +835,7 @@ function renderContentTree(items, isTeacher = false) {
     html += renderContentItem(item, isTeacher);
   });
 
-  html += '</div>';
+  html += '</div></div></div>';
   return html;
 }
 
@@ -872,11 +881,13 @@ function driveEmbed(url) {
 
 window.playCourseVideo = function(id, url, title, desc) {
   const wrapper = document.getElementById('active-player-wrapper');
+  const placeholder = document.getElementById('player-placeholder');
   const container = document.getElementById('active-player-container');
   const titleEl = document.getElementById('active-player-title');
   const descEl = document.getElementById('active-player-desc');
   
   wrapper.classList.remove('hidden');
+  if (placeholder) placeholder.classList.add('hidden');
   titleEl.textContent = title;
   descEl.textContent = desc;
   
