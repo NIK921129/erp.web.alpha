@@ -920,27 +920,23 @@ api.post('/admin/send-email', auth, async (req, res) => {
 
     if (!users.length) return res.status(404).json({ message: 'No recipients found for this action.' });
 
-    const BATCH_SIZE = 50; 
     let successCount = 0;
     let errorCount = 0;
 
-    for (let i = 0; i < users.length; i += BATCH_SIZE) {
-      const batch = users.slice(i, i + BATCH_SIZE);
-      
-      await Promise.all(batch.map(async (u) => {
-        try {
-          await transporter.sendMail({
-            from: `"ABC Institute" <${process.env.GMAIL_USER || transporter.options.auth.user}>`,
-            to: u.email,
-            subject: subject || "Message from ABC Institute",
-            html: `<p>Dear ${u.name},</p><p>${message.replace(/\n/g, '<br/>')}</p>`
-          });
-          successCount++;
-        } catch (err) {
-          errorCount++;
-          console.error(`❌ Failed to send email to ${u.email}:`, err.message);
-        }
-      }));
+    // Send emails sequentially to prevent Gmail from tarpitting/blocking concurrent connections
+    for (const u of users) {
+      try {
+        await transporter.sendMail({
+          from: `"ABC Institute" <${process.env.GMAIL_USER || transporter.options.auth.user}>`,
+          to: u.email,
+          subject: subject || "Message from ABC Institute",
+          html: `<p>Dear ${u.name},</p><p>${message.replace(/\n/g, '<br/>')}</p>`
+        });
+        successCount++;
+      } catch (err) {
+        errorCount++;
+        console.error(`❌ Failed to send email to ${u.email}:`, err.message);
+      }
     }
 
     if (errorCount > 0) {
