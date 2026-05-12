@@ -8,10 +8,20 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
-const Mailjet = require('node-mailjet');
+const nodemailer = require('nodemailer');
 
 const app = express();
+app.set('trust proxy', 1); // Trust reverse proxy (like Render) to correctly identify https
 app.use(cors());
+
+/* Set Basic Security Headers */
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  next();
+});
 app.use(express.json());
 
 const server = http.createServer(app);
@@ -26,18 +36,21 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 const BASE_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
 
-/* Initialize Mailjet */
-const mailjet = Mailjet.apiConnect(
-  process.env.MJ_APIKEY_PUBLIC,
-  process.env.MJ_APIKEY_PRIVATE
-);
+/* Initialize Nodemailer (Gmail) */
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER || 'your_email@gmail.com',
+    pass: process.env.GMAIL_PASS || 'your_app_password'
+  }
+});
 
 /* ══════════════════════════════════════════
    FILE UPLOAD CONFIG (Multer)
 ══════════════════════════════════════════ */
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
-app.use('/uploads', express.static(uploadDir)); // Serve files statically
+app.use('/uploads', express.static(uploadDir));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),
@@ -45,8 +58,24 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ 
   storage,
-  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit to prevent storage exhaustion attacks
+  limits: { fileSize: 10 * 1024 * 1024 } 
 });
+
+/* ══════════════════════════════════════════
+   HELPER: FILE DELETION
+══════════════════════════════════════════ */
+const deleteLocalFile = (fileUrl) => {
+  if (!fileUrl) return;
+  try {
+    if (fileUrl.includes('/uploads/')) {
+      const filename = fileUrl.split('/uploads/')[1];
+      if (filename) {
+        const filepath = path.join(uploadDir, filename);
+        if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
+      }
+    }
+  } catch (e) { console.error('⚠️ Error deleting local file:', e.message); }
+};
 
 /* ══════════════════════════════════════════
    DATABASE SETUP (Mongoose Models)
@@ -72,11 +101,13 @@ const Course = mongoose.model('Course', new mongoose.Schema({
   studentCount: { type: Number, default: 0 }
 }));
 
-const Enrolment = mongoose.model('Enrolment', new mongoose.Schema({
-  student: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
+const EnrolmentSchema = new mongoose.Schema({
+  student: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true },
+  course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', index: true },
   status: { type: String, default: 'active' }
-}));
+});
+EnrolmentSchema.index({ student: 1, course: 1 }, { unique: true });
+const Enrolment = mongoose.model('Enrolment', EnrolmentSchema);
 
 const Payment = mongoose.model('Payment', new mongoose.Schema({
   student: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true },
@@ -86,14 +117,16 @@ const Payment = mongoose.model('Payment', new mongoose.Schema({
   status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending', index: true }
 }, { timestamps: true }));
 
-const Attendance = mongoose.model('Attendance', new mongoose.Schema({
-  course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
-  date: String,
+const AttendanceSchema = new mongoose.Schema({
+  course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', index: true },
+  date: { type: String, index: true },
   records: [{
     student: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     status: { type: String, enum: ['present', 'absent'] }
   }]
-}));
+});
+AttendanceSchema.index({ course: 1, date: 1 }, { unique: true });
+const Attendance = mongoose.model('Attendance', AttendanceSchema);
 
 const Assignment = mongoose.model('Assignment', new mongoose.Schema({
   course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' },
@@ -220,7 +253,7 @@ const optionalAuth = async (req, res, next) => {
 let settingsCache = { data: undefined, lastFetch: 0 };
 const ipFilter = async (req, res, next) => {
   try {
-    const clientIp = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress;
+    const clientIp = req.ip || req.socket?.remoteAddress;
     // Cache settings in production to avoid DB hits on every request
     const now = Date.now();
     if (settingsCache.data === undefined || now - settingsCache.lastFetch > 60000) {
@@ -241,6 +274,29 @@ const ipFilter = async (req, res, next) => {
    API ROUTES
 ══════════════════════════════════════════ */
 const api = express.Router();
+
+/* AUTH RATE LIMITER (Brute Force Protection) */
+const authRateLimit = {};
+// Prevent memory leaks by periodically deleting old IP records
+setInterval(() => {
+  const now = Date.now();
+  for (const ip in authRateLimit) {
+    authRateLimit[ip] = authRateLimit[ip].filter(time => now - time < 60000);
+    if (authRateLimit[ip].length === 0) delete authRateLimit[ip];
+  }
+}, 60000);
+
+api.use('/auth', (req, res, next) => {
+  const ip = req.ip || req.socket?.remoteAddress || 'unknown';
+  const now = Date.now();
+  if (!authRateLimit[ip]) authRateLimit[ip] = [];
+  authRateLimit[ip] = authRateLimit[ip].filter(time => now - time < 60000); // 1 min window
+  if (authRateLimit[ip].length >= 10) {
+    return res.status(429).json({ message: 'Too many attempts. Please try again in a minute.' });
+  }
+  authRateLimit[ip].push(now);
+  next();
+});
 
 // --- AUTH ---
 api.post('/auth/signup', async (req, res) => {
@@ -341,6 +397,16 @@ api.delete('/courses/:id', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
     const cid = req.params.id;
+
+    // Cleanup local files associated with this course before deleting
+    const payments = await Payment.find({ course: cid });
+    payments.forEach(p => deleteLocalFile(p.screenshotUrl));
+    const contents = await Content.find({ course: cid });
+    contents.forEach(c => deleteLocalFile(c.url));
+    const assigns = await Assignment.find({ course: cid });
+    const subs = await Submission.find({ assignment: { $in: assigns.map(a => a._id) } });
+    subs.forEach(s => deleteLocalFile(s.fileUrl));
+
     await Course.findByIdAndDelete(cid);
     await Enrolment.deleteMany({ course: cid });
     await Payment.deleteMany({ course: cid });
@@ -374,7 +440,9 @@ api.get('/enrolments/course/:id', auth, async (req, res) => {
 // --- PAYMENTS ---
 api.post('/payments', auth, upload.single('screenshot'), async (req, res) => {
   try {
-    const fileUrl = req.file ? `${BASE_URL}/uploads/${req.file.filename}` : null;
+    const hostUrl = `${req.protocol}://${req.get('host')}`;
+    const fileUrl = req.file ? `${hostUrl}/uploads/${req.file.filename}` : null;
+
     await Payment.create({
       student: req.user._id, course: req.body.course, amount: req.body.amount, screenshotUrl: fileUrl
     });
@@ -405,6 +473,7 @@ api.post('/payments/:id/approve', auth, async (req, res) => {
       .populate({ path: 'course', populate: { path: 'teacher' } });
       
     if (!p) return res.status(404).json({ message: 'Payment not found' });
+    if (!p.course) return res.status(400).json({ message: 'Course no longer exists. Cannot approve.' });
     
     p.status = 'approved';
     await p.save();
@@ -420,42 +489,34 @@ api.post('/payments/:id/approve', auth, async (req, res) => {
     try {
       const pdfBuffer = await generateInvoicePDF(p, p.student, p.course, p.course.teacher);
       
-      const response = await mailjet.post("send", {'version': 'v3.1'}).request({
-        "Messages": [{
-          "From": {
-            "Email": process.env.MAILJET_SENDER_EMAIL || "nikunjsingh79827@gmail.com",
-            "Name": "ABC Institute"
-          },
-          "To": [{ "Email": p.student.email, "Name": p.student.name }],
-          "Subject": `Your Invoice & Enrolment: ${p.course.name}`,
-          "HTMLPart": `
-            <h3>Welcome to ${p.course.name}!</h3>
-            <p>Dear ${p.student.name},</p>
-            <p>Thank you! Your payment of INR ${p.amount} has been approved.</p>
-            <p><strong>Your Account Login details:</strong><br/>
-            Username: <b>${p.student.username}</b><br/>
-            Email: <b>${p.student.email}</b><br/>
-            <em>Note: Your password is encrypted and hidden for security.</em></p>
-            <p>Please find your PDF invoice attached.</p>
-          `,
-          "Attachments": [{
-            "ContentType": "application/pdf",
-            "Filename": `Invoice_${(p.course?.name || 'Course').replace(/\s+/g, '_')}.pdf`,
-            "Base64Content": pdfBuffer.toString('base64')
-          }]
+      const mailOptions = {
+        from: `"ABC Institute" <${process.env.GMAIL_USER}>`,
+        to: p.student.email,
+        subject: `Your Invoice & Enrolment: ${p.course.name}`,
+        html: `
+          <h3>Welcome to ${p.course.name}!</h3>
+          <p>Dear ${p.student.name},</p>
+          <p>Thank you! Your payment of INR ${p.amount} has been approved.</p>
+          <p><strong>Your Account Login details:</strong><br/>
+          Username: <b>${p.student.username}</b><br/>
+          Email: <b>${p.student.email}</b><br/>
+          <em>Note: Your password is encrypted and hidden for security.</em></p>
+          <p>Please find your PDF invoice attached.</p>
+        `,
+        attachments: [{
+          filename: `Invoice_${(p.course?.name || 'Course').replace(/\s+/g, '_')}.pdf`,
+          content: pdfBuffer,
+          contentType: 'application/pdf'
         }]
-      });
-
-      // Check if Mailjet returned a specific message error despite a 200 OK HTTP status
-      if (response.body?.Messages?.[0]?.Status === 'error') {
-        console.error("⚠️ Mailjet Message Error:", response.body.Messages[0].Errors);
-      }
+      };
+      
+      await transporter.sendMail(mailOptions);
     } catch (emailErr) { 
-      console.error("❌ Mailjet Email Error:");
-      console.error(emailErr.response ? JSON.stringify(emailErr.response.data, null, 2) : emailErr.message || emailErr);
+      console.error("❌ Gmail Email Error:");
+      console.error(emailErr.message || emailErr);
     }
 
-    res.json({ message: 'Approved' });
+    res.json({ message: 'Payment approved' });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
@@ -554,9 +615,15 @@ api.post('/assignments', auth, async (req, res) => {
 
 api.post('/assignments/:id/submit', auth, upload.single('file'), async (req, res) => {
   try {
-    const fileUrl = req.file ? `${BASE_URL}/uploads/${req.file.filename}` : undefined;
+    const hostUrl = `${req.protocol}://${req.get('host')}`;
+    const fileUrl = req.file ? `${hostUrl}/uploads/${req.file.filename}` : undefined;
+
     const updateData = { text: req.body.text };
-    if (fileUrl !== undefined) updateData.fileUrl = fileUrl;
+    if (fileUrl !== undefined) {
+      updateData.fileUrl = fileUrl;
+      const oldSub = await Submission.findOne({ assignment: req.params.id, student: req.user._id });
+      if (oldSub && oldSub.fileUrl) deleteLocalFile(oldSub.fileUrl);
+    }
     if (req.body.url !== undefined) updateData.url = req.body.url;
   
     await Submission.findOneAndUpdate(
@@ -630,8 +697,13 @@ api.delete('/content/:id', auth, async (req, res) => {
         return res.status(403).json({ message: 'Forbidden: You do not own this course' });
     }
     if (item && item.type === 'chapter') {
+      // Delete children files first
+      const children = await Content.find({ parentId: item._id.toString() });
+      children.forEach(c => deleteLocalFile(c.url));
       // Schema stores parentId as a String, must explicitly cast ObjectId to string
       await Content.deleteMany({ parentId: item._id.toString() });
+    } else if (item) {
+      deleteLocalFile(item.url);
     }
     await Content.findByIdAndDelete(req.params.id);
     if (item) io.to(`course_${item.course}`).emit('course_updated', item.course.toString());
@@ -718,6 +790,12 @@ api.delete('/users/:id', auth, async (req, res) => {
     const uid = req.params.id;
     if (req.user._id.toString() === uid) return res.status(400).json({ message: 'Cannot delete yourself' });
     
+    // Cleanup user's local files
+    const payments = await Payment.find({ student: uid });
+    payments.forEach(p => deleteLocalFile(p.screenshotUrl));
+    const subs = await Submission.find({ student: uid });
+    subs.forEach(s => deleteLocalFile(s.fileUrl));
+
     await User.findByIdAndDelete(uid);
     await Enrolment.deleteMany({ student: uid });
     await Payment.deleteMany({ student: uid });
@@ -801,27 +879,26 @@ api.post('/admin/send-email', auth, async (req, res) => {
 
     if (!users.length) return res.status(404).json({ message: 'No recipients found for this action.' });
 
-    // Mailjet allows max 50 messages per API call, split into batches if sending to hundreds of students
     const BATCH_SIZE = 50; 
     let successCount = 0;
     let errorCount = 0;
 
     for (let i = 0; i < users.length; i += BATCH_SIZE) {
       const batch = users.slice(i, i + BATCH_SIZE);
-      const messages = batch.map(u => ({
-        "From": { "Email": process.env.MAILJET_SENDER_EMAIL || "nikunjsingh79827@gmail.com", "Name": "ABC Institute" },
-        "To": [{ "Email": u.email, "Name": u.name }],
-        "Subject": subject || "Message from ABC Institute",
-        "HTMLPart": `<p>Dear ${u.name},</p><p>${message.replace(/\n/g, '<br/>')}</p>`
-      }));
-      const response = await mailjet.post("send", {'version': 'v3.1'}).request({ "Messages": messages });
       
-      // Mailjet v3.1 processes valid messages even if some fail. Count the actual successes/errors.
-      const results = response.body?.Messages || [];
-      results.forEach(msg => {
-        if (msg.Status === 'success') successCount++;
-        else errorCount++;
-      });
+      await Promise.all(batch.map(async (u) => {
+        try {
+          await transporter.sendMail({
+            from: `"ABC Institute" <${process.env.GMAIL_USER}>`,
+            to: u.email,
+            subject: subject || "Message from ABC Institute",
+            html: `<p>Dear ${u.name},</p><p>${message.replace(/\n/g, '<br/>')}</p>`
+          });
+          successCount++;
+        } catch (err) {
+          errorCount++;
+        }
+      }));
     }
 
     if (errorCount > 0) {
@@ -830,13 +907,24 @@ api.post('/admin/send-email', auth, async (req, res) => {
       res.json({ message: `Email sent successfully to ${successCount} recipient(s)` });
     }
   } catch (e) { 
-    console.error("❌ Mailjet Error:", e.response ? JSON.stringify(e.response.data, null, 2) : e.message || e);
-    const errorDetail = e.response?.data?.ErrorMessage || e.response?.data?.Messages?.[0]?.Errors?.[0]?.ErrorMessage || 'Check configuration.';
-    res.status(500).json({ message: `Mailjet Error: ${errorDetail}` }); 
+    console.error("❌ Gmail Error:", e.message || e);
+    const errorDetail = e.message || 'Check Gmail App Password and configuration.';
+    res.status(500).json({ message: `Gmail Error: ${errorDetail}` }); 
   }
 });
 
-// --- SETTINGS ---
+api.post('/admin/broadcast', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const { message, type } = req.body;
+    if (!message) return res.status(400).json({ message: 'Message is required' });
+    
+    // Emit the notification to all connected clients globally
+    io.emit('notification', { message, type: type || 'info' });
+    res.json({ message: 'Broadcast sent successfully' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
 api.get('/settings', async (req, res) => {
   try {
     let settings = await Setting.findOne();
@@ -933,7 +1021,7 @@ api.post('/ai/chat', auth, async (req, res) => {
 api.post('/logs', optionalAuth, async (req, res) => {
   try {
     const { action, details } = req.body;
-    const clientIp = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
+    const clientIp = req.ip || req.socket?.remoteAddress || 'unknown';
     const userId = (req.user && mongoose.Types.ObjectId.isValid(req.user._id)) ? req.user._id : null;
     await Log.create({ ip: clientIp, action, user: userId, details });
     res.json({ message: 'Logged' });
@@ -992,3 +1080,19 @@ io.on('connection', (socket) => {
 
 // START SERVER
 server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+/* ══════════════════════════════════════════
+   GRACEFUL SHUTDOWN
+══════════════════════════════════════════ */
+const gracefulShutdown = () => {
+  console.log('\n🛑 Shutting down gracefully...');
+  server.close(() => {
+    console.log('HTTP Server closed.');
+    mongoose.connection.close().then(() => {
+      console.log('MongoDB connection closed.');
+      process.exit(0);
+    });
+  });
+};
+process.on('SIGINT', gracefulShutdown);
+process.on('SIGTERM', gracefulShutdown);
