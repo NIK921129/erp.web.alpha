@@ -456,8 +456,10 @@
 ═══════════════════════════════════════════════ -->
 <section id="page-admin-payments" class="page inner-page">
   <div class="container">
-    <h1>Payment Approvals</h1>
-    <p class="text-muted mb-2">Review and approve student payment screenshots</p>
+    <div class="dash-header">
+      <div><h1>Payment Approvals</h1><p class="text-muted mb-2">Review and approve student payment screenshots</p></div>
+      <button class="btn-ghost" onclick="fetchAdminPayments()">🔄 Refresh</button>
+    </div>
     <div class="filter-bar" style="display:flex; justify-content:space-between; align-items:center;">
       <div style="display:flex; gap:6px; flex-wrap:wrap;">
         <button class="filter-btn active" onclick="filterPayments('pending', this)">Pending</button>
@@ -482,8 +484,10 @@
 ═══════════════════════════════════════════════ -->
 <section id="page-admin-students" class="page inner-page">
   <div class="container">
-    <h1>Student List</h1>
-    <p class="text-muted mb-2">Manage all registered students</p>
+    <div class="dash-header">
+      <div><h1>Student List</h1><p class="text-muted mb-2">Manage all registered students</p></div>
+      <button class="btn-ghost" onclick="initAdminStudents()">🔄 Refresh</button>
+    </div>
     <div class="search-bar" style="display:flex; gap:10px; flex-wrap:wrap;">
       <input type="text" id="student-search" placeholder="Search students..." oninput="renderAdminStudents()" style="flex:1;" />
       <button class="btn-ghost" onclick="exportAdminStudents()">📥 Export CSV</button>
@@ -537,7 +541,10 @@
   <div class="container">
     <div class="dash-header">
       <div><h1>System Logs</h1><p class="text-muted mb-2">Detailed user and IP activity</p></div>
-      <button class="btn-ghost" onclick="initAdminLogs()">🔄 Refresh</button>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-danger" onclick="clearAdminLogs()">🗑️ Clear All Logs</button>
+        <button class="btn-ghost" onclick="initAdminLogs()">🔄 Refresh</button>
+      </div>
     </div>
     <div class="search-bar" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:1rem;">
       <input type="text" id="admin-log-search" placeholder="Search logs by IP, action, or user..." oninput="renderAdminLogs()" style="flex:1;" />

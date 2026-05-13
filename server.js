@@ -1131,7 +1131,11 @@ api.post('/logs', optionalAuth, async (req, res) => {
     const { action, details } = req.body;
     const clientIp = req.ip || req.socket?.remoteAddress || 'unknown';
     const userId = (req.user && mongoose.Types.ObjectId.isValid(req.user._id)) ? req.user._id : null;
-    await Log.create({ ip: clientIp, action, user: userId, details });
+    const newLog = await Log.create({ ip: clientIp, action, user: userId, details });
+    
+    const populatedLog = await Log.findById(newLog._id).populate('user', 'name username role');
+    io.to('admin_room').emit('new_log', populatedLog);
+
     res.json({ message: 'Logged' });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
@@ -1141,6 +1145,14 @@ api.get('/admin/logs', auth, async (req, res) => {
     if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
     const logs = await Log.find().populate('user', 'name username role').sort('-createdAt').limit(1000);
     res.json({ logs });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+api.delete('/admin/logs/clear', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    await Log.deleteMany({});
+    res.json({ message: 'All logs cleared successfully' });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 

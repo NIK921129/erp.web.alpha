@@ -32,6 +32,7 @@ let STATE = {
   activeTeacherCourseId: null,
   paymentFilter: 'pending',
   courses:       [],
+  adminPayments: [],
   adminStudents: [], // Store for local search filtering
   adminCourses:  [],
   adminUsers:    [],
@@ -144,6 +145,7 @@ const API = {
   /* Logs */
   logEvent:        (d)      => api('POST', '/logs', d),
   adminLogs:       ()       => api('GET', '/admin/logs'),
+  clearAdminLogs:  ()       => api('DELETE', '/admin/logs/clear'),
 };
 
 /* ══════════════════════════════════════════
@@ -203,7 +205,15 @@ function initSocket() {
     if (STATE.user && STATE.user.role === 'admin') {
       toast(data.message, 'success');
       if (STATE.currentPage === 'admin-dashboard') initAdminDashboard();
-      if (STATE.currentPage === 'admin-payments') renderAdminPayments();
+      if (STATE.currentPage === 'admin-payments') fetchAdminPayments();
+    }
+  });
+
+  socket.on('new_log', (log) => {
+    if (STATE.user && STATE.user.role === 'admin') {
+      STATE.adminLogs.unshift(log);
+      if (STATE.adminLogs.length > 1000) STATE.adminLogs.pop(); // Keep memory lean
+      if (STATE.currentPage === 'admin-logs') renderAdminLogs();
     }
   });
 
@@ -1738,7 +1748,7 @@ async function approvePayment(payId) {
       document.body.removeChild(a);
     }
     
-    renderAdminPayments();
+    fetchAdminPayments();
   } catch (e) { toast('Error approving payment', 'error'); }
 }
 
@@ -1747,7 +1757,7 @@ async function rejectPayment(payId) {
   try {
     await API.rejectPayment(payId);
     toast('Payment rejected', 'error');
-    renderAdminPayments();
+    fetchAdminPayments();
   } catch (e) { toast('Error rejecting payment', 'error'); }
 }
 
@@ -1803,6 +1813,7 @@ function renderAdminStudents() {
               <div class="actions-dropdown">
                 <a onclick="openStudentReport('${u._id}')">View Report</a>
                 <a onclick="openManualEnrolModal('${u._id}', '${esc(u.name)}')">Enrol in Course</a>
+                <a onclick="impersonateUser('${u._id}')">🕵️ Impersonate</a>
                 <a onclick="openCustomEmailModal('${u._id}')">Send Email</a>
                 <a onclick="toggleUserActive('${u._id}',${!u.active})">${u.active?'Suspend':'Activate'}</a>
               </div>
@@ -2344,9 +2355,8 @@ function exportAdminUsers() {
 
 async function exportAdminPayments() {
   try {
-    const { payments } = await API.allPayments();
     const filter = STATE.paymentFilter;
-    const list = filter === 'all' ? payments : payments.filter(p => p.status === filter);
+    const list = filter === 'all' ? STATE.adminPayments : STATE.adminPayments.filter(p => p.status === filter);
     if (!list || !list.length) { toast('No payments to export', 'error'); return; }
     
     const headers = ['Student Name', 'Course', 'Amount (INR)', 'Status', 'Date Submitted'];
@@ -2497,6 +2507,15 @@ function exportAdminLogs() {
   ]);
   const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
   downloadCSV(csv, 'system_logs_export.csv');
+}
+
+async function clearAdminLogs() {
+  if (!confirm('Are you sure you want to completely wipe all system logs? This action cannot be undone.')) return;
+  try {
+    await API.clearAdminLogs();
+    toast('System logs cleared', 'success');
+    initAdminLogs();
+  } catch (e) { toast('Error clearing logs', 'error'); }
 }
 
 /* ══════════════════════════════════════════
