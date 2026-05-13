@@ -860,30 +860,6 @@ function renderTreeItems(items, isTeacher = false) {
   return html;
 }
 
-function renderContentTree(items, isTeacher = false) {
-  let html = `
-    <div class="course-player-layout">
-      <!-- Main Player Area (Left side) -->
-      <div class="course-player-main">
-        <div id="active-player-wrapper" class="hidden youtube-style-player">
-          <div id="active-player-container" class="video-embed"></div>
-          <div class="player-meta">
-            <h3 id="active-player-title" class="player-title"></h3>
-            <p id="active-player-desc" class="player-desc"></p>
-          </div>
-        </div>
-        ${isTeacher ? '' : '<div id="player-placeholder" class="player-placeholder"><div class="es-icon">▶️</div><p>Select a video from the sidebar to start watching.</p></div>'}
-      </div>
-      <!-- Sidebar Playlist (Right side) -->
-      <div class="course-player-sidebar">
-        <div class="sidebar-header-row"><h3 class="sidebar-header">Course Content</h3></div>
-        <div class="content-tree">`;
-
-  html += renderTreeItems(items, isTeacher);
-
-  html += '</div></div></div>';
-  return html;
-}
 
 function renderContentItem(item, isTeacher) {
   const isVideo = item.type === 'video';
@@ -929,22 +905,27 @@ function driveEmbed(url) {
 }
 
 window.viewCourseItem = function(id, type, url, title, desc) {
-  const wrapper = document.getElementById('active-player-wrapper');
-  const placeholder = document.getElementById('player-placeholder');
-  const container = document.getElementById('active-player-container');
-  const titleEl = document.getElementById('active-player-title');
-  const descEl = document.getElementById('active-player-desc');
+  const activePage = document.querySelector('.page.active');
+  if (!activePage) return;
+  
+  const wrapper = activePage.querySelector('.youtube-style-player');
+  const placeholder = activePage.querySelector('.player-placeholder');
+  const container = activePage.querySelector('.video-embed');
+  const titleEl = activePage.querySelector('.player-title');
+  const descEl = activePage.querySelector('.player-desc');
+  
+  if (!wrapper || !container) return;
   
   wrapper.classList.remove('hidden');
   if (placeholder) placeholder.classList.add('hidden');
-  titleEl.textContent = title;
+  if (titleEl) titleEl.textContent = title;
   
   document.querySelectorAll('.playlist-item').forEach(el => el.classList.remove('active-playing'));
   const activeItem = document.getElementById('pl-item-' + id);
   if (activeItem) activeItem.classList.add('active-playing');
 
   if (type === 'video') {
-    descEl.textContent = desc;
+    if (descEl) descEl.textContent = desc;
     if (url.includes('drive.google.com')) {
       const embedUrl = driveEmbed(url);
       container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>`;
@@ -961,14 +942,14 @@ window.viewCourseItem = function(id, type, url, title, desc) {
     }
   } else if (type === 'file') {
     if (url && url.includes('drive.google.com')) {
-      descEl.textContent = desc;
+      if (descEl) descEl.textContent = desc;
       const embedUrl = driveEmbed(url);
       container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen></iframe>`;
     } else if (url) {
-      descEl.textContent = desc;
+      if (descEl) descEl.textContent = desc;
       container.innerHTML = `<div class="notes-viewer-content" style="display:flex;align-items:center;justify-content:center;"><a href="${url}" target="_blank" class="btn-primary">Open External Document</a></div>`;
     } else {
-      descEl.textContent = ''; // Hide sub-desc because the note content becomes the main view
+      if (descEl) descEl.textContent = ''; // Hide sub-desc because the note content becomes the main view
       container.innerHTML = `<div class="notes-viewer-content">${desc ? desc.replace(/\\n/g, '<br>') : 'No notes available.'}</div>`;
     }
   }
@@ -1396,17 +1377,20 @@ async function initTeacherCourse() {
     const assigns  = assignData.assignments || [];
     const students = studentsData.students || [];
 
-    document.getElementById('teacher-course-header').innerHTML = `
-      <h1 style="font-family:var(--font-head);font-weight:700;font-size:26px;margin-bottom:.25rem">${esc(course.name)}</h1>
-      <p class="text-muted mb-2">${students.length} students enrolled</p>
-    `;
+    document.getElementById('teacher-premium-course-title').textContent = course.name || 'Course';
+    document.getElementById('teacher-premium-course-meta').textContent = `${students.length} students enrolled`;
 
-    /* Content tab */
+    /* Sidebar Content Tree */
+    document.getElementById('teacher-premium-content-tree').innerHTML = renderTreeItems(content, true);
+    
+    /* Content Tab (Now serves as an overview screen) */
     document.getElementById('teacher-tab-content').innerHTML = `
-      <div style="display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap">
-        <button class="btn-primary" onclick="openContentModal('${courseId}')">+ Add Content</button>
+      <div class="empty-state" style="padding:3rem 1rem;">
+        <div class="es-icon">📁</div>
+        <p style="margin-bottom:1rem;color:var(--text-2)">Manage your course syllabus from the right sidebar.</p>
+        <button class="btn-primary mt-2" onclick="openContentModal('${courseId}')">+ Add New Content</button>
       </div>
-      ${renderContentTree(content, true)}`;
+    `;
 
     /* Assignments tab */
     document.getElementById('teacher-tab-assignments').innerHTML = `
