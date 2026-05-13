@@ -456,8 +456,7 @@ api.get('/enrolments/course/:id', auth, async (req, res) => {
 // --- PAYMENTS ---
 api.post('/payments', auth, upload.single('screenshot'), async (req, res) => {
   try {
-    const hostUrl = `${req.protocol}://${req.get('host')}`;
-    const fileUrl = req.file ? `${hostUrl}/uploads/${req.file.filename}` : null;
+    const fileUrl = req.file ? `${BASE_URL}/uploads/${req.file.filename}` : null;
 
     await Payment.create({
       student: req.user._id, course: req.body.course, amount: req.body.amount, screenshotUrl: fileUrl
@@ -684,8 +683,7 @@ api.post('/assignments', auth, async (req, res) => {
 
 api.post('/assignments/:id/submit', auth, upload.single('file'), async (req, res) => {
   try {
-    const hostUrl = `${req.protocol}://${req.get('host')}`;
-    const fileUrl = req.file ? `${hostUrl}/uploads/${req.file.filename}` : undefined;
+    const fileUrl = req.file ? `${BASE_URL}/uploads/${req.file.filename}` : undefined;
 
     const updateData = { text: req.body.text };
     if (fileUrl !== undefined) {
