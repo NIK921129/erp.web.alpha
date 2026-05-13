@@ -3068,12 +3068,13 @@ async function saveAdminSettings() {
   const announcementText = document.getElementById('admin-set-announcement').value.trim();
   const announcementActive = document.getElementById('admin-set-announcement-active').checked;
   const manualEmail = document.getElementById('admin-set-manual-email').checked;
+  const aiCredits = Number(document.getElementById('admin-set-ai-credits').value) || 5;
   
   const bannedIpsText = document.getElementById('admin-set-banned-ips').value;
   const bannedIPs = bannedIpsText.split(',').map(ip => ip.trim()).filter(ip => ip);
   
   try {
-    await API.updateSettings({ upiId, upiName, waNumber, announcementText, announcementActive, manualEmail, bannedIPs });
+    await API.updateSettings({ upiId, upiName, waNumber, announcementText, announcementActive, manualEmail, bannedIPs, aiCredits });
     CONFIG.UPI_ID = upiId; CONFIG.UPI_NAME = upiName; CONFIG.WA_NUMBER = waNumber;
     CONFIG.ANNOUNCEMENT_TEXT = announcementText; CONFIG.ANNOUNCEMENT_ACTIVE = announcementActive;
     CONFIG.MANUAL_EMAIL = manualEmail;
@@ -3092,6 +3093,9 @@ async function loadAdminSettingsData() {
     const { settings } = await API.getSettings();
     if (settings && settings.bannedIPs) {
       document.getElementById('admin-set-banned-ips').value = settings.bannedIPs.join(', ');
+    }
+    if (settings && settings.aiCredits !== undefined) {
+      document.getElementById('admin-set-ai-credits').value = settings.aiCredits;
     }
     if (settings && settings.manualEmail !== undefined) {
       CONFIG.MANUAL_EMAIL = settings.manualEmail;

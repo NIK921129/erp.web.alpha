@@ -167,7 +167,8 @@ const Setting = mongoose.model('Setting', new mongoose.Schema({
   announcementText: { type: String, default: '' },
   announcementActive: { type: Boolean, default: false },
   bannedIPs: [{ type: String }],
-  manualEmail: { type: Boolean, default: false }
+  manualEmail: { type: Boolean, default: false },
+  aiCredits: { type: Number, default: 5 }
 }));
 
 const Coupon = mongoose.model('Coupon', new mongoose.Schema({
@@ -1045,6 +1046,7 @@ api.put('/settings', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
     const settings = await Setting.findOneAndUpdate({}, req.body, { new: true, upsert: true });
+    settingsCache.lastFetch = 0; // Force cache refresh so banned IPs take effect immediately
     res.json({ settings });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
