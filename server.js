@@ -787,6 +787,38 @@ api.delete('/content/:id', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
+api.put('/content/reorder', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin' && req.user.role !== 'teacher') return res.status(403).json({ message: 'Forbidden' });
+    
+    const { items } = req.body;
+    if (!Array.isArray(items) || items.length === 0) return res.json({ message: 'Nothing to reorder' });
+
+    if (req.user.role === 'teacher') {
+      const firstItem = await Content.findById(items[0]._id);
+      if (firstItem) {
+        const course = await Course.findById(firstItem.course);
+        if (!course || course.teacher?.toString() !== req.user._id.toString()) 
+          return res.status(403).json({ message: 'Forbidden: You do not own this course' });
+      }
+    }
+
+    const bulkOps = items.map(item => ({
+      updateOne: {
+        filter: { _id: item._id },
+        update: { $set: { order: item.order, parentId: item.parentId || null } }
+      }
+    }));
+
+    await Content.bulkWrite(bulkOps);
+    
+    const firstItem = await Content.findById(items[0]._id);
+    if (firstItem) io.to(`course_${firstItem.course}`).emit('course_updated', firstItem.course.toString());
+    
+    res.json({ message: 'Order saved' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
 // --- USERS / ADMIN ---
 api.get('/users', auth, async (req, res) => {
   try {

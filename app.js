@@ -111,6 +111,7 @@ const API = {
   courseContent:   (id)     => api('GET', `/content/course/${id}`),
   addContent:      (d)      => api('POST', '/content', d),
   deleteContent:   (id)     => api('DELETE', `/content/${id}`),
+  reorderContent:  (d)      => api('PUT', '/content/reorder', d),
 
   /* Admin */
   getCoupons:      ()       => api('GET', '/coupons'),
@@ -841,6 +842,7 @@ function renderTreeItems(items, isTeacher = false) {
     html += `
       <div class="chapter-folder" id="ch-${ch._id}">
         <div class="chapter-header" onclick="toggleChapter('ch-${ch._id}')">
+              ${isTeacher ? `<div class="drag-handle" onclick="event.stopPropagation()" title="Drag to reorder">⋮⋮</div>` : ''}
               <div style="display:flex;align-items:center;gap:10px;flex:1">
                 <span class="chapter-icon">📁</span>
                 <span class="chapter-name">${esc(ch.title)}</span>
@@ -848,8 +850,8 @@ function renderTreeItems(items, isTeacher = false) {
               ${isTeacher ? `<button class="btn-danger" style="padding:5px 10px;font-size:13px" onclick="event.stopPropagation();deleteContent('${ch._id}')">Delete</button>` : ''}
               <span class="chapter-toggle" style="margin-left:10px">▼</span>
         </div>
-        <div class="chapter-children">
-          ${children.length ? children.map(c => renderContentItem(c, isTeacher)).join('') : '<div style="color:var(--text-3);font-size:15px">Empty folder</div>'}
+        <div class="chapter-children" data-parent="${ch._id}" style="min-height: 20px;">
+          ${children.length ? children.map(c => renderContentItem(c, isTeacher)).join('') : (isTeacher ? '<div class="empty-dropzone" style="padding:10px;text-align:center;color:var(--text-3);font-size:13px;border:1px dashed var(--border);margin:10px;border-radius:var(--r-sm);">Drop items here</div>' : '<div style="color:var(--text-3);font-size:15px">Empty folder</div>')}
         </div>
       </div>`;
   });
@@ -886,6 +888,7 @@ function renderContentItem(item, isTeacher) {
  
   return `
     <div class="playlist-item" id="pl-item-${item._id}" ${onClickAttr}>
+      ${isTeacher ? `<div class="drag-handle" onclick="event.stopPropagation()" title="Drag to reorder">⋮⋮</div>` : ''}
       ${thumb}
       <div class="pl-info">
         <div class="pl-title">${lecBadge}${esc(item.title)}</div>
@@ -959,6 +962,62 @@ window.viewCourseItem = function(id, type, url, title, desc) {
 
 function toggleChapter(id) {
   document.getElementById(id)?.classList.toggle('open');
+}
+
+function initSortableContentTree(courseId) {
+  if (typeof Sortable === 'undefined') return;
+
+  const updateOrder = async () => {
+    const items = [];
+    const rootTree = document.getElementById('teacher-premium-content-tree');
+    let order = 0;
+
+    // Get root items & chapters
+    rootTree.querySelectorAll(':scope > .chapter-folder, :scope > .playlist-item').forEach(el => {
+      const id = el.id.replace('ch-', '').replace('pl-item-', '');
+      items.push({ _id: id, order: order++, parentId: null });
+    });
+
+    // Get items inside chapters
+    rootTree.querySelectorAll('.chapter-folder').forEach(ch => {
+      const parentId = ch.id.replace('ch-', '');
+      let childOrder = 0;
+      ch.querySelectorAll('.chapter-children > .playlist-item').forEach(el => {
+        const id = el.id.replace('pl-item-', '');
+        items.push({ _id: id, order: childOrder++, parentId });
+      });
+      
+      // Handle empty dropzone UI state
+      const childrenContainer = ch.querySelector('.chapter-children');
+      const hasItems = childrenContainer.querySelectorAll('.playlist-item').length > 0;
+      const emptyState = childrenContainer.querySelector('.empty-dropzone');
+      if (hasItems && emptyState) emptyState.remove();
+      if (!hasItems && !emptyState) {
+         childrenContainer.insertAdjacentHTML('beforeend', '<div class="empty-dropzone" style="padding:10px;text-align:center;color:var(--text-3);font-size:13px;border:1px dashed var(--border);margin:10px;border-radius:var(--r-sm);">Drop items here</div>');
+      }
+    });
+
+    try {
+      await API.reorderContent({ items });
+    } catch(e) { toast('Error saving new order', 'error'); }
+  };
+
+  const sortableConfig = {
+    group: 'shared',
+    animation: 150,
+    handle: '.drag-handle',
+    fallbackOnBody: true,
+    swapThreshold: 0.65,
+    onEnd: updateOrder,
+    onMove: function (evt) {
+      // Prevent dropping a chapter inside another chapter folder
+      if (evt.dragged.classList.contains('chapter-folder') && evt.to.classList.contains('chapter-children')) return false;
+    }
+  };
+
+  const rootEl = document.getElementById('teacher-premium-content-tree');
+  new Sortable(rootEl, sortableConfig);
+  rootEl.querySelectorAll('.chapter-children').forEach(childEl => new Sortable(childEl, sortableConfig));
 }
 
 /* ══════════════════════════════════════════
@@ -1383,6 +1442,8 @@ async function initTeacherCourse() {
     /* Sidebar Content Tree */
     document.getElementById('teacher-premium-content-tree').innerHTML = renderTreeItems(content, true);
     
+    initSortableContentTree(courseId);
+
     /* Content Tab (Now serves as an overview screen) */
     document.getElementById('teacher-tab-content').innerHTML = `
       <div class="empty-state" style="padding:3rem 1rem;">

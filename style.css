@@ -1212,6 +1212,24 @@ textarea { resize: vertical; }
 }
 
 /* ══════════════════════════════════════════
+   DRAG & DROP (SORTABLE JS)
+══════════════════════════════════════════ */
+.drag-handle {
+  cursor: grab;
+  padding: 0 8px;
+  color: var(--text-3);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--trans);
+  user-select: none;
+}
+.drag-handle:hover { color: var(--teal); }
+.drag-handle:active { cursor: grabbing; }
+.sortable-ghost { opacity: 0.4; background: var(--card2); border: 1px dashed var(--teal); border-radius: var(--r-md); }
+
+/* ══════════════════════════════════════════
    PREMIUM COURSE PLAYER
 ══════════════════════════════════════════ */
 .premium-course-page {
