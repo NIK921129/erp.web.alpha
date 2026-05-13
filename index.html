@@ -227,24 +227,56 @@
 <!-- ═══════════════════════════════════════════════
      PAGE: STUDENT COURSE VIEW
 ═══════════════════════════════════════════════ -->
-<section id="page-student-course" class="page inner-page">
-  <div class="container">
-    <button class="back-btn" onclick="navigate('student-dashboard')">← Dashboard</button>
-    <div id="student-course-header"></div>
-    <div class="tab-bar">
-      <button class="tab active" onclick="switchTab('content', this)">Content</button>
-      <button class="tab" onclick="switchTab('assignments', this)">Assignments</button>
-      <button class="tab" onclick="switchTab('batchmates', this)">Batchmates</button>
-      <button class="tab" onclick="switchTab('attendance', this)">Attendance</button>
-      <button class="tab" onclick="switchTab('chat', this)">Discussions</button>
-      <button class="tab" onclick="switchTab('ai', this)">✨ AI Solver</button>
+<section id="page-student-course" class="page premium-course-page">
+  <div class="premium-course-header">
+    <button class="back-btn mb-0" style="margin-bottom:0" onclick="navigate('student-dashboard')">← Dashboard</button>
+    <h1 id="premium-course-title" class="course-header-title">Loading...</h1>
+  </div>
+
+  <div class="premium-course-layout">
+    <div class="premium-main">
+      <!-- Player Area -->
+      <div id="active-player-wrapper" class="youtube-style-player hidden">
+        <div id="active-player-container" class="video-embed"></div>
+        <div class="player-meta">
+          <h3 id="active-player-title" class="player-title"></h3>
+          <p id="active-player-desc" class="player-desc"></p>
+        </div>
+      </div>
+      <div id="player-placeholder" class="player-placeholder">
+        <div class="es-icon">▶️</div>
+        <p>Select a video from the syllabus to start watching.</p>
+      </div>
+
+      <!-- Tabs Area -->
+      <div class="premium-tabs-container">
+        <div class="tab-bar">
+          <button class="tab active" onclick="switchTab('overview', this)">Overview</button>
+          <button class="tab" onclick="switchTab('assignments', this)">Assignments</button>
+          <button class="tab" onclick="switchTab('chat', this)">Discussions</button>
+          <button class="tab" onclick="switchTab('ai', this)">✨ AI Solver</button>
+          <button class="tab" onclick="switchTab('batchmates', this)">Batchmates</button>
+          <button class="tab" onclick="switchTab('attendance', this)">Attendance</button>
+        </div>
+        
+        <div id="tab-overview" class="tab-panel">
+          <div id="student-course-desc" class="course-overview-text"></div>
+        </div>
+        <div id="tab-assignments" class="tab-panel hidden"></div>
+        <div id="tab-chat" class="tab-panel hidden"></div>
+        <div id="tab-ai" class="tab-panel hidden"></div>
+        <div id="tab-batchmates" class="tab-panel hidden"></div>
+        <div id="tab-attendance" class="tab-panel hidden"></div>
+      </div>
     </div>
-    <div id="tab-content" class="tab-panel"></div>
-    <div id="tab-assignments" class="tab-panel hidden"></div>
-    <div id="tab-batchmates" class="tab-panel hidden"></div>
-    <div id="tab-attendance" class="tab-panel hidden"></div>
-    <div id="tab-chat" class="tab-panel hidden"></div>
-    <div id="tab-ai" class="tab-panel hidden"></div>
+
+    <!-- Sidebar Area -->
+    <div class="premium-sidebar">
+      <div class="sidebar-header-row">
+        <h3 class="sidebar-header">Course Content</h3>
+      </div>
+      <div id="premium-content-tree" class="content-tree"></div>
+    </div>
   </div>
 </section>
 

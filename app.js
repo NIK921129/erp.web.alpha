@@ -774,13 +774,11 @@ async function initStudentCourse() {
     const attRecs  = attData.records       || [];
     const students = batchData.students    || [];
 
-    document.getElementById('student-course-header').innerHTML = `
-      <h1 style="font-family:var(--font-head);font-weight:700;font-size:26px;margin-bottom:.25rem">${esc(course.name)}</h1>
-      <p class="text-muted mb-2">${esc(course.description || '')}</p>
-    `;
+    document.getElementById('premium-course-title').textContent = course.name || 'Course';
+    document.getElementById('student-course-desc').textContent = course.description || 'No description provided.';
 
-    /* Content tab */
-    document.getElementById('tab-content').innerHTML = renderContentTree(content, false);
+    /* Syllabus / Content Tree */
+    document.getElementById('premium-content-tree').innerHTML = renderTreeItems(content, false);
 
     /* Assignments tab */
     document.getElementById('tab-assignments').innerHTML = assigns.length
@@ -831,30 +829,13 @@ async function initStudentCourse() {
   }
 }
 
-function renderContentTree(items, isTeacher = false) {
+function renderTreeItems(items, isTeacher = false) {
   const chapters = items.filter(i => i.type === 'chapter').sort((a,b) => (a.order||0) - (b.order||0));
   const nonChapters = items.filter(i => i.type !== 'chapter');
 
   if (!items.length) return '<div class="empty-state"><div class="es-icon">📂</div>No content uploaded yet</div>';
 
-  let html = `
-    <div class="course-player-layout">
-      <!-- Main Player Area (Left side) -->
-      <div class="course-player-main">
-        <div id="active-player-wrapper" class="hidden youtube-style-player">
-          <div id="active-player-container" class="video-embed"></div>
-          <div class="player-meta">
-            <h3 id="active-player-title" class="player-title"></h3>
-            <p id="active-player-desc" class="player-desc"></p>
-          </div>
-        </div>
-        ${isTeacher ? '' : '<div id="player-placeholder" class="player-placeholder"><div class="es-icon">▶️</div><p>Select a video from the sidebar to start watching.</p></div>'}
-      </div>
-      <!-- Sidebar Playlist (Right side) -->
-      <div class="course-player-sidebar">
-        <div class="sidebar-header-row"><h3 class="sidebar-header">Course Content</h3></div>
-        <div class="content-tree">`;
-
+  let html = '';
   chapters.forEach(ch => {
     const children = items.filter(i => i.parentId === ch._id).sort((a,b) => (a.order||0) - (b.order||0));
     html += `
@@ -876,6 +857,29 @@ function renderContentTree(items, isTeacher = false) {
   nonChapters.filter(i => !i.parentId).sort((a,b) => (a.order||0) - (b.order||0)).forEach(item => {
     html += renderContentItem(item, isTeacher);
   });
+  return html;
+}
+
+function renderContentTree(items, isTeacher = false) {
+  let html = `
+    <div class="course-player-layout">
+      <!-- Main Player Area (Left side) -->
+      <div class="course-player-main">
+        <div id="active-player-wrapper" class="hidden youtube-style-player">
+          <div id="active-player-container" class="video-embed"></div>
+          <div class="player-meta">
+            <h3 id="active-player-title" class="player-title"></h3>
+            <p id="active-player-desc" class="player-desc"></p>
+          </div>
+        </div>
+        ${isTeacher ? '' : '<div id="player-placeholder" class="player-placeholder"><div class="es-icon">▶️</div><p>Select a video from the sidebar to start watching.</p></div>'}
+      </div>
+      <!-- Sidebar Playlist (Right side) -->
+      <div class="course-player-sidebar">
+        <div class="sidebar-header-row"><h3 class="sidebar-header">Course Content</h3></div>
+        <div class="content-tree">`;
+
+  html += renderTreeItems(items, isTeacher);
 
   html += '</div></div></div>';
   return html;
@@ -2684,7 +2688,7 @@ window.addEventListener('click', (e) => {
    TABS
 ══════════════════════════════════════════ */
 function switchTab(name, btn) {
-  ['content','assignments','batchmates','attendance','chat','ai'].forEach(t => {
+  ['overview','assignments','batchmates','attendance','chat','ai'].forEach(t => {
     const el = document.getElementById('tab-' + t);
     if (el) el.classList.toggle('hidden', t !== name);
   });
