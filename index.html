@@ -676,6 +676,25 @@
     </div>
   </div>
 
+  <!-- Bulk Enrol Students Modal -->
+  <div id="modal-bulk-enrol" class="modal hidden">
+    <div class="modal-header">
+      <h3>Bulk Enrol Students</h3>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="bulk-enrol-course-id" />
+      <p style="margin-bottom:1rem; color:var(--text-2); font-size:14px; line-height: 1.5;">Paste student <b>Emails</b> or <b>Usernames</b> below (separated by commas or new lines). <br><br><i>Tip: You can open your CSV file in Excel/Google Sheets, copy the entire "Email" column, and paste it directly here!</i></p>
+      <div class="form-group">
+        <textarea id="bulk-enrol-identifiers" rows="8" placeholder="student1@example.com&#10;student2@example.com&#10;student3@example.com"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeAllModals()">Cancel</button>
+        <button class="btn-primary" onclick="submitBulkEnrol()">Enrol Students</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Assignment Submit Modal -->
   <div id="modal-submit" class="modal hidden">
     <div class="modal-header">

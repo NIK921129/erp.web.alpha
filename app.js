@@ -132,6 +132,7 @@ const API = {
   allTeachers:     ()       => api('GET', '/users?role=teacher'),
   adminStats:      ()       => api('GET', '/admin/stats'),
   manualEnrol:     (d)      => api('POST', '/admin/enrol', d),
+  bulkEnrol:       (d)      => api('POST', '/admin/enrol/bulk', d),
   broadcast:       (d)      => api('POST', '/admin/broadcast', d),
   studentReport:   (id)     => api('GET', `/admin/users/${id}/report`),
 
@@ -267,7 +268,7 @@ function initSocket() {
 ══════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', async () => {
   /* --- NUCLEAR CACHE BUSTING: Force clear old PWA data for all users --- */
-  const APP_VERSION = 'v5';
+  const APP_VERSION = 'v6';
   if (localStorage.getItem('abc_app_version') !== APP_VERSION) {
     if ('caches' in window) {
       const cacheNames = await caches.keys();
@@ -2060,6 +2061,7 @@ function renderAdminCourses() {
               </button>
               <div class="actions-dropdown">
                 <a onclick="openCourseModal('${c._id}')">Edit Course</a>
+                <a onclick="openBulkEnrolModal('${c._id}')">Bulk Enrol Students</a>
                 <a onclick="openCustomEmailModal(null, '${c._id}')">Email Class</a>
                 <a class="danger" onclick="deleteCourseAdmin('${c._id}')">Delete Course</a>
               </div>
@@ -2103,6 +2105,30 @@ async function openCourseModal(courseId = null) {
   }
 
   openModal('modal-course');
+}
+
+function openBulkEnrolModal(courseId) {
+  document.getElementById('bulk-enrol-course-id').value = courseId;
+  document.getElementById('bulk-enrol-identifiers').value = '';
+  openModal('modal-bulk-enrol');
+}
+
+async function submitBulkEnrol() {
+  const courseId = document.getElementById('bulk-enrol-course-id').value;
+  const text = document.getElementById('bulk-enrol-identifiers').value;
+  const identifiers = text.split(/[\n,]+/).map(i => i.trim()).filter(i => i);
+  
+  if (!identifiers.length) { toast('Please paste at least one email or username', 'error'); return; }
+  
+  const btn = document.querySelector('#modal-bulk-enrol .btn-primary');
+  btn.textContent = 'Enrolling...'; btn.disabled = true;
+  try {
+    const res = await API.bulkEnrol({ courseId, identifiers });
+    toast(res.message, 'success');
+    closeAllModals();
+    initAdminCourses();
+  } catch (e) { toast(e.message || 'Error enrolling students', 'error'); }
+  finally { btn.textContent = 'Enrol Students'; btn.disabled = false; }
 }
 
 async function saveCourse() {

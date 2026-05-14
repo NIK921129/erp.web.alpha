@@ -994,6 +994,36 @@ api.post('/admin/enrol', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
+api.post('/admin/enrol/bulk', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const { courseId, identifiers } = req.body; // array of emails or usernames
+    
+    if (!courseId || !identifiers || !identifiers.length) return res.status(400).json({ message: 'Course ID and identifiers are required' });
+
+    const users = await User.find({
+      $or: [{ email: { $in: identifiers } }, { username: { $in: identifiers } }],
+      role: 'student'
+    });
+
+    if (!users.length) return res.status(404).json({ message: 'No matching students found. Ensure emails are spelled correctly.' });
+
+    const enrolments = users.map(u => ({
+      updateOne: { filter: { student: u._id, course: courseId }, update: { $set: { status: 'active' } }, upsert: true }
+    }));
+    await Enrolment.bulkWrite(enrolments);
+
+    const count = await Enrolment.countDocuments({ course: courseId, status: 'active' });
+    const course = await Course.findByIdAndUpdate(courseId, { studentCount: count });
+    
+    users.forEach(u => {
+      io.to(u._id.toString()).emit('notification', { message: `You have been enrolled in ${course.name}!`, type: 'success' });
+      io.to(u._id.toString()).emit('refresh_data');
+    });
+    res.json({ message: `Successfully enrolled ${users.length} students.` });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
 api.post('/admin/broadcast', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
