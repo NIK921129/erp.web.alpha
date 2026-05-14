@@ -942,7 +942,7 @@ window.viewCourseItem = function(id, type, url, title, desc) {
     if (url.includes('drive.google.com')) {
       const embedUrl = driveEmbed(url);
       container.innerHTML = `
-        <iframe src="${embedUrl}" allowfullscreen allow="autoplay" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+        <iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>
         <a href="${url}" target="_blank" style="position:absolute; top:10px; right:10px; z-index:10; background:rgba(0,0,0,0.6); color:#fff; padding:6px 12px; border-radius:4px; font-size:13px; text-decoration:none; backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.2); transition:0.3s;" onmouseover="this.style.background='var(--teal)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">Open in Drive ↗</a>
       `;
     } else {
