@@ -147,6 +147,7 @@ const API = {
   /* Quizzes */
   courseQuizzes:   (id)     => api('GET', `/quizzes/course/${id}`),
   generateQuiz:    (d)      => api('POST', '/quizzes/generate', d),
+  updateQuiz:      (id, d)  => api('PUT', `/quizzes/${id}`, d),
   submitQuiz:      (id, d)  => api('POST', `/quizzes/${id}/submit`, d),
   quizAttempts:    (id)     => api('GET', `/quizzes/${id}/attempts`),
   deleteQuiz:      (id)     => api('DELETE', `/quizzes/${id}`),
@@ -265,7 +266,7 @@ function initSocket() {
 ══════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', async () => {
   /* --- NUCLEAR CACHE BUSTING: Force clear old PWA data for all users --- */
-  const APP_VERSION = 'v3';
+  const APP_VERSION = 'v4';
   if (localStorage.getItem('abc_app_version') !== APP_VERSION) {
     if ('caches' in window) {
       const cacheNames = await caches.keys();
@@ -2934,6 +2935,7 @@ function renderTeacherQuizzes() {
       </div>
       <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
         <button class="btn-ghost" style="padding:6px 14px;font-size:13px;" onclick="openQuizAttemptsModal('${q._id}')">📊 View Analytics & Export</button>
+        <button class="btn-ghost" style="padding:6px 14px;font-size:13px;" onclick="openEditQuizModal('${q._id}')">✏️ Edit Settings</button>
         <button class="btn-danger" style="padding:6px 14px;font-size:13px;" onclick="deleteQuiz('${q._id}')">🗑️ Delete</button>
       </div>
     </div>
@@ -2974,6 +2976,47 @@ async function generateAndSaveQuiz() {
     initTeacherQuizzes(STATE.activeTeacherCourseId);
   } catch (e) { toast(e.message || 'Generation failed', 'error'); }
   finally { btn.textContent = 'Generate & Save Quiz'; btn.disabled = false; }
+}
+
+function openEditQuizModal(id) {
+  const quiz = STATE.courseQuizzes.find(q => q._id === id);
+  if (!quiz) return;
+  document.getElementById('edit-quiz-id').value = quiz._id;
+  document.getElementById('edit-quiz-title').value = quiz.title || '';
+  document.getElementById('edit-quiz-timer').value = quiz.timer || 15;
+  
+  const formatDt = (d) => {
+    if (!d) return '';
+    const date = new Date(d);
+    const offset = date.getTimezoneOffset() * 60000;
+    return new Date(date.getTime() - offset).toISOString().slice(0,16);
+  };
+  
+  document.getElementById('edit-quiz-from').value = formatDt(quiz.availableFrom);
+  document.getElementById('edit-quiz-to').value = formatDt(quiz.availableUntil);
+  openModal('modal-edit-quiz');
+}
+
+async function submitEditQuiz() {
+  const id = document.getElementById('edit-quiz-id').value;
+  const timer = parseInt(document.getElementById('edit-quiz-timer').value);
+  const title = document.getElementById('edit-quiz-title').value.trim();
+  const availableFrom = document.getElementById('edit-quiz-from').value;
+  const availableUntil = document.getElementById('edit-quiz-to').value;
+
+  if (!title || !timer || !availableFrom || !availableUntil) { toast('All fields required', 'error'); return; }
+
+  const btn = document.querySelector('#modal-edit-quiz .btn-primary');
+  const origText = btn.textContent;
+  btn.textContent = 'Saving...'; btn.disabled = true;
+
+  try {
+    await API.updateQuiz(id, { timer, title, availableFrom, availableUntil });
+    toast('Quiz updated successfully', 'success');
+    closeAllModals();
+    initTeacherQuizzes(STATE.activeTeacherCourseId);
+  } catch (e) { toast('Error updating quiz', 'error'); }
+  finally { btn.textContent = origText; btn.disabled = false; }
 }
 
 async function deleteQuiz(id) {

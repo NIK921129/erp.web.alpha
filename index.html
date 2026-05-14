@@ -1065,6 +1065,39 @@
     </div>
   </div>
 
+  <!-- Teacher: Edit Quiz Modal -->
+  <div id="modal-edit-quiz" class="modal hidden">
+    <div class="modal-header">
+      <h3>✏️ Edit Quiz Settings</h3>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-quiz-id" />
+      <div class="form-group">
+        <label>Quiz Title</label>
+        <input type="text" id="edit-quiz-title" />
+      </div>
+      <div class="form-group">
+        <label>Timer (Minutes)</label>
+        <input type="number" id="edit-quiz-timer" min="1" />
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="form-group">
+          <label>Available From</label>
+          <input type="datetime-local" id="edit-quiz-from" />
+        </div>
+        <div class="form-group">
+          <label>Available Until</label>
+          <input type="datetime-local" id="edit-quiz-to" />
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeAllModals()">Cancel</button>
+        <button class="btn-primary" onclick="submitEditQuiz()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Teacher: Quiz Analytics Modal -->
   <div id="modal-quiz-attempts" class="modal hidden">
     <div class="modal-header">

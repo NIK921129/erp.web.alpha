@@ -1,4 +1,4 @@
-const CACHE_NAME = 'abc-erp-v3';
+const CACHE_NAME = 'abc-erp-v4';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

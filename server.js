@@ -1147,6 +1147,22 @@ api.post('/quizzes/generate', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
+api.put('/quizzes/:id', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'teacher' && req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const { timer, title, availableFrom, availableUntil } = req.body;
+    
+    const updateData = {};
+    if (timer) updateData.timer = timer;
+    if (title) updateData.title = title;
+    if (availableFrom) updateData.availableFrom = availableFrom;
+    if (availableUntil) updateData.availableUntil = availableUntil;
+    
+    await Quiz.findByIdAndUpdate(req.params.id, updateData);
+    res.json({ message: 'Quiz updated' });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
 api.post('/quizzes/:id/submit', auth, async (req, res) => {
   try {
     if (req.user.role !== 'student') return res.status(403).json({ message: 'Forbidden' });
