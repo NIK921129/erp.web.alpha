@@ -39,6 +39,7 @@ let STATE = {
   studentAssignments: [],
   enrolCtx:      null,   // { course, step }
   currentChatCourse: null,
+  pendingEmail:  null
 };
 let socket = null;
 
@@ -1720,14 +1721,7 @@ async function approvePayment(payId) {
     
     if (res.manualEmail) {
       const { to, subject, body } = res.manualEmail;
-      const mailtoLink = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      
-      const a = document.createElement('a');
-      a.href = mailtoLink;
-      a.target = '_blank';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      triggerEmailChoice(to, '', subject, body);
     }
     
     fetchAdminPayments();
@@ -1954,21 +1948,37 @@ async function submitCustomEmail() {
 
   if (!emails.length) { toast('No recipients found', 'error'); return; }
   
-  const mailtoLink = isBatch 
-    ? `mailto:?bcc=${encodeURIComponent(emails.join(','))}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`
-    : `mailto:${encodeURIComponent(emails[0])}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
-    
-  const a = document.createElement('a');
-  a.href = mailtoLink;
-  a.target = '_blank';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  const bcc = isBatch ? emails.join(',') : '';
+  const to = isBatch ? '' : emails[0];
   
-  toast('Opened in your email client!', 'success');
-  closeAllModals();
+  triggerEmailChoice(to, bcc, subject, message);
 }
 
+/* ══════════════════════════════════════════
+   EMAIL CLIENT SELECTOR
+══════════════════════════════════════════ */
+function triggerEmailChoice(to, bcc, subject, body) {
+  STATE.pendingEmail = { to, bcc, subject, body };
+  openModal('modal-email-client');
+}
+
+function openEmailProvider(provider) {
+  const { to, bcc, subject, body } = STATE.pendingEmail;
+  const t = encodeURIComponent(to || '');
+  const b = encodeURIComponent(bcc || '');
+  const s = encodeURIComponent(subject || '');
+  const bd = encodeURIComponent(body || '');
+  
+  let url = '';
+  if (provider === 'gmail') url = `https://mail.google.com/mail/?view=cm&fs=1&to=${t}&bcc=${b}&su=${s}&body=${bd}`;
+  else if (provider === 'outlook') url = `https://outlook.live.com/mail/0/deeplink/compose?to=${t}&bcc=${b}&subject=${s}&body=${bd}`;
+  else if (provider === 'yahoo') url = `https://compose.mail.yahoo.com/?to=${t}&bcc=${b}&subject=${s}&body=${bd}`;
+  else url = `mailto:${t}?bcc=${b}&subject=${s}&body=${bd}`;
+  
+  window.open(url, '_blank');
+  closeAllModals();
+  toast('Opened email client!', 'success');
+}
 /* ══════════════════════════════════════════
    ADMIN COURSES
 ══════════════════════════════════════════ */

@@ -559,50 +559,14 @@ api.post('/payments/:id/approve', auth, async (req, res) => {
     io.to(p.student._id.toString()).emit('notification', { message: 'Your payment was approved! You are now enrolled.', type: 'success' });
     io.to(p.student._id.toString()).emit('refresh_data');
     
-    /* === CHECK EMAIL SETTINGS === */
-    const settings = await Setting.findOne();
-    if (settings && settings.manualEmail) {
-      const hostUrl = `${req.protocol}://${req.get('host')}`;
-      const token = req.headers.authorization?.split(' ')[1] || '';
-      const invoiceLink = `${hostUrl}/api/payments/${p._id}/invoice?token=${token}`;
-      
-      const subject = `Your Invoice & Enrolment: ${p.course.name}`;
-      const body = `Hello ${p.student.name},\n\nThank you for your purchase! Your payment of INR ${p.amount} has been successfully verified and you are now enrolled in ${p.course.name}.\n\nYour Account Login details:\nUsername: ${p.student.username}\nEmail: ${p.student.email}\nNote: Your password is encrypted and hidden for security.\n\nYou can download your PDF invoice securely using the link below:\n${invoiceLink}\n\nWelcome to ${p.course.name}!`;
-      return res.json({ message: 'Payment approved', manualEmail: { to: p.student.email, subject, body } });
-    }
-
-    /* === INVOICE EMAIL LOGIC === */
-    try {
-      const pdfBuffer = await generateInvoicePDF(p, p.student, p.course, p.course.teacher);
-      
-      const mailOptions = {
-        from: `"ABC Institute" <${process.env.GMAIL_USER || transporter.options.auth.user}>`,
-        to: p.student.email,
-        subject: `Your Invoice & Enrolment: ${p.course.name}`,
-        html: `
-          <h3>Welcome to ${p.course.name}!</h3>
-          <p>Dear ${p.student.name},</p>
-          <p>Thank you! Your payment of INR ${p.amount} has been approved.</p>
-          <p><strong>Your Account Login details:</strong><br/>
-          Username: <b>${p.student.username}</b><br/>
-          Email: <b>${p.student.email}</b><br/>
-          <em>Note: Your password is encrypted and hidden for security.</em></p>
-          <p>Please find your PDF invoice attached.</p>
-        `,
-        attachments: [{
-          filename: `Invoice_${(p.course?.name || 'Course').replace(/\s+/g, '_')}.pdf`,
-          content: pdfBuffer,
-          contentType: 'application/pdf'
-        }]
-      };
-      
-      await transporter.sendMail(mailOptions);
-    } catch (emailErr) { 
-      console.error("❌ Gmail Email Error:");
-      console.error(emailErr.message || emailErr);
-    }
-
-    res.json({ message: 'Payment approved' });
+    const hostUrl = `${req.protocol}://${req.get('host')}`;
+    const token = req.headers.authorization?.split(' ')[1] || '';
+    const invoiceLink = `${hostUrl}/api/payments/${p._id}/invoice?token=${token}`;
+    
+    const subject = `Your Invoice & Enrolment: ${p.course.name}`;
+    const body = `Hello ${p.student.name},\n\nThank you for your purchase! Your payment of INR ${p.amount} has been successfully verified and you are now enrolled in ${p.course.name}.\n\nYour Account Login details:\nUsername: ${p.student.username}\nEmail: ${p.student.email}\nNote: Your password is encrypted and hidden for security.\n\nYou can download your PDF invoice securely using the link below:\n${invoiceLink}\n\nWelcome to ${p.course.name}!`;
+    
+    return res.json({ message: 'Payment approved', manualEmail: { to: p.student.email, subject, body } });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
