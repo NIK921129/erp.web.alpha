@@ -254,6 +254,18 @@ function initSocket() {
    INIT
 ══════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', async () => {
+  /* --- NUCLEAR CACHE BUSTING: Force clear old PWA data for all users --- */
+  const APP_VERSION = 'v3';
+  if (localStorage.getItem('abc_app_version') !== APP_VERSION) {
+    if ('caches' in window) {
+      const cacheNames = await caches.keys();
+      await Promise.all(cacheNames.map(name => caches.delete(name)));
+    }
+    localStorage.setItem('abc_app_version', APP_VERSION);
+    window.location.reload(true);
+    return; // Stop execution until the hard reload finishes
+  }
+
   const savedToken = localStorage.getItem('abc_token');
   const savedUser  = localStorage.getItem('abc_user');
 
