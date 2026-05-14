@@ -1,4 +1,4 @@
-const CACHE_NAME = 'abc-erp-v1';
+const CACHE_NAME = 'abc-erp-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -8,6 +8,7 @@ const ASSETS_TO_CACHE = [
 
 // Install event: Cache our core frontend files
 self.addEventListener('install', event => {
+  self.skipWaiting(); // Force the new service worker to activate immediately
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS_TO_CACHE))
   );
@@ -20,16 +21,21 @@ self.addEventListener('activate', event => {
       return Promise.all(
         cacheNames.filter(name => name !== CACHE_NAME).map(name => caches.delete(name))
       );
-    })
+    }).then(() => self.clients.claim()) // Take control of all open pages immediately
   );
 });
 
-// Fetch event: Serve files from cache if available, otherwise fetch from network
+// Fetch event: Network First, fallback to cache (Ideal for rapid updates)
 self.addEventListener('fetch', event => {
   // We only want to cache the UI files, NOT the API calls to your Render backend
   if (!event.request.url.startsWith(self.location.origin) || event.request.url.includes('/api/')) return;
 
   event.respondWith(
-    caches.match(event.request).then(cachedResponse => cachedResponse || fetch(event.request))
+    fetch(event.request).then(networkResponse => {
+      // Update the cache with the fresh version
+      const responseClone = networkResponse.clone();
+      caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
+      return networkResponse;
+    }).catch(() => caches.match(event.request))
   );
 });
