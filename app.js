@@ -147,6 +147,7 @@ const API = {
   /* Quizzes */
   courseQuizzes:   (id)     => api('GET', `/quizzes/course/${id}`),
   generateQuiz:    (d)      => api('POST', '/quizzes/generate', d),
+  createQuiz:      (d)      => api('POST', '/quizzes', d),
   updateQuiz:      (id, d)  => api('PUT', `/quizzes/${id}`, d),
   submitQuiz:      (id, d)  => api('POST', `/quizzes/${id}/submit`, d),
   quizAttempts:    (id)     => api('GET', `/quizzes/${id}/attempts`),
@@ -266,7 +267,7 @@ function initSocket() {
 ══════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', async () => {
   /* --- NUCLEAR CACHE BUSTING: Force clear old PWA data for all users --- */
-  const APP_VERSION = 'v4';
+  const APP_VERSION = 'v5';
   if (localStorage.getItem('abc_app_version') !== APP_VERSION) {
     if ('caches' in window) {
       const cacheNames = await caches.keys();
@@ -2904,8 +2905,9 @@ async function initTeacherQuizzes(courseId) {
 function renderTeacherQuizzes() {
   const el = document.getElementById('teacher-tab-quizzes');
   let html = `
-    <div style="margin-bottom:1.5rem">
+    <div style="display:flex; gap:10px; margin-bottom:1.5rem; flex-wrap:wrap;">
       <button class="btn-primary" onclick="openCreateQuizModal()">✨ Create AI Quiz</button>
+      <button class="btn-ghost" onclick="openUploadQuizModal()">📁 Upload CSV Quiz</button>
     </div>`;
     
   if (!STATE.courseQuizzes.length) {
@@ -2966,6 +2968,64 @@ async function generateAndSaveQuiz() {
     initTeacherQuizzes(STATE.activeTeacherCourseId);
   } catch (e) { toast(e.message || 'Generation failed', 'error'); }
   finally { btn.textContent = 'Generate & Save Quiz'; btn.disabled = false; }
+}
+
+function openUploadQuizModal() {
+  document.getElementById('upload-quiz-title').value = '';
+  document.getElementById('upload-quiz-timer').value = '15';
+  document.getElementById('upload-quiz-from').value = '';
+  document.getElementById('upload-quiz-to').value = '';
+  document.getElementById('upload-quiz-file').value = '';
+  openModal('modal-upload-quiz');
+}
+
+function downloadQuizTemplate() {
+  const csv = 'Question,Option A,Option B,Option C,Option D,Correct Option\nWhat is the capital of France?,Berlin,London,Paris,Madrid,Paris\nWhich planet is known as the Red Planet?,Venus,Mars,Jupiter,Saturn,Mars';
+  downloadCSV(csv, 'quiz_template.csv');
+}
+
+async function submitUploadQuiz() {
+  const courseId = STATE.activeTeacherCourseId;
+  const title = document.getElementById('upload-quiz-title').value.trim();
+  const timer = parseInt(document.getElementById('upload-quiz-timer').value);
+  const availableFrom = document.getElementById('upload-quiz-from').value;
+  const availableUntil = document.getElementById('upload-quiz-to').value;
+  const fileInput = document.getElementById('upload-quiz-file');
+
+  if (!title || !timer || !availableFrom || !availableUntil || !fileInput.files[0]) {
+    toast('All fields and a CSV file are required', 'error'); return;
+  }
+
+  const btn = document.querySelector('#modal-upload-quiz .btn-primary');
+  btn.textContent = 'Uploading...'; btn.disabled = true;
+
+  try {
+    const text = await fileInput.files[0].text();
+    const rows = text.split('\\n').map(r => r.trim()).filter(r => r);
+    
+    let startIndex = 0;
+    if (rows[0] && rows[0].toLowerCase().includes('question')) startIndex = 1;
+
+    const questions = [];
+    for (let i = startIndex; i < rows.length; i++) {
+      // Using a regex to accurately split by commas while ignoring commas inside quotes
+      const r = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/^"|"$/g, '').trim());
+      if (r.length >= 6) {
+        const options = [r[1], r[2], r[3], r[4]].filter(o => o);
+        if (r[0] && options.length >= 2 && r[5]) {
+          questions.push({ text: r[0], options, correctOption: r[5] });
+        }
+      }
+    }
+
+    if (!questions.length) throw new Error('No valid questions found. Ensure you follow the template exactly.');
+
+    await API.createQuiz({ courseId, title, timer, availableFrom, availableUntil, questions });
+    toast('CSV Quiz created successfully!', 'success');
+    closeAllModals();
+    initTeacherQuizzes(courseId);
+  } catch (e) { toast(e.message || 'Error processing CSV', 'error'); } 
+  finally { btn.textContent = 'Upload & Create Quiz'; btn.disabled = false; }
 }
 
 function openEditQuizModal(id) {

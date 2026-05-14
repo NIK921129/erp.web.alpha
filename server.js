@@ -1152,6 +1152,21 @@ api.post('/quizzes/generate', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
+api.post('/quizzes', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'teacher' && req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const { courseId, title, timer, availableFrom, availableUntil, questions } = req.body;
+    
+    if (!questions || !questions.length) return res.status(400).json({ message: 'No questions provided.' });
+    
+    const quiz = await Quiz.create({
+      course: courseId, title, topic: 'CSV Import', toughness: 'Medium', timer, availableFrom, availableUntil, questions
+    });
+    
+    res.json({ quiz });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
 api.put('/quizzes/:id', auth, async (req, res) => {
   try {
     if (req.user.role !== 'teacher' && req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });

@@ -1061,6 +1061,43 @@
     </div>
   </div>
 
+  <!-- Teacher: Upload CSV Quiz Modal -->
+  <div id="modal-upload-quiz" class="modal hidden">
+    <div class="modal-header">
+      <h3>📁 Upload CSV Quiz</h3>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Quiz Title</label>
+        <input type="text" id="upload-quiz-title" placeholder="e.g. Midterm CSV Import" />
+      </div>
+      <div class="form-group">
+        <label>Timer (Minutes)</label>
+        <input type="number" id="upload-quiz-timer" value="15" min="1" />
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="form-group">
+          <label>Available From</label>
+          <input type="datetime-local" id="upload-quiz-from" />
+        </div>
+        <div class="form-group">
+          <label>Available Until</label>
+          <input type="datetime-local" id="upload-quiz-to" />
+        </div>
+      </div>
+      <div class="form-group" style="margin-top: 10px;">
+        <label>CSV File <a onclick="downloadQuizTemplate()" style="float:right; font-size:13px; font-weight:normal;">Download Template</a></label>
+        <input type="file" id="upload-quiz-file" accept=".csv" style="background:var(--bg3); padding:10px; border-radius:var(--r-md); border:1px solid var(--border2);" />
+        <p style="font-size:13px; color:var(--text-3); margin-top:6px;">Format: Question, Option A, Option B, Option C, Option D, Correct Option</p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeAllModals()">Cancel</button>
+        <button class="btn-primary" onclick="submitUploadQuiz()">Upload & Create Quiz</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Teacher: Edit Quiz Modal -->
   <div id="modal-edit-quiz" class="modal hidden">
     <div class="modal-header">
