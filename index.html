@@ -257,6 +257,7 @@
           <button class="tab" onclick="switchTab('ai', this)">✨ AI Solver</button>
           <button class="tab" onclick="switchTab('batchmates', this)">Batchmates</button>
           <button class="tab" onclick="switchTab('attendance', this)">Attendance</button>
+          <button class="tab" onclick="switchTab('quizzes', this)">🧠 Quizzes</button>
         </div>
         
         <div id="tab-overview" class="tab-panel">
@@ -267,6 +268,7 @@
         <div id="tab-ai" class="tab-panel hidden"></div>
         <div id="tab-batchmates" class="tab-panel hidden"></div>
         <div id="tab-attendance" class="tab-panel hidden"></div>
+        <div id="tab-quizzes" class="tab-panel hidden"></div>
       </div>
     </div>
 
@@ -398,12 +400,14 @@
           <button class="tab" onclick="switchTeacherTab('attendance', this)">Mark Attendance</button>
           <button class="tab" onclick="switchTeacherTab('students', this)">Students</button>
           <button class="tab" onclick="switchTeacherTab('chat', this)">Discussions</button>
+          <button class="tab" onclick="switchTeacherTab('quizzes', this)">🧠 AI Quiz Maker</button>
         </div>
         <div id="teacher-tab-content" class="tab-panel"></div>
         <div id="teacher-tab-assignments" class="tab-panel hidden"></div>
         <div id="teacher-tab-attendance" class="tab-panel hidden"></div>
         <div id="teacher-tab-students" class="tab-panel hidden"></div>
         <div id="teacher-tab-chat" class="tab-panel hidden"></div>
+        <div id="teacher-tab-quizzes" class="tab-panel hidden"></div>
       </div>
     </div>
 
@@ -1008,6 +1012,80 @@
       <button class="btn-primary full" onclick="openEmailProvider('default')" style="justify-content:center; margin-top:0.5rem;">
         Open System Default Mail App
       </button>
+    </div>
+  </div>
+
+  <!-- Teacher: Create AI Quiz Modal -->
+  <div id="modal-create-quiz" class="modal hidden">
+    <div class="modal-header">
+      <h3>✨ Create AI Quiz</h3>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Quiz Title</label>
+        <input type="text" id="quiz-title" placeholder="e.g. Weekly Assessment 1" />
+      </div>
+      <div class="form-group">
+        <label>Core Topic / Prompt for AI</label>
+        <input type="text" id="quiz-topic" placeholder="e.g. HTML5 Forms and Attributes" />
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="form-group">
+          <label>Questions (Max 50)</label>
+          <input type="number" id="quiz-num" max="50" min="1" value="10" />
+        </div>
+        <div class="form-group">
+          <label>Timer (Minutes)</label>
+          <input type="number" id="quiz-timer" value="15" min="1" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Toughness</label>
+        <select id="quiz-toughness">
+          <option value="Easy">Easy</option>
+          <option value="Medium" selected>Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="form-group">
+          <label>Available From</label>
+          <input type="datetime-local" id="quiz-from" />
+        </div>
+        <div class="form-group">
+          <label>Available Until</label>
+          <input type="datetime-local" id="quiz-to" />
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeAllModals()">Cancel</button>
+        <button class="btn-primary" onclick="generateAndSaveQuiz()">Generate & Save Quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Teacher: Quiz Analytics Modal -->
+  <div id="modal-quiz-attempts" class="modal hidden">
+    <div class="modal-header">
+      <h3>Quiz Analytics</h3>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body" id="quiz-attempts-list"></div>
+    <div style="padding:0 1.5rem 1.5rem;text-align:right;">
+      <button class="btn-primary" onclick="exportQuizAttempts()">📥 Export CSV</button>
+    </div>
+  </div>
+
+  <!-- Student: Take Quiz Modal -->
+  <div id="modal-take-quiz" class="modal hidden" style="max-width: 720px;">
+    <div class="modal-header" style="background:var(--bg3);position:sticky;top:0;z-index:10;">
+      <h3 id="take-quiz-title" style="flex:1;">Quiz</h3>
+      <div id="quiz-timer-display" style="font-family:var(--font-head);font-weight:700;color:var(--amber);margin-right:15px;">⏳ 00:00</div>
+    </div>
+    <div class="modal-body" id="take-quiz-body" style="background:var(--bg);padding:2rem;"></div>
+    <div style="padding:1.5rem;background:var(--card);border-top:1px solid var(--border);text-align:right;position:sticky;bottom:0;">
+      <button class="btn-primary" onclick="submitStudentQuiz()">Submit Quiz</button>
     </div>
   </div>
 

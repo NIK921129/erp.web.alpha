@@ -39,7 +39,9 @@ let STATE = {
   studentAssignments: [],
   enrolCtx:      null,   // { course, step }
   currentChatCourse: null,
-  pendingEmail:  null
+  pendingEmail:  null,
+  courseQuizzes: [],
+  activeQuiz:    null
 };
 let socket = null;
 
@@ -140,6 +142,13 @@ const API = {
   courseChat:      (id)     => api('GET', '/chat/course/' + id),
   sendChatMessage: (id, d)  => api('POST', '/chat/course/' + id, d),
   aiChat:          (d)      => api('POST', '/ai/chat', d),
+  
+  /* Quizzes */
+  courseQuizzes:   (id)     => api('GET', `/quizzes/course/${id}`),
+  generateQuiz:    (d)      => api('POST', '/quizzes/generate', d),
+  submitQuiz:      (id, d)  => api('POST', `/quizzes/${id}/submit`, d),
+  quizAttempts:    (id)     => api('GET', `/quizzes/${id}/attempts`),
+  deleteQuiz:      (id)     => api('DELETE', `/quizzes/${id}`),
 
   /* Logs */
   logEvent:        (d)      => api('POST', '/logs', d),
@@ -844,6 +853,9 @@ async function initStudentCourse() {
 
     /* AI Solver tab */
     initAiChatView('tab-ai', courseId);
+    
+    /* Quizzes Tab */
+    initStudentQuizzes(courseId);
 
   } catch (e) {
     toast('Error loading course', 'error');
@@ -1499,6 +1511,9 @@ async function initTeacherCourse() {
 
     /* Discussions tab */
     initCourseChatView('teacher-tab-chat', courseId);
+    
+    /* Quizzes Tab */
+    initTeacherQuizzes(courseId);
 
   } catch (e) {
     toast('Error loading course', 'error');
@@ -2728,7 +2743,7 @@ window.addEventListener('click', (e) => {
    TABS
 ══════════════════════════════════════════ */
 function switchTab(name, btn) {
-  ['overview','assignments','batchmates','attendance','chat','ai'].forEach(t => {
+  ['overview','assignments','batchmates','attendance','chat','ai','quizzes'].forEach(t => {
     const el = document.getElementById('tab-' + t);
     if (el) el.classList.toggle('hidden', t !== name);
   });
@@ -2737,7 +2752,7 @@ function switchTab(name, btn) {
 }
 
 function switchTeacherTab(name, btn) {
-  ['content','assignments','attendance','students','chat'].forEach(t => {
+  ['content','assignments','attendance','students','chat','quizzes'].forEach(t => {
     const el = document.getElementById('teacher-tab-' + t);
     if (el) el.classList.toggle('hidden', t !== name);
   });
@@ -2879,6 +2894,222 @@ async function sendAiMessage(e, courseId) {
     submitBtn.disabled = false; submitBtn.style.opacity = '1';
     container.scrollTop = container.scrollHeight;
   }
+}
+
+/* ══════════════════════════════════════════
+   AI QUIZ MAKER (TEACHER & STUDENT LOGIC)
+══════════════════════════════════════════ */
+async function initTeacherQuizzes(courseId) {
+  const el = document.getElementById('teacher-tab-quizzes');
+  el.innerHTML = '<div class="empty-state">Loading quizzes...</div>';
+  try {
+    const { quizzes } = await API.courseQuizzes(courseId);
+    STATE.courseQuizzes = quizzes || [];
+    renderTeacherQuizzes();
+  } catch (e) { el.innerHTML = '<div class="empty-state">Error loading quizzes</div>'; }
+}
+
+function renderTeacherQuizzes() {
+  const el = document.getElementById('teacher-tab-quizzes');
+  let html = `
+    <div style="margin-bottom:1.5rem">
+      <button class="btn-primary" onclick="openCreateQuizModal()">✨ Create AI Quiz</button>
+    </div>`;
+    
+  if (!STATE.courseQuizzes.length) {
+    el.innerHTML = html + '<div class="empty-state"><div class="es-icon">🧠</div>No quizzes generated yet. Try AI!</div>';
+    return;
+  }
+  
+  html += STATE.courseQuizzes.map(q => `
+    <div class="list-card" style="align-items:flex-start;flex-direction:column;gap:10px;">
+      <div style="display:flex;justify-content:space-between;width:100%;">
+        <div>
+          <div style="font-family:var(--font-head);font-weight:700;font-size:18px;">${esc(q.title)}</div>
+          <div style="color:var(--text-2);font-size:14px;margin-top:2px;">Topic: ${esc(q.topic)} · ${q.questions.length} Questions · ${q.timer} Mins</div>
+          <div style="color:var(--amber);font-size:13px;margin-top:2px;">Available: ${fmtDate(q.availableFrom)} to ${fmtDate(q.availableUntil)}</div>
+        </div>
+        <span class="badge" style="background:var(--bg3);border:1px solid var(--border);color:var(--text-2);">${esc(q.toughness)}</span>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+        <button class="btn-ghost" style="padding:6px 14px;font-size:13px;" onclick="openQuizAttemptsModal('${q._id}')">📊 View Analytics & Export</button>
+        <button class="btn-danger" style="padding:6px 14px;font-size:13px;" onclick="deleteQuiz('${q._id}')">🗑️ Delete</button>
+      </div>
+    </div>
+  `).join('');
+  el.innerHTML = html;
+}
+
+function openCreateQuizModal() {
+  document.getElementById('quiz-title').value = '';
+  document.getElementById('quiz-topic').value = '';
+  document.getElementById('quiz-num').value = '10';
+  document.getElementById('quiz-timer').value = '15';
+  openModal('modal-create-quiz');
+}
+
+async function generateAndSaveQuiz() {
+  const payload = {
+    courseId: STATE.activeTeacherCourseId,
+    title: document.getElementById('quiz-title').value.trim(),
+    topic: document.getElementById('quiz-topic').value.trim(),
+    toughness: document.getElementById('quiz-toughness').value,
+    numQuestions: parseInt(document.getElementById('quiz-num').value),
+    timer: parseInt(document.getElementById('quiz-timer').value),
+    availableFrom: document.getElementById('quiz-from').value,
+    availableUntil: document.getElementById('quiz-to').value
+  };
+  
+  if (!payload.title || !payload.topic || !payload.availableFrom || !payload.availableUntil) { toast('All fields required', 'error'); return; }
+  if (payload.numQuestions > 50) { toast('Max 50 questions allowed', 'error'); return; }
+
+  const btn = document.querySelector('#modal-create-quiz .btn-primary');
+  btn.textContent = '✨ Generating (Takes ~10s)...'; btn.disabled = true;
+  
+  try {
+    await API.generateQuiz(payload);
+    toast('AI Quiz successfully generated and saved!', 'success');
+    closeAllModals();
+    initTeacherQuizzes(STATE.activeTeacherCourseId);
+  } catch (e) { toast(e.message || 'Generation failed', 'error'); }
+  finally { btn.textContent = 'Generate & Save Quiz'; btn.disabled = false; }
+}
+
+async function deleteQuiz(id) {
+  if (!confirm('Delete this quiz? All student attempts will be lost.')) return;
+  try {
+    await API.deleteQuiz(id);
+    toast('Quiz deleted', 'success');
+    initTeacherQuizzes(STATE.activeTeacherCourseId);
+  } catch (e) { toast('Error deleting quiz', 'error'); }
+}
+
+async function openQuizAttemptsModal(quizId) {
+  openModal('modal-quiz-attempts');
+  const el = document.getElementById('quiz-attempts-list');
+  el.innerHTML = '<div class="empty-state">Loading attempts...</div>';
+  try {
+    const { attempts } = await API.quizAttempts(quizId);
+    STATE.currentQuizAttempts = attempts;
+    
+    if (!attempts.length) { el.innerHTML = '<div class="empty-state">No student attempts yet.</div>'; return; }
+    
+    let html = attempts.map(a => `
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-md);padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-weight:600;font-size:15px;">${esc(a.student?.name)} <span style="font-weight:400;color:var(--text-2);font-size:13px;">(@${esc(a.student?.username)})</span></div>
+          <div style="font-size:13px;color:var(--text-3);margin-top:2px;">Submitted: ${new Date(a.endTime).toLocaleString('en-IN')}</div>
+        </div>
+        <div style="font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--teal);">${a.score} / ${a.maxScore}</div>
+      </div>
+    `).join('');
+    el.innerHTML = html;
+  } catch (e) { el.innerHTML = '<div class="empty-state">Error loading records</div>'; }
+}
+
+function exportQuizAttempts() {
+  if (!STATE.currentQuizAttempts || !STATE.currentQuizAttempts.length) { toast('No records to export', 'error'); return; }
+  const headers = ['Student Name', 'Username', 'Score', 'Max Score', 'Date Submitted'];
+  const rows = STATE.currentQuizAttempts.map(a => [
+    `"${a.student?.name||''}"`, `"${a.student?.username||''}"`, a.score, a.maxScore, `"${new Date(a.endTime).toLocaleString('en-IN')}"`
+  ]);
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  downloadCSV(csv, 'quiz_analytics_export.csv');
+}
+
+/* Student Quiz Logic */
+async function initStudentQuizzes(courseId) {
+  const el = document.getElementById('tab-quizzes');
+  if(!el) return;
+  try {
+    const { quizzes, attempts } = await API.courseQuizzes(courseId);
+    
+    if (!quizzes.length) {
+      el.innerHTML = '<div class="empty-state"><div class="es-icon">🧠</div>No quizzes available.</div>';
+      return;
+    }
+    
+    el.innerHTML = quizzes.map(q => {
+      const attempt = attempts.find(a => a.quiz === q._id);
+      const now = new Date();
+      const isAvailable = new Date(q.availableFrom) <= now && new Date(q.availableUntil) >= now;
+      
+      let actionHtml = '';
+      if (attempt) {
+        actionHtml = `<div class="badge badge-approved" style="font-size:15px;padding:8px 16px;">Score: ${attempt.score} / ${attempt.maxScore}</div>`;
+      } else if (!isAvailable) {
+        actionHtml = `<div class="badge badge-rejected" style="font-size:14px;padding:6px 12px;">Closed</div>`;
+      } else {
+        actionHtml = `<button class="btn-primary" onclick='startQuiz(${JSON.stringify(q).replace(/'/g, "&#39;")})'>Start Quiz (${q.timer}m)</button>`;
+      }
+
+      return `
+      <div class="list-card" style="align-items:center; justify-content:space-between; padding:1.5rem;">
+        <div>
+          <div style="font-family:var(--font-head);font-weight:700;font-size:18px;">${esc(q.title)}</div>
+          <div style="color:var(--text-2);font-size:14px;margin-top:4px;">${q.questions.length} Questions · Difficulty: ${esc(q.toughness)}</div>
+        </div>
+        <div>${actionHtml}</div>
+      </div>`;
+    }).join('');
+  } catch (e) { el.innerHTML = '<div class="empty-state">Error loading quizzes</div>'; }
+}
+
+let quizInterval;
+function startQuiz(quiz) {
+  STATE.activeQuiz = quiz;
+  // Shuffle options client-side so it's randomized for every student
+  quiz.questions.forEach(q => { q.options = q.options.sort(() => Math.random() - 0.5); });
+  
+  document.getElementById('take-quiz-title').textContent = quiz.title;
+  document.getElementById('take-quiz-body').innerHTML = quiz.questions.map((q, i) => `
+    <div class="quiz-question-card" data-qid="${q._id}">
+      <div style="font-weight:600;margin-bottom:12px;font-size:16px;">${i+1}. ${esc(q.text)}</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        ${q.options.map((opt, j) => `
+          <label class="quiz-option">
+            <input type="radio" name="q_${q._id}" value="${esc(opt)}" />
+            <span>${esc(opt)}</span>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+  
+  openModal('modal-take-quiz');
+  
+  // Start Timer
+  let timeLeft = quiz.timer * 60;
+  const timerEl = document.getElementById('quiz-timer-display');
+  
+  clearInterval(quizInterval);
+  quizInterval = setInterval(() => {
+    timeLeft--;
+    const m = Math.floor(timeLeft / 60);
+    const s = timeLeft % 60;
+    timerEl.textContent = `⏳ ${m}:${s < 10 ? '0' : ''}${s}`;
+    if (timeLeft <= 0) { clearInterval(quizInterval); submitStudentQuiz(); }
+  }, 1000);
+}
+
+async function submitStudentQuiz() {
+  clearInterval(quizInterval);
+  const answers = [];
+  document.querySelectorAll('.quiz-question-card').forEach(card => {
+    const qid = card.dataset.qid;
+    const selected = card.querySelector(`input[name="q_${qid}"]:checked`)?.value;
+    if (selected) answers.push({ questionId: qid, selectedOption: selected });
+  });
+  
+  const btn = document.querySelector('#modal-take-quiz .btn-primary');
+  btn.textContent = 'Submitting...'; btn.disabled = true;
+  try {
+    const res = await API.submitQuiz(STATE.activeQuiz._id, { answers });
+    toast(`Quiz completed! Score: ${res.score}/${res.maxScore}`, 'success');
+    closeAllModals();
+    initStudentQuizzes(STATE.activeQuiz.course);
+  } catch (e) { toast('Error submitting quiz', 'error'); }
+  finally { btn.textContent = 'Submit Quiz'; btn.disabled = false; }
 }
 
 /* ══════════════════════════════════════════

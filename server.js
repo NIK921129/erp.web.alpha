@@ -171,6 +171,30 @@ const LogSchema = new mongoose.Schema({
 LogSchema.index({ createdAt: -1 }); // Index necessary for fast descending sort
 const Log = mongoose.model('Log', LogSchema);
 
+const QuizSchema = new mongoose.Schema({
+  course: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', index: true },
+  title: String,
+  topic: String,
+  toughness: { type: String, enum: ['Easy', 'Medium', 'Hard'] },
+  timer: Number, // in minutes
+  availableFrom: Date,
+  availableUntil: Date,
+  questions: [{ text: String, options: [String], correctOption: String }],
+}, { timestamps: true });
+const Quiz = mongoose.model('Quiz', QuizSchema);
+
+const QuizAttemptSchema = new mongoose.Schema({
+  quiz: { type: mongoose.Schema.Types.ObjectId, ref: 'Quiz', index: true },
+  student: { type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true },
+  score: Number,
+  maxScore: Number,
+  answers: [{ questionId: String, selectedOption: String, isCorrect: Boolean }],
+  status: { type: String, enum: ['in-progress', 'completed'], default: 'in-progress' },
+  startTime: { type: Date, default: Date.now },
+  endTime: Date
+}, { timestamps: true });
+const QuizAttempt = mongoose.model('QuizAttempt', QuizAttemptSchema);
+
 /* ══════════════════════════════════════════
    HELPER: INVOICE GENERATOR
 ══════════════════════════════════════════ */
@@ -463,6 +487,8 @@ api.delete('/courses/:id', auth, async (req, res) => {
     await Assignment.deleteMany({ course: cid });
     await Content.deleteMany({ course: cid });
     await ChatMessage.deleteMany({ course: cid });
+    await Quiz.deleteMany({ course: cid });
+    // Attempts not strictly deleted to keep student records, but can be
     res.json({ message: 'Deleted' });
   } catch (e) {
     res.status(500).json({ message: e.message });
@@ -1065,6 +1091,102 @@ api.post('/ai/chat', auth, async (req, res) => {
     if (!aiRes.ok) throw new Error(aiData.error?.message || 'AI generation failed');
 
     res.json({ reply: aiData.candidates[0].content.parts[0].text });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+// --- AI QUIZ MAKER ---
+api.get('/quizzes/course/:id', auth, async (req, res) => {
+  try {
+    const quizzes = await Quiz.find({ course: req.params.id }).sort('-createdAt');
+    if (req.user.role === 'student') {
+      // Hide correct options from students before they submit
+      const safeQuizzes = quizzes.map(q => {
+        const safeQ = q.toObject();
+        safeQ.questions.forEach(question => delete question.correctOption);
+        return safeQ;
+      });
+      const attempts = await QuizAttempt.find({ student: req.user._id, quiz: { $in: quizzes.map(q => q._id) } });
+      return res.json({ quizzes: safeQuizzes, attempts });
+    }
+    res.json({ quizzes });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+api.post('/quizzes/generate', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'teacher' && req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const { courseId, title, topic, toughness, numQuestions, timer, availableFrom, availableUntil } = req.body;
+    
+    if (numQuestions > 50) return res.status(400).json({ message: 'Maximum 50 questions allowed.' });
+
+    const prompt = `Generate a multiple choice quiz about "${topic}". Difficulty: ${toughness}. Number of questions: ${numQuestions}. 
+    Return STRICTLY a raw JSON array of objects (NO markdown blocks, NO backticks, NO extra text). 
+    Format: [{"text": "Question text?", "options": ["A", "B", "C", "D"], "correctOption": "Exact string of correct option"}]. 
+    Ensure the correctOption EXACTLY matches one of the provided options.`;
+
+    const geminiKey = process.env.GEMINI_API_KEY;
+    if (!geminiKey) throw new Error('AI Service is not configured.');
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`;
+    
+    const aiRes = await fetch(geminiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }) });
+    const aiData = await aiRes.json();
+    if (!aiRes.ok) throw new Error(aiData.error?.message || 'AI generation failed');
+
+    let rawText = aiData.candidates[0].content.parts[0].text;
+    rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+    const questions = JSON.parse(rawText);
+
+    const quiz = await Quiz.create({
+      course: courseId, title, topic, toughness, timer, availableFrom, availableUntil, questions
+    });
+    
+    res.json({ quiz });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+api.post('/quizzes/:id/submit', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'student') return res.status(403).json({ message: 'Forbidden' });
+    const { answers } = req.body; // format: [{ questionId, selectedOption }]
+    
+    const quiz = await Quiz.findById(req.params.id);
+    if (!quiz) return res.status(404).json({ message: 'Quiz not found' });
+    
+    const existingAttempt = await QuizAttempt.findOne({ quiz: quiz._id, student: req.user._id });
+    if (existingAttempt) return res.status(400).json({ message: 'You have already attempted this quiz.' });
+
+    // Server-side Grade Calculation (Prevent cheating)
+    let score = 0;
+    const processedAnswers = answers.map(ans => {
+      const q = quiz.questions.find(quest => quest._id.toString() === ans.questionId);
+      const isCorrect = q && q.correctOption === ans.selectedOption;
+      if (isCorrect) score++;
+      return { questionId: ans.questionId, selectedOption: ans.selectedOption, isCorrect };
+    });
+
+    const attempt = await QuizAttempt.create({
+      quiz: quiz._id, student: req.user._id, score, maxScore: quiz.questions.length,
+      answers: processedAnswers, status: 'completed', endTime: Date.now()
+    });
+
+    res.json({ score, maxScore: attempt.maxScore });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+api.get('/quizzes/:id/attempts', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'teacher' && req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    const attempts = await QuizAttempt.find({ quiz: req.params.id }).populate('student', 'name email username');
+    res.json({ attempts });
+  } catch (e) { res.status(500).json({ message: e.message }); }
+});
+
+api.delete('/quizzes/:id', auth, async (req, res) => {
+  try {
+    if (req.user.role !== 'teacher' && req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+    await Quiz.findByIdAndDelete(req.params.id);
+    await QuizAttempt.deleteMany({ quiz: req.params.id });
+    res.json({ message: 'Quiz deleted' });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
