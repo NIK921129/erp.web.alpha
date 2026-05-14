@@ -17,7 +17,6 @@ const CONFIG = {
   WA_NUMBER:  '919211293576',
   ANNOUNCEMENT_TEXT: '',
   ANNOUNCEMENT_ACTIVE: false,
-  MANUAL_EMAIL: false,
   ICONS: ['📘','📗','📙','📕','🎯','💡','⚡','🔬','🎨','🖥️','🧮','📐'],
 };
 
@@ -131,7 +130,6 @@ const API = {
   manualEnrol:     (d)      => api('POST', '/admin/enrol', d),
   broadcast:       (d)      => api('POST', '/admin/broadcast', d),
   studentReport:   (id)     => api('GET', `/admin/users/${id}/report`),
-  sendCustomEmail: (d)      => api('POST', '/admin/send-email', d),
 
   /* Settings */
   getSettings:     ()       => api('GET', '/settings'),
@@ -285,7 +283,6 @@ window.addEventListener('DOMContentLoaded', async () => {
       CONFIG.UPI_ID = settings.upiId || CONFIG.UPI_ID;
       CONFIG.UPI_NAME = settings.upiName || CONFIG.UPI_NAME;
       CONFIG.WA_NUMBER = settings.waNumber || CONFIG.WA_NUMBER;
-      CONFIG.MANUAL_EMAIL = settings.manualEmail || false;
       
       if (settings.announcementActive && settings.announcementText) {
         const banner = document.getElementById('announcement-banner');
@@ -1672,25 +1669,7 @@ async function initAdminDashboard() {
 ══════════════════════════════════════════ */
 async function initAdminPayments(filter = 'pending') {
   STATE.paymentFilter = filter;
-  const toggle = document.getElementById('payments-manual-email-toggle');
-  if (toggle) toggle.checked = CONFIG.MANUAL_EMAIL;
   await renderAdminPayments();
-}
-
-async function toggleManualEmailFromPayments() {
-  const isChecked = document.getElementById('payments-manual-email-toggle').checked;
-  CONFIG.MANUAL_EMAIL = isChecked;
-  const setEl = document.getElementById('admin-set-manual-email');
-  if (setEl) setEl.checked = isChecked; // Keep Settings page synced
-  const customEl = document.getElementById('custom-email-manual-toggle');
-  if (customEl) customEl.checked = isChecked; // Keep Custom Email modal synced
-  
-  try {
-    await API.updateSettings({ manualEmail: isChecked });
-    toast(isChecked ? 'Manual Email Mode ENABLED' : 'Automatic Email Mode ENABLED', 'success');
-  } catch (e) {
-    toast('Error saving setting', 'error');
-  }
 }
 
 async function renderAdminPayments() {
@@ -1916,8 +1895,6 @@ async function openCustomEmailModal(userId = null, preSelectCourseId = null) {
   document.getElementById('custom-email-subject').value = '';
   document.getElementById('custom-email-body').value = '';
   
-  document.getElementById('custom-email-manual-toggle').checked = CONFIG.MANUAL_EMAIL;
-
   const toggle = document.getElementById('custom-email-batch-toggle');
   toggle.checked = !!preSelectCourseId || !userId;
   
@@ -1951,82 +1928,45 @@ function toggleEmailMode() {
   document.getElementById('custom-email-batch-view').classList.toggle('hidden', !isBatch);
 }
 
-async function toggleManualEmailFromCustom() {
-  const isChecked = document.getElementById('custom-email-manual-toggle').checked;
-  CONFIG.MANUAL_EMAIL = isChecked;
-  
-  const setEl = document.getElementById('admin-set-manual-email');
-  if (setEl) setEl.checked = isChecked;
-  const payEl = document.getElementById('payments-manual-email-toggle');
-  if (payEl) payEl.checked = isChecked;
-  
-  try {
-    await API.updateSettings({ manualEmail: isChecked });
-    toast(isChecked ? 'Manual Mode ENABLED' : 'Automatic Mode ENABLED', 'success');
-  } catch (e) {
-    toast('Error saving setting', 'error');
-  }
-}
-
 async function submitCustomEmail() {
   const isBatch = document.getElementById('custom-email-batch-toggle').checked;
   const subject = document.getElementById('custom-email-subject').value.trim();
   const message = document.getElementById('custom-email-body').value.trim();
   if (!subject || !message) { toast('Subject and message are required', 'error'); return; }
   
-  let payload = { subject, message };
   let emails = [];
 
   if (isBatch) {
     const courseId = document.getElementById('custom-email-course-select').value;
     if (!courseId) { toast('Please select a course', 'error'); return; }
-    payload.courseId = courseId;
     
-    if (CONFIG.MANUAL_EMAIL) {
-      try {
-        const data = await API.courseStudents(courseId);
-        emails = (data.students || []).map(s => s.email).filter(e => e);
-      } catch(e) { toast('Error fetching students', 'error'); return; }
-    }
+    try {
+      const data = await API.courseStudents(courseId);
+      emails = (data.students || []).map(s => s.email).filter(e => e);
+    } catch(e) { toast('Error fetching students', 'error'); return; }
   } else {
     const userId = document.getElementById('custom-email-user-id').value;
     if (!userId) { toast('No single user selected', 'error'); return; }
-    payload.userId = userId;
     
-    if (CONFIG.MANUAL_EMAIL) {
-      const user = STATE.adminUsers.find(u => u._id === userId) || STATE.adminStudents.find(u => u._id === userId);
-      if (user && user.email) emails.push(user.email);
-    }
+    const user = STATE.adminUsers.find(u => u._id === userId) || STATE.adminStudents.find(u => u._id === userId);
+    if (user && user.email) emails.push(user.email);
   }
 
-  if (CONFIG.MANUAL_EMAIL) {
-    if (!emails.length) { toast('No recipients found', 'error'); return; }
+  if (!emails.length) { toast('No recipients found', 'error'); return; }
+  
+  const mailtoLink = isBatch 
+    ? `mailto:?bcc=${encodeURIComponent(emails.join(','))}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`
+    : `mailto:${encodeURIComponent(emails[0])}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
     
-    // For single users, put them in 'To'. For batches, put them in 'BCC' to protect privacy.
-    const mailtoLink = isBatch 
-      ? `mailto:?bcc=${encodeURIComponent(emails.join(','))}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`
-      : `mailto:${encodeURIComponent(emails[0])}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
-      
-    const a = document.createElement('a');
-    a.href = mailtoLink;
-    a.target = '_blank';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    
-    toast('Opened in your email client!', 'success');
-    closeAllModals();
-    return;
-  }
-
-  const btn = document.querySelector('#modal-custom-email .btn-primary');
-  const origText = btn.textContent; btn.textContent = 'Sending...'; btn.disabled = true;
-  try {
-    const res = await API.sendCustomEmail(payload);
-    toast(res.message || 'Email sent successfully!', 'success');
-    closeAllModals();
-  } catch (e) { toast(e.message || 'Error sending email', 'error'); }
-  finally { btn.textContent = origText; btn.disabled = false; }
+  const a = document.createElement('a');
+  a.href = mailtoLink;
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  
+  toast('Opened in your email client!', 'success');
+  closeAllModals();
 }
 
 /* ══════════════════════════════════════════
@@ -3059,7 +2999,6 @@ async function initAdminSettings() {
   document.getElementById('admin-set-wa').value = CONFIG.WA_NUMBER;
   document.getElementById('admin-set-announcement').value = CONFIG.ANNOUNCEMENT_TEXT;
   document.getElementById('admin-set-announcement-active').checked = CONFIG.ANNOUNCEMENT_ACTIVE;
-  document.getElementById('admin-set-manual-email').checked = CONFIG.MANUAL_EMAIL;
   
   loadAdminSettingsData();
 }
@@ -3070,17 +3009,15 @@ async function saveAdminSettings() {
   const waNumber = document.getElementById('admin-set-wa').value.trim();
   const announcementText = document.getElementById('admin-set-announcement').value.trim();
   const announcementActive = document.getElementById('admin-set-announcement-active').checked;
-  const manualEmail = document.getElementById('admin-set-manual-email').checked;
   const aiCredits = Number(document.getElementById('admin-set-ai-credits').value) || 5;
   
   const bannedIpsText = document.getElementById('admin-set-banned-ips').value;
   const bannedIPs = bannedIpsText.split(',').map(ip => ip.trim()).filter(ip => ip);
   
   try {
-    await API.updateSettings({ upiId, upiName, waNumber, announcementText, announcementActive, manualEmail, bannedIPs, aiCredits });
+    await API.updateSettings({ upiId, upiName, waNumber, announcementText, announcementActive, bannedIPs, aiCredits });
     CONFIG.UPI_ID = upiId; CONFIG.UPI_NAME = upiName; CONFIG.WA_NUMBER = waNumber;
     CONFIG.ANNOUNCEMENT_TEXT = announcementText; CONFIG.ANNOUNCEMENT_ACTIVE = announcementActive;
-    CONFIG.MANUAL_EMAIL = manualEmail;
     
     const banner = document.getElementById('announcement-banner');
     if (announcementActive && announcementText) {
@@ -3099,11 +3036,6 @@ async function loadAdminSettingsData() {
     }
     if (settings && settings.aiCredits !== undefined) {
       document.getElementById('admin-set-ai-credits').value = settings.aiCredits;
-    }
-    if (settings && settings.manualEmail !== undefined) {
-      CONFIG.MANUAL_EMAIL = settings.manualEmail;
-      const el = document.getElementById('admin-set-manual-email');
-      if (el) el.checked = CONFIG.MANUAL_EMAIL;
     }
     
     const { coupons } = await API.getCoupons();

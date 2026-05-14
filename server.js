@@ -8,7 +8,6 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
-const nodemailer = require('nodemailer');
 
 const app = express();
 app.set('trust proxy', 1); // Trust reverse proxy (like Render) to correctly identify https
@@ -35,25 +34,6 @@ const io = new Server(server, {
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 const BASE_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
-
-/* Initialize Nodemailer (Gmail) */
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER || 'your_email@gmail.com',
-    pass: process.env.GMAIL_PASS || 'your_app_password'
-  }
-});
-
-/* Verify Gmail Connection on Startup */
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("❌ Gmail Configuration Error:", error.message);
-    console.error("👉 Fix: Ensure GMAIL_USER and GMAIL_PASS (16-letter App Password) are set in Render Environment Variables.");
-  } else {
-    console.log("✅ Gmail service is configured and ready to send emails.");
-  }
-});
 
 /* ══════════════════════════════════════════
    FILE UPLOAD CONFIG (Multer)
@@ -167,7 +147,6 @@ const Setting = mongoose.model('Setting', new mongoose.Schema({
   announcementText: { type: String, default: '' },
   announcementActive: { type: Boolean, default: false },
   bannedIPs: [{ type: String }],
-  manualEmail: { type: Boolean, default: false },
   aiCredits: { type: Number, default: 5 }
 }));
 
@@ -1018,59 +997,6 @@ api.post('/admin/enrol', auth, async (req, res) => {
     
     res.json({ message: 'Enrolled successfully' });
   } catch (e) { res.status(500).json({ message: e.message }); }
-});
-
-api.post('/admin/send-email', auth, async (req, res) => {
-  try {
-    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
-    const { userId, courseId, subject, message } = req.body;
-    
-    let users = [];
-    if (courseId) {
-      const enrols = await Enrolment.find({ course: courseId, status: 'active' }).populate('student');
-      const uniqueIds = new Set();
-      enrols.forEach(e => {
-        if (e.student && !uniqueIds.has(e.student._id.toString())) {
-          uniqueIds.add(e.student._id.toString());
-          users.push(e.student);
-        }
-      });
-    } else if (userId) {
-      const user = await User.findById(userId);
-      if (user) users.push(user);
-    }
-
-    if (!users.length) return res.status(404).json({ message: 'No recipients found for this action.' });
-
-    let successCount = 0;
-    let errorCount = 0;
-
-    // Send emails sequentially to prevent Gmail from tarpitting/blocking concurrent connections
-    for (const u of users) {
-      try {
-        await transporter.sendMail({
-          from: `"ABC Institute" <${process.env.GMAIL_USER || transporter.options.auth.user}>`,
-          to: u.email,
-          subject: subject || "Message from ABC Institute",
-          html: `<p>Dear ${u.name},</p><p>${message.replace(/\n/g, '<br/>')}</p>`
-        });
-        successCount++;
-      } catch (err) {
-        errorCount++;
-        console.error(`❌ Failed to send email to ${u.email}:`, err.message);
-      }
-    }
-
-    if (errorCount > 0) {
-      res.json({ message: `Email processing finished. Success: ${successCount}, Failed: ${errorCount}.` });
-    } else {
-      res.json({ message: `Email sent successfully to ${successCount} recipient(s)` });
-    }
-  } catch (e) { 
-    console.error("❌ Gmail Error:", e.message || e);
-    const errorDetail = e.message || 'Check Gmail App Password and configuration.';
-    res.status(500).json({ message: `Gmail Error: ${errorDetail}` }); 
-  }
 });
 
 api.post('/admin/broadcast', auth, async (req, res) => {

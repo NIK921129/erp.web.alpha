@@ -468,10 +468,6 @@
         <button class="filter-btn" onclick="filterPayments('all', this)">All</button>
       </div>
       <div style="display:flex; align-items:center; gap:15px; flex-wrap:wrap; margin-top:10px;">
-        <div style="display:flex; align-items:center; gap:8px; background:var(--bg3); padding:8px 16px; border-radius:50px; border:1px solid var(--teal); box-shadow:0 0 12px var(--teal-glow);">
-          <input type="checkbox" id="payments-manual-email-toggle" onchange="toggleManualEmailFromPayments()" style="cursor:pointer; transform:scale(1.2);" />
-          <label for="payments-manual-email-toggle" style="cursor:pointer; font-size:14px; font-weight:700; color:var(--teal); margin:0;">Manual Email Mode</label>
-        </div>
         <button class="btn-ghost" style="padding:9px 18px; font-size:15px" onclick="exportAdminPayments()">📥 Export CSV</button>
       </div>
     </div>
@@ -574,10 +570,6 @@
       </div>
       <hr style="border:0; border-top:1px solid var(--border); margin:2rem 0;" />
       <h3 style="margin-bottom:1rem; font-family:var(--font-head);">Email & Payment Configuration</h3>
-      <div class="form-group" style="flex-direction:row; align-items:center; gap:10px; margin-bottom: 1.5rem; padding: 1rem; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r-md);">
-        <input type="checkbox" id="admin-set-manual-email" style="width:auto; transform:scale(1.2)" />
-        <label for="admin-set-manual-email" style="margin:0; cursor:pointer; color:var(--text); font-weight:600;">Manual Email Mode (Opens Gmail/Outlook directly instead of auto-sending via Node)</label>
-      </div>
       <div class="form-group">
         <label>Payment UPI ID</label>
         <input type="text" id="admin-set-upi-id" placeholder="e.g. 9876543210@upi" />
@@ -947,10 +939,6 @@
       <button onclick="closeAllModals()">✕</button>
     </div>
     <div class="modal-body">
-      <div class="form-group" style="flex-direction:row; align-items:center; gap:10px; margin-bottom:1.5rem; padding:12px; background:var(--bg3); border:1px solid var(--teal); border-radius:var(--r-md); box-shadow:0 0 12px var(--teal-glow);">
-        <input type="checkbox" id="custom-email-manual-toggle" onchange="toggleManualEmailFromCustom()" style="width:auto; transform:scale(1.2)" />
-        <label for="custom-email-manual-toggle" style="margin:0; cursor:pointer; color:var(--teal); font-weight:700;">Manual Email Mode (Opens Email App)</label>
-      </div>
       <div class="form-group" style="flex-direction:row; align-items:center; gap:10px; margin-bottom:1rem; padding-bottom:1rem; border-bottom:1px solid var(--border);">
         <input type="checkbox" id="custom-email-batch-toggle" onchange="toggleEmailMode()" style="width:auto; transform:scale(1.2)" />
         <label for="custom-email-batch-toggle" style="margin:0; cursor:pointer; color:var(--text)">Send to entire course batch</label>
