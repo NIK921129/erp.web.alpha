@@ -576,6 +576,10 @@ api.post('/payments/:id/approve', auth, async (req, res) => {
     if (!p.course) return res.status(400).json({ message: 'Course no longer exists. Cannot approve.' });
     
     p.status = 'approved';
+    if (p.screenshotUrl) {
+      deleteLocalFile(p.screenshotUrl);
+      p.screenshotUrl = null;
+    }
     await p.save();
 
     await Enrolment.findOneAndUpdate({ student: p.student._id, course: p.course._id }, { status: 'active' }, { upsert: true });
@@ -599,8 +603,16 @@ api.post('/payments/:id/approve', auth, async (req, res) => {
 api.post('/payments/:id/reject', auth, async (req, res) => {
   try {
     if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
-    const p = await Payment.findByIdAndUpdate(req.params.id, { status: 'rejected' });
+    
+    const p = await Payment.findById(req.params.id);
     if (!p) return res.status(404).json({ message: 'Payment not found' });
+    
+    p.status = 'rejected';
+    if (p.screenshotUrl) {
+      deleteLocalFile(p.screenshotUrl);
+      p.screenshotUrl = null;
+    }
+    await p.save();
     
     io.to(p.student.toString()).emit('notification', { message: 'Your payment was rejected. Please re-upload.', type: 'error' });
     io.to(p.student.toString()).emit('refresh_data');
@@ -702,16 +714,9 @@ api.post('/assignments', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
-api.post('/assignments/:id/submit', auth, upload.single('file'), async (req, res) => {
+api.post('/assignments/:id/submit', auth, async (req, res) => {
   try {
-    const fileUrl = req.file ? `${BASE_URL}/uploads/${req.file.filename}` : undefined;
-
     const updateData = { text: req.body.text };
-    if (fileUrl !== undefined) {
-      updateData.fileUrl = fileUrl;
-      const oldSub = await Submission.findOne({ assignment: req.params.id, student: req.user._id });
-      if (oldSub && oldSub.fileUrl) deleteLocalFile(oldSub.fileUrl);
-    }
     if (req.body.url !== undefined) updateData.url = req.body.url;
   
     await Submission.findOneAndUpdate(

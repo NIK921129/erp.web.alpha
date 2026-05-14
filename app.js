@@ -2634,7 +2634,6 @@ function openSubmitModal(assignId) {
   document.getElementById('submit-assign-id').value = assignId;
   document.getElementById('submit-text').value = '';
   document.getElementById('submit-url').value = '';
-  document.getElementById('submit-file').value = '';
   openModal('modal-submit');
 }
 
@@ -2642,9 +2641,8 @@ async function submitAssignment() {
   const assignId = document.getElementById('submit-assign-id').value;
   const text     = document.getElementById('submit-text').value.trim();
   const url      = document.getElementById('submit-url').value.trim();
-  const fileInput= document.getElementById('submit-file');
 
-  if (!text && !url && !fileInput.files[0]) { toast('Please provide an answer, a link, or attach a file', 'error'); return; }
+  if (!text && !url) { toast('Please provide an answer or a link', 'error'); return; }
 
   const btn = document.querySelector('#modal-submit .btn-primary');
   const originalText = btn.textContent;
@@ -2652,15 +2650,7 @@ async function submitAssignment() {
   btn.disabled = true;
 
   try {
-    if (fileInput.files[0]) {
-      const fd = new FormData();
-      fd.append('text', text);
-      fd.append('url', url);
-      fd.append('file', fileInput.files[0]);
-      await api('POST', `/assignments/${assignId}/submit`, fd, true);
-    } else {
-      await API.submitWork(assignId, { text, url });
-    }
+    await API.submitWork(assignId, { text, url });
     toast('Assignment submitted!', 'success');
     closeAllModals();
     if (STATE.currentPage === 'student-course') initStudentCourse();
