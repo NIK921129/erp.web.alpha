@@ -1982,12 +1982,23 @@ function openEmailProvider(provider) {
   const bd = encodeURIComponent(body || '');
   
   let url = '';
+  const isWeb = ['gmail', 'outlook', 'yahoo'].includes(provider);
+  
   if (provider === 'gmail') url = `https://mail.google.com/mail/?view=cm&fs=1&to=${t}&bcc=${b}&su=${s}&body=${bd}`;
   else if (provider === 'outlook') url = `https://outlook.live.com/mail/0/deeplink/compose?to=${t}&bcc=${b}&subject=${s}&body=${bd}`;
   else if (provider === 'yahoo') url = `https://compose.mail.yahoo.com/?to=${t}&bcc=${b}&subject=${s}&body=${bd}`;
+  else if (provider === 'gmail-app') url = `googlegmail://co?to=${t}&bcc=${b}&subject=${s}&body=${bd}`;
+  else if (provider === 'outlook-app') url = `ms-outlook://compose?to=${t}&bcc=${b}&subject=${s}&body=${bd}`;
+  else if (provider === 'yahoo-app') url = `ymail://mail/compose?to=${t}&bcc=${b}&subject=${s}&body=${bd}`;
   else url = `mailto:${t}?bcc=${b}&subject=${s}&body=${bd}`;
   
-  window.open(url, '_blank');
+  if (isWeb) {
+    window.open(url, '_blank');
+  } else {
+    // For local app deep links, assigning to location handles it more reliably than window.open
+    window.location.href = url;
+  }
+  
   closeAllModals();
   toast('Opened email client!', 'success');
 }
