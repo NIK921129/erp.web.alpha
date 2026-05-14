@@ -41,7 +41,8 @@ let STATE = {
   currentChatCourse: null,
   pendingEmail:  null,
   courseQuizzes: [],
-  activeQuiz:    null
+  activeQuiz:    null,
+  courseAttempts:[]
 };
 let socket = null;
 
@@ -2994,7 +2995,19 @@ async function openQuizAttemptsModal(quizId) {
     
     if (!attempts.length) { el.innerHTML = '<div class="empty-state">No student attempts yet.</div>'; return; }
     
-    let html = attempts.map(a => `
+    const avgScore = (attempts.reduce((a,b)=>a+b.score, 0) / attempts.length).toFixed(1);
+    const maxScore = Math.max(...attempts.map(a=>a.score));
+    const minScore = Math.min(...attempts.map(a=>a.score));
+    
+    let html = `
+      <div class="stats-row" style="margin-bottom:1.5rem; grid-template-columns:1fr 1fr 1fr;">
+        <div class="stat-card" style="padding:1rem;"><div class="stat-label">Class Average</div><div class="stat-val teal">${avgScore}</div></div>
+        <div class="stat-card" style="padding:1rem;"><div class="stat-label">Highest Score</div><div class="stat-val green">${maxScore}</div></div>
+        <div class="stat-card" style="padding:1rem;"><div class="stat-label">Lowest Score</div><div class="stat-val red">${minScore}</div></div>
+      </div>
+    `;
+    
+    html += attempts.map(a => `
       <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-md);padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
         <div>
           <div style="font-weight:600;font-size:15px;">${esc(a.student?.name)} <span style="font-weight:400;color:var(--text-2);font-size:13px;">(@${esc(a.student?.username)})</span></div>
@@ -3023,6 +3036,8 @@ async function initStudentQuizzes(courseId) {
   if(!el) return;
   try {
     const { quizzes, attempts } = await API.courseQuizzes(courseId);
+    STATE.courseQuizzes = quizzes || [];
+    STATE.courseAttempts = attempts || [];
     
     if (!quizzes.length) {
       el.innerHTML = '<div class="empty-state"><div class="es-icon">🧠</div>No quizzes available.</div>';
@@ -3036,7 +3051,11 @@ async function initStudentQuizzes(courseId) {
       
       let actionHtml = '';
       if (attempt) {
-        actionHtml = `<div class="badge badge-approved" style="font-size:15px;padding:8px 16px;">Score: ${attempt.score} / ${attempt.maxScore}</div>`;
+        actionHtml = `
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="badge badge-approved" style="font-size:15px;padding:8px 16px;">Score: ${attempt.score} / ${attempt.maxScore}</div>
+            <button class="btn-ghost" style="padding:6px 12px; font-size:13px;" onclick="reviewQuiz('${q._id}')">View Results</button>
+          </div>`;
       } else if (!isAvailable) {
         actionHtml = `<div class="badge badge-rejected" style="font-size:14px;padding:6px 12px;">Closed</div>`;
       } else {
@@ -3055,6 +3074,13 @@ async function initStudentQuizzes(courseId) {
   } catch (e) { el.innerHTML = '<div class="empty-state">Error loading quizzes</div>'; }
 }
 
+window.updateQuizProgress = function() {
+  const total = STATE.activeQuiz.questions.length;
+  const answered = document.querySelectorAll('.quiz-question-card input[type="radio"]:checked').length;
+  const el = document.getElementById('quiz-progress-text');
+  if (el) el.textContent = `Answered: ${answered} / ${total}`;
+};
+
 let quizInterval;
 function startQuiz(quiz) {
   STATE.activeQuiz = quiz;
@@ -3062,13 +3088,14 @@ function startQuiz(quiz) {
   quiz.questions.forEach(q => { q.options = q.options.sort(() => Math.random() - 0.5); });
   
   document.getElementById('take-quiz-title').textContent = quiz.title;
+  document.getElementById('quiz-progress-text').textContent = `Answered: 0 / ${quiz.questions.length}`;
   document.getElementById('take-quiz-body').innerHTML = quiz.questions.map((q, i) => `
     <div class="quiz-question-card" data-qid="${q._id}">
       <div style="font-weight:600;margin-bottom:12px;font-size:16px;">${i+1}. ${esc(q.text)}</div>
       <div style="display:flex;flex-direction:column;gap:8px;">
         ${q.options.map((opt, j) => `
           <label class="quiz-option">
-            <input type="radio" name="q_${q._id}" value="${esc(opt)}" />
+            <input type="radio" name="q_${q._id}" value="${esc(opt)}" onchange="updateQuizProgress()" />
             <span>${esc(opt)}</span>
           </label>
         `).join('')}
@@ -3110,6 +3137,46 @@ async function submitStudentQuiz() {
     initStudentQuizzes(STATE.activeQuiz.course);
   } catch (e) { toast('Error submitting quiz', 'error'); }
   finally { btn.textContent = 'Submit Quiz'; btn.disabled = false; }
+}
+
+function reviewQuiz(quizId) {
+  const quiz = STATE.courseQuizzes.find(q => q._id === quizId);
+  const attempt = STATE.courseAttempts.find(a => a.quiz === quizId);
+  if (!quiz || !attempt) return;
+
+  document.getElementById('review-quiz-title').textContent = quiz.title + ' — Review';
+  document.getElementById('review-quiz-score').textContent = `Score: ${attempt.score} / ${attempt.maxScore}`;
+
+  document.getElementById('review-quiz-body').innerHTML = quiz.questions.map((q, i) => {
+    const ans = attempt.answers.find(a => a.questionId === q._id?.toString() || a.questionId === q._id);
+    const selected = ans ? ans.selectedOption : null;
+    const isCorrect = ans ? ans.isCorrect : false;
+
+    return `
+      <div class="quiz-question-card" style="border-color: ${isCorrect ? 'var(--green)' : 'var(--red)'}; box-shadow: inset 0 0 0 1px ${isCorrect ? 'rgba(34,197,94,0.3)' : 'rgba(229,69,69,0.3)'};">
+        <div style="font-weight:600;margin-bottom:12px;font-size:16px;">
+          ${i+1}. ${esc(q.text)}
+          <span style="float:right; color: ${isCorrect ? 'var(--green)' : 'var(--red)'}; font-size:14px; padding:4px 8px; border-radius:4px; background: ${isCorrect ? 'rgba(34,197,94,0.1)' : 'rgba(229,69,69,0.1)'};">${isCorrect ? '✓ Correct' : '✕ Incorrect'}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          ${q.options.map((opt) => {
+            let optStyle = ''; let optIcon = '';
+            if (opt === q.correctOption) {
+              optStyle = 'background: rgba(34,197,94,0.15); border-color: var(--green);'; optIcon = ' ✓';
+            } else if (opt === selected && !isCorrect) {
+              optStyle = 'background: rgba(229,69,69,0.15); border-color: var(--red);'; optIcon = ' ✕';
+            }
+            return `
+            <div class="quiz-option" style="${optStyle} cursor:default; pointer-events:none;">
+              <input type="radio" disabled ${opt === selected ? 'checked' : ''} />
+              <span style="${opt === q.correctOption ? 'font-weight:700; color:var(--green);' : ''}">${esc(opt)}${optIcon}</span>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+  }).join('');
+
+  openModal('modal-review-quiz');
 }
 
 /* ══════════════════════════════════════════

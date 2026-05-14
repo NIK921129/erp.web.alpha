@@ -1081,12 +1081,23 @@
   <div id="modal-take-quiz" class="modal hidden" style="max-width: 720px;">
     <div class="modal-header" style="background:var(--bg3);position:sticky;top:0;z-index:10;">
       <h3 id="take-quiz-title" style="flex:1;">Quiz</h3>
+      <div id="quiz-progress-text" style="color:var(--text-2);font-size:14px;font-weight:500;margin-right:15px;">Answered: 0 / 0</div>
       <div id="quiz-timer-display" style="font-family:var(--font-head);font-weight:700;color:var(--amber);margin-right:15px;">⏳ 00:00</div>
     </div>
     <div class="modal-body" id="take-quiz-body" style="background:var(--bg);padding:2rem;"></div>
     <div style="padding:1.5rem;background:var(--card);border-top:1px solid var(--border);text-align:right;position:sticky;bottom:0;">
       <button class="btn-primary" onclick="submitStudentQuiz()">Submit Quiz</button>
     </div>
+  </div>
+
+  <!-- Student: Review Quiz Modal -->
+  <div id="modal-review-quiz" class="modal hidden" style="max-width: 720px;">
+    <div class="modal-header" style="background:var(--bg3);position:sticky;top:0;z-index:10;">
+      <h3 id="review-quiz-title" style="flex:1;">Quiz Results</h3>
+      <div id="review-quiz-score" style="font-family:var(--font-head);font-weight:700;color:var(--teal);margin-right:15px;">Score: 0 / 0</div>
+      <button onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body" id="review-quiz-body" style="background:var(--bg);padding:2rem;"></div>
   </div>
 
 </div>

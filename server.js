@@ -1099,13 +1099,16 @@ api.get('/quizzes/course/:id', auth, async (req, res) => {
   try {
     const quizzes = await Quiz.find({ course: req.params.id }).sort('-createdAt');
     if (req.user.role === 'student') {
-      // Hide correct options from students before they submit
+      const attempts = await QuizAttempt.find({ student: req.user._id, quiz: { $in: quizzes.map(q => q._id) } });
+      // Hide correct options from students UNLESS they have already submitted the quiz
       const safeQuizzes = quizzes.map(q => {
         const safeQ = q.toObject();
-        safeQ.questions.forEach(question => delete question.correctOption);
+        const hasAttempt = attempts.some(a => a.quiz.toString() === safeQ._id.toString());
+        if (!hasAttempt) {
+          safeQ.questions.forEach(question => delete question.correctOption);
+        }
         return safeQ;
       });
-      const attempts = await QuizAttempt.find({ student: req.user._id, quiz: { $in: quizzes.map(q => q._id) } });
       return res.json({ quizzes: safeQuizzes, attempts });
     }
     res.json({ quizzes });
