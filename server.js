@@ -1136,7 +1136,7 @@ api.post('/ai/chat', auth, async (req, res) => {
     if (!enrol) return res.status(403).json({ message: 'Forbidden: You must be enrolled to use the AI.' });
 
     const course = await Course.findById(courseId);
-    const prompt = `Context: The student is asking a doubt related to the course "${course?.name || 'General'}". Answer clearly and concisely. Question: ${text}`;
+    const prompt = `Context: The student is asking a doubt related to the course "${course?.name || 'General'}". Answer clearly and concisely. IMPORTANT: Format any mathematical expressions in standard plain text (e.g., a^2 + b^2 = c^2, or a/b). Do NOT use LaTeX, MathJax, or excessive backslashes (like \\frac or \\\\[). Question: ${text}`;
 
     const geminiKey = process.env.GEMINI_API_KEY;
     if (!geminiKey) throw new Error('AI Service is not configured (Missing API Key).');

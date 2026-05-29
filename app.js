@@ -268,7 +268,7 @@ function initSocket() {
 ══════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', async () => {
   /* --- NUCLEAR CACHE BUSTING: Force clear old PWA data for all users --- */
-  const APP_VERSION = 'v7';
+  const APP_VERSION = 'v1';
   if (localStorage.getItem('abc_app_version') !== APP_VERSION) {
     if ('caches' in window) {
       const cacheNames = await caches.keys();
@@ -2928,7 +2928,7 @@ async function sendAiMessage(e, courseId) {
   try {
     const res = await API.aiChat({ courseId, text });
     document.getElementById(loaderId).remove();
-    container.insertAdjacentHTML('beforeend', `<div class="chat-msg"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:var(--teal-glow);border-color:var(--teal);white-space:pre-wrap;">${esc(res.reply)}</div></div>`);
+    container.insertAdjacentHTML('beforeend', `<div class="chat-msg"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:var(--teal-glow);border-color:var(--teal);white-space:pre-wrap;line-height:1.6;">${formatMarkdown(res.reply)}</div></div>`);
   } catch (err) {
     document.getElementById(loaderId).remove();
     container.insertAdjacentHTML('beforeend', `<div class="chat-msg"><div class="chat-msg-sender">✨ AI Assistant</div><div class="chat-msg-bubble" style="background:rgba(251,113,133,0.1);border-color:var(--red);color:var(--red)">${esc(err.message)}</div></div>`);
@@ -3395,6 +3395,17 @@ function downloadCSV(csvContent, filename) {
 ══════════════════════════════════════════ */
 function val(id) { return (document.getElementById(id)?.value || '').trim(); }
 function esc(s)  { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function formatMarkdown(text) {
+  if (!text) return '';
+  let html = esc(text);
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  html = html.replace(/```([\s\S]*?)```/g, '<pre style="background:var(--bg2);padding:10px;border-radius:var(--r-sm);margin:8px 0;overflow-x:auto;border:1px solid var(--border);"><code>$1</code></pre>');
+  html = html.replace(/`(.*?)`/g, '<code style="background:var(--bg2);padding:2px 4px;border-radius:4px;border:1px solid var(--border);">$1</code>');
+  return html;
+}
+
 function initials(name) { return (name||'?').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase(); }
 function fmtDate(d) { if (!d) return '—'; return new Date(d).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }); }
 function showErr(el, msg) { if (el) { el.textContent = msg; el.classList.remove('hidden'); } else { toast(msg, 'error'); } }
