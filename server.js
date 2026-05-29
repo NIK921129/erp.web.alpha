@@ -200,16 +200,19 @@ const QuizAttempt = mongoose.model('QuizAttempt', QuizAttemptSchema);
 ══════════════════════════════════════════ */
 function generateInvoicePDF(payment, student, course, teacher) {
   return new Promise((resolve, reject) => {
-    const doc = new PDFDocument({ margin: 50, size: 'A4' });
+    const doc = new PDFDocument({ margin: 0, size: 'A4' });
     const buffers = [];
     doc.on('data', buffers.push.bind(buffers));
     doc.on('end', () => resolve(Buffer.concat(buffers)));
     doc.on('error', reject);
 
-    const brandColor = '#0B101F';
-    const accentColor = '#22D3EE';
+    const brandColor = '#4f46e5'; // Indigo Dark
+    const brandLight = '#6366f1'; // Indigo Primary
     const textColor = '#334155';
-    const lightGray = '#E2E8F0';
+    const textDark = '#0f172a';
+    const textMuted = '#64748b';
+    const lightGray = '#e2e8f0';
+    const bgGray = '#f8fafc';
 
     // Generate Date and ID
     const invoiceDate = new Date(payment.createdAt || Date.now()).toLocaleDateString('en-IN', {
@@ -217,73 +220,91 @@ function generateInvoicePDF(payment, student, course, teacher) {
     });
     const invoiceNo = payment._id ? payment._id.toString().slice(-8).toUpperCase() : 'N/A';
 
-    // 1. Header Section
-    doc.fillColor(brandColor).fontSize(28).font('Helvetica-Bold').text('ABC Institute', 50, 50);
-    doc.fillColor(accentColor).fontSize(10).font('Helvetica').text('Learn. Track. Grow.', 50, 80);
+    // 1. Full-width Top Accent Bar
+    doc.rect(0, 0, doc.page.width, 8).fill(brandColor);
 
-    doc.fillColor(brandColor).fontSize(20).font('Helvetica-Bold').text('INVOICE', 50, 50, { align: 'right', width: 495 });
-    doc.fillColor(textColor).fontSize(10).font('Helvetica')
-       .text(`Invoice No: INV-${invoiceNo}`, 50, 75, { align: 'right', width: 495 })
-       .text(`Date: ${invoiceDate}`, 50, 90, { align: 'right', width: 495 });
+    const marginX = 50;
+    
+    // 2. Header Section
+    doc.fillColor(textDark).fontSize(28).font('Helvetica-Bold').text('ABC Institute', marginX, 50);
+    doc.fillColor(brandLight).fontSize(10).font('Helvetica-Bold').text('LEARN. TRACK. GROW.', marginX, 85);
+
+    doc.fillColor(textDark).fontSize(24).font('Helvetica-Bold').text('INVOICE', marginX, 50, { align: 'right', width: doc.page.width - marginX * 2 });
+    doc.fillColor(textMuted).fontSize(10).font('Helvetica')
+       .text(`Invoice Number: INV-${invoiceNo}`, marginX, 85, { align: 'right', width: doc.page.width - marginX * 2 })
+       .text(`Date of Issue: ${invoiceDate}`, marginX, 100, { align: 'right', width: doc.page.width - marginX * 2 })
+       .text(`Status: PAID`, marginX, 115, { align: 'right', width: doc.page.width - marginX * 2 });
 
     // Divider
-    doc.moveTo(50, 115).lineTo(545, 115).lineWidth(1).strokeColor(lightGray).stroke();
+    doc.moveTo(marginX, 145).lineTo(doc.page.width - marginX, 145).lineWidth(1).strokeColor(lightGray).stroke();
 
     // 2. Billing Information
-    doc.moveDown(2);
-    const billingY = 140;
+    const billingY = 175;
     
-    doc.fillColor(brandColor).fontSize(12).font('Helvetica-Bold').text('Billed To:', 50, billingY);
+    // Billed To Box
+    doc.roundedRect(marginX, billingY, 230, 95, 8).fillAndStroke(bgGray, lightGray);
+    doc.fillColor(textMuted).fontSize(9).font('Helvetica-Bold').text('BILLED TO', marginX + 15, billingY + 15);
+    doc.fillColor(textDark).fontSize(14).font('Helvetica-Bold').text(student.name, marginX + 15, billingY + 35);
     doc.fillColor(textColor).fontSize(10).font('Helvetica')
-       .text(student.name, 50, billingY + 15)
-       .text(`@${student.username}`, 50, billingY + 30)
-       .text(student.email, 50, billingY + 45);
+       .text(`Username: @${student.username}`, marginX + 15, billingY + 55)
+       .text(`Email: ${student.email}`, marginX + 15, billingY + 70);
 
-    doc.fillColor(brandColor).fontSize(12).font('Helvetica-Bold').text('Instructor Details:', 300, billingY);
+    // Instructor Box
+    doc.roundedRect(315, billingY, 230, 95, 8).fillAndStroke(bgGray, lightGray);
+    doc.fillColor(textMuted).fontSize(9).font('Helvetica-Bold').text('INSTRUCTOR DETAILS', 330, billingY + 15);
+    doc.fillColor(textDark).fontSize(14).font('Helvetica-Bold').text(teacher ? teacher.name : 'TBA', 330, billingY + 35);
     doc.fillColor(textColor).fontSize(10).font('Helvetica')
-       .text(teacher ? teacher.name : 'TBA', 300, billingY + 15)
-       .text(teacher && teacher.email ? teacher.email : 'Support available via portal', 300, billingY + 30);
+       .text(teacher && teacher.email ? teacher.email : 'Support available via portal', 330, billingY + 55);
 
     // 3. Invoice Table
-    const tableTop = 230;
+    const tableTop = 300;
     
-    doc.rect(50, tableTop, 495, 25).fillColor(brandColor).fill();
+    // Table Header
+    doc.roundedRect(marginX, tableTop, doc.page.width - marginX * 2, 35, 6).fill(brandColor);
     doc.fillColor('#FFFFFF').font('Helvetica-Bold').fontSize(10)
-       .text('Description', 60, tableTop + 8)
-       .text('Duration', 350, tableTop + 8)
-       .text('Amount (INR)', 450, tableTop + 8);
+       .text('DESCRIPTION', marginX + 15, tableTop + 12)
+       .text('DURATION', 330, tableTop + 12)
+       .text('AMOUNT (INR)', 450, tableTop + 12);
 
+    // Table Row
     const rowTop = tableTop + 35;
+    doc.rect(marginX, rowTop, doc.page.width - marginX * 2, 45).fill(bgGray);
+    doc.fillColor(textDark).font('Helvetica-Bold').fontSize(11)
+       .text(course.name, marginX + 15, rowTop + 15);
     doc.fillColor(textColor).font('Helvetica').fontSize(10)
-       .text(`Enrolment: ${course.name}`, 60, rowTop)
-       .text(course.duration || 'Self-paced', 350, rowTop)
-       .text(`₹ ${payment.amount}`, 450, rowTop);
-
-    doc.moveTo(50, rowTop + 20).lineTo(545, rowTop + 20).lineWidth(1).strokeColor(lightGray).stroke();
+       .text(course.duration || 'Self-paced', 330, rowTop + 15)
+       .text(`₹ ${Number(payment.amount).toLocaleString('en-IN')}`, 450, rowTop + 15);
+       
+    // Table Border Bottom
+    doc.moveTo(marginX, rowTop + 45).lineTo(doc.page.width - marginX, rowTop + 45).lineWidth(1).strokeColor(lightGray).stroke();
 
     // 4. Totals Calculation
-    const totalTop = rowTop + 40;
-    doc.fillColor(brandColor).font('Helvetica-Bold').fontSize(10).text('Subtotal:', 350, totalTop);
-    doc.font('Helvetica').text(`₹ ${payment.amount}`, 450, totalTop);
+    const totalTop = rowTop + 65;
+    doc.fillColor(textMuted).font('Helvetica-Bold').fontSize(10).text('Subtotal:', 330, totalTop);
+    doc.fillColor(textDark).font('Helvetica').text(`₹ ${Number(payment.amount).toLocaleString('en-IN')}`, 450, totalTop);
        
-    doc.font('Helvetica-Bold').text('Total Paid:', 350, totalTop + 20);
-    doc.fillColor(brandColor).fontSize(12).text(`₹ ${payment.amount}`, 450, totalTop + 19); // Accentuated Total
+    doc.moveTo(330, totalTop + 20).lineTo(doc.page.width - marginX, totalTop + 20).lineWidth(1).strokeColor(lightGray).stroke();
+
+    doc.font('Helvetica-Bold').fontSize(12).text('Total Paid:', 330, totalTop + 35);
+    doc.fillColor(brandColor).fontSize(16).text(`₹ ${Number(payment.amount).toLocaleString('en-IN')}`, 450, totalTop + 33);
 
     // 5. Account Details Info Box
-    const accountBoxY = totalTop + 60;
-    doc.rect(50, accountBoxY, 495, 75).fillColor('#F8FAFC').fill();
-    doc.lineWidth(1).strokeColor(lightGray).rect(50, accountBoxY, 495, 75).stroke();
+    const accountBoxY = totalTop + 85;
+    doc.roundedRect(marginX, accountBoxY, doc.page.width - marginX * 2, 75, 8).fillAndStroke('#f0fdf4', '#bbf7d0');
 
-    doc.fillColor(brandColor).fontSize(11).font('Helvetica-Bold').text('Important Information', 65, accountBoxY + 15);
-    doc.fillColor(textColor).fontSize(9).font('Helvetica')
-       .text('Your payment has been successfully verified. You now have full access to this course.', 65, accountBoxY + 35)
-       .text('Login at any time using your registered credentials. For security, passwords are encrypted and hidden.', 65, accountBoxY + 50);
+    doc.fillColor('#166534').fontSize(11).font('Helvetica-Bold').text('Payment Successfully Verified', marginX + 20, accountBoxY + 15);
+    doc.fillColor('#15803d').fontSize(9).font('Helvetica')
+       .text('Your payment has been approved and you now have full access to this course.', marginX + 20, accountBoxY + 35)
+       .text('Please login to your portal to start learning. Your credentials remain securely encrypted.', marginX + 20, accountBoxY + 50);
 
     // 6. Footer
     const pageHeight = doc.page.height;
-    doc.fillColor('#94A3B8').fontSize(9).font('Helvetica')
-       .text('Thank you for choosing ABC Institute!', 50, pageHeight - 70, { align: 'center', width: 495 })
-       .text('This is an electronically generated invoice and does not require a signature.', 50, pageHeight - 55, { align: 'center', width: 495 });
+    doc.moveTo(marginX, pageHeight - 80).lineTo(doc.page.width - marginX, pageHeight - 80).lineWidth(1).strokeColor(lightGray).stroke();
+    
+    doc.fillColor(textMuted).fontSize(9).font('Helvetica-Bold')
+       .text('Thank you for choosing ABC Institute!', marginX, pageHeight - 60, { align: 'center', width: doc.page.width - marginX * 2 })
+    doc.font('Helvetica')
+       .text('This is an electronically generated invoice and does not require a signature.', marginX, pageHeight - 45, { align: 'center', width: doc.page.width - marginX * 2 });
 
     doc.end();
   });
@@ -1348,7 +1369,5 @@ const gracefulShutdown = () => {
     });
   });
 };
-process.on('SIGINT', gracefulShutdown);
-process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);

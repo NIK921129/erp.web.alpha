@@ -1,41 +1,41 @@
 /* ═══════════════════════════════════════════
    ABC INSTITUTE ERP — style.css
-   Theme: Dark Navy · Teal Accent · Syne + DM Sans
+   Theme: Midnight Slate · Indigo Accent · Plus Jakarta Sans + Inter
 ═══════════════════════════════════════════ */
 
 /* ── TOKENS ── */
 :root {
-  --bg:         #030712;
-  --bg2:        #0B101F;
-  --bg3:        #151C2C;
-  --card:       rgba(11, 16, 31, 0.65);
-  --card2:      rgba(21, 28, 44, 0.65);
-  --backdrop:   blur(16px);
-  --border:     rgba(255,255,255,0.06);
+  --bg:         #09090b;
+  --bg2:        #18181b;
+  --bg3:        #27272a;
+  --card:       rgba(24, 24, 27, 0.6);
+  --card2:      rgba(39, 39, 42, 0.6);
+  --backdrop:   blur(20px);
+  --border:     rgba(255,255,255,0.07);
   --border2:    rgba(255,255,255,0.12);
 
-  --teal:       #22D3EE;
-  --teal-d:     #06B6D4;
-  --teal-glow:  rgba(34,211,238,0.15);
-  --blue:       #818CF8;
-  --amber:      #FBBF24;
-  --red:        #FE2C55;
-  --green:      #34D399;
+  --teal:       #6366f1; /* Primary Indigo */
+  --teal-d:     #4f46e5;
+  --teal-glow:  rgba(99,102,241,0.15);
+  --blue:       #a855f7; /* Secondary Purple */
+  --amber:      #f59e0b;
+  --red:        #f43f5e;
+  --green:      #10b981;
 
-  --text:       #ffffff;
-  --text-2:     #94A3B8;
-  --text-3:     #64748B;
+  --text:       #fafafa;
+  --text-2:     #a1a1aa;
+  --text-3:     #71717a;
 
-  --r-sm:       8px;
-  --r-md:       14px;
-  --r-lg:       16px;
+  --r-sm:       10px;
+  --r-md:       16px;
+  --r-lg:       20px;
   --r-xl:       28px;
 
-  --shadow:     0 8px 30px rgba(0,0,0,0.4);
-  --shadow-lg:  0 12px 40px rgba(34,211,238,0.08);
+  --shadow:     0 4px 20px rgba(0,0,0,0.3);
+  --shadow-lg:  0 10px 40px rgba(0,0,0,0.5);
 
-  --font-head:  'Syne', sans-serif;
-  --font-body:  'DM Sans', sans-serif;
+  --font-head:  'Plus Jakarta Sans', 'Inter', sans-serif;
+  --font-body:  'Inter', 'DM Sans', sans-serif;
 
   --nav-h:      64px;
   --trans:      0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -67,12 +67,12 @@ body::before, body::after {
 }
 body::before {
   top: -20%; left: -10%; width: 50vw; height: 50vw;
-  background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
   animation: floatOrb 15s ease-in-out infinite alternate;
 }
 body::after {
   bottom: -20%; right: -10%; width: 60vw; height: 60vw;
-  background: radial-gradient(circle, rgba(129,140,248,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(168,85,247,0.08) 0%, transparent 70%);
   animation: floatOrb 20s ease-in-out infinite alternate-reverse;
 }
 
@@ -127,8 +127,8 @@ textarea { resize: vertical; }
   width: 34px; height: 34px; border-radius: 8px;
   background: linear-gradient(135deg, var(--teal), var(--blue));
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-head); font-weight: 800; font-size: 14px;
-  color: #030712; letter-spacing: .5px; flex-shrink: 0;
+  font-family: var(--font-head); font-weight: 800; font-size: 16px;
+  color: #ffffff; letter-spacing: .5px; flex-shrink: 0;
   box-shadow: 0 4px 12px var(--teal-glow), inset 0 2px 4px rgba(255,255,255,0.5);
 }
 .nav-logo.lg { width: 48px; height: 48px; font-size: 18px; border-radius: 12px; }
@@ -170,14 +170,14 @@ textarea { resize: vertical; }
 ══════════════════════════════════════════ */
 .btn-primary {
   background: linear-gradient(135deg, var(--teal), var(--blue));
-  color: #030712; border: none;
-  padding: 11px 24px; border-radius: var(--r-md);
+  color: #ffffff; border: none;
+  padding: 12px 26px; border-radius: var(--r-md);
   font-size: 16px; font-weight: 700;
   cursor: pointer; transition: var(--trans);
   box-shadow: 0 4px 16px var(--teal-glow), inset 0 1px 0 rgba(255,255,255,0.4);
   display: inline-flex; align-items: center; gap: 6px;
 }
-.btn-primary:hover { background: linear-gradient(135deg, #67E8F9, #A5B4FC); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(34,211,238,0.4), inset 0 1px 0 rgba(255,255,255,0.6); }
+.btn-primary:hover { background: linear-gradient(135deg, var(--teal-d), #9333ea); transform: translateY(-2px); box-shadow: 0 8px 24px var(--teal-glow), inset 0 1px 0 rgba(255,255,255,0.6); }
 .btn-primary:active, .btn-ghost:active, .btn-danger:active, .btn-approve:active { transform: scale(0.96) translateY(0); }
 .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; }
 .btn-primary.btn-lg { padding: 15px 36px; font-size: 18px; border-radius: var(--r-lg); }
@@ -379,7 +379,7 @@ textarea { resize: vertical; }
   gap: 1.2rem;
 }
 .course-cards.lg {
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
 }
 .course-card {
   background: linear-gradient(180deg, var(--card) 0%, var(--bg) 100%);
@@ -391,8 +391,8 @@ textarea { resize: vertical; }
   display: flex; flex-direction: column; gap: .75rem;
 }
 .course-card:hover {
-  border-color: var(--teal); transform: translateY(-4px) scale(1.015);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 20px rgba(0,240,255,0.15), inset 0 1px 0 rgba(255,255,255,0.2);
+  border-color: var(--teal); transform: translateY(-6px) scale(1.01);
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.2);
 }
 .course-card-icon {
   width: 56px; height: 56px; border-radius: 14px;
@@ -473,7 +473,7 @@ textarea { resize: vertical; }
 }
 .inner-hero p { color: var(--text-2); }
 
-.container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+.container { max-width: 1200px; margin: 0 auto; padding: 2.5rem 2rem; }
 .container.narrow { max-width: 640px; }
 
 .dash-header {
@@ -502,8 +502,8 @@ textarea { resize: vertical; }
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
 }
 .stat-card:hover {
-  transform: translateY(-4px) scale(1.02); border-color: var(--teal);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.4), 0 0 15px rgba(0,240,255,0.1);
+  transform: translateY(-4px) scale(1.01); border-color: var(--teal);
+  box-shadow: var(--shadow-lg);
 }
 .stat-card .stat-label { font-size: 14px; color: var(--text-2); margin-bottom: .4rem; }
 .stat-card .stat-val {
@@ -544,8 +544,8 @@ textarea { resize: vertical; }
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
 }
 .list-card:hover {
-  border-color: var(--teal); transform: translateY(-3px) scale(1.01);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 12px rgba(0,240,255,0.1);
+  border-color: var(--teal); transform: translateY(-2px) scale(1.01);
+  box-shadow: var(--shadow);
 }
 .list-card .lc-icon {
   width: 38px; height: 38px; border-radius: 8px;

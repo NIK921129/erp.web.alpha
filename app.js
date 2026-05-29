@@ -1644,8 +1644,8 @@ async function initAdminDashboard() {
       
       const ctx = canvas.getContext('2d');
       const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-      gradient.addColorStop(0, 'rgba(34, 211, 238, 0.3)');
-      gradient.addColorStop(1, 'rgba(34, 211, 238, 0.0)');
+      gradient.addColorStop(0, 'rgba(99, 102, 241, 0.4)');
+      gradient.addColorStop(1, 'rgba(99, 102, 241, 0.0)');
 
       new Chart(ctx, {
         type: 'line',
@@ -1654,14 +1654,14 @@ async function initAdminDashboard() {
           datasets: [{
             label: 'Revenue (₹)',
             data: last30Days.map(d => revMap[d]),
-            borderColor: '#22d3ee',
+            borderColor: '#6366f1',
             backgroundColor: gradient,
             borderWidth: 3,
             fill: true,
             tension: 0.4,
             pointRadius: 1,
             pointHoverRadius: 6,
-            pointBackgroundColor: '#22d3ee'
+            pointBackgroundColor: '#6366f1'
           }]
         },
         options: {
