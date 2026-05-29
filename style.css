@@ -783,6 +783,15 @@ textarea { resize: vertical; }
   scrollbar-width: thin;
 }
 
+.drive-open-btn {
+  position: absolute; top: 12px; right: 12px; z-index: 10;
+  background: rgba(0,0,0,0.6); color: #fff; padding: 6px 14px;
+  border-radius: 6px; font-size: 13px; text-decoration: none;
+  backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15);
+  transition: var(--trans);
+}
+.drive-open-btn:hover { background: var(--teal); border-color: var(--teal); color: #fff; text-decoration: none; }
+
 /* ══════════════════════════════════════════
    YOUTUBE STYLE COURSE PLAYER
 ══════════════════════════════════════════ */
@@ -851,6 +860,32 @@ textarea { resize: vertical; }
 }
 .course-player-sidebar .pl-actions .btn-ghost, .premium-sidebar .pl-actions .btn-ghost { padding: 4px 10px; font-size: 12px; }
 .course-player-sidebar .pl-actions .btn-danger, .premium-sidebar .pl-actions .btn-danger { padding: 4px 8px; font-size: 12px; }
+
+/* Theater Mode Styles */
+.premium-course-layout.theater-mode {
+  flex-direction: column;
+  overflow-y: auto;
+}
+.premium-course-layout.theater-mode .premium-main {
+  overflow-y: visible;
+  flex: none;
+  padding: 1.5rem 1.5rem 0;
+}
+.premium-course-layout.theater-mode .youtube-style-player {
+  max-width: 1300px;
+  margin: 0 auto 1.5rem;
+}
+.premium-course-layout.theater-mode .premium-tabs-container {
+  max-width: 1300px;
+  margin: 0 auto 2rem;
+}
+.premium-course-layout.theater-mode .premium-sidebar {
+  width: 100%;
+  height: auto;
+  border-left: none;
+  border-top: 1px solid var(--border);
+  flex: none;
+}
 
 /* ══════════════════════════════════════════
    ADMIN TABLES

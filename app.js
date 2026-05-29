@@ -789,9 +789,23 @@ async function initStudentDashboard() {
 /* ══════════════════════════════════════════
    STUDENT COURSE VIEW
 ══════════════════════════════════════════ */
+function resetCoursePlayer(pageId) {
+  const page = document.getElementById(pageId);
+  if (!page) return;
+  const wrapper = page.querySelector('.youtube-style-player');
+  const placeholder = page.querySelector('.player-placeholder');
+  const container = page.querySelector('.video-embed');
+  
+  if (wrapper) wrapper.classList.add('hidden');
+  if (placeholder) placeholder.classList.remove('hidden');
+  if (container) container.innerHTML = ''; // This stops the old video/audio
+}
+
 async function initStudentCourse() {
   const courseId = STATE.activeCourseId;
   if (!courseId) { navigate('student-dashboard'); return; }
+
+  resetCoursePlayer('page-student-course');
 
   try {
     const [courseData, contentData, assignData, attData, batchData] = await Promise.all([
@@ -986,7 +1000,10 @@ window.viewCourseItem = function(id, type, url, title, desc) {
     if (url && url.includes('drive.google.com')) {
       if (descEl) descEl.textContent = desc;
       const embedUrl = driveEmbed(url);
-      container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen></iframe>`;
+          container.innerHTML = `
+            ${loaderHtml.replace('LOADING MEDIA...', 'LOADING DOCUMENT...')}
+            <iframe src="${embedUrl}" allowfullscreen style="position:relative; z-index:2; width:100%; height:100%; border:none;" onload="this.previousElementSibling.style.display='none'"></iframe>
+          `;
     } else if (url) {
       if (descEl) descEl.textContent = desc;
       container.innerHTML = `<div class="notes-viewer-content" style="display:flex;align-items:center;justify-content:center;"><a href="${url}" target="_blank" class="btn-primary">Open External Document</a></div>`;
@@ -1461,6 +1478,8 @@ async function initTeacherDashboard() {
 async function initTeacherCourse() {
   const courseId = STATE.activeTeacherCourseId;
   if (!courseId) { navigate('teacher-dashboard'); return; }
+
+  resetCoursePlayer('page-teacher-course');
 
   try {
     const [courseData, contentData, assignData, studentsData] = await Promise.all([
@@ -3513,4 +3532,16 @@ async function generateCoupon() {
     document.getElementById('new-coupon-pct').value = '';
     loadAdminSettingsData();
   } catch (e) { toast(e.message || 'Error creating coupon', 'error'); }
+}
+
+window.toggleTheaterMode = function() {
+  const layout = document.querySelector('.premium-course-layout');
+  if (!layout) return;
+  layout.classList.toggle('theater-mode');
+  const isTheater = layout.classList.contains('theater-mode');
+  const btn = document.getElementById('theater-btn');
+  if (btn) btn.innerHTML = isTheater ? '🖥️ Default View' : '📺 Theater Mode';
+  setTimeout(() => {
+    document.querySelector('.youtube-style-player')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
 }
