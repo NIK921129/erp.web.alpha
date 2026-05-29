@@ -390,6 +390,10 @@ function navigate(page, params = {}) {
   /* Store any params */
   Object.assign(STATE, params);
 
+  /* Stop any playing media globally before navigating away */
+  resetCoursePlayer('page-student-course');
+  resetCoursePlayer('page-teacher-course');
+
   /* Hide all pages */
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
 
