@@ -10,6 +10,7 @@ const fs = require('fs');
 const PDFDocument = require('pdfkit');
 
 const app = express();
+app.disable('x-powered-by'); // Hide Express framework fingerprint from attackers
 app.set('trust proxy', true); // Trust all reverse proxies (e.g., Render + Cloudflare)
 
 /* Helper to reliably get the client IP address */
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate'); // Prevent browsers from caching sensitive API data
   next();
 });
 app.use(express.json({ limit: '50kb' })); // Protect against large payload DoS

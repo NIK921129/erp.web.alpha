@@ -319,6 +319,19 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 /* ══════════════════════════════════════════
+   ANTI-COPY / ANTI-INSPECT (Deterrence)
+══════════════════════════════════════════ */
+document.addEventListener('contextmenu', e => e.preventDefault()); // Disable right-click
+document.addEventListener('keydown', e => {
+  // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+  if (e.key === 'F12' || 
+     (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) || 
+     (e.ctrlKey && e.key.toUpperCase() === 'U')) {
+    e.preventDefault();
+  }
+});
+
+/* ══════════════════════════════════════════
    PWA / SERVICE WORKER
 ══════════════════════════════════════════ */
 if ('serviceWorker' in navigator) {
