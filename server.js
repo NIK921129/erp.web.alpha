@@ -11,8 +11,11 @@ const PDFDocument = require('pdfkit');
 
 const app = express();
 app.set('trust proxy', 1); // Trust reverse proxy (like Render) to correctly identify https
+
+const allowedOrigin = process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, '') : '*';
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*', // Set your frontend domain here in production
+  origin: allowedOrigin,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
