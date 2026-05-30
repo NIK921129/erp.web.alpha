@@ -10,7 +10,16 @@ const fs = require('fs');
 const PDFDocument = require('pdfkit');
 
 const app = express();
-app.set('trust proxy', 1); // Trust reverse proxy (like Render) to correctly identify https
+app.set('trust proxy', true); // Trust all reverse proxies (e.g., Render + Cloudflare)
+
+/* Helper to reliably get the client IP address */
+const getClientIp = (req) => {
+  let ip = req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.ip || req.socket?.remoteAddress || 'unknown';
+  if (typeof ip === 'string' && ip.includes(',')) {
+    ip = ip.split(',')[0].trim(); // Get the original client IP
+  }
+  return ip;
+};
 
 const allowedOrigin = process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, '') : '*';
 
@@ -26,6 +35,8 @@ app.use((req, res, next) => {
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
   next();
 });
 app.use(express.json({ limit: '50kb' })); // Protect against large payload DoS
@@ -42,6 +53,16 @@ app.use((req, res, next) => {
   sanitizeObject(req.body);
   sanitizeObject(req.query);
   sanitizeObject(req.params);
+  next();
+});
+
+/* HTTP Parameter Pollution (HPP) Prevention */
+app.use((req, res, next) => {
+  if (req.query) {
+    for (const key in req.query) {
+      if (Array.isArray(req.query[key])) req.query[key] = req.query[key][req.query[key].length - 1];
+    }
+  }
   next();
 });
 
@@ -74,7 +95,14 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ 
   storage,
-  limits: { fileSize: 10 * 1024 * 1024 } 
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|webp|pdf/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+    if (extname && mimetype) return cb(null, true);
+    cb(new Error('Invalid file type. Only JPG, PNG, WEBP, and PDF files are allowed.'));
+  }
 });
 
 /* ══════════════════════════════════════════
@@ -367,7 +395,7 @@ const optionalAuth = async (req, res, next) => {
 let settingsCache = { data: undefined, lastFetch: 0 };
 const ipFilter = async (req, res, next) => {
   try {
-    const clientIp = req.ip || req.socket?.remoteAddress;
+    const clientIp = getClientIp(req);
     // Cache settings in production to avoid DB hits on every request
     const now = Date.now();
     if (settingsCache.data === undefined || now - settingsCache.lastFetch > 60000) {
@@ -401,7 +429,7 @@ setInterval(() => {
 }, 60000);
 
 api.use('/auth', (req, res, next) => {
-  const ip = req.ip || req.socket?.remoteAddress || 'unknown';
+  const ip = getClientIp(req);
   const now = Date.now();
   if (!authRateLimit[ip]) authRateLimit[ip] = [];
   authRateLimit[ip] = authRateLimit[ip].filter(time => now - time < 60000); // 1 min window
@@ -436,7 +464,7 @@ setInterval(() => {
 }, 60000); // Clean up memory every minute
 
 const globalRateLimiter = (req, res, next) => {
-  const ip = req.ip || req.socket?.remoteAddress || 'unknown';
+  const ip = getClientIp(req);
   const now = Date.now();
   if (!globalRateLimit[ip]) globalRateLimit[ip] = [];
   globalRateLimit[ip] = globalRateLimit[ip].filter(time => now - time < 60000);
@@ -1354,7 +1382,7 @@ api.delete('/quizzes/:id', auth, async (req, res) => {
 api.post('/logs', optionalAuth, async (req, res) => {
   try {
     const { action, details } = req.body;
-    const clientIp = req.ip || req.socket?.remoteAddress || 'unknown';
+    const clientIp = getClientIp(req);
     const userId = (req.user && mongoose.Types.ObjectId.isValid(req.user._id)) ? req.user._id : null;
     const newLog = await Log.create({ ip: clientIp, action, user: userId, details });
     
@@ -1390,6 +1418,7 @@ app.use('/api', api);
 app.use((err, req, res, next) => {
   console.error('⚠️ Server Error:', err.message);
   if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') return res.status(413).json({ message: 'File is too large. Maximum size is 10MB.' });
+  if (err.message.startsWith('Invalid file type')) return res.status(400).json({ message: err.message });
   res.status(500).json({ message: err.message || 'Internal Server Error' });
 });
 
