@@ -11,7 +11,11 @@ const PDFDocument = require('pdfkit');
 
 const app = express();
 app.set('trust proxy', 1); // Trust reverse proxy (like Render) to correctly identify https
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || '*', // Set your frontend domain here in production
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 /* Set Basic Security Headers */
 app.use((req, res, next) => {
@@ -22,6 +26,21 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json({ limit: '50kb' })); // Protect against large payload DoS
+
+/* Global NoSQL Injection Sanitizer */
+const sanitizeObject = (obj) => {
+  if (typeof obj !== 'object' || obj === null) return;
+  for (let key in obj) {
+    if (key.startsWith('$') || key.includes('.')) delete obj[key];
+    else if (typeof obj[key] === 'object') sanitizeObject(obj[key]);
+  }
+};
+app.use((req, res, next) => {
+  sanitizeObject(req.body);
+  sanitizeObject(req.query);
+  sanitizeObject(req.params);
+  next();
+});
 
 const server = http.createServer(app);
 const { Server } = require('socket.io');
@@ -403,6 +422,26 @@ api.use('/auth', (req, res, next) => {
   next();
 });
 
+/* Global API Rate Limiter */
+const globalRateLimit = {};
+setInterval(() => {
+  const now = Date.now();
+  for (const ip in globalRateLimit) {
+    globalRateLimit[ip] = globalRateLimit[ip].filter(time => now - time < 60000);
+    if (globalRateLimit[ip].length === 0) delete globalRateLimit[ip];
+  }
+}, 60000); // Clean up memory every minute
+
+const globalRateLimiter = (req, res, next) => {
+  const ip = req.ip || req.socket?.remoteAddress || 'unknown';
+  const now = Date.now();
+  if (!globalRateLimit[ip]) globalRateLimit[ip] = [];
+  globalRateLimit[ip] = globalRateLimit[ip].filter(time => now - time < 60000);
+  if (globalRateLimit[ip].length >= 300) return res.status(429).json({ message: 'Too many requests globally. Please slow down.' });
+  globalRateLimit[ip].push(now);
+  next();
+};
+
 // --- AUTH ---
 api.post('/auth/signup', async (req, res) => {
   // Apply IP filter manually to unauthenticated routes if desired, 
@@ -418,6 +457,7 @@ api.post('/auth/signup', async (req, res) => {
 
     if (!name || !username || !email || !password) return res.status(400).json({ message: 'All fields are required' });
     if (role === 'admin') return res.status(403).json({ message: 'Forbidden: Cannot sign up as admin' });
+    if (password.length < 6) return res.status(400).json({ message: 'Password must be at least 6 characters' });
     
     const existing = await User.findOne({ $or: [{ username }, { email }] });
     if (existing) return res.status(400).json({ message: 'Username or Email already exists' });
@@ -547,7 +587,12 @@ api.get('/enrolments/me', auth, async (req, res) => {
 api.get('/enrolments/course/:id', auth, async (req, res) => {
   try {
     const enrolments = await Enrolment.find({ course: req.params.id, status: 'active' }).populate('student', 'name username email');
-    res.json({ students: enrolments.map(e => e.student) });
+    let students = enrolments.map(e => e.student).filter(Boolean);
+    // Prevent students from seeing other students' email addresses
+    if (req.user.role === 'student') {
+      students = students.map(s => ({ _id: s._id, name: s.name, username: s.username }));
+    }
+    res.json({ students });
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
@@ -899,6 +944,7 @@ api.post('/users', auth, async (req, res) => {
     if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' });
     const { name, username, email, password, role } = req.body;
     
+    if (password && password.length < 6) return res.status(400).json({ message: 'Password must be at least 6 characters' });
     const existing = await User.findOne({ $or: [{ username }, { email }] });
     if (existing) return res.status(400).json({ message: 'Username or Email already exists' });
     
@@ -954,6 +1000,7 @@ api.put('/users/:id', auth, async (req, res) => {
     }
     if (username && req.user.role === 'admin') updateData.username = username;
     if (role && req.user.role === 'admin') updateData.role = role;
+    if (password && password.length < 6) return res.status(400).json({ message: 'Password must be at least 6 characters' });
     if (password) updateData.password = await bcrypt.hash(password, 10);
     await User.findByIdAndUpdate(req.params.id, updateData);
     res.json({ message: 'Updated' });
@@ -1331,8 +1378,8 @@ api.delete('/admin/logs/clear', auth, async (req, res) => {
   } catch (e) { res.status(500).json({ message: e.message }); }
 });
 
-// Apply IP Filter globally to the API
-app.use('/api', ipFilter);
+// Apply IP Filter & Global Rate Limiting globally to the API
+app.use('/api', ipFilter, globalRateLimiter);
 // Mount the API router
 app.use('/api', api);
 
