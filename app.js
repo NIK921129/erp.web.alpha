@@ -268,7 +268,7 @@ function initSocket() {
 ══════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded', async () => {
   /* --- NUCLEAR CACHE BUSTING: Force clear old PWA data for all users --- */
-  const APP_VERSION = 'v1';
+  const APP_VERSION = 'v2';
   if (localStorage.getItem('abc_app_version') !== APP_VERSION) {
     if ('caches' in window) {
       const cacheNames = await caches.keys();
