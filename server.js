@@ -138,6 +138,9 @@ const User = mongoose.model('User', new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ['student', 'teacher', 'admin'], default: 'student' },
   active: { type: Boolean, default: true }
+  active: { type: Boolean, default: true },
+  failedLoginAttempts: { type: Number, default: 0 },
+  lockUntil: { type: Date }
 }));
 
 const Course = mongoose.model('Course', new mongoose.Schema({
@@ -509,9 +512,31 @@ api.post('/auth/login', async (req, res) => {
     const password = String(req.body.password || '');
     const user = await User.findOne({ username });
     if (!user || !(await bcrypt.compare(password, user.password))) {
+    
+    if (!user) return res.status(401).json({ message: 'Invalid credentials' });
+    if (!user.active) return res.status(403).json({ message: 'Account is suspended' });
+    
+    // Check if the account is currently locked
+    if (user.lockUntil && user.lockUntil > Date.now()) {
+      const waitTime = Math.ceil((user.lockUntil - Date.now()) / 60000);
+      return res.status(429).json({ message: `Account temporarily locked due to multiple failed login attempts. Try again in ${waitTime} minutes.` });
+    }
+
+    if (!(await bcrypt.compare(password, user.password))) {
+      // Increment failed attempts and lock account if >= 5
+      user.failedLoginAttempts += 1;
+      if (user.failedLoginAttempts >= 5) user.lockUntil = Date.now() + 15 * 60 * 1000; // Lock for 15 minutes
+      await user.save();
       return res.status(401).json({ message: 'Invalid credentials' });
     }
     if (!user.active) return res.status(403).json({ message: 'Account is suspended' });
+    
+    // Reset failed attempts upon successful login
+    if (user.failedLoginAttempts > 0 || user.lockUntil) {
+      user.failedLoginAttempts = 0;
+      user.lockUntil = undefined;
+      await user.save();
+    }
     
     const token = user._id.toString();
     res.json({ user: { _id: user._id, name: user.name, username: user.username, email: user.email, role: user.role }, token });
