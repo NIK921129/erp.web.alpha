@@ -510,8 +510,7 @@ api.post('/auth/login', async (req, res) => {
     const username = String(req.body.username || '');
     const password = String(req.body.password || '');
     const user = await User.findOne({ username });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-    
+
     if (!user) return res.status(401).json({ message: 'Invalid credentials' });
     if (!user.active) return res.status(403).json({ message: 'Account is suspended' });
     
