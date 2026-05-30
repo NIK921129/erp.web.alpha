@@ -3517,6 +3517,20 @@ async function loadAdminSettingsData() {
     const { settings } = await API.getSettings();
     if (settings && settings.bannedIPs) {
       document.getElementById('admin-set-banned-ips').value = settings.bannedIPs.join(', ');
+      
+      const bannedInput = document.getElementById('admin-set-banned-ips');
+      let bannedContainer = document.getElementById('banned-ips-container');
+      if (!bannedContainer && bannedInput) {
+        bannedContainer = document.createElement('div');
+        bannedContainer.id = 'banned-ips-container';
+        bannedContainer.style.marginTop = '10px';
+        bannedInput.parentNode.appendChild(bannedContainer);
+      }
+      if (bannedContainer) {
+         bannedContainer.innerHTML = settings.bannedIPs.length 
+           ? settings.bannedIPs.map(ip => `<span class="badge badge-rejected" style="margin-right:5px; margin-bottom:5px; display:inline-block;">${esc(ip)} <span style="cursor:pointer;margin-left:4px" onclick="unbanIp('${esc(ip)}')">✖</span></span>`).join('')
+           : '<div class="text-muted" style="font-size:14px;">No IPs currently banned.</div>';
+      }
     }
     if (settings && settings.aiCredits !== undefined) {
       document.getElementById('admin-set-ai-credits').value = settings.aiCredits;
@@ -3547,6 +3561,19 @@ async function generateCoupon() {
     document.getElementById('new-coupon-pct').value = '';
     loadAdminSettingsData();
   } catch (e) { toast(e.message || 'Error creating coupon', 'error'); }
+}
+
+window.unbanIp = async function(ip) {
+    if (!confirm(`Unban IP ${ip}?`)) return;
+    try {
+        const { settings } = await API.getSettings();
+        const updatedIps = settings.bannedIPs.filter(b => b !== ip);
+        await API.updateSettings({ ...settings, bannedIPs: updatedIps });
+        toast(`IP ${ip} unbanned`, 'success');
+        loadAdminSettingsData();
+    } catch(e) {
+        toast('Error unbanning IP', 'error');
+    }
 }
 
 window.toggleTheaterMode = function() {

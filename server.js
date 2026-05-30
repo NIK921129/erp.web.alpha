@@ -21,7 +21,7 @@ app.use((req, res, next) => {
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   next();
 });
-app.use(express.json());
+app.use(express.json({ limit: '50kb' })); // Protect against large payload DoS
 
 const server = http.createServer(app);
 const { Server } = require('socket.io');
@@ -383,7 +383,20 @@ api.use('/auth', (req, res, next) => {
   const now = Date.now();
   if (!authRateLimit[ip]) authRateLimit[ip] = [];
   authRateLimit[ip] = authRateLimit[ip].filter(time => now - time < 60000); // 1 min window
-  if (authRateLimit[ip].length >= 10) {
+  
+  if (authRateLimit[ip].length >= 15) {
+    // Auto-ban for severe brute force
+    Setting.findOne().then(async settings => {
+      if (settings && !settings.bannedIPs.includes(ip)) {
+        settings.bannedIPs.push(ip);
+        await settings.save();
+        settingsCache.lastFetch = 0; // Force cache refresh to apply ban immediately
+        await Log.create({ ip, action: 'auto_ban', details: 'Auto-banned due to severe brute-force attempts' });
+        io.to('admin_room').emit('admin_alert', { message: `IP ${ip} was auto-banned for brute-force.` });
+      }
+    }).catch(() => {});
+    return res.status(403).json({ message: 'Access Denied: Your IP has been banned due to suspicious activity.' });
+  } else if (authRateLimit[ip].length >= 7) {
     return res.status(429).json({ message: 'Too many attempts. Please try again in a minute.' });
   }
   authRateLimit[ip].push(now);
@@ -396,7 +409,13 @@ api.post('/auth/signup', async (req, res) => {
   // or apply globally: app.use('/api', ipFilter);
   
   try {
-    const { name, username, email, password, role } = req.body;
+    // Cast inputs to strings to prevent NoSQL Injection
+    const name = String(req.body.name || '');
+    const username = String(req.body.username || '');
+    const email = String(req.body.email || '');
+    const password = String(req.body.password || '');
+    const role = req.body.role;
+
     if (!name || !username || !email || !password) return res.status(400).json({ message: 'All fields are required' });
     if (role === 'admin') return res.status(403).json({ message: 'Forbidden: Cannot sign up as admin' });
     
@@ -413,7 +432,8 @@ api.post('/auth/signup', async (req, res) => {
 
 api.post('/auth/login', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const username = String(req.body.username || '');
+    const password = String(req.body.password || '');
     const user = await User.findOne({ username });
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: 'Invalid credentials' });
