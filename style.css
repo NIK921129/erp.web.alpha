@@ -19,12 +19,12 @@
   --teal-glow:  rgba(239, 68, 68, 0.15);
   --blue:       #be123c; /* Secondary Dark Rose */
   --amber:      #f59e0b;
-  --red:        #f43f5e;
-  --green:      #10b981;
+  --red:        #e11d48; /* Darker Rose for better white text contrast */
+  --green:      #059669; /* Darker Emerald for better white text contrast */
 
   --text:       #0f172a;
   --text-2:     #475569;
-  --text-3:     #94a3b8;
+  --text-3:     #64748b; /* Slate 500 for readable tertiary text */
 
   --r-sm:       10px;
   --r-md:       16px;
@@ -177,7 +177,7 @@ textarea { resize: vertical; }
   box-shadow: 0 4px 16px var(--teal-glow), inset 0 1px 0 rgba(255,255,255,0.4);
   display: inline-flex; align-items: center; gap: 6px;
 }
-.btn-primary:hover { background: linear-gradient(135deg, var(--teal-d), #9f1239); transform: translateY(-2px); box-shadow: 0 8px 24px var(--teal-glow), inset 0 1px 0 rgba(255,255,255,0.6); }
+.btn-primary:hover { background: linear-gradient(135deg, var(--teal-d), #9f1239); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3), inset 0 1px 0 rgba(255,255,255,0.6); }
 .btn-primary:active, .btn-ghost:active, .btn-danger:active, .btn-approve:active { transform: scale(0.96) translateY(0); }
 .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; }
 .btn-primary.btn-lg { padding: 15px 36px; font-size: 18px; border-radius: var(--r-lg); }
@@ -209,7 +209,7 @@ textarea { resize: vertical; }
 .wa-btn {
   background: rgba(37,211,102,0.12);
   border: 1px solid rgba(37,211,102,0.25);
-  color: #25d366;
+  color: #15803d; /* Darker green for WCAG contrast on light backgrounds */
   padding: 9px 18px; border-radius: var(--r-md);
   font-size: 15px; cursor: pointer; font-weight: 500;
   display: inline-flex; align-items: center; gap: 6px;
@@ -270,6 +270,7 @@ textarea { resize: vertical; }
   border-radius: var(--r-md); font-size: 16px; cursor: pointer;
   transition: var(--trans); font-weight: 500;
 }
+.role-btn:hover:not(.active) { background: var(--card2); border-color: var(--border); color: var(--text); }
 .role-btn.active {
   background: var(--teal-glow); border-color: var(--teal);
   color: var(--teal);

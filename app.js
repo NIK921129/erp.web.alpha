@@ -1705,8 +1705,8 @@ async function initAdminDashboard() {
           maintainAspectRatio: false,
           plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
           scales: {
-            x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a1a1aa' } },
-            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a1a1aa' }, beginAtZero: true }
+            x: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#64748b' } },
+            y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#64748b' }, beginAtZero: true }
           }
         }
       });
