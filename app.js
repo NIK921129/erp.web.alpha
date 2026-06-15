@@ -1680,8 +1680,8 @@ async function initAdminDashboard() {
       
       const ctx = canvas.getContext('2d');
       const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-      gradient.addColorStop(0, 'rgba(99, 102, 241, 0.4)');
-      gradient.addColorStop(1, 'rgba(99, 102, 241, 0.0)');
+      gradient.addColorStop(0, 'rgba(239, 68, 68, 0.4)');
+      gradient.addColorStop(1, 'rgba(239, 68, 68, 0.0)');
 
       new Chart(ctx, {
         type: 'line',
@@ -1690,14 +1690,14 @@ async function initAdminDashboard() {
           datasets: [{
             label: 'Revenue (₹)',
             data: last30Days.map(d => revMap[d]),
-            borderColor: '#6366f1',
+            borderColor: '#ef4444',
             backgroundColor: gradient,
             borderWidth: 3,
             fill: true,
             tension: 0.4,
             pointRadius: 1,
             pointHoverRadius: 6,
-            pointBackgroundColor: '#6366f1'
+            pointBackgroundColor: '#ef4444'
           }]
         },
         options: {
@@ -2915,7 +2915,7 @@ function initAiChatView(containerId, courseId) {
       </div>
       <form class="chat-input-area" onsubmit="sendAiMessage(event, '${courseId}')">
         <input type="text" id="ai-chat-input-${courseId}" placeholder="Ask a question..." autocomplete="off" required />
-        <button type="submit" style="background:linear-gradient(135deg,var(--teal),#00b3ff); color:#000;">✨</button>
+        <button type="submit" style="background:linear-gradient(135deg,var(--teal),#f43f5e); color:#fff;">✨</button>
       </form>
     </div>
   `;

@@ -1,38 +1,38 @@
 /* ═══════════════════════════════════════════
    ABC INSTITUTE ERP — style.css
-   Theme: Midnight Slate · Indigo Accent · Plus Jakarta Sans + Inter
+   Theme: Crimson Snow · Red Accent · Plus Jakarta Sans + Inter
 ═══════════════════════════════════════════ */
 
 /* ── TOKENS ── */
 :root {
-  --bg:         #09090b;
-  --bg2:        #18181b;
-  --bg3:        #27272a;
-  --card:       rgba(24, 24, 27, 0.6);
-  --card2:      rgba(39, 39, 42, 0.6);
+  --bg:         #ffffff;
+  --bg2:        #f8fafc;
+  --bg3:        #f1f5f9;
+  --card:       rgba(255, 255, 255, 0.8);
+  --card2:      rgba(241, 245, 249, 0.8);
   --backdrop:   blur(20px);
-  --border:     rgba(255,255,255,0.07);
-  --border2:    rgba(255,255,255,0.12);
+  --border:     rgba(0, 0, 0, 0.08);
+  --border2:    rgba(0, 0, 0, 0.15);
 
-  --teal:       #6366f1; /* Primary Indigo */
-  --teal-d:     #4f46e5;
-  --teal-glow:  rgba(99,102,241,0.15);
-  --blue:       #a855f7; /* Secondary Purple */
+  --teal:       #ef4444; /* Primary Red */
+  --teal-d:     #dc2626; /* Darker Red */
+  --teal-glow:  rgba(239, 68, 68, 0.15);
+  --blue:       #be123c; /* Secondary Dark Rose */
   --amber:      #f59e0b;
   --red:        #f43f5e;
   --green:      #10b981;
 
-  --text:       #fafafa;
-  --text-2:     #a1a1aa;
-  --text-3:     #71717a;
+  --text:       #0f172a;
+  --text-2:     #475569;
+  --text-3:     #94a3b8;
 
   --r-sm:       10px;
   --r-md:       16px;
   --r-lg:       20px;
   --r-xl:       28px;
 
-  --shadow:     0 4px 20px rgba(0,0,0,0.3);
-  --shadow-lg:  0 10px 40px rgba(0,0,0,0.5);
+  --shadow:     0 4px 20px rgba(0,0,0,0.05);
+  --shadow-lg:  0 10px 40px rgba(0,0,0,0.08);
 
   --font-head:  'Plus Jakarta Sans', 'Inter', sans-serif;
   --font-body:  'Inter', 'DM Sans', sans-serif;
@@ -67,12 +67,12 @@ body::before, body::after {
 }
 body::before {
   top: -20%; left: -10%; width: 50vw; height: 50vw;
-  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(239,68,68,0.08) 0%, transparent 70%);
   animation: floatOrb 15s ease-in-out infinite alternate;
 }
 body::after {
   bottom: -20%; right: -10%; width: 60vw; height: 60vw;
-  background: radial-gradient(circle, rgba(168,85,247,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(190,18,60,0.08) 0%, transparent 70%);
   animation: floatOrb 20s ease-in-out infinite alternate-reverse;
 }
 
@@ -115,7 +115,7 @@ textarea { resize: vertical; }
 #global-nav {
   position: sticky; top: 0; z-index: 100;
   height: var(--nav-h);
-  background: rgba(5,5,5,0.85);
+  background: rgba(255,255,255,0.85);
   backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border);
   display: flex; align-items: center;
@@ -177,7 +177,7 @@ textarea { resize: vertical; }
   box-shadow: 0 4px 16px var(--teal-glow), inset 0 1px 0 rgba(255,255,255,0.4);
   display: inline-flex; align-items: center; gap: 6px;
 }
-.btn-primary:hover { background: linear-gradient(135deg, var(--teal-d), #9333ea); transform: translateY(-2px); box-shadow: 0 8px 24px var(--teal-glow), inset 0 1px 0 rgba(255,255,255,0.6); }
+.btn-primary:hover { background: linear-gradient(135deg, var(--teal-d), #9f1239); transform: translateY(-2px); box-shadow: 0 8px 24px var(--teal-glow), inset 0 1px 0 rgba(255,255,255,0.6); }
 .btn-primary:active, .btn-ghost:active, .btn-danger:active, .btn-approve:active { transform: scale(0.96) translateY(0); }
 .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; }
 .btn-primary.btn-lg { padding: 15px 36px; font-size: 18px; border-radius: var(--r-lg); }
@@ -189,7 +189,7 @@ textarea { resize: vertical; }
   cursor: pointer; transition: var(--trans);
   backdrop-filter: blur(8px);
 }
-.btn-ghost:hover { border-color: var(--teal); color: var(--teal); background: rgba(0,240,255,0.05); }
+.btn-ghost:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-glow); }
 .btn-ghost.btn-lg { padding: 15px 36px; font-size: 18px; border-radius: var(--r-lg); }
 
 .btn-danger {
@@ -286,8 +286,8 @@ textarea { resize: vertical; }
 .bg-grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 .bg-glow {
@@ -326,7 +326,7 @@ textarea { resize: vertical; }
   letter-spacing: -2px; margin-bottom: 1.5rem;
 }
 .hero-title .accent {
-  background: linear-gradient(135deg, #a855f7, var(--teal));
+  background: linear-gradient(135deg, var(--blue), var(--teal));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -385,19 +385,19 @@ textarea { resize: vertical; }
   background: linear-gradient(180deg, var(--card) 0%, var(--bg) 100%);
   border: 1px solid var(--border);
   backdrop-filter: var(--backdrop); -webkit-backdrop-filter: var(--backdrop);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
   border-radius: var(--r-xl); padding: 1.5rem;
   transition: var(--trans); cursor: pointer;
   display: flex; flex-direction: column; gap: .75rem;
 }
 .course-card:hover {
   border-color: var(--teal); transform: translateY(-6px) scale(1.01);
-  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.2);
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.8);
 }
 .course-card-icon {
   width: 56px; height: 56px; border-radius: 14px;
-  background: linear-gradient(135deg, var(--teal-glow), rgba(0,240,255,0.05));
-  border: 1px solid rgba(0,240,255,0.2);
+  background: linear-gradient(135deg, var(--teal-glow), rgba(239,68,68,0.05));
+  border: 1px solid rgba(239,68,68,0.2);
   display: flex; align-items: center; justify-content: center;
   font-size: 26px; margin-bottom: .5rem;
 }
@@ -499,7 +499,7 @@ textarea { resize: vertical; }
   transition: var(--trans);
   background: linear-gradient(180deg, var(--card) 0%, var(--bg) 100%);
   backdrop-filter: var(--backdrop); -webkit-backdrop-filter: var(--backdrop);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
 }
 .stat-card:hover {
   transform: translateY(-4px) scale(1.01); border-color: var(--teal);
@@ -541,7 +541,7 @@ textarea { resize: vertical; }
   display: flex; align-items: center; gap: 1rem;
   transition: var(--trans);
   backdrop-filter: var(--backdrop); -webkit-backdrop-filter: var(--backdrop);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
 }
 .list-card:hover {
   border-color: var(--teal); transform: translateY(-2px) scale(1.01);
@@ -600,7 +600,7 @@ textarea { resize: vertical; }
   scroll-snap-align: start;
 }
 .tab:hover { color: var(--text); }
-.tab.active { color: var(--teal); border-bottom-color: var(--teal); text-shadow: 0 0 12px rgba(0,240,255,0.4); }
+.tab.active { color: var(--teal); border-bottom-color: var(--teal); text-shadow: 0 0 12px var(--teal-glow); }
 .tab-panel { display: block; animation: fadeIn 0.4s ease; }
 .tab-panel.hidden { display: none; }
 
@@ -1196,7 +1196,7 @@ textarea { resize: vertical; }
 .chat-msg-bubble {
   background: var(--bg3); padding: 10px 14px;
   border-radius: 12px 12px 12px 2px; font-size: 15px;
-  color: var(--text); border: 1px solid var(--border);
+  color: var(--text); border: 1px solid var(--border2);
 }
 .chat-msg.self .chat-msg-bubble {
   background: var(--teal-d); color: #fff;
@@ -1280,7 +1280,7 @@ textarea { resize: vertical; }
 
 .premium-course-header {
   height: 64px;
-  background: rgba(5,5,5,0.85);
+  background: rgba(255,255,255,0.85);
   backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border);
   display: flex;

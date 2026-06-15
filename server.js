@@ -260,8 +260,8 @@ function generateInvoicePDF(payment, student, course, teacher) {
     doc.on('end', () => resolve(Buffer.concat(buffers)));
     doc.on('error', reject);
 
-    const brandColor = '#4f46e5'; // Indigo Dark
-    const brandLight = '#6366f1'; // Indigo Primary
+    const brandColor = '#dc2626'; // Red Dark
+    const brandLight = '#ef4444'; // Red Primary
     const textColor = '#334155';
     const textDark = '#0f172a';
     const textMuted = '#64748b';
