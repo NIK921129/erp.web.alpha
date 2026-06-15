@@ -157,7 +157,7 @@ textarea { resize: vertical; }
 .nav-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .nav-user { font-size: 15px; color: var(--text-2); }
 .logout-btn {
-  background: none; border: 1px solid var(--border2);
+  background: none; border: 1px solid #000;
   color: var(--text-2); padding: 7px 16px;
   border-radius: var(--r-sm); font-size: 15px; cursor: pointer;
   transition: var(--trans);
@@ -170,7 +170,7 @@ textarea { resize: vertical; }
 ══════════════════════════════════════════ */
 .btn-primary {
   background: linear-gradient(135deg, var(--teal), var(--blue));
-  color: #ffffff; border: none;
+  color: #ffffff; border: 1px solid #000;
   padding: 12px 26px; border-radius: var(--r-md);
   font-size: 16px; font-weight: 700;
   cursor: pointer; transition: var(--trans);
@@ -183,7 +183,7 @@ textarea { resize: vertical; }
 .btn-primary.btn-lg { padding: 15px 36px; font-size: 18px; border-radius: var(--r-lg); }
 
 .btn-ghost {
-  background: none; border: 1px solid var(--border2);
+  background: none; border: 1px solid #000;
   color: var(--text); padding: 11px 24px;
   border-radius: var(--r-md); font-size: 16px; font-weight: 500;
   cursor: pointer; transition: var(--trans);
@@ -193,14 +193,14 @@ textarea { resize: vertical; }
 .btn-ghost.btn-lg { padding: 15px 36px; font-size: 18px; border-radius: var(--r-lg); }
 
 .btn-danger {
-  background: var(--red); color: #fff; border: none;
+  background: var(--red); color: #fff; border: 1px solid #000;
   padding: 10px 20px; border-radius: var(--r-md);
   font-size: 15px; cursor: pointer; transition: var(--trans);
 }
 .btn-danger:hover { opacity: 0.85; }
 
 .btn-approve {
-  background: var(--green); color: #fff; border: none;
+  background: var(--green); color: #fff; border: 1px solid #000;
   padding: 10px 20px; border-radius: var(--r-md);
   font-size: 15px; cursor: pointer; transition: var(--trans);
 }
@@ -208,7 +208,7 @@ textarea { resize: vertical; }
 
 .wa-btn {
   background: rgba(37,211,102,0.12);
-  border: 1px solid rgba(37,211,102,0.25);
+  border: 1px solid #000;
   color: #15803d; /* Darker green for WCAG contrast on light backgrounds */
   padding: 9px 18px; border-radius: var(--r-md);
   font-size: 15px; cursor: pointer; font-weight: 500;
@@ -265,7 +265,7 @@ textarea { resize: vertical; }
   display: flex; gap: 6px; flex-wrap: wrap;
 }
 .role-btn {
-  background: var(--bg3); border: 1px solid var(--border2);
+  background: var(--bg3); border: 1px solid #000;
   color: var(--text-2); padding: 10px 20px;
   border-radius: var(--r-md); font-size: 16px; cursor: pointer;
   transition: var(--trans); font-weight: 500;
@@ -546,7 +546,7 @@ textarea { resize: vertical; }
 }
 .list-card:hover {
   border-color: var(--teal); transform: translateY(-2px) scale(1.01);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow); background: var(--bg2);
 }
 .list-card .lc-icon {
   width: 38px; height: 38px; border-radius: 8px;
@@ -909,7 +909,7 @@ textarea { resize: vertical; }
   vertical-align: middle;
 }
 .data-table tr:last-child td { border-bottom: none; }
-.data-table tr:hover td { background: var(--card2); }
+.data-table tr:hover td { background: rgba(0, 0, 0, 0.04); }
 
 .search-bar { margin-bottom: 1rem; }
 .search-bar input {
@@ -941,7 +941,7 @@ textarea { resize: vertical; }
   backdrop-filter: var(--backdrop); -webkit-backdrop-filter: var(--backdrop);
   transition: var(--trans); position: relative;
 }
-.modern-list-card:hover { border-color: var(--teal); box-shadow: var(--shadow-lg); transform: translateY(-3px) scale(1.01); z-index: 2; }
+.modern-list-card:hover { border-color: var(--teal); box-shadow: var(--shadow-lg); transform: translateY(-3px) scale(1.01); z-index: 2; background: var(--bg2); }
 .mlc-info { display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0; }
 .mlc-details { display: flex; flex-direction: column; min-width: 0; }
 .mlc-title { font-family: var(--font-head); font-weight: 700; font-size: 17px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
