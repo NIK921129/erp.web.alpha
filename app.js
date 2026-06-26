@@ -171,8 +171,8 @@ async function promptAdminAccess() {
     const data = await API.adminAccess({ passcode: code });
     STATE.user = data.user;
     STATE.token = data.token;
-    localStorage.setItem('abc_token', STATE.token);
-    localStorage.setItem('abc_user', JSON.stringify(STATE.user));
+    localStorage.setItem('ALPHA_token', STATE.token);
+    localStorage.setItem('ALPHA_user', JSON.stringify(STATE.user));
     initSocket();
     showNav();
     navigate('admin-dashboard');
@@ -269,18 +269,18 @@ function initSocket() {
 window.addEventListener('DOMContentLoaded', async () => {
   /* --- NUCLEAR CACHE BUSTING: Force clear old PWA data for all users --- */
   const APP_VERSION = 'v2';
-  if (localStorage.getItem('abc_app_version') !== APP_VERSION) {
+  if (localStorage.getItem('ALPHA_app_version') !== APP_VERSION) {
     if ('caches' in window) {
       const cacheNames = await caches.keys();
       await Promise.all(cacheNames.map(name => caches.delete(name)));
     }
-    localStorage.setItem('abc_app_version', APP_VERSION);
+    localStorage.setItem('ALPHA_app_version', APP_VERSION);
     window.location.reload(true);
     return; // Stop execution until the hard reload finishes
   }
 
-  const savedToken = localStorage.getItem('abc_token');
-  const savedUser  = localStorage.getItem('abc_user');
+  const savedToken = localStorage.getItem('ALPHA_token');
+  const savedUser  = localStorage.getItem('ALPHA_user');
 
   if (savedToken && savedUser) {
     try {
@@ -456,7 +456,7 @@ function showNav() {
   document.getElementById('nav-user-info').textContent = STATE.user.name + ' · ' + STATE.user.role;
   
   const returnBtn = document.getElementById('return-admin-btn');
-  if (returnBtn) returnBtn.classList.toggle('hidden', !localStorage.getItem('abc_admin_backup_token'));
+  if (returnBtn) returnBtn.classList.toggle('hidden', !localStorage.getItem('ALPHA_admin_backup_token'));
 }
 
 function buildNavLinks() {
@@ -523,8 +523,8 @@ async function handleLogin() {
     const data = await API.login({ username, password });
     STATE.token = data.token;
     STATE.user  = data.user;
-    localStorage.setItem('abc_token', data.token);
-    localStorage.setItem('abc_user', JSON.stringify(data.user));
+    localStorage.setItem('ALPHA_token', data.token);
+    localStorage.setItem('ALPHA_user', JSON.stringify(data.user));
     initSocket();
     showNav();
     redirectByRole();
@@ -554,8 +554,8 @@ async function handleSignup() {
     const data = await API.signup({ name, username, email, password, role });
     STATE.token = data.token;
     STATE.user  = data.user;
-    localStorage.setItem('abc_token', data.token);
-    localStorage.setItem('abc_user', JSON.stringify(data.user));
+    localStorage.setItem('ALPHA_token', data.token);
+    localStorage.setItem('ALPHA_user', JSON.stringify(data.user));
     initSocket();
     showNav();
     redirectByRole();
@@ -581,10 +581,10 @@ async function handleLogout() {
     await API.logEvent({ action: 'logout', details: 'User logged out' }).catch(()=>{});
   }
   STATE.token = null;
-  localStorage.removeItem('abc_token');
-  localStorage.removeItem('abc_user');
-  localStorage.removeItem('abc_admin_backup_token');
-  localStorage.removeItem('abc_admin_backup_user');
+  localStorage.removeItem('ALPHA_token');
+  localStorage.removeItem('ALPHA_user');
+  localStorage.removeItem('ALPHA_admin_backup_token');
+  localStorage.removeItem('ALPHA_admin_backup_user');
   if (socket) {
     socket.disconnect();
     socket = null;
@@ -628,7 +628,7 @@ async function saveProfile() {
     await API.updateUser(STATE.user._id, payload);
     STATE.user.name = name;
     STATE.user.email = email;
-    localStorage.setItem('abc_user', JSON.stringify(STATE.user));
+    localStorage.setItem('ALPHA_user', JSON.stringify(STATE.user));
     document.getElementById('nav-user-info').textContent = STATE.user.name + ' · ' + STATE.user.role;
     toast('Profile updated successfully!', 'success');
     closeAllModals();
@@ -2433,13 +2433,13 @@ async function impersonateUser(id) {
     const target = STATE.adminUsers.find(u => u._id === id);
     if (!target) throw new Error('User not found');
 
-    localStorage.setItem('abc_admin_backup_token', STATE.token);
-    localStorage.setItem('abc_admin_backup_user', JSON.stringify(STATE.user));
+    localStorage.setItem('ALPHA_admin_backup_token', STATE.token);
+    localStorage.setItem('ALPHA_admin_backup_user', JSON.stringify(STATE.user));
 
     STATE.token = id;
     STATE.user = target;
-    localStorage.setItem('abc_token', id);
-    localStorage.setItem('abc_user', JSON.stringify(target));
+    localStorage.setItem('ALPHA_token', id);
+    localStorage.setItem('ALPHA_user', JSON.stringify(target));
 
     if (socket) { socket.disconnect(); socket = null; }
     initSocket();
@@ -2450,17 +2450,17 @@ async function impersonateUser(id) {
 }
 
 function returnToAdmin() {
-  const backupToken = localStorage.getItem('abc_admin_backup_token');
-  const backupUser = localStorage.getItem('abc_admin_backup_user');
+  const backupToken = localStorage.getItem('ALPHA_admin_backup_token');
+  const backupUser = localStorage.getItem('ALPHA_admin_backup_user');
   if (!backupToken || !backupUser) return;
 
   STATE.token = backupToken;
   STATE.user = JSON.parse(backupUser);
-  localStorage.setItem('abc_token', backupToken);
-  localStorage.setItem('abc_user', backupUser);
+  localStorage.setItem('ALPHA_token', backupToken);
+  localStorage.setItem('ALPHA_user', backupUser);
 
-  localStorage.removeItem('abc_admin_backup_token');
-  localStorage.removeItem('abc_admin_backup_user');
+  localStorage.removeItem('ALPHA_admin_backup_token');
+  localStorage.removeItem('ALPHA_admin_backup_user');
 
   if (socket) { socket.disconnect(); socket = null; }
   initSocket();

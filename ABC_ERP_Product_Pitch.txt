@@ -1,9 +1,9 @@
 ========================================================================
-             ABC INSTITUTE ERP & LMS - THE COMPLETE PLATFORM
+             ALPHA INSTITUTE ERP & LMS - THE COMPLETE PLATFORM
 ========================================================================
 
 Overview:
-ABC Institute ERP is a highly advanced, mobile-first Learning Management 
+ALPHA Institute ERP is a highly advanced, mobile-first Learning Management 
 System (LMS) and Enterprise Resource Planning (ERP) platform. Built with 
 a premium "Deep Slate / Navy FinTech-style" UI, it delivers a seamless, 
 app-like experience for Students, Teachers, and Administrators. 

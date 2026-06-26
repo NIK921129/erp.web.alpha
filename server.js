@@ -198,7 +198,7 @@ const Content = mongoose.model('Content', new mongoose.Schema({
 
 const Setting = mongoose.model('Setting', new mongoose.Schema({
   upiId: { type: String, default: '9211293576@ptaxis' },
-  upiName: { type: String, default: 'ABCInstitute' },
+  upiName: { type: String, default: 'ALPHAInstitute' },
   waNumber: { type: String, default: '919211293576' },
   announcementText: { type: String, default: '' },
   announcementActive: { type: Boolean, default: false },
