@@ -129,7 +129,7 @@ const deleteLocalFile = (fileUrl) => {
 /* ══════════════════════════════════════════
    DATABASE SETUP (Mongoose Models)
 ══════════════════════════════════════════ */
-mongoose.connect(MONGO_URI)
+mongoose.connect(MONGO_URI, { dbName: 'erp' })
   .then(() => console.log('✅ Connected to MongoDB Atlas'))
   .catch(err => console.error('❌ MongoDB Connection Error:', err));
 
