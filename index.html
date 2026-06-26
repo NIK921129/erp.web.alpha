@@ -595,7 +595,7 @@
       <div class="form-group">
         <label>Banned IP Addresses (Comma separated)</label>
         <textarea id="admin-set-banned-ips" placeholder="e.g. 192.168.1.1, 10.0.0.5" rows="3"></textarea>
-        <p style="font-size:13px;color:var(--text-3);margin-top:4px;">Users connecting from these IPs will be entirely blocked from the API.</p>
+        <p style="font-size:15px;color:var(--text-3);margin-top:4px;">Users connecting from these IPs will be entirely blocked from the API.</p>
       </div>
       <button class="btn-primary mt-2" onclick="saveAdminSettings()">Save Settings</button>
     </div>
@@ -745,7 +745,7 @@
       <div id="content-url-group" class="form-group hidden">
         <label>Google Drive Link</label>
         <input type="text" id="content-url-input" placeholder="https://drive.google.com/file/d/..." />
-        <p style="font-size: 13px; color: var(--amber); margin-top: 4px; line-height: 1.4;">⚠️ <strong>Important:</strong> You MUST change the Google Drive file sharing permissions to <b>"Anyone with the link"</b> before adding it here. If the file is "Restricted", students will get an access error.</p>
+        <p style="font-size: 15px; color: var(--amber); margin-top: 4px; line-height: 1.4;">⚠️ <strong>Important:</strong> You MUST change the Google Drive file sharing permissions to <b>"Anyone with the link"</b> before adding it here. If the file is "Restricted", students will get an access error.</p>
       </div>
       <div id="content-thumbnail-group" class="form-group hidden">
         <label>Thumbnail Image URL (optional)</label>
@@ -1106,9 +1106,9 @@
         </div>
       </div>
       <div class="form-group" style="margin-top: 10px;">
-        <label>CSV File <a onclick="downloadQuizTemplate()" style="float:right; font-size:13px; font-weight:normal;">Download Template</a></label>
+        <label>CSV File <a onclick="downloadQuizTemplate()" style="float:right; font-size:15px; font-weight:normal;">Download Template</a></label>
         <input type="file" id="upload-quiz-file" accept=".csv" style="background:var(--bg3); padding:10px; border-radius:var(--r-md); border:1px solid var(--border2);" />
-        <p style="font-size:13px; color:var(--text-3); margin-top:6px;">Format: Question, Option A, Option B, Option C, Option D, Correct Option</p>
+        <p style="font-size:15px; color:var(--text-3); margin-top:6px;">Format: Question, Option A, Option B, Option C, Option D, Correct Option</p>
       </div>
       <div class="modal-actions">
         <button class="btn-ghost" onclick="closeAllModals()">Cancel</button>

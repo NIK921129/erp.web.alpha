@@ -914,11 +914,11 @@ function renderTreeItems(items, isTeacher = false) {
                 <span class="chapter-icon">📁</span>
                 <span class="chapter-name">${esc(ch.title)}</span>
               </div>
-              ${isTeacher ? `<button class="btn-danger" style="padding:5px 10px;font-size:13px" onclick="event.stopPropagation();deleteContent('${ch._id}')">Delete</button>` : ''}
+              ${isTeacher ? `<button class="btn-danger" style="padding:5px 10px;font-size:15px" onclick="event.stopPropagation();deleteContent('${ch._id}')">Delete</button>` : ''}
               <span class="chapter-toggle" style="margin-left:10px">▼</span>
         </div>
         <div class="chapter-children" data-parent="${ch._id}" style="min-height: 20px;">
-          ${children.length ? children.map(c => renderContentItem(c, isTeacher)).join('') : (isTeacher ? '<div class="empty-dropzone" style="padding:10px;text-align:center;color:var(--text-3);font-size:13px;border:1px dashed var(--border);margin:10px;border-radius:var(--r-sm);">Drop items here</div>' : '<div style="color:var(--text-3);font-size:15px">Empty folder</div>')}
+          ${children.length ? children.map(c => renderContentItem(c, isTeacher)).join('') : (isTeacher ? '<div class="empty-dropzone" style="padding:10px;text-align:center;color:var(--text-3);font-size:15px;border:1px dashed var(--border);margin:10px;border-radius:var(--r-sm);">Drop items here</div>' : '<div style="color:var(--text-3);font-size:15px">Empty folder</div>')}
         </div>
       </div>`;
   });
@@ -962,8 +962,8 @@ function renderContentItem(item, isTeacher) {
         ${item.description ? `<div class="pl-desc">${esc(item.description)}</div>` : ''}
       </div>
       <div class="pl-actions" onclick="event.stopPropagation()">
-        ${isNote && item.url ? `<a href="${item.url}" target="_blank" class="btn-ghost" style="padding:6px 14px;font-size:13px;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> View External</a>` : ''}
-        ${isTeacher ? `<button class="btn-danger" onclick="deleteContent('${item._id}')" style="padding:6px 12px;font-size:13px;" title="Delete">🗑️</button>` : ''}
+        ${isNote && item.url ? `<a href="${item.url}" target="_blank" class="btn-ghost" style="padding:6px 14px;font-size:15px;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> View External</a>` : ''}
+        ${isTeacher ? `<button class="btn-danger" onclick="deleteContent('${item._id}')" style="padding:6px 12px;font-size:15px;" title="Delete">🗑️</button>` : ''}
       </div>
     </div>`;
 }
@@ -1000,7 +1000,7 @@ window.viewCourseItem = function(id, type, url, title, desc) {
       const embedUrl = driveEmbed(url);
       container.innerHTML = `
         <iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>
-        <a href="${url}" target="_blank" style="position:absolute; top:10px; right:10px; z-index:10; background:rgba(0,0,0,0.6); color:#fff; padding:6px 12px; border-radius:4px; font-size:13px; text-decoration:none; backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.2); transition:0.3s;" onmouseover="this.style.background='var(--teal)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">Open in Drive ↗</a>
+        <a href="${url}" target="_blank" style="position:absolute; top:10px; right:10px; z-index:10; background:rgba(0,0,0,0.6); color:#fff; padding:6px 12px; border-radius:4px; font-size:15px; text-decoration:none; backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.2); transition:0.3s;" onmouseover="this.style.background='var(--teal)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">Open in Drive ↗</a>
       `;
     } else {
       container.innerHTML = `<video id="player-${id}" src="${url}" controls autoplay playsinline webkit-playsinline></video>`;
@@ -1066,7 +1066,7 @@ function initSortableContentTree(courseId) {
       const emptyState = childrenContainer.querySelector('.empty-dropzone');
       if (hasItems && emptyState) emptyState.remove();
       if (!hasItems && !emptyState) {
-         childrenContainer.insertAdjacentHTML('beforeend', '<div class="empty-dropzone" style="padding:10px;text-align:center;color:var(--text-3);font-size:13px;border:1px dashed var(--border);margin:10px;border-radius:var(--r-sm);">Drop items here</div>');
+         childrenContainer.insertAdjacentHTML('beforeend', '<div class="empty-dropzone" style="padding:10px;text-align:center;color:var(--text-3);font-size:15px;border:1px dashed var(--border);margin:10px;border-radius:var(--r-sm);">Drop items here</div>');
       }
     });
 
@@ -1221,7 +1221,7 @@ function renderAssignmentCard(a, canSubmit = false) {
             Due: ${fmtDate(a.dueDate)}
           </div>
         </div>
-        <span class="badge badge-${statusClass}" style="padding:6px 12px;font-size:13px">${statusText}</span>
+        <span class="badge badge-${statusClass}" style="padding:6px 12px;font-size:15px">${statusText}</span>
       </div>
       <div class="assignment-desc">${esc(a.description || '')}</div>
       ${a.url ? `<a href="${a.url}" target="_blank" class="resource-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg> View Reference Material</a>` : ''}
@@ -2983,14 +2983,14 @@ function renderTeacherQuizzes() {
         <div>
           <div style="font-family:var(--font-head);font-weight:700;font-size:18px;">${esc(q.title)}</div>
           <div style="color:var(--text-2);font-size:14px;margin-top:2px;">Topic: ${esc(q.topic)} · ${q.questions.length} Questions · ${q.timer} Mins</div>
-          <div style="color:var(--amber);font-size:13px;margin-top:2px;">Available: ${fmtDate(q.availableFrom)} to ${fmtDate(q.availableUntil)}</div>
+          <div style="color:var(--amber);font-size:15px;margin-top:2px;">Available: ${fmtDate(q.availableFrom)} to ${fmtDate(q.availableUntil)}</div>
         </div>
         <span class="badge" style="background:var(--bg3);border:1px solid var(--border);color:var(--text-2);">${esc(q.toughness)}</span>
       </div>
       <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
-        <button class="btn-ghost" style="padding:6px 14px;font-size:13px;" onclick="openQuizAttemptsModal('${q._id}')">📊 View Analytics & Export</button>
-        <button class="btn-ghost" style="padding:6px 14px;font-size:13px;" onclick="openEditQuizModal('${q._id}')">✏️ Edit Settings</button>
-        <button class="btn-danger" style="padding:6px 14px;font-size:13px;" onclick="deleteQuiz('${q._id}')">🗑️ Delete</button>
+        <button class="btn-ghost" style="padding:6px 14px;font-size:15px;" onclick="openQuizAttemptsModal('${q._id}')">📊 View Analytics & Export</button>
+        <button class="btn-ghost" style="padding:6px 14px;font-size:15px;" onclick="openEditQuizModal('${q._id}')">✏️ Edit Settings</button>
+        <button class="btn-danger" style="padding:6px 14px;font-size:15px;" onclick="deleteQuiz('${q._id}')">🗑️ Delete</button>
       </div>
     </div>
   `).join('');
@@ -3165,8 +3165,8 @@ async function openQuizAttemptsModal(quizId) {
     html += attempts.map(a => `
       <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-md);padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
         <div>
-          <div style="font-weight:600;font-size:15px;">${esc(a.student?.name)} <span style="font-weight:400;color:var(--text-2);font-size:13px;">(@${esc(a.student?.username)})</span></div>
-          <div style="font-size:13px;color:var(--text-3);margin-top:2px;">Submitted: ${new Date(a.endTime).toLocaleString('en-IN')}</div>
+          <div style="font-weight:600;font-size:15px;">${esc(a.student?.name)} <span style="font-weight:400;color:var(--text-2);font-size:15px;">(@${esc(a.student?.username)})</span></div>
+          <div style="font-size:15px;color:var(--text-3);margin-top:2px;">Submitted: ${new Date(a.endTime).toLocaleString('en-IN')}</div>
         </div>
         <div style="font-family:var(--font-head);font-size:18px;font-weight:700;color:var(--teal);">${a.score} / ${a.maxScore}</div>
       </div>
@@ -3209,7 +3209,7 @@ async function initStudentQuizzes(courseId) {
         actionHtml = `
           <div style="display:flex; align-items:center; gap:10px;">
             <div class="badge badge-approved" style="font-size:15px;padding:8px 16px;">Score: ${attempt.score} / ${attempt.maxScore}</div>
-            <button class="btn-ghost" style="padding:6px 12px; font-size:13px;" onclick="reviewQuiz('${q._id}')">View Results</button>
+            <button class="btn-ghost" style="padding:6px 12px; font-size:15px;" onclick="reviewQuiz('${q._id}')">View Results</button>
           </div>`;
       } else if (!isAvailable) {
         actionHtml = `<div class="badge badge-rejected" style="font-size:14px;padding:6px 12px;">Closed</div>`;
