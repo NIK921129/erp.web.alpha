@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════
    ABC INSTITUTE ERP — style.css
-   Theme: Crimson Snow · Red Accent · Plus Jakarta Sans + Inter
+   Theme: Ocean Breeze · Blue & Green · Plus Jakarta Sans + Inter
 ═══════════════════════════════════════════ */
 
 /* ── TOKENS ── */
@@ -16,13 +16,13 @@
   --border:     rgba(0, 0, 0, 0.08);
   --border2:    rgba(0, 0, 0, 0.15);
 
-  --teal:       #84ff00; /* Primary Red */
-  --teal-d:     #48ff00; /* Darker Red */
-  --teal-glow:  rgba(239, 68, 68, 0.15);
-  --blue:       #c98899; /* Secondary Dark Rose */
+  --teal:       #3b82f6; /* Primary Blue */
+  --teal-d:     #1d4ed8; /* Darker Blue */
+  --teal-glow:  rgba(59, 130, 246, 0.15);
+  --blue:       #22c55e; /* Secondary Green */
   --amber:      #f59e0b;
-  --red:        #160e4b; /* Darker Rose for better white text contrast */
-  --green:      #059669; /* Darker Emerald for better white text contrast */
+  --red:        #ef4444; /* Modern Red for errors */
+  --green:      #22c55e; /* Modern Green for success */
 
   --text:       #0f172a;
   --text-2:     #475569;
@@ -69,12 +69,12 @@ body::before, body::after {
 }
 body::before {
   top: -20%; left: -10%; width: 50vw; height: 50vw;
-  background: radial-gradient(circle, rgba(239,68,68,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
   animation: floatOrb 15s ease-in-out infinite alternate;
 }
 body::after {
   bottom: -20%; right: -10%; width: 60vw; height: 60vw;
-  background: radial-gradient(circle, rgba(190,18,60,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
   animation: floatOrb 20s ease-in-out infinite alternate-reverse;
 }
 
