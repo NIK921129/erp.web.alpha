@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://erp-web-87s3.onrender.com/api/:path*"
+      "destination": "https://erp-web-alpha.onrender.com/api/:path*"
     }
   ]
 }

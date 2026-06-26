@@ -1,19 +1,19 @@
 /* ═══════════════════════════════════════════════════════════
-   ABC INSTITUTE ERP — app.js
+   ALPHA INSTITUTE ERP — app.js
    All logic: API calls, routing, rendering, auth, payments
    Backend: Render (REST API) | DB: MongoDB | Frontend: Vercel
 ═══════════════════════════════════════════════════════════ */
 
 'use strict';
 
-/* ──────────────────────────────────────────
+/* ────────────────────────────────────────── 
    CONFIG — swap BASE_URL when deploying
 ────────────────────────────────────────── */
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 const CONFIG = {
-  BASE_URL:   isLocal ? 'http://localhost:5000/api' : 'https://erp-web-87s3.onrender.com/api',
-  UPI_ID:     '9211293576@ptaxis',
-  UPI_NAME:   'ABCInstitute',
+  BASE_URL:   isLocal ? 'http://localhost:5000/api' : 'https://erp-web-alpha.onrender.com/api',
+  UPI_ID:     '9211293576@paytm',
+  UPI_NAME:   'AlphaInstitute',
   WA_NUMBER:  '919211293576',
   ANNOUNCEMENT_TEXT: '',
   ANNOUNCEMENT_ACTIVE: false,
@@ -560,7 +560,7 @@ async function handleSignup() {
     showNav();
     redirectByRole();
     API.logEvent({ action: 'signup', details: 'User signed up' }).catch(()=>{});
-    toast('Account created! Welcome to ABC Institute 🎉', 'success');
+    toast('Account created! Welcome to Alpha Institute 🎉', 'success');
   } catch (e) {
     showErr(errEl, e.message || 'Signup failed');
   }
@@ -1333,7 +1333,7 @@ async function applyCoupon(originalFee) {
 }
 
 function goToStep2(courseId, fee) {
-  const upiLink = `upi://pay?pa=${CONFIG.UPI_ID}&pn=${encodeURIComponent(CONFIG.UPI_NAME)}&am=${fee}&cu=INR&tn=${encodeURIComponent('Course Enrolment - ABC Institute')}`;
+  const upiLink = `upi://pay?pa=${CONFIG.UPI_ID}&pn=${encodeURIComponent(CONFIG.UPI_NAME)}&am=${fee}&cu=INR&tn=${encodeURIComponent('Course Enrolment - Alpha Institute')}`;
 
   document.getElementById('enrol-content').innerHTML = `
     ${stepsBar(2)}
@@ -3435,7 +3435,7 @@ function statCard(label, value, color = 'teal') {
 }
 
 function openWhatsApp() {
-  window.open(`https://wa.me/${CONFIG.WA_NUMBER}?text=${encodeURIComponent('Hi ABC Institute, I need help!')}`, '_blank');
+  window.open(`https://wa.me/${CONFIG.WA_NUMBER}?text=${encodeURIComponent('Hi Alpha Institute, I need help!')}`, '_blank');
 }
 
 function toast(msg, type = '') {

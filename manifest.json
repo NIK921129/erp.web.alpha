@@ -1,7 +1,7 @@
 {
-  "name": "ABC Institute ERP",
-  "short_name": "ABC ERP",
-  "description": "Learn, track, and grow with ABC Institute's digital platform.",
+  "name": "Alpha Institute ERP",
+  "short_name": "Alpha ERP",
+  "description": "Learn, track, and grow with Alpha Institute's digital platform.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#030712",

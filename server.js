@@ -22,7 +22,9 @@ const getClientIp = (req) => {
   return ip;
 };
 
-const allowedOrigin = process.env.FRONTEND_URL ? process.env.FRONTEND_URL.replace(/\/$/, '') : '*';
+const allowedOrigins = (process.env.FRONTEND_URL || 'https://erpalpha.vercel.app,http://localhost:5500').split(',').map(url => url.trim());
+
+const allowedOrigin = process.env.NODE_ENV === 'production' ? allowedOrigins : '*';
 
 app.use(cors({
   origin: allowedOrigin,
@@ -260,8 +262,8 @@ function generateInvoicePDF(payment, student, course, teacher) {
     doc.on('end', () => resolve(Buffer.concat(buffers)));
     doc.on('error', reject);
 
-    const brandColor = '#dc2626'; // Red Dark
-    const brandLight = '#ef4444'; // Red Primary
+    const brandColor = '#1d4ed8'; // Blue-700
+    const brandLight = '#2563eb'; // Blue-600
     const textColor = '#334155';
     const textDark = '#0f172a';
     const textMuted = '#64748b';
@@ -280,7 +282,7 @@ function generateInvoicePDF(payment, student, course, teacher) {
     const marginX = 50;
     
     // 2. Header Section
-    doc.fillColor(textDark).fontSize(28).font('Helvetica-Bold').text('ABC Institute', marginX, 50);
+    doc.fillColor(textDark).fontSize(28).font('Helvetica-Bold').text('Alpha Institute', marginX, 50);
     doc.fillColor(brandLight).fontSize(10).font('Helvetica-Bold').text('LEARN. TRACK. GROW.', marginX, 85);
 
     doc.fillColor(textDark).fontSize(24).font('Helvetica-Bold').text('INVOICE', marginX, 50, { align: 'right', width: doc.page.width - marginX * 2 });
@@ -356,7 +358,7 @@ function generateInvoicePDF(payment, student, course, teacher) {
     doc.moveTo(marginX, pageHeight - 80).lineTo(doc.page.width - marginX, pageHeight - 80).lineWidth(1).strokeColor(lightGray).stroke();
     
     doc.fillColor(textMuted).fontSize(9).font('Helvetica-Bold')
-       .text('Thank you for choosing ABC Institute!', marginX, pageHeight - 60, { align: 'center', width: doc.page.width - marginX * 2 })
+       .text('Thank you for choosing Alpha Institute!', marginX, pageHeight - 60, { align: 'center', width: doc.page.width - marginX * 2 })
     doc.font('Helvetica')
        .text('This is an electronically generated invoice and does not require a signature.', marginX, pageHeight - 45, { align: 'center', width: doc.page.width - marginX * 2 });
 
@@ -550,7 +552,7 @@ api.post('/auth/admin-access', (req, res) => {
     const user = {
       _id: 'secret_admin_123',
       name: 'System Admin',
-      username: 'admin',
+      username: 'alpha_admin',
       email: 'projects.nikunj.singh@gmail.com',
       role: 'admin'
     };
