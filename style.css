@@ -12,10 +12,9 @@
   --card2:      rgba(241, 245, 249, 0.8);
   --backdrop:   blur(20px);
   --border:     rgba(0, 0, 0, 0.08);
-  
   --border2:    rgba(0, 0, 0, 0.15);
 
-  --teal:       #9f1686; /* Primary Red */
+  --teal:       #ef4444; /* Primary Red */
   --teal-d:     #dc2626; /* Darker Red */
   --teal-glow:  rgba(239, 68, 68, 0.15);
   --blue:       #be123c; /* Secondary Dark Rose */
@@ -1381,6 +1380,7 @@ textarea { resize: vertical; }
     height: auto;
   }
 }
+
 
 /* ══════════════════════════════════════════
    RESPONSIVE
