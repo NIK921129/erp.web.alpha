@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════
    ABC INSTITUTE ERP — style.css
-   Theme: Azure Wave · Blue Accent · Plus Jakarta Sans + Inter
+   Theme: Crimson Snow · Red Accent · Plus Jakarta Sans + Inter
 ═══════════════════════════════════════════ */
 
 /* ── TOKENS ── */
@@ -12,12 +12,13 @@
   --card2:      rgba(241, 245, 249, 0.8);
   --backdrop:   blur(20px);
   --border:     rgba(0, 0, 0, 0.08);
+  
   --border2:    rgba(0, 0, 0, 0.15);
 
-  --teal:       #3b82f6; /* Primary Blue */
-  --teal-d:     #2563eb; /* Darker Blue */
-  --teal-glow:  rgba(59, 130, 246, 0.15);
-  --blue:       #1d4ed8; /* Secondary Dark Blue */
+  --teal:       #9f1686; /* Primary Red */
+  --teal-d:     #dc2626; /* Darker Red */
+  --teal-glow:  rgba(239, 68, 68, 0.15);
+  --blue:       #be123c; /* Secondary Dark Rose */
   --amber:      #f59e0b;
   --red:        #e11d48; /* Darker Rose for better white text contrast */
   --green:      #059669; /* Darker Emerald for better white text contrast */
@@ -67,7 +68,7 @@ body::before, body::after {
 }
 body::before {
   top: -20%; left: -10%; width: 50vw; height: 50vw;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(239,68,68,0.08) 0%, transparent 70%);
   animation: floatOrb 15s ease-in-out infinite alternate;
 }
 body::after {
@@ -172,7 +173,7 @@ textarea { resize: vertical; }
   background: linear-gradient(135deg, var(--teal), var(--blue));
   color: #ffffff; border: 1px solid #000;
   padding: 12px 26px; border-radius: var(--r-md);
-  font-size: 16px; font-weight: 600;
+  font-size: 16px; font-weight: 700;
   cursor: pointer; transition: var(--trans);
   box-shadow: 0 4px 16px var(--teal-glow), inset 0 1px 0 rgba(255,255,255,0.4);
   display: inline-flex; align-items: center; gap: 6px;
@@ -317,7 +318,7 @@ textarea { resize: vertical; }
 }
 .hero-badge {
   display: inline-block;
-  background: var(--teal-glow); border: 1px solid rgba(59, 130, 246, 0.3);
+  background: var(--teal-glow); border: 1px solid rgba(20,184,166,0.3);
   color: var(--teal); padding: 8px 22px; border-radius: 50px;
   font-size: 15px; font-weight: 500; margin-bottom: 2rem;
 }
@@ -424,7 +425,7 @@ textarea { resize: vertical; }
 }
 .enrol-badge {
   background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.25);
-  color: var(--green); padding: 6px 14px; border-radius: var(--r-md);
+  color: var(--green); padding: 6px 14px; border-radius: 50px;
   font-size: 14px; font-weight: 500;
 }
 
@@ -578,7 +579,7 @@ textarea { resize: vertical; }
 .badge-pending  { background: rgba(240,165,0,.15); color: var(--amber); border: 1px solid rgba(240,165,0,.2); }
 .badge-approved { background: rgba(34,197,94,.12); color: var(--green); border: 1px solid rgba(34,197,94,.2); }
 .badge-rejected { background: rgba(229,69,69,.12);  color: var(--red);   border: 1px solid rgba(229,69,69,.2); }
-.badge-enrolled { background: rgba(59,130,246,.12); color: var(--blue);  border: 1px solid rgba(59,130,246,.2); }
+.badge-enrolled { background: rgba(59,139,212,.12); color: var(--blue);  border: 1px solid rgba(59,139,212,.2); }
 
 /* ══════════════════════════════════════════
    TABS
@@ -745,7 +746,7 @@ textarea { resize: vertical; }
   border-radius: var(--r-sm); position: relative;
   overflow: hidden; background-color: var(--bg2);
   border: 1px solid var(--border);
-.pl-thumb.fallback { background: linear-gradient(135deg, var(--card2), var(--bg3)); }
+}
 .pl-thumb.fallback { background: linear-gradient(135deg, var(--card2), var(--bg3)); }
 .pl-thumb.file-fallback { 
   background: rgba(59,130,246,0.1); display: flex; align-items: center; justify-content: center;
@@ -1095,7 +1096,7 @@ textarea { resize: vertical; }
 }
 .avatar {
   width: 48px; height: 48px; border-radius: 50%;
-  background: var(--teal-glow); border: 2px solid rgba(59, 130, 246, 0.2);
+  background: var(--teal-glow); border: 2px solid rgba(20,184,166,0.2);
   display: flex; align-items: center; justify-content: center;
   font-family: var(--font-head); font-weight: 700; font-size: 18px;
   color: var(--teal); margin: 0 auto .75rem;
@@ -1171,7 +1172,7 @@ textarea { resize: vertical; }
 
 .assignment-grade {
   margin-top: 1rem; padding: 1rem;
-  background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);
+  background: rgba(20,184,166,0.1); border: 1px solid rgba(20,184,166,0.2);
   border-radius: var(--r-md);
 }
 .grade-score { font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--teal); }
