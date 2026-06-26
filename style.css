@@ -16,9 +16,8 @@
   --border:     rgba(0, 0, 0, 0.08);
   --border2:    rgba(0, 0, 0, 0.15);
 
-
-  --teal:       #0d5a81; /* Primary Red */
-  --teal-d:     #dc2626; /* Darker Red */
+  --teal:       #84ff00; /* Primary Red */
+  --teal-d:     #48ff00; /* Darker Red */
   --teal-glow:  rgba(239, 68, 68, 0.15);
   --blue:       #c98899; /* Secondary Dark Rose */
   --amber:      #f59e0b;
