@@ -8,19 +8,21 @@
   --bg:         #ffffff;
   --bg2:        #f8fafc;
   --bg3:        #f1f5f9;
-  
+
   --card:       rgba(255, 255, 255, 0.8);
   --card2:      rgba(241, 245, 249, 0.8);
   --backdrop:   blur(20px);
+  
   --border:     rgba(0, 0, 0, 0.08);
   --border2:    rgba(0, 0, 0, 0.15);
 
-  --teal:       #539817; /* Primary Red */
+
+  --teal:       #0d5a81; /* Primary Red */
   --teal-d:     #dc2626; /* Darker Red */
   --teal-glow:  rgba(239, 68, 68, 0.15);
-  --blue:       #be123c; /* Secondary Dark Rose */
+  --blue:       #c98899; /* Secondary Dark Rose */
   --amber:      #f59e0b;
-  --red:        #e11d48; /* Darker Rose for better white text contrast */
+  --red:        #160e4b; /* Darker Rose for better white text contrast */
   --green:      #059669; /* Darker Emerald for better white text contrast */
 
   --text:       #0f172a;
