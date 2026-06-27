@@ -1748,10 +1748,13 @@ async function renderAdminPayments() {
   const el = document.getElementById('admin-payments-list');
   el.innerHTML = skeletonList(4);
   try {
-    const { payments } = await API.allPayments();
+    // Fetch fresh data only if the state is empty, otherwise use existing state
+    if (!STATE.adminPayments || STATE.adminPayments.length === 0) {
+      const { payments } = await API.allPayments();
+      STATE.adminPayments = payments || [];
+    }
     const filter = STATE.paymentFilter;
-    const list = filter === 'all' ? payments : payments.filter(p => p.status === filter);
-
+    const list = filter === 'all' ? STATE.adminPayments : STATE.adminPayments.filter(p => p.status === filter);
     if (!list.length) { el.innerHTML = '<div class="empty-state">No payments found</div>'; return; }
     el.innerHTML = list.map(p => renderPaymentCard(p)).join('');
   } catch (e) {
@@ -1762,8 +1765,7 @@ async function renderAdminPayments() {
 function filterPayments(filter, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  STATE.paymentFilter = filter;
-  renderAdminPayments();
+  initAdminPayments(filter);
 }
 
 function renderPaymentCard(p) {
@@ -1786,6 +1788,31 @@ function renderPaymentCard(p) {
 }
 
 async function approvePayment(payId) {
+  // Find the payment in the local state to get its screenshot URL
+  const paymentToApprove = STATE.adminPayments.find(p => p._id === payId);
+  if (!paymentToApprove) {
+    toast('Could not find payment details.', 'error');
+    return;
+  }
+
+  // 1. Automatically download the screenshot for record-keeping
+  if (paymentToApprove.screenshotUrl) {
+    try {
+      const response = await fetch(paymentToApprove.screenshotUrl);
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      const filename = `payment_${paymentToApprove.student?.name?.replace(/\s/g, '_') || 'student'}_${payId}.jpg`;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    } catch (e) {
+      console.error('Screenshot download failed:', e);
+      toast('Could not download screenshot, but proceeding with approval.', 'amber');
+    }
+  }
+
+  // 2. Proceed with the API call to approve the payment
   try {
     const res = await API.approvePayment(payId);
     toast('Payment approved — student enrolled!', 'success');
@@ -1795,7 +1822,7 @@ async function approvePayment(payId) {
       triggerEmailChoice(to, '', subject, body);
     }
     
-    fetchAdminPayments();
+    renderAdminPayments(); // Refresh the payment list
   } catch (e) { toast('Error approving payment', 'error'); }
 }
 
@@ -1804,7 +1831,7 @@ async function rejectPayment(payId) {
   try {
     await API.rejectPayment(payId);
     toast('Payment rejected', 'error');
-    fetchAdminPayments();
+    renderAdminPayments(); // Refresh the payment list
   } catch (e) { toast('Error rejecting payment', 'error'); }
 }
 
