@@ -15,10 +15,14 @@ const CONFIG = {
   UPI_ID:     '9211293576@paytm',
   UPI_NAME:   'AlphaInstitute',
   WA_NUMBER:  '919211293576',
+  UPI_ID:     '',
+  UPI_NAME:   '',
+  WA_NUMBER:  '',
   ANNOUNCEMENT_TEXT: '',
   ANNOUNCEMENT_ACTIVE: false,
   ICONS: ['📘','📗','📙','📕','🎯','💡','⚡','🔬','🎨','🖥️','🧮','📐'],
 };
+
 
 /* ──────────────────────────────────────────
    STATE
