@@ -2442,8 +2442,7 @@ function exportAdminUsers() {
 
 async function exportAdminPayments() {
   try {
-    const filter = STATE.paymentFilter;
-    const list = filter === 'all' ? STATE.adminPayments : STATE.adminPayments.filter(p => p.status === filter);
+    const list = STATE.adminPayments;
     if (!list || !list.length) { toast('No payments to export', 'error'); return; }
     
     const headers = ['Student Name', 'Course', 'Amount (INR)', 'Status', 'Date Submitted'];
@@ -2451,7 +2450,7 @@ async function exportAdminPayments() {
       `"${p.student?.name||'Unknown'}"`, `"${p.course?.name||'Unknown'}"`, p.amount||0, p.status||'', fmtDate(p.createdAt)
     ]);
     const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-    downloadCSV(csv, `payments_${filter}_export.csv`);
+    downloadCSV(csv, `payments_all_export.csv`);
   } catch (e) { toast('Error exporting payments', 'error'); }
 }
 
