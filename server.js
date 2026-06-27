@@ -79,7 +79,7 @@ const io = new Server(server, {
 });
 
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://<user>:<password>@cluster0.mongodb.net/erp';
 const BASE_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
 
 /* ══════════════════════════════════════════
@@ -197,9 +197,9 @@ const Content = mongoose.model('Content', new mongoose.Schema({
 }));
 
 const Setting = mongoose.model('Setting', new mongoose.Schema({
-  upiId: { type: String, default: '9211293576@ptaxis' },
-  upiName: { type: String, default: 'ALPHAInstitute' },
-  waNumber: { type: String, default: '919211293576' },
+  upiId: { type: String, default: '' },
+  upiName: { type: String, default: '' },
+  waNumber: { type: String, default: '' },
   announcementText: { type: String, default: '' },
   announcementActive: { type: Boolean, default: false },
   bannedIPs: [{ type: String }],
@@ -373,7 +373,7 @@ const auth = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ message: 'Unauthorized: No token provided' });
-    if (token === (process.env.ADMIN_TOKEN || 'secret_admin_token')) {
+    if (token === process.env.ADMIN_TOKEN) {
       req.user = { _id: 'secret_admin_123', name: 'System Admin', role: 'admin', active: true };
       return next();
     }
@@ -388,7 +388,7 @@ const optionalAuth = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
     if (token) {
-      if (token === (process.env.ADMIN_TOKEN || 'secret_admin_token')) {
+      if (token === process.env.ADMIN_TOKEN) {
         req.user = { _id: 'secret_admin_123', name: 'System Admin', role: 'admin', active: true };
       } else if (mongoose.Types.ObjectId.isValid(token)) {
         req.user = await User.findById(token).select('-password');
@@ -545,8 +545,8 @@ api.post('/auth/login', async (req, res) => {
 
 api.post('/auth/admin-access', (req, res) => {
   const { passcode } = req.body;
-  // Compare with environment variable (fallback to 79827 if not set for local dev)
-  const validPasscode = process.env.ADMIN_PASSCODE || '79827';
+  // Compare with environment variable
+  const validPasscode = process.env.ADMIN_PASSCODE;
   
   if (passcode === validPasscode) {
     const user = {
@@ -556,7 +556,7 @@ api.post('/auth/admin-access', (req, res) => {
       email: 'projects.nikunj.singh@gmail.com',
       role: 'admin'
     };
-    const token = process.env.ADMIN_TOKEN || 'secret_admin_token';
+    const token = process.env.ADMIN_TOKEN;
     res.json({ user, token });
   } else {
     res.status(401).json({ message: 'Incorrect passcode' });
@@ -675,7 +675,7 @@ api.get('/payments/me', auth, async (req, res) => {
 api.get('/payments/:id/invoice', async (req, res) => {
   try {
     const token = req.query.token;
-    if (!token) return res.status(401).send('Unauthorized');
+    if (!token) return res.status(401).send('Unauthorized: No token provided for invoice generation.');
     
     let user;
     if (token === (process.env.ADMIN_TOKEN || 'secret_admin_token')) {
@@ -683,7 +683,7 @@ api.get('/payments/:id/invoice', async (req, res) => {
     } else if (mongoose.Types.ObjectId.isValid(token)) {
       user = await User.findById(token);
     }
-    if (!user) return res.status(401).send('Unauthorized');
+    if (!user) return res.status(401).send('Unauthorized: Invalid token for invoice generation.');
 
     const p = await Payment.findById(req.params.id)
       .populate('student')
