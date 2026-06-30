@@ -978,6 +978,12 @@ function driveEmbed(url) {
   return url;
 }
 
+function youtubeEmbed(url) {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}?autoplay=1&rel=0` : null;
+}
+
 window.viewCourseItem = function(id, type, url, title, desc) {
   const activePage = document.querySelector('.page.active');
   if (!activePage) return;
@@ -1000,13 +1006,17 @@ window.viewCourseItem = function(id, type, url, title, desc) {
 
   if (type === 'video') {
     if (descEl) descEl.textContent = desc;
-    if (url.includes('drive.google.com')) {
+    const ytEmbedUrl = youtubeEmbed(url);
+    if (ytEmbedUrl) {
+      container.innerHTML = `<iframe src="${ytEmbedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    } else if (url.includes('drive.google.com')) {
       const embedUrl = driveEmbed(url);
       container.innerHTML = `
         <iframe src="${embedUrl}" allowfullscreen allow="autoplay"></iframe>
         <a href="${url}" target="_blank" style="position:absolute; top:10px; right:10px; z-index:10; background:rgba(0,0,0,0.6); color:#fff; padding:6px 12px; border-radius:4px; font-size:15px; text-decoration:none; backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.2); transition:0.3s;" onmouseover="this.style.background='var(--teal)'" onmouseout="this.style.background='rgba(0,0,0,0.6)'">Open in Drive ↗</a>
       `;
     } else {
+      // Fallback for direct MP4 or other video links
       container.innerHTML = `<video id="player-${id}" src="${url}" controls autoplay playsinline webkit-playsinline></video>`;
       const video = document.getElementById(`player-${id}`);
       video.addEventListener('loadedmetadata', () => {
